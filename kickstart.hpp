@@ -51,7 +51,7 @@ namespace kickstart {
 
     using C_str = const char*;
 
-    inline auto as_string_append_argument( const C_str s ) -> const C_str { return s; }
+    inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
     inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
     inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
 
