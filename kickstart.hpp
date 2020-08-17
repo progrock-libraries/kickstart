@@ -104,7 +104,7 @@ namespace kickstart {
     }
 
     template< class X >
-    inline auto fail_( const string s ) -> bool { throw runtime_error( s ); }
+    inline auto fail_( const string& s ) -> bool { throw runtime_error( s ); }
 
     inline auto hopefully( const bool condition ) -> bool { return condition; }
 
