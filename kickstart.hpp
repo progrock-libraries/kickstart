@@ -1,4 +1,7 @@
 ﻿#pragma once
+// kickstart.hpp - minimal convenience functionality for C++ learners.
+// Requires C++17 or later.
+
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -26,28 +29,40 @@
 #include <functional>
 #include <iostream>
 #include <stdexcept>
+#include <sstream>
 #include <string>
 #include <string_view>
 #include <utility>
 #include <typeinfo>         // Necessary for use of typeid.
 
-#define KS_FAIL_( X, s )    ::kickstart::fail_<X>( std::string() << __func__ << " - " << s )
+#define KS_FAIL_( X, s )    ::kickstart::fail_<X>( ::kickstart::concatenate( __func__, " - ", s ) )
 #define KS_FAIL( s )        KS_FAIL_( std::runtime_error, s )
 
 namespace kickstart {
+    using namespace std::literals;
+
     using   std::invoke, std::function;
     using   std::cin, std::cout, std::cerr, std::endl;
     using   std::invalid_argument, std::exception, std::out_of_range, std::runtime_error;
+    using   std::ostringstream;
     using   std::getline, std::string;
     using   std::string_view;
     using   std::move, std::pair;
 
     using C_str = const char*;
 
-    // A no-op function that in more general code would deal with different arg types.
-    // In such more general code it would likely just be a set of ordinary function overloads.
+    inline auto as_string_append_argument( const C_str s ) -> const C_str { return s; }
+    inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
+    inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
+
     template< class T >
-    inline auto as_string_append_argument( const T& value_ref ) -> const T& { return value_ref; }
+    inline auto as_string_append_argument( const T& value )
+        -> string
+    {
+        ostringstream stream;
+        stream << value;
+        return stream.str();
+    }
 
     template< class T >
     inline auto operator<<( string& s, T const& value )
@@ -59,6 +74,11 @@ namespace kickstart {
         -> string&&
     { return move( s << value ); }
 
+    template< class... Args >
+    inline auto concatenate( const Args&... args )
+        -> string
+    { return (std::string() << ... << args); }
+    
     inline auto is_ascii_space( const char ch )
         -> bool
     {
@@ -107,13 +127,13 @@ namespace kickstart {
         const auto [value, p_end] = wrapped_strtod( p_start_of( spec ) );
 
         hopefully( errno != ERANGE )
-            or KS_FAIL_( out_of_range, "“" << spec << "” denotes a too large or small number." );
+            or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
 
         hopefully( p_end == p_end_of( spec ) )
-            or KS_FAIL_( invalid_argument, "“" << spec << "” is not a valid number specification." );
+            or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
 
         hopefully( errno == 0 )
-            or KS_FAIL( ""
+            or KS_FAIL( ""s
                 << "strtod(\"" << spec << "\")"
                 << " unexpectedly failed with strerror message “" << strerror( errno ) << "”."
                 );
