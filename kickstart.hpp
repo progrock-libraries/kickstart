@@ -118,6 +118,8 @@ namespace kickstart {
         return {value, p_end};
     }
 
+    // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
+    // scanning at some point, e.g. due to null-termination or invalid-as-number characters.
     inline auto exact_string_to_double( const string_view& spec )
         -> double
     {
