@@ -27,6 +27,7 @@
 #include <string.h>         // strerror
 
 #include <functional>
+#include <iomanip>
 #include <iostream>
 #include <stdexcept>
 #include <sstream>
@@ -42,12 +43,14 @@ namespace kickstart {
     using namespace std::literals;
 
     using   std::invoke, std::function;
-    using   std::cin, std::cout, std::cerr, std::endl;
+    using   std::setw, std::setprecision;                               // Convenience, not used.
+    using   std::cin, std::cout, std::cerr, std::clog, std::endl,
+            std::boolalpha, std::hex, std::dec, std::left, std::right;  // Convenience, not used.
     using   std::invalid_argument, std::exception, std::out_of_range, std::runtime_error;
-    using   std::ostringstream;
+    using   std::istringstream, std::ostringstream;
     using   std::getline, std::string;
     using   std::string_view;
-    using   std::move, std::pair;
+    using   std::forward, std::move, std::pair;
 
     using C_str = const char*;
 
