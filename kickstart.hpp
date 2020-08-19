@@ -122,8 +122,9 @@ namespace kickstart {
     }
 
     // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
-    // scanning at some point, e.g. due to null-termination or invalid-as-number characters.
-    inline auto exact_string_to_double( const string_view& spec )
+    // scanning at some point, e.g. due to null-termination or invalid-as-number characters. Also, the
+    // specification should not be followed by text that would be a valid continuation (e.g. digits).
+    inline auto fast_full_string_to_double( const string_view& spec )
         -> double
     {
         hopefully( spec.length() != 0 )
@@ -146,9 +147,19 @@ namespace kickstart {
         return value;
     }
 
-    inline auto to_double( const string_view& spec )
+    inline auto fast_trimmed_string_to_double( const string_view& spec )
         -> double
-    { return exact_string_to_double( trimmed( spec ) ); }
+    { return fast_full_string_to_double( trimmed( spec ) ); }
+
+    inline auto safe_full_string_to_double( const string_view& spec )
+        -> double
+    { return fast_full_string_to_double( string( spec ) ); }
+
+    inline auto safe_trimmed_string_to_double( const string_view& spec )
+        -> double
+    { return safe_full_string_to_double( trimmed( spec ) ); }
+
+    inline const auto& to_double = safe_trimmed_string_to_double;
 
     inline auto input()
         -> string
