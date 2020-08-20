@@ -22,19 +22,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Convenience library includes.
+#include <assert.h>         // assert
+
+#include <array>
+#include <iomanip>
+#include <iostream>
+#include <optional>
+#include <utility>
+#include <vector>
+
+// Library includes actually used in this header.
 #include <stddef.h>         // size_t
 #include <stdlib.h>         // EXIT_..., strtod
 #include <string.h>         // strerror
 
 #include <functional>
-#include <iomanip>
 #include <iostream>
+#include <optional>
 #include <stdexcept>
 #include <sstream>
 #include <string>
 #include <string_view>
 #include <utility>
-#include <typeinfo>         // Necessary for use of typeid.
 
 #define KS_FAIL_( X, s )    ::kickstart::fail_<X>( ::kickstart::concatenate( __func__, " - ", s ) )
 #define KS_FAIL( s )        KS_FAIL_( std::runtime_error, s )
@@ -42,17 +52,33 @@
 namespace kickstart {
     using namespace std::literals;
 
-    using   std::invoke, std::function;
+    using   std::array;                                                 // Convenience, not used.
     using   std::setw, std::setprecision;                               // Convenience, not used.
-    using   std::cin, std::cout, std::cerr, std::clog, std::endl,
-            std::boolalpha, std::hex, std::dec, std::left, std::right;  // Convenience, not used.
+    using   std::boolalpha, std::hex, std::dec, std::left, std::right;  // Convenience, not used.
+    using   std::exchange, std::forward;                                // Convenience, not used.
+    using   std::vector;                                                // Convenience, not used.
+    using   std::optional;                                              // Convenience, not used.
+    
+    using   std::invoke, std::function;
+    using   std::cin, std::cout, std::cerr, std::clog, std::endl;
     using   std::invalid_argument, std::exception, std::out_of_range, std::runtime_error;
     using   std::istringstream, std::ostringstream;
     using   std::getline, std::string;
     using   std::string_view;
-    using   std::forward, std::move, std::pair;
+    using   std::move, std::pair;
 
     using C_str = const char*;
+
+    inline auto ascii_to_upper( const char ch )
+        -> char
+    { return ('a' <= ch and ch <= 'z'? char( ch - 'a' + 'A' ) : ch); }
+
+    inline auto is_ascii_space( const char ch )
+        -> bool
+    {
+        const auto code = static_cast<unsigned char>( ch );
+        return code < 128 and isspace( code );
+    }
 
     inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
     inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
@@ -82,13 +108,6 @@ namespace kickstart {
         -> string
     { return (std::string() << ... << args); }
     
-    inline auto is_ascii_space( const char ch )
-        -> bool
-    {
-        const auto code = static_cast<unsigned char>( ch );
-        return code < 128 and isspace( code );
-    }
-
     inline auto p_start_of( const string_view& s ) -> const char* { return &*s.begin(); }
     inline auto p_end_of( const string_view& s ) -> const char* { return &*s.end(); }
 
@@ -105,6 +124,10 @@ namespace kickstart {
         }
         return {p_first, static_cast<size_t>( p_beyond - p_first )};
     }
+
+    inline auto trimmed_string( const string_view& s )
+        -> string
+    { return string( trimmed( s ) ); }
 
     template< class X >
     inline auto fail_( const string& s ) -> bool { throw runtime_error( s ); }
