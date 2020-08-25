@@ -26,6 +26,7 @@
 #include <assert.h>         // assert
 
 #include <array>
+#include <fstream>
 #include <iomanip>
 #include <iostream>
 #include <optional>
@@ -46,26 +47,46 @@
 #include <string_view>
 #include <utility>
 
-#define KS_FAIL_( X, s )    ::kickstart::fail_<X>( ::kickstart::concatenate( __func__, " - ", s ) )
-#define KS_FAIL( s )        KS_FAIL_( std::runtime_error, s )
+#define KS_FAIL_( X, s )    \
+    ::ks::definitions::fail_<X>( \
+        ::ks::definitions::concatenate( __func__, " - ", s ) \
+        )
+#define KS_FAIL( s )        \
+    KS_FAIL_( std::runtime_error, s )
 
-namespace kickstart {
-    using namespace std::literals;
-
-    using   std::array;                                                 // Convenience, not used.
-    using   std::setw, std::setprecision;                               // Convenience, not used.
-    using   std::boolalpha, std::hex, std::dec, std::left, std::right;  // Convenience, not used.
-    using   std::exchange, std::forward;                                // Convenience, not used.
-    using   std::vector;                                                // Convenience, not used.
-    using   std::optional;                                              // Convenience, not used.
+namespace ks::stdstuff {
+    using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
     
-    using   std::invoke, std::function;
-    using   std::cin, std::cout, std::cerr, std::clog, std::endl;
-    using   std::invalid_argument, std::exception, std::out_of_range, std::runtime_error;
-    using   std::istringstream, std::ostringstream;
-    using   std::getline, std::string;
+    // Collections.
+    using   std::array;                                                 // From <array>.
+    using   std::getline, std::string;                                  // From <string>.
+    using   std::string_view;                                           // From <string_view>.
+    using   std::vector;                                                // From <vector>.
+        
+    // Text i/o.    
+    using   std::cin, std::cout, std::cerr, std::clog, std::endl;       // From <iostream>.
+    using   std::ifstream, std::ofstream;                               // From <fstream>.
+    using   std::istringstream, std::ostringstream;                     // From <sstream>.
+    
+    // Iostreams formatting.
+    using   std::setw, std::setprecision;                               // From <iomanip>.
+    using   std::boolalpha, std::hex, std::dec, std::left, std::right;  // From <iostream>.
+    
+    // Misc.
+    using   std::function;                                              // From <functional>.
+    using   std::optional;                                              // From <optional>.
+    using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
+}  // namespace ks::stdstuff
+
+namespace ks::definitions {
+    using namespace std::string_literals;
+    using   std::invalid_argument, std::out_of_range, std::runtime_error;
+    using   std::cin, std::cout;
+    using   std::ostringstream;
+    using   std::function;
+    using   std::pair;
+    using   std::string;
     using   std::string_view;
-    using   std::move, std::pair;
 
     using C_str = const char*;
 
@@ -80,23 +101,25 @@ namespace kickstart {
         return code < 128 and isspace( code );
     }
 
-    inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
-    inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
-    inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
+    namespace impl {
+        inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
+        inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
+        inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
 
-    template< class T >
-    inline auto as_string_append_argument( const T& value )
-        -> string
-    {
-        ostringstream stream;
-        stream << value;
-        return stream.str();
-    }
+        template< class T >
+        inline auto as_string_append_argument( const T& value )
+            -> string
+        {
+            ostringstream stream;
+            stream << value;
+            return stream.str();
+        }
+    }  // namespace impl
 
     template< class T >
     inline auto operator<<( string& s, T const& value )
         -> string&
-    { return s.append( as_string_append_argument( value ) ); }
+    { return s.append( impl::as_string_append_argument( value ) ); }
 
     template< class T >
     inline auto operator<<( string&& s, T const& value )
@@ -134,15 +157,17 @@ namespace kickstart {
 
     inline auto hopefully( const bool condition ) -> bool { return condition; }
 
-    // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
-    inline auto wrapped_strtod( const C_str spec )
-        -> pair<double, const char*>
-    {
-        char* p_end;
-        errno = 0;
-        const double value = strtod( spec, &p_end );
-        return {value, p_end};
-    }
+    namespace impl {
+        // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
+        inline auto wrapped_strtod( const C_str spec )
+            -> pair<double, const char*>
+        {
+            char* p_end;
+            errno = 0;
+            const double value = strtod( spec, &p_end );
+            return {value, p_end};
+        }
+    }  // namespace impl
 
     // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
     // scanning at some point, e.g. due to null-termination or invalid-as-number characters. Also, the
@@ -153,7 +178,7 @@ namespace kickstart {
         hopefully( spec.length() != 0 )
             or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
 
-        const auto [value, p_end] = wrapped_strtod( p_start_of( spec ) );
+        const auto [value, p_end] = impl::wrapped_strtod( p_start_of( spec ) );
 
         hopefully( errno != ERANGE )
             or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
@@ -213,4 +238,25 @@ namespace kickstart {
         }
         return EXIT_FAILURE;
     }
-}  // namespace kickstart
+    
+    namespace d = definitions;
+    namespace exported_names {
+        using   d::C_str,
+                d::ascii_to_upper, d::is_ascii_space,
+                d::operator<<, d::concatenate,
+                d::p_start_of, d::p_end_of,
+                d::trimmed, d::trimmed_string,
+                d::fail_, d::hopefully,
+                d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
+                d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
+                d::input,
+                d::with_exceptions_displayed;
+    }  // namespace exported names
+}  // namespace ks::definitions
+
+namespace ks {
+    using namespace stdstuff;
+    using namespace definitions::exported_names;
+}  // namespace ks
+
+namespace kickstart = ks;
