@@ -80,13 +80,14 @@ namespace ks::stdstuff {
 
 namespace ks::definitions {
     using namespace std::string_literals;
-    using   std::invalid_argument, std::out_of_range, std::runtime_error;
-    using   std::cin, std::cout;
+    using   std::exception, std::invalid_argument, std::out_of_range, std::runtime_error;
+    using   std::cin, std::cout, std::cerr, std::endl;
     using   std::ostringstream;
     using   std::function;
     using   std::pair;
     using   std::getline, std::stoi, std::string;
     using   std::string_view;
+    using   std::vector;
 
     using C_str = const char*;
     template< class T > using Type_ = T;
@@ -261,13 +262,13 @@ namespace ks::definitions {
         cout << prompt;
         return input();
     }
-    
-    inline auto with_exceptions_displayed( const function<void()>& f )
+
+    using Simple_startup        = void();
+    using Startup_with_args     = void( const string_view&, const vector<string_view>& );
+
+    inline auto with_exceptions_displayed( const function<Simple_startup>& f )
         -> int
     {
-        using   std::cerr, std::endl,
-                std::exception;
-
         try{
             f();
             return EXIT_SUCCESS;
@@ -275,6 +276,23 @@ namespace ks::definitions {
             cerr << "!" << x.what() << endl;
         }
         return EXIT_FAILURE;
+    }
+
+    inline auto with_exceptions_displayed(
+        const function<Startup_with_args>&      f,
+        const int                               n_cmd_parts,
+        const Type_<const C_str*>               cmd_parts
+        ) -> int
+    {
+        assert( n_cmd_parts >= 1 );
+        assert( cmd_parts != nullptr );
+        return with_exceptions_displayed( [&]() -> void
+        {
+            f(
+                cmd_parts[0],
+                vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
+                );
+        } );
     }
     
     namespace d = definitions;
