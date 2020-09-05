@@ -89,7 +89,7 @@ namespace ks::definitions {
     using   std::string_view;
 
     using C_str = const char*;
-
+    template< class T > using Type_ = T;
     [[noreturn]] inline void ub_here() { throw; }
 
     inline auto ascii_to_upper( const char ch )
@@ -229,7 +229,7 @@ namespace ks::definitions {
         }
     }
 
-    auto to_int( const string& s )
+    inline auto to_int( const string& s )
         -> int
     {
         size_t n_chars;
@@ -239,7 +239,15 @@ namespace ks::definitions {
         return result;
     }
 
-   inline auto input()
+    inline auto to_int( const string_view& s )
+        -> int
+    { return to_int( string( s ) ); }
+
+    inline auto to_int( const C_str s )
+        -> int
+    { return to_int( string( s ) ); }
+
+    inline auto input()
         -> string
     {
         string line;
@@ -272,6 +280,7 @@ namespace ks::definitions {
     namespace d = definitions;
     namespace exported_names { using
         d::C_str,
+        d::Type_,
         d::ub_here,
         d::ascii_to_upper, d::is_ascii_space,
         d::operator<<, d::concatenate,
