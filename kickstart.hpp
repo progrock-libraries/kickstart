@@ -85,10 +85,12 @@ namespace ks::definitions {
     using   std::ostringstream;
     using   std::function;
     using   std::pair;
-    using   std::string;
+    using   std::getline, std::stoi, std::string;
     using   std::string_view;
 
     using C_str = const char*;
+
+    [[noreturn]] inline void ub_here() { throw; }
 
     inline auto ascii_to_upper( const char ch )
         -> char
@@ -183,8 +185,11 @@ namespace ks::definitions {
         hopefully( errno != ERANGE )
             or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
 
-        hopefully( p_end == p_end_of( spec ) )
+        hopefully( p_end >= p_end_of( spec ) )
             or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
+
+        hopefully( p_end == p_end_of( spec ) )
+            or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
 
         hopefully( errno == 0 )
             or KS_FAIL( ""s
@@ -209,7 +214,32 @@ namespace ks::definitions {
 
     inline const auto& to_double = safe_trimmed_string_to_double;
 
-    inline auto input()
+    namespace impl {
+        auto wrapped_stoi( const string& s, size_t& n_chars )
+            -> int
+        {
+            try {
+                return stoi( s, &n_chars );
+            } catch( const invalid_argument& ) {
+                KS_FAIL_( invalid_argument, "“" + s + "” is an invalid `int` value spec." );
+            } catch( const out_of_range& ) {
+                KS_FAIL_( out_of_range, "The number “" + s + "” is out of range for `int`." );
+            }
+            ub_here();      // Suppresses sillywarning with Visual C++.
+        }
+    }
+
+    auto to_int( const string& s )
+        -> int
+    {
+        size_t n_chars;
+        const int result = impl::wrapped_stoi( s, n_chars );
+        hopefully( n_chars == s.length() )
+            or KS_FAIL( "Extraneous characters at the end of “" + s + "”." );
+        return result;
+    }
+
+   inline auto input()
         -> string
     {
         string line;
@@ -240,17 +270,19 @@ namespace ks::definitions {
     }
     
     namespace d = definitions;
-    namespace exported_names {
-        using   d::C_str,
-                d::ascii_to_upper, d::is_ascii_space,
-                d::operator<<, d::concatenate,
-                d::p_start_of, d::p_end_of,
-                d::trimmed, d::trimmed_string,
-                d::fail_, d::hopefully,
-                d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
-                d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
-                d::input,
-                d::with_exceptions_displayed;
+    namespace exported_names { using
+        d::C_str,
+        d::ub_here,
+        d::ascii_to_upper, d::is_ascii_space,
+        d::operator<<, d::concatenate,
+        d::p_start_of, d::p_end_of,
+        d::trimmed, d::trimmed_string,
+        d::fail_, d::hopefully,
+        d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
+        d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
+        d::to_double, d::to_int,
+        d::input,
+        d::with_exceptions_displayed;
     }  // namespace exported names
 }  // namespace ks::definitions
 
