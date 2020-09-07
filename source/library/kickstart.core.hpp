@@ -153,10 +153,12 @@ namespace ks::_definitions {
         -> string
     { return string( trimmed( s ) ); }
 
-    template< class X >
-    inline auto fail_( const string& s ) -> bool { throw runtime_error( s ); }
-
     inline auto hopefully( const bool condition ) -> bool { return condition; }
+
+    template< class X >
+    inline auto fail_( const string& s ) -> bool { throw X( s ); }
+
+    inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
 
     namespace impl {
         // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
@@ -331,7 +333,7 @@ namespace ks::_definitions {
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
         d::trimmed, d::trimmed_string,
-        d::fail_, d::hopefully,
+        d::hopefully, d::fail_, d::fail,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
