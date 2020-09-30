@@ -160,6 +160,26 @@ namespace ks::_definitions {
 
     inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
 
+    class Clean_app_exit_exception:
+        public exception
+    {
+        runtime_error   m_message;
+        
+    public:
+        auto what() const
+            noexcept
+            -> C_str override
+        { return m_message.what(); }
+
+        Clean_app_exit_exception( const string& s ):
+            m_message( s )
+        {}
+    };
+
+    inline auto exit_app_with_message( const string& s )
+        -> bool
+    { return fail_<Clean_app_exit_exception>( s ); }
+
     namespace impl {
         // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
         inline auto wrapped_strtod( const C_str spec )
@@ -248,7 +268,8 @@ namespace ks::_definitions {
         -> int
     { return to_int( string( s ) ); }
 
-    inline bool output_to( const C_file_ptr f, const string_view& s )
+    inline auto output_to( const C_file_ptr f, const string_view& s )
+        -> bool
     {
         const Size n = s.length();
         if( n <= 0 ) {
@@ -258,21 +279,21 @@ namespace ks::_definitions {
         return n_written == n;
     }
 
-    inline bool output( const string_view& s )
-    {
-        return output_to( stdout, s );
-    }
+    inline auto output( const string_view& s )
+        -> bool
+    { return output_to( stdout, s ); }
 
-    inline bool output_error_message( const string_view& s )
-    {
-        return output_to( stderr, s );
-    }
+    inline auto output_error_message( const string_view& s )
+        -> bool
+    { return output_to( stderr, s ); }
 
     inline auto input_from( const C_file_ptr f )
         -> string
     {
         string  line;
         int     code;
+        hopefully( not ::feof( stdin ) )
+            or KS_FAIL( "At end of file." );
         while( (code = ::fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
@@ -295,12 +316,14 @@ namespace ks::_definitions {
     using Simple_startup        = void();
     using Startup_with_args     = void( const string_view&, const vector<string_view>& );
 
-    inline auto with_exceptions_displayed( const function<Simple_startup>& f )
+    inline auto with_exceptions_displayed( const function<Simple_startup>& do_things )
         -> int
     {
         try{
-            f();
+            do_things();
             return EXIT_SUCCESS;
+        } catch( const Clean_app_exit_exception& x ) {
+            output_error_message( ""s << x.what() << "\n" );
         } catch( const exception& x ) {
             output_error_message( "!"s << x.what() << "\n" );
         }
@@ -308,7 +331,7 @@ namespace ks::_definitions {
     }
 
     inline auto with_exceptions_displayed(
-        const function<Startup_with_args>&      f,
+        const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts
         ) -> int
@@ -317,7 +340,7 @@ namespace ks::_definitions {
         assert( cmd_parts != nullptr );
         return with_exceptions_displayed( [&]() -> void
         {
-            f(
+            do_things(
                 cmd_parts[0],
                 vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
                 );
@@ -333,7 +356,7 @@ namespace ks::_definitions {
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
         d::trimmed, d::trimmed_string,
-        d::hopefully, d::fail_, d::fail,
+        d::hopefully, d::fail_, d::fail, d::Clean_app_exit_exception, d::exit_app_with_message,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
