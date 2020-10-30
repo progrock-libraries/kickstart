@@ -135,7 +135,7 @@ namespace ks::_definitions {
     inline auto p_start_of( const string_view& s ) -> const char* { return &*s.begin(); }
     inline auto p_end_of( const string_view& s ) -> const char* { return &*s.end(); }
 
-    inline auto trimmed( const string_view& s )
+    inline auto trimmed_view( const string_view& s )
         -> string_view
     {
         const char* p_first = p_start_of( s );
@@ -151,7 +151,15 @@ namespace ks::_definitions {
 
     inline auto trimmed_string( const string_view& s )
         -> string
-    { return string( trimmed( s ) ); }
+    { return string( trimmed_view( s ) ); }
+
+    inline auto trimmed( const string_view& s )
+        -> string_view
+    { return trimmed_view( s ); }
+
+    inline auto trimmed( const string& s )
+        -> string
+    { return trimmed_string( s ); }
 
     inline auto hopefully( const bool condition ) -> bool { return condition; }
 
