@@ -29,8 +29,10 @@
 
 namespace ks::stdstuff {
     using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
-    using   std::boolalpha, std::hex, std::dec, std::left, std::right;          // From <iostream>.
-    using   std::setw, std::setprecision;                                       // From <iomanip>.
+    using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
+    using   std::fixed, std::scientific, std::hexfloat, std::defaultfloat;      // From <iostream>.
+    using   std::left, std::right, std::internal;                               // From <iostream>.
+    using   std::setw, std::setprecision, std::setfill, std::quoted;            // From <iomanip>.
     using   std::ifstream, std::ofstream;                                       // From <fstream>.
     using   std::istringstream, std::ostringstream;                             // From <sstream>.
 }  // namespace ks::stdstuff
