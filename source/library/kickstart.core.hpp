@@ -132,8 +132,8 @@ namespace ks::_definitions {
         -> string
     { return (std::string() << ... << args); }
     
-    inline auto p_start_of( const string_view& s ) -> const char* { return &*s.begin(); }
-    inline auto p_end_of( const string_view& s ) -> const char* { return &*s.end(); }
+    inline auto p_start_of( const string_view& s ) -> const char* { return s.data(); }
+    inline auto p_end_of( const string_view& s ) -> const char* { return s.data() + s.size(); }
 
     inline auto trimmed_view( const string_view& s )
         -> string_view
@@ -363,7 +363,7 @@ namespace ks::_definitions {
         d::ascii_to_upper, d::is_ascii_space,
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
-        d::trimmed, d::trimmed_string,
+        d::trimmed_view, d::trimmed_string, d::trimmed,
         d::hopefully, d::fail_, d::fail, d::Clean_app_exit_exception, d::exit_app_with_message,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
