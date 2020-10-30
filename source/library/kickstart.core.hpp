@@ -236,7 +236,7 @@ namespace ks::_definitions {
     inline const auto& to_double = safe_trimmed_string_to_double;
 
     namespace impl {
-        auto wrapped_stoi( const string& s, size_t& n_chars )
+        inline auto wrapped_stoi( const string& s, size_t& n_chars )
             -> int
         {
             try {
