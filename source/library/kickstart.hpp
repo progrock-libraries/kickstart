@@ -1,4 +1,6 @@
-﻿#pragma once
+﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
+#pragma once
+
 // kickstart.hpp - minimal convenience functionality for C++ learners.
 // Requires C++17 or later.
 
