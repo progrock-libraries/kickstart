@@ -4,7 +4,7 @@ using namespace kickstart;
 
 void cpp_main()
 {
-    const string answer = trimmed( input( "Hi, what's your name? ") );
+    const string answer = trimmed( input( "Hi, what’s your name? ") );
     const string_view username = (answer.empty()? "“Nomen Nescio”"sv : answer);
     output( ""s << "Greetings, " << username << "! Happy to meet you!\n" );
 }

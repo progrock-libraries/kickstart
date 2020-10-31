@@ -76,6 +76,9 @@ namespace ks::_definitions {
     using   std::string_view;
     using   std::vector;
 
+
+    //----------------------------------------------------------- Misc basic stuff:
+
     using Size      = ptrdiff_t;
     using Index     = ptrdiff_t;
     using C_str     = const char*;
@@ -85,6 +88,39 @@ namespace ks::_definitions {
     [[noreturn]] inline void ub_here() { throw; }
 
     using C_file_ptr = FILE*;
+
+
+    //----------------------------------------------------------- Failure handling:
+
+    inline auto hopefully( const bool condition ) -> bool { return condition; }
+
+    template< class X >
+    inline auto fail_( const string& s ) -> bool { throw X( s ); }
+
+    inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
+
+    class Clean_app_exit_exception:
+        public exception
+    {
+        runtime_error   m_message;
+
+    public:
+        auto what() const
+            noexcept
+            -> C_str override
+        { return m_message.what(); }
+
+        Clean_app_exit_exception( const string& s ):
+            m_message( s )
+        {}
+    };
+
+    inline auto exit_app_with_message( const string& s )
+        -> bool
+    { return fail_<Clean_app_exit_exception>( s ); }
+
+
+    //----------------------------------------------------------- Basic text handling:
 
     inline auto ascii_to_upper( const char ch )
         -> char
@@ -96,6 +132,9 @@ namespace ks::_definitions {
         const auto code = static_cast<unsigned char>( ch );
         return code < 128 and isspace( code );
     }
+
+
+    //----------------------------------------------------------- Conversion anything → text:
 
     namespace impl {
         inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
@@ -110,6 +149,10 @@ namespace ks::_definitions {
             stream << value;
             return stream.str();
         }
+
+        inline auto as_string_append_argument( const bool value )
+            -> string
+        { return (value? "T" : "F"); }
     }  // namespace impl
 
     template< class T >
@@ -161,32 +204,8 @@ namespace ks::_definitions {
         -> string
     { return trimmed_string( s ); }
 
-    inline auto hopefully( const bool condition ) -> bool { return condition; }
 
-    template< class X >
-    inline auto fail_( const string& s ) -> bool { throw X( s ); }
-
-    inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
-
-    class Clean_app_exit_exception:
-        public exception
-    {
-        runtime_error   m_message;
-        
-    public:
-        auto what() const
-            noexcept
-            -> C_str override
-        { return m_message.what(); }
-
-        Clean_app_exit_exception( const string& s ):
-            m_message( s )
-        {}
-    };
-
-    inline auto exit_app_with_message( const string& s )
-        -> bool
-    { return fail_<Clean_app_exit_exception>( s ); }
+    //----------------------------------------------------------- Conversion text → number:
 
     namespace impl {
         // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
@@ -276,6 +295,9 @@ namespace ks::_definitions {
         -> int
     { return to_int( string( s ) ); }
 
+
+    //----------------------------------------------------------- Text stream i/o:
+
     inline auto output_to( const C_file_ptr f, const string_view& s )
         -> bool
     {
@@ -321,6 +343,9 @@ namespace ks::_definitions {
         return input();
     }
 
+
+    //----------------------------------------------------------- Program startup support:
+
     using Simple_startup        = void();
     using Startup_with_args     = void( const string_view&, const vector<string_view>& );
 
@@ -342,19 +367,22 @@ namespace ks::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts
-        ) -> int
+    ) -> int
     {
         assert( n_cmd_parts >= 1 );
         assert( cmd_parts != nullptr );
         return with_exceptions_displayed( [&]() -> void
-        {
-            do_things(
-                cmd_parts[0],
-                vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
+            {
+                do_things(
+                    cmd_parts[0],
+                    vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
                 );
-        } );
+            } );
     }
-    
+
+
+    //----------------------------------------------------------- @exported:
+
     namespace d = _definitions;
     namespace exported_names { using
         d::Size, d::Index, d::C_str, d::Byte,
