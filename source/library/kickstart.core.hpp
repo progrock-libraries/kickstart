@@ -74,6 +74,7 @@ namespace ks::_definitions {
     using   std::pair;
     using   std::getline, std::stoi, std::string;
     using   std::string_view;
+    using   std::optional;
     using   std::vector;
 
 
@@ -85,6 +86,7 @@ namespace ks::_definitions {
     using Byte      = unsigned char;
 
     template< class T > using Type_ = T;
+
     [[noreturn]] inline void ub_here() { throw; }
 
     using C_file_ptr = FILE*;
@@ -317,8 +319,8 @@ namespace ks::_definitions {
         -> bool
     { return output_to( stderr, s ); }
 
-    inline auto input_from( const C_file_ptr f )
-        -> string
+    inline auto any_input_from( const C_file_ptr f )
+        -> optional<string>
     {
         string  line;
         int     code;
@@ -327,10 +329,24 @@ namespace ks::_definitions {
         }
         hopefully( not ::ferror( f ) ) 
             or KS_FAIL( "fgetc failed" );
-        hopefully( not (code == EOF and line.empty()) )
-            or KS_FAIL( "At end of file." );
+        if( code == EOF and line.empty() ) {
+            return {};
+        }
         return line;
     }
+
+    inline auto input_from( const C_file_ptr f )
+        -> string
+    {
+        optional<string> input = any_input_from( f );
+        hopefully( input.has_value() )
+            or KS_FAIL( "At end of file." );
+        return move( input.value() );
+    }
+
+    inline auto any_input()
+        -> optional<string>
+    { return any_input_from( stdin ); }
 
     inline auto input()
         -> string
@@ -396,7 +412,7 @@ namespace ks::_definitions {
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
-        d::output_to, d::output, d::input_from, d::input,
+        d::output_to, d::output, d::any_input_from, d::input_from, d::any_input, d::input,
         d::with_exceptions_displayed;
     }  // namespace exported names
 }  // namespace ks::_definitions
