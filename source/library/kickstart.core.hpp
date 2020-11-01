@@ -27,6 +27,8 @@
 // SOFTWARE.
 
 // Library includes actually used in this header.
+#include "Utf8_standard_streams.hpp"    // Workaround for Windows platforms.
+
 #include <assert.h>         // assert
 
 #include <stddef.h>         // size_t
@@ -309,7 +311,9 @@ namespace ks::_definitions {
         if( n <= 0 ) {
             return true;
         }
-        const Size n_written = ::fwrite( &*s.begin(), n, 1, f );
+
+        auto& utf8_fwrite = Utf8_standard_streams::singleton().write_func_for( f );
+        const Size n_written = utf8_fwrite( &*s.begin(), n, f );
         return n_written == n;
     }
 
@@ -324,9 +328,11 @@ namespace ks::_definitions {
     inline auto any_input_from( const C_file_ptr f )
         -> optional<string>
     {
+        auto& utf8_fgetc = Utf8_standard_streams::singleton().read_byte_func_for( f );
+
         string  line;
         int     code;
-        while( (code = ::fgetc( f )) != EOF and code != '\n' ) {
+        while( (code = utf8_fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
         hopefully( not ::ferror( f ) ) 
