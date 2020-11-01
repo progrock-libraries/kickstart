@@ -48,12 +48,18 @@
 #include <array>
 #include <vector>
 
-#define KS_FAIL_( X, s )    \
-    ::ks::_definitions::fail_<X>( \
-        ::ks::_definitions::concatenate( __func__, " - ", s ) \
+#define KS_FAIL_( X, s )                                        \
+    ::ks::_definitions::fail_<X>(                               \
+        ::ks::_definitions::concatenate( __func__, " - ", s )   \
         )
-#define KS_FAIL( s )        \
+#define KS_FAIL( s ) \
     KS_FAIL_( std::runtime_error, s )
+
+#define KS_ASSERT_UTF8_LITERALS()                                                   \
+    static_assert(                                                                  \
+        ks::utf8_is_the_execution_character_set(),                                  \
+        "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."  \
+        )
 
 namespace ks::stdstuff {
     using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
@@ -137,6 +143,13 @@ namespace ks::_definitions {
     {
         const auto code = static_cast<unsigned char>( ch );
         return code < 128 and isspace( code );
+    }
+
+    constexpr inline auto utf8_is_the_execution_character_set()
+        -> bool
+    {
+        constexpr auto& slashed_o = "ø";
+        return (sizeof( slashed_o ) == 3 and slashed_o[0] == '\xC3' and slashed_o[1] == '\xB8');
     }
 
 
@@ -412,7 +425,7 @@ namespace ks::_definitions {
         d::Size, d::Index, d::C_str, d::Byte,
         d::Type_,
         d::ub_here,
-        d::ascii_to_upper, d::is_ascii_space,
+        d::ascii_to_upper, d::is_ascii_space, d::utf8_is_the_execution_character_set,
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
         d::trimmed, d::trimmed_string,
