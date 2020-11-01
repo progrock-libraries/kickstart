@@ -33,8 +33,8 @@ namespace ks {
     using Size = ptrdiff_t;
 
     namespace impl_u8ssi {
-        using std::tuple;               // From <tuple>;
-
+        using std::tuple;           // From <tuple>.
+        
         template< class Member_func >
         struct Member_func_signature_t_;
 
