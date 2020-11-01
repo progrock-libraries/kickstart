@@ -24,7 +24,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Utf8_standard_streams_interface.hpp"
+#include "kickstart.Utf8_standard_streams_interface.hpp"
 
 namespace ks {
 

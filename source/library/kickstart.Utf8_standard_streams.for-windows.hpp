@@ -25,7 +25,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Utf8_standard_streams_interface.hpp"
+#include "kickstart.Utf8_standard_streams_interface.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )

@@ -27,7 +27,7 @@
 // SOFTWARE.
 
 // Library includes actually used in this header.
-#include "Utf8_standard_streams.hpp"    // Workaround for Windows platforms.
+#include "kickstart.Utf8_standard_streams.hpp"    // Workaround for Windows platforms.
 
 #include <assert.h>         // assert
 
