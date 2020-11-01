@@ -129,8 +129,8 @@ namespace ks {
 
             if( m_console_output_handle ) {
                 if( winapi::GetConsoleMode( m_console_output_handle, &m_original_mode ) ) {
-                    const auto support_escapes = 0
-                        | (m_original_mode | winapi::enable_virtual_terminal_processing)
+                    const auto support_escapes =
+                        (m_original_mode | winapi::enable_virtual_terminal_processing)
                         & ~winapi::enable_extended_flags;
                     winapi::SetConsoleMode( m_console_output_handle, support_escapes );
                 }
