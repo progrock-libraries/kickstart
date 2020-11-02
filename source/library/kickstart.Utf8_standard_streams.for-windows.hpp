@@ -112,7 +112,7 @@ namespace ks {
 
         Utf8_standard_streams()
         {
-            static const Type_<FILE*> c_streams[] = {stdin, stdout, stderr};
+            const Type_<FILE*> c_streams[] = {stdin, stdout, stderr};
 
             for( const int stream_id: {0, 1, 2} ) {
                 const auto handle = reinterpret_cast<winapi::HANDLE>( _get_osfhandle( stream_id ) );
@@ -144,7 +144,7 @@ namespace ks {
             {
                 const auto& streams = Utf8_standard_streams::singleton();
                 (void) streams;
-                return ::fgetc( f );
+                return ::fgetc( f );        // TODO:
             }
 
             static auto write( const Type_<const void*> buffer, const Size n, FILE* )
@@ -185,10 +185,8 @@ namespace ks {
         auto read_byte_func_for( const Type_<FILE*> f ) const
             -> Func::Read_byte&
         {
-            for( const auto stream: m_console_streams ) {
-                if( stream == f ) {
-                    return *Console::read_byte;
-                }
+            if( m_console_streams[0] == f ) {
+                return *Console::read_byte;
             }
             return *C_streams::read_byte;
         }
@@ -196,8 +194,8 @@ namespace ks {
         auto write_func_for( const Type_<FILE*> f ) const
             -> Func::Write&
         {
-            for( const auto stream: m_console_streams ) {
-                if( stream == f ) {
+            for( const int i: {1, 2} ) {
+                if( m_console_streams[i] == f ) {
                     return *Console::write;
                 }
             }
