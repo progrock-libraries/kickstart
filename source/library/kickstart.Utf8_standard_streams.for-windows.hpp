@@ -36,11 +36,13 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include <stdint.h>     // uint32_t
 #include <io.h>         // _get_osfhandle
 #include <limits.h>     // INT_MAX
+#include <wchar.h>      // wint_t, WEOF
 
+#include <queue>        // std::queue
 #include <string>       // std::wstring
 
 namespace ks {
-    using std::wstring;
+    using std::queue, std::wstring;
 
     namespace winapi {
         // Visual C++ 2019 (16.3.3) and later may issue errors on the Windows API function
@@ -55,8 +57,10 @@ namespace ks {
         // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
         #ifdef MessageBox       // <windows.h> has been included
-            using ::BOOL, ::DWORD, ::HANDLE, ::UINT;
-            using ::GetConsoleMode, ::SetConsoleMode, ::MultiByteToWideChar, ::WriteConsoleW;
+            using   ::BOOL, ::DWORD, ::HANDLE, ::UINT;
+            using   ::GetConsoleMode, ::SetConsoleMode,
+                    ::MultiByteToWideChar, WideCharToMultiByte,
+                    ::ReadConsoleW, ::WriteConsoleW;
 
             const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
             const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
@@ -85,6 +89,25 @@ namespace ks {
                 int                             cchWideChar
                 ) -> int;
 
+            extern "C" auto __stdcall WideCharToMultiByte(
+                UINT                            CodePage,
+                DWORD                           dwFlags,
+                const wchar_t*                  lpWideCharStr,
+                int                             cchWideChar,
+                char*                           lpMultiByteStr,
+                int                             cbMultiByte,
+                const char*                     lpDefaultChar,
+                BOOL*                           lpUsedDefaultChar
+                ) -> int;
+
+            extern "C" auto __stdcall ReadConsoleW(
+                HANDLE                          hConsoleInput,
+                void*                           lpBuffer,
+                DWORD                           nNumberOfCharsToRead,
+                DWORD*                          lpNumberOfCharsRead,
+                void*                           pInputControl
+                ) -> BOOL;
+            
             extern "C" auto __stdcall WriteConsoleW(
                 HANDLE          hConsoleOutput,
                 const void*     lpBuffer,
@@ -97,16 +120,33 @@ namespace ks {
 
     class Utf8_standard_streams
     {
+        // Not copyable or movable.
+        Utf8_standard_streams( const Utf8_standard_streams& ) = delete;
+        auto operator=( const Utf8_standard_streams& ) -> Utf8_standard_streams& = delete;
+
         template< class T > using Type_ = T;
 
-        FILE*           m_console_streams[3]    = {};
-        winapi::HANDLE  m_console_output_handle = {};
-        winapi::DWORD   m_original_mode         = winapi::DWORD( -1 );
+        struct Console_data
+        {
+            FILE*           streams[3]      = {};
+            winapi::HANDLE  input_handle    = {};
+            winapi::HANDLE  output_handle   = {};
+            winapi::DWORD   original_mode   = winapi::DWORD( -1 );
+        };
+
+        struct Input_state
+        {
+            bool            at_start_of_line    = true;
+            queue<int>      bytes               = {};
+        };
+
+        Console_data    m_console;
+        Input_state     m_input;
 
         ~Utf8_standard_streams()
         {
-            if( m_original_mode != winapi::DWORD( -1 ) ) {
-                winapi::SetConsoleMode( m_console_output_handle, m_original_mode );
+            if( m_console.original_mode != winapi::DWORD( -1 ) ) {
+                winapi::SetConsoleMode( m_console.output_handle, m_console.original_mode );
             }
         }
 
@@ -119,32 +159,67 @@ namespace ks {
                 winapi::DWORD dummy;
                 const bool is_console = !!winapi::GetConsoleMode( handle, &dummy );
                 if( is_console ) {
-                    const Type_<FILE*> c_stream = c_streams[stream_id];
-                    m_console_streams[stream_id] = c_stream;
-                    if( stream_id > 0 ) {
-                        m_console_output_handle = handle;
-                    }
+                    m_console.streams[stream_id] = c_streams[stream_id];
+                    (stream_id == 0? m_console.input_handle : m_console.output_handle) = handle;
                 }
             }
 
-            if( m_console_output_handle ) {
-                if( winapi::GetConsoleMode( m_console_output_handle, &m_original_mode ) ) {
+            if( m_console.output_handle ) {
+                if( winapi::GetConsoleMode( m_console.output_handle, &m_console.original_mode ) ) {
                     const auto support_escapes =
-                        (m_original_mode | winapi::enable_virtual_terminal_processing)
+                        (m_console.original_mode | winapi::enable_virtual_terminal_processing)
                         & ~winapi::enable_extended_flags;
-                    winapi::SetConsoleMode( m_console_output_handle, support_escapes );
+                    winapi::SetConsoleMode( m_console.output_handle, support_escapes );
                 }
             }
         }
 
-        struct Console
+        struct Console_io
         {
+            constexpr static int ctrl_z = 26;
+
+            static auto read_widechar( const winapi::HANDLE handle )
+                -> wint_t
+            {
+                for( const int dummy : {1, 2} ) {
+                    wchar_t ch = 0;
+                    winapi::DWORD n_chars_read = 0;
+                    winapi::ReadConsoleW( handle, &ch, 1, &n_chars_read, nullptr );
+                    if( n_chars_read == 0 ) {
+                        return WEOF;
+                    } else if( ch == L'\n' ) {
+                        continue;
+                    } else if( ch == L'\r' ) {
+                        return L'\n';
+                    }
+                    return ch;
+                }
+                return WEOF;
+            }
+
             static auto read_byte( const Type_<FILE*> f )
                 -> int
             {
-                const auto& streams = Utf8_standard_streams::singleton();
-                (void) streams;
-                return ::fgetc( f );        // TODO:
+                auto& streams = Utf8_standard_streams::singleton();
+                auto& input = streams.m_input;
+                if( input.bytes.empty() ) {
+                    const wint_t code = read_widechar( streams.m_console.input_handle );
+                    const bool soft_eof = (input.at_start_of_line and code == ctrl_z);
+                    if( code != WEOF ) {
+                        input.at_start_of_line = false;
+                    }
+
+                    if( soft_eof or code == WEOF ) {
+                        input.bytes.push( EOF );
+                    } else {
+                        char buffer[32];        // Max UTF-8 length is 4
+
+                    }
+                }
+
+                const int result = bytes.front();
+                bytes.pop();
+                return result;
             }
 
             static auto write( const Type_<const void*> buffer, const Size n, FILE* )
@@ -161,14 +236,14 @@ namespace ks {
                     winapi::cp_utf8, flags, static_cast<const char*>( buffer ), int( n ), ws.data(), int( n )
                     );
                 assert( ws_len > 0 );       // More precisely, the number of UTF-8 encoded code points.
-                const auto handle = Utf8_standard_streams::singleton().m_console_output_handle;
+                const auto handle = Utf8_standard_streams::singleton().m_console.output_handle;
                 winapi::DWORD n_chars_written;
                 winapi::WriteConsoleW( handle, ws.data(), ws_len, &n_chars_written, nullptr );
                 return (int( n_chars_written ) < ws_len? 0 : n);    // Reporting actual count is costly.
             }
         };
 
-        struct C_streams
+        struct C_streams_io
         {
             static auto read_byte( const Type_<FILE*> f )
                 -> int
@@ -185,21 +260,21 @@ namespace ks {
         auto read_byte_func_for( const Type_<FILE*> f ) const
             -> Func::Read_byte&
         {
-            if( m_console_streams[0] == f ) {
-                return *Console::read_byte;
+            if( m_console.streams[0] == f ) {
+                return *Console_io::read_byte;
             }
-            return *C_streams::read_byte;
+            return *C_streams_io::read_byte;
         }
 
         auto write_func_for( const Type_<FILE*> f ) const
             -> Func::Write&
         {
             for( const int i: {1, 2} ) {
-                if( m_console_streams[i] == f ) {
-                    return *Console::write;
+                if( m_console.streams[i] == f ) {
+                    return *Console_io::write;
                 }
             }
-            return *C_streams::write;
+            return *C_streams_io::write;
         }
 
         static auto singleton()
