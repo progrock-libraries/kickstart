@@ -27,9 +27,11 @@
 // SOFTWARE.
 
 // Library includes actually used in this header.
-#include "core/utf8/execution-character-set.hpp"    // KS_ASSERT_UTF8_LITERALS, +
-#include "core/utf8/standard_streams.hpp"           // Workaround for Windows platforms.
+#include "core/ascii.hpp"
+#include "core/failure-handling.hpp"    // hopefully, fail, ...
+#include "core/stdstuff.hpp"            // Safe-with-`using` stuff from std library.
 #include "core/type_aliases.hpp"
+#include "core/utf8.hpp"                // Workarounds for Windows.
 
 #include <assert.h>         // assert
 
@@ -38,43 +40,11 @@
 #include <stdlib.h>         // EXIT_..., strtod
 #include <string.h>         // strerror
 
-#include <functional>
-#include <optional>
-#include <stdexcept>
 #include <sstream>          // TODO: get rid of?
-#include <string>
-#include <string_view>
-#include <utility>
-
-// Additional convenience library includes.
-#include <array>
-#include <vector>
-
-#define KS_FAIL_( X, s )                                        \
-    ::kickstart::_definitions::fail_<X>(                               \
-        ::kickstart::_definitions::concatenate( __func__, " - ", s )   \
-        )
-#define KS_FAIL( s ) \
-    KS_FAIL_( std::runtime_error, s )
-
-namespace kickstart::stdstuff {
-    using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
-    
-    // Collections.
-    using   std::array;                                                 // From <array>.
-    using   std::getline, std::string;                                  // From <string>.
-    using   std::string_view;                                           // From <string_view>.
-    using   std::vector;                                                // From <vector>.
-        
-    // Misc.
-    using   std::function;                                              // From <functional>.
-    using   std::optional;                                              // From <optional>.
-    using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
-}  // namespace kickstart::stdstuff
 
 namespace kickstart::_definitions {
     using namespace std::string_literals;
-    using   std::exception, std::invalid_argument, std::out_of_range, std::runtime_error;
+    using   std::invalid_argument, std::out_of_range;
     using   std::ostringstream;
     using   std::function;
     using   std::pair;
@@ -89,50 +59,6 @@ namespace kickstart::_definitions {
     [[noreturn]] inline void ub_here() { throw; }
 
     using C_file_ptr = FILE*;
-
-
-    //----------------------------------------------------------- Failure handling:
-
-    inline auto hopefully( const bool condition ) -> bool { return condition; }
-
-    template< class X >
-    inline auto fail_( const string& s ) -> bool { throw X( s ); }
-
-    inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
-
-    class Clean_app_exit_exception:
-        public exception
-    {
-        runtime_error   m_message;
-
-    public:
-        auto what() const
-            noexcept
-            -> C_str override
-        { return m_message.what(); }
-
-        Clean_app_exit_exception( const string& s ):
-            m_message( s )
-        {}
-    };
-
-    inline auto exit_app_with_message( const string& s )
-        -> bool
-    { return fail_<Clean_app_exit_exception>( s ); }
-
-
-    //----------------------------------------------------------- Basic text handling:
-
-    inline auto ascii_to_upper( const char ch )
-        -> char
-    { return ('a' <= ch and ch <= 'z'? char( ch - 'a' + 'A' ) : ch); }
-
-    inline auto is_ascii_space( const char ch )
-        -> bool
-    {
-        const auto code = static_cast<unsigned char>( ch );
-        return code < 128 and isspace( code );
-    }
 
 
     //----------------------------------------------------------- Conversion anything → text:
@@ -184,10 +110,10 @@ namespace kickstart::_definitions {
     {
         const char* p_first = p_start_of( s );
         const char* p_beyond = p_end_of( s );
-        while( p_first != p_beyond and is_ascii_space( *p_first ) ) {
+        while( p_first != p_beyond and is_( ascii::space, *p_first ) ) {
             ++p_first;
         }
-        while( p_beyond != p_first and is_ascii_space( *(p_beyond - 1) ) ) {
+        while( p_beyond != p_first and is_( ascii::space, *(p_beyond - 1) ) ) {
             --p_beyond;
         }
         return {p_first, static_cast<size_t>( p_beyond - p_first )};
@@ -386,7 +312,7 @@ namespace kickstart::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts
-    ) -> int
+        ) -> int
     {
         assert( n_cmd_parts >= 1 );
         assert( cmd_parts != nullptr );
@@ -404,11 +330,9 @@ namespace kickstart::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::ub_here,
-        d::ascii_to_upper, d::is_ascii_space,
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
         d::trimmed, d::trimmed_string,
-        d::hopefully, d::fail_, d::fail, d::Clean_app_exit_exception, d::exit_app_with_message,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
@@ -418,6 +342,5 @@ namespace kickstart::_definitions {
 }  // namespace kickstart::_definitions
 
 namespace kickstart::all {
-    using namespace stdstuff;
     using namespace _definitions::exported_names;
 }  // namespace kickstart::all
