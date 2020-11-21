@@ -21,18 +21,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stddef.h>     // size_t, ptrdiff_t
+#include "../../type_aliases.hpp"
+
 #include <stdio.h>      // FILE*
 
 #include <type_traits>
 #include <tuple>
 
-namespace ks {
+namespace kickstart::utf8::standard_streams {
     using   std::is_same_v;         // From <type_traits>.
+    using namespace type_aliases;   // `Size` etc.
 
-    using Size = ptrdiff_t;
-
-    namespace impl_u8ssi {
+    namespace _definitions {
         using std::tuple;               // From <tuple>;
 
         template< class Member_func >
@@ -46,12 +46,12 @@ namespace ks {
 
         template< auto member_func_ptr >
         using Signature_ = typename Member_func_signature_t_< decltype( member_func_ptr ) >::T;
-    }  // namespace impl_u8ssi
+    }  // namespace _definitions
 
-    class Utf8_standard_streams_interface
+    class Interface
     {
     public:
-        using Self = Utf8_standard_streams_interface;
+        using Self = Interface;
 
         struct Func
         {
@@ -63,16 +63,10 @@ namespace ks {
         auto write_func_for( FILE* ) const -> Func::Write&;
 
         template< class Impl >
-        static auto singleton() -> Impl&;
-
-        template< class Impl >
-        static void init(); // { singleton<Impl>(); }  -- Just for readability when other stuff is not used.
-
-        template< class Impl >
         constexpr static auto is_implemented_by_()
             -> bool
         {
-            using impl_u8ssi::Signature_;
+            using _definitions::Signature_;
             return true
                 and is_same_v<
                     Signature_< &Impl::read_byte_func_for >,
@@ -81,10 +75,13 @@ namespace ks {
                 and is_same_v<
                     Signature_< &Impl::write_func_for >,
                     Signature_< &Self::write_func_for >
-                    >
-                and is_same_v< decltype( Impl::singleton ), decltype( singleton< Impl > ) >
-                and is_same_v< decltype( Impl::init ), decltype( init< Impl > ) >;
+                    >;
         }
     };
-    
-}  // namespace ks
+
+#if 0
+    inline auto singleton() -> Impl&;
+    inline void init() { singleton>(); }  // Just for readability when other stuff is not used.
+#endif
+
+}  // namespace kickstart::utf8::standard_streams

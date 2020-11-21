@@ -25,7 +25,8 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "kickstart.Utf8_standard_streams_interface.hpp"
+#include "Interface.hpp"
+#include "../../type_aliases.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
@@ -41,7 +42,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include <queue>        // std::queue
 #include <string>       // std::wstring
 
-namespace ks {
+namespace kickstart::utf8::standard_streams {
     using std::queue, std::wstring;
 
     namespace winapi {
@@ -118,11 +119,11 @@ namespace ks {
         #endif
     }  // namespace winapi
 
-    class Utf8_standard_streams
+    class For_windows
     {
         // Not copyable or movable.
-        Utf8_standard_streams( const Utf8_standard_streams& ) = delete;
-        auto operator=( const Utf8_standard_streams& ) -> Utf8_standard_streams& = delete;
+        For_windows( const For_windows& ) = delete;
+        auto operator=( const For_windows& ) -> For_windows& = delete;
 
         template< class T > using Type_ = T;
 
@@ -143,14 +144,14 @@ namespace ks {
         Console_data    m_console;
         Input_state     m_input;
 
-        ~Utf8_standard_streams()
+        ~For_windows()
         {
             if( m_console.original_mode != winapi::DWORD( -1 ) ) {
                 winapi::SetConsoleMode( m_console.output_handle, m_console.original_mode );
             }
         }
 
-        Utf8_standard_streams()
+        For_windows()
         {
             const Type_<FILE*> c_streams[] = {stdin, stdout, stderr};
 
@@ -204,7 +205,7 @@ namespace ks {
             static auto read_byte( const Type_<FILE*> )
                 -> int
             {
-                auto& streams = Utf8_standard_streams::singleton();
+                auto& streams = singleton();
                 auto& input = streams.m_input;
                 while( input.bytes.empty() ) {
                     const wint_t    code        = read_widechar( streams.m_console.input_handle );
@@ -252,7 +253,7 @@ namespace ks {
                     winapi::cp_utf8, flags, static_cast<const char*>( buffer ), int( n ), ws.data(), int( n )
                     );
                 assert( ws_len > 0 );       // More precisely, the number of UTF-8 encoded code points.
-                const auto handle = Utf8_standard_streams::singleton().m_console.output_handle;
+                const auto handle = For_windows::singleton().m_console.output_handle;
                 winapi::DWORD n_chars_written;
                 winapi::WriteConsoleW( handle, ws.data(), ws_len, &n_chars_written, nullptr );
                 return (int( n_chars_written ) < ws_len? 0 : n);    // Reporting actual count is costly.
@@ -271,7 +272,7 @@ namespace ks {
         };
 
     public:
-        using Func = Utf8_standard_streams_interface::Func;
+        using Func = utf8::standard_streams::Interface::Func;
 
         auto read_byte_func_for( const Type_<FILE*> f ) const
             -> Func::Read_byte&
@@ -294,17 +295,21 @@ namespace ks {
         }
 
         static auto singleton()
-            -> Utf8_standard_streams&
+            -> For_windows&
         {
-            static Utf8_standard_streams the_instance;
+            static For_windows the_instance;
             return the_instance;
         }
-
-        static void init() { singleton(); }
     };
 
     static_assert(
-        Utf8_standard_streams_interface::is_implemented_by_<Utf8_standard_streams>()
+        Interface::is_implemented_by_<For_windows>()
         );
 
-}  // namespace ks
+    inline auto singleton()
+        -> For_windows&
+    { return For_windows::singleton(); }
+
+    inline void init() { singleton(); }
+
+}  // namespace kickstart::utf8::standard_streams

@@ -1,8 +1,8 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-
-// kickstart.iostreams.hpp - minimal convenience functionality for C++ learners.
-// Requires C++17 or later.
+#ifdef _WIN64
+#   error "This header is not for 64-bit Windows systems."
+#endif
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,23 +24,40 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <sstream>
+#include "Interface.hpp"
+#include "../../type_aliases.hpp"
 
-namespace ks::stdstuff {
-    using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
-    using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
-    using   std::fixed, std::scientific, std::hexfloat, std::defaultfloat;      // From <iostream>.
-    using   std::left, std::right, std::internal;                               // From <iostream>.
-    using   std::setw, std::setprecision, std::setfill, std::quoted;            // From <iomanip>.
-    using   std::ifstream, std::ofstream;                                       // From <fstream>.
-    using   std::istringstream, std::ostringstream;                             // From <sstream>.
-}  // namespace ks::stdstuff
+namespace kickstart::utf8::standard_streams  {
+    using namespace type_aliases;       // `Size` etc.
 
-namespace ks {
-    using namespace stdstuff;
-}  // namespace ks
+    class For_utf8_systems
+    {
+        struct C_streams
+        {
+            static auto read_byte( FILE* f )
+                -> int
+            { return ::fgetc( f ); }
 
-namespace kickstart = ks;
+            static auto write( const void* buffer, const Size buffer_size, FILE* f)
+                -> Size
+            { return ::fwrite( buffer, 1, buffer_size, f ); }
+        };
+
+    public:
+        using Func = standard_streams::Interface::Func;
+
+        auto read_byte_func_for( FILE* ) const -> Func::Read_byte& { return *C_streams::read_byte; }
+        auto write_func_for( FILE* ) const -> Func::Write& { return *C_streams::write; }
+    };
+
+    static_assert( Interface::is_implemented_by_<For_utf8_systems>() );
+
+    inline auto singleton()
+        -> For_utf8_systems&
+    {
+        static For_utf8_systems the_instance;
+        return the_instance;
+    }
+
+    inline void init() { singleton(); }
+}  // namespace kickstart::utf8::standard_streams

@@ -1,8 +1,10 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#ifdef _WIN64
-#   error "This header is not for 64-bit Windows systems."
-#endif
+
+// kickstart.core.hpp - minimal convenience functionality for C++ learners.
+// The “core” is because the (rather large) iostreams headers are not included.
+//
+// Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,41 +26,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "kickstart.Utf8_standard_streams_interface.hpp"
+#include <limits.h>     // CHAR_BIT
+#include <stddef.h>     // size_t, ptrdiff_t
+#include <stdint.h>     // int32_t, int64_t
 
-namespace ks {
+namespace kickstart::_definitions {
+    using Size      = ptrdiff_t;
+    using Index     = ptrdiff_t;
+    using C_str     = const char*;
+    using Byte      = unsigned char;
 
-    class Utf8_standard_streams
-    {
-        struct C_streams
-        {
-            static auto read_byte( FILE* f )
-                -> int
-            { return ::fgetc( f ); }
+    using Int       = int64_t;
+    using Float     = double;       static_assert( sizeof( double )*CHAR_BIT >= 64, "!" );
 
-            static auto write( const void* buffer, const Size buffer_size, FILE* f)
-                -> Size
-            { return ::fwrite( buffer, 1, buffer_size, f ); }
-        };
+    using Int32     = int32_t;
+    using Float32   = float;
 
-    public:
-        using Func = Utf8_standard_streams_interface::Func;
+    template< class T > using Type_ = T;
 
-        auto read_byte_func_for( FILE* ) const -> Func::Read_byte& { return *C_streams::read_byte; }
-        auto write_func_for( FILE* ) const -> Func::Write& { return *C_streams::write; }
 
-        static auto singleton()
-            -> Utf8_standard_streams&
-        {
-            static Utf8_standard_streams the_instance;
-            return the_instance;
-        }
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Size, d::Index, d::C_str, d::Byte,
+        d::Int, d::Float, d::Int32, d::Float32,
+        d::Type_;
+    }  // namespace exported names
+}  // namespace kickstart::_definitions
 
-        static void init() { singleton(); }
-    };
-
-    static_assert(
-        Utf8_standard_streams_interface::is_implemented_by_<Utf8_standard_streams>()
-        );
-
-}  // namespace ks
+namespace kickstart::type_aliases   { using namespace _definitions::exported_names; }
+namespace kickstart::all            { using namespace type_aliases; }

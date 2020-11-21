@@ -27,7 +27,9 @@
 // SOFTWARE.
 
 // Library includes actually used in this header.
-#include "kickstart.Utf8_standard_streams.hpp"    // Workaround for Windows platforms.
+#include "core/utf8/execution-character-set.hpp"    // KS_ASSERT_UTF8_LITERALS, +
+#include "core/utf8/standard_streams.hpp"           // Workaround for Windows platforms.
+#include "core/type_aliases.hpp"
 
 #include <assert.h>         // assert
 
@@ -49,19 +51,13 @@
 #include <vector>
 
 #define KS_FAIL_( X, s )                                        \
-    ::ks::_definitions::fail_<X>(                               \
-        ::ks::_definitions::concatenate( __func__, " - ", s )   \
+    ::kickstart::_definitions::fail_<X>(                               \
+        ::kickstart::_definitions::concatenate( __func__, " - ", s )   \
         )
 #define KS_FAIL( s ) \
     KS_FAIL_( std::runtime_error, s )
 
-#define KS_ASSERT_UTF8_LITERALS()                                                   \
-    static_assert(                                                                  \
-        ks::utf8_is_the_execution_character_set(),                                  \
-        "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."  \
-        )
-
-namespace ks::stdstuff {
+namespace kickstart::stdstuff {
     using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
     
     // Collections.
@@ -74,9 +70,9 @@ namespace ks::stdstuff {
     using   std::function;                                              // From <functional>.
     using   std::optional;                                              // From <optional>.
     using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
-}  // namespace ks::stdstuff
+}  // namespace kickstart::stdstuff
 
-namespace ks::_definitions {
+namespace kickstart::_definitions {
     using namespace std::string_literals;
     using   std::exception, std::invalid_argument, std::out_of_range, std::runtime_error;
     using   std::ostringstream;
@@ -89,13 +85,6 @@ namespace ks::_definitions {
 
 
     //----------------------------------------------------------- Misc basic stuff:
-
-    using Size      = ptrdiff_t;
-    using Index     = ptrdiff_t;
-    using C_str     = const char*;
-    using Byte      = unsigned char;
-
-    template< class T > using Type_ = T;
 
     [[noreturn]] inline void ub_here() { throw; }
 
@@ -143,13 +132,6 @@ namespace ks::_definitions {
     {
         const auto code = static_cast<unsigned char>( ch );
         return code < 128 and isspace( code );
-    }
-
-    constexpr inline auto utf8_is_the_execution_character_set()
-        -> bool
-    {
-        constexpr auto& slashed_o = "ø";
-        return (sizeof( slashed_o ) == 3 and slashed_o[0] == '\xC3' and slashed_o[1] == '\xB8');
     }
 
 
@@ -325,7 +307,7 @@ namespace ks::_definitions {
             return true;
         }
 
-        auto& utf8_fwrite = Utf8_standard_streams::singleton().write_func_for( f );
+        auto& utf8_fwrite = utf8::standard_streams::singleton().write_func_for( f );
         const Size n_written = utf8_fwrite( &*s.begin(), n, f );
         return n_written == n;
     }
@@ -341,7 +323,7 @@ namespace ks::_definitions {
     inline auto any_input_from( const C_file_ptr f )
         -> optional<string>
     {
-        auto& utf8_fgetc = Utf8_standard_streams::singleton().read_byte_func_for( f );
+        auto& utf8_fgetc = utf8::standard_streams::singleton().read_byte_func_for( f );
 
         string  line;
         int     code;
@@ -419,13 +401,10 @@ namespace ks::_definitions {
 
 
     //----------------------------------------------------------- @exported:
-
     namespace d = _definitions;
     namespace exported_names { using
-        d::Size, d::Index, d::C_str, d::Byte,
-        d::Type_,
         d::ub_here,
-        d::ascii_to_upper, d::is_ascii_space, d::utf8_is_the_execution_character_set,
+        d::ascii_to_upper, d::is_ascii_space,
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
         d::trimmed, d::trimmed_string,
@@ -436,11 +415,9 @@ namespace ks::_definitions {
         d::output_to, d::output, d::any_input_from, d::input_from, d::any_input, d::input,
         d::with_exceptions_displayed;
     }  // namespace exported names
-}  // namespace ks::_definitions
+}  // namespace kickstart::_definitions
 
-namespace ks {
+namespace kickstart::all {
     using namespace stdstuff;
     using namespace _definitions::exported_names;
-}  // namespace ks
-
-namespace kickstart = ks;
+}  // namespace kickstart::all

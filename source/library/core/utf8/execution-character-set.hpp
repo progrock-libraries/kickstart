@@ -1,7 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 
-// kickstart.hpp - minimal convenience functionality for C++ learners.
+// kickstart.core.hpp - minimal convenience functionality for C++ learners.
+// The “core” is because the (rather large) iostreams headers are not included.
+//
 // Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -24,8 +26,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "kickstart.core.hpp"
+// Library includes actually used in this header.
 
-#ifndef KS_NO_IOSTREAMS
-#   include "kickstart.iostreams.hpp"
-#endif
+#define KS_ASSERT_UTF8_LITERALS()                                                   \
+    static_assert(                                                                  \
+        kickstart::utf8_is_the_execution_character_set(),                           \
+        "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."  \
+        )
+
+namespace kickstart {
+
+    constexpr inline auto utf8_is_the_execution_character_set()
+        -> bool
+    {
+        constexpr auto& slashed_o = "ø";
+        return (sizeof( slashed_o ) == 3 and slashed_o[0] == '\xC3' and slashed_o[1] == '\xB8');
+    }
+
+}  // namespace kickstart
+
+namespace kickstart::all {
+    using kickstart::utf8_is_the_execution_character_set;
+}  // namespace kickstart::all

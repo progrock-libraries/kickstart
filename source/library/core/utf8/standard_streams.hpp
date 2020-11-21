@@ -25,7 +25,7 @@
 // SOFTWARE.
 
 #ifdef _WIN64
-#   include "kickstart.Utf8_standard_streams.for-windows.hpp"
+#   include "standard_streams/For_windows.hpp"
 #else
-#   include "kickstart.Utf8_standard_streams.for-utf8-systems.hpp"
+#   include "standard_streams/For_utf8_systems.hpp"
 #endif
