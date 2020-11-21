@@ -219,12 +219,14 @@ namespace ks {
                     if( soft_eof or code == WEOF ) {
                         input.bytes.push( EOF );
                     } else if( not is_surrogate( code ) ) {
-                        char buffer[32];        // Max UTF-8 length is 4
-                        const winapi::DWORD flags = 0;
-                        const wchar_t code_as_wchar = code;
-                        const int n_bytes = winapi::WideCharToMultiByte(
+                        char buffer[32];        // Max UTF-8 length is 4, this is more than enough.
+
+                        const winapi::DWORD     flags           = 0;
+                        const wchar_t           code_as_wchar   = code;
+                        const int               n_bytes         = winapi::WideCharToMultiByte(
                             winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
                             );
+
                         for( int i = 0; i < n_bytes; ++i ) {
                             input.bytes.push( buffer[i] );
                         }
