@@ -178,6 +178,10 @@ namespace ks {
         {
             constexpr static int ctrl_z = 26;
 
+            static auto is_surrogate( const wchar_t ) //code_point )
+                -> bool
+            { return false; }       // TODO:
+
             static auto read_widechar( const winapi::HANDLE handle )
                 -> wint_t
             {
@@ -197,28 +201,38 @@ namespace ks {
                 return WEOF;
             }
 
-            static auto read_byte( const Type_<FILE*> f )
+            static auto read_byte( const Type_<FILE*> )
                 -> int
             {
                 auto& streams = Utf8_standard_streams::singleton();
                 auto& input = streams.m_input;
-                if( input.bytes.empty() ) {
-                    const wint_t code = read_widechar( streams.m_console.input_handle );
-                    const bool soft_eof = (input.at_start_of_line and code == ctrl_z);
+                while( input.bytes.empty() ) {
+                    const wint_t    code        = read_widechar( streams.m_console.input_handle );
+                    const bool      soft_eof    = (input.at_start_of_line and code == ctrl_z);
+
                     if( code != WEOF ) {
                         input.at_start_of_line = false;
                     }
 
+                    // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
+                    // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
                     if( soft_eof or code == WEOF ) {
                         input.bytes.push( EOF );
-                    } else {
+                    } else if( not is_surrogate( code ) ) {
                         char buffer[32];        // Max UTF-8 length is 4
-
+                        const winapi::DWORD flags = 0;
+                        const wchar_t code_as_wchar = code;
+                        const int n_bytes = winapi::WideCharToMultiByte(
+                            winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
+                            );
+                        for( int i = 0; i < n_bytes; ++i ) {
+                            input.bytes.push( buffer[i] );
+                        }
                     }
                 }
 
-                const int result = bytes.front();
-                bytes.pop();
+                const int result = input.bytes.front();
+                input.bytes.pop();
                 return result;
             }
 
