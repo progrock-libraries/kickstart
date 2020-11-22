@@ -26,5 +26,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ascii/character-util.hpp"
-#include "ascii/string-util.hpp"
+#include <string_view>
+
+namespace kickstart::_definitions {
+    using   std::string_view;
+
+    inline auto get_p_start( const string_view& s )
+        -> const char*
+    { return s.data(); }
+
+    inline auto get_p_beyond( const string_view& s )
+        -> const char*
+    { return s.data() + s.size(); }
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::get_p_start,
+        d::get_p_beyond;
+    }  // namespace exported names
+}  // namespace kickstart::_definitions
+
+namespace kickstart::string_view_pointers   { using namespace kickstart::_definitions::exported_names; }
+namespace kickstart::all                    { using namespace string_view_pointers; }

@@ -31,6 +31,7 @@
 #include "core/failure-handling.hpp"        // hopefully, fail, ...
 #include "core/program-statup-support.hpp"  // with_exceptions_displayed
 #include "core/stdstuff.hpp"                // Safe-with-`using` stuff from std library.
+#include "core/string_view-pointers.hpp"    // Get raw pointers as opposed to iterators.
 #include "core/type_aliases.hpp"            // Size etc.
 #include "core/utf8.hpp"                    // Workarounds for Windows.
 
@@ -97,42 +98,6 @@ namespace kickstart::_definitions {
         -> string
     { return (std::string() << ... << args); }
     
-    inline auto get_p_start( const string_view& s )
-        -> const char*
-    { return s.data(); }
-
-    inline auto get_p_beyond( const string_view& s )
-        -> const char*
-    { return s.data() + s.size(); }
-
-    inline auto trimmed_view( const string_view& s )
-        -> string_view
-    {
-        const char* p_first     = get_p_start( s );
-        const char* p_beyond    = get_p_beyond( s );
-
-        while( p_first != p_beyond and is_( ascii::space, *p_first ) ) {
-            ++p_first;
-        }
-        while( p_beyond != p_first and is_( ascii::space, *(p_beyond - 1) ) ) {
-            --p_beyond;
-        }
-
-        return {p_first, static_cast<size_t>( p_beyond - p_first )};
-    }
-
-    inline auto trimmed_string( const string_view& s )
-        -> string
-    { return string( trimmed_view( s ) ); }
-
-    inline auto trimmed( const string_view& s )
-        -> string_view
-    { return trimmed_view( s ); }
-
-    inline auto trimmed( const string& s )
-        -> string
-    { return trimmed_string( s ); }
-
 
     //----------------------------------------------------------- Conversion text → number:
 
@@ -179,7 +144,7 @@ namespace kickstart::_definitions {
 
     inline auto fast_trimmed_string_to_double( const string_view& spec )
         -> double
-    { return fast_full_string_to_double( trimmed( spec ) ); }
+    { return fast_full_string_to_double( ascii::trimmed( spec ) ); }
 
     inline auto safe_full_string_to_double( const string_view& spec )
         -> double
@@ -187,7 +152,7 @@ namespace kickstart::_definitions {
 
     inline auto safe_trimmed_string_to_double( const string_view& spec )
         -> double
-    { return safe_full_string_to_double( trimmed( spec ) ); }
+    { return safe_full_string_to_double( ascii::trimmed( spec ) ); }
 
     inline const auto& to_double = safe_trimmed_string_to_double;
 
@@ -230,8 +195,6 @@ namespace kickstart::_definitions {
     namespace exported_names { using
         d::ub_here,
         d::str, d::operator<<, d::concatenate,
-        d::get_p_start, d::get_p_beyond,
-        d::trimmed_view, d::trimmed_string, d::trimmed,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
@@ -240,5 +203,5 @@ namespace kickstart::_definitions {
 }  // namespace kickstart::_definitions
 
 namespace kickstart::all {
-    using namespace _definitions::exported_names;
+    using namespace kickstart::_definitions::exported_names;
 }  // namespace kickstart::all
