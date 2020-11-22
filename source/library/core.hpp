@@ -28,6 +28,7 @@
 
 // Library includes actually used in this header.
 #include "core/ascii.hpp"
+#include "core/conversion-to-text.hpp"
 #include "core/failure-handling.hpp"        // hopefully, fail, ...
 #include "core/program-statup-support.hpp"  // with_exceptions_displayed
 #include "core/stdstuff.hpp"                // Safe-with-`using` stuff from std library.
@@ -57,47 +58,6 @@ namespace kickstart::_definitions {
 
     [[noreturn]] inline void ub_here() { throw; }
 
-    //----------------------------------------------------------- Conversion anything → text:
-
-    namespace impl {
-        inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
-        inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
-        inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
-
-        template< class T >
-        inline auto as_string_append_argument( const T& value )
-            -> string
-        {
-            ostringstream stream;
-            stream << value;
-            return stream.str();
-        }
-
-        inline auto as_string_append_argument( const bool value )
-            -> string
-        { return (value? "T" : "F"); }
-    }  // namespace impl
-
-    template< class T >
-    inline auto str( T const& value )
-        -> string
-    { return impl::as_string_append_argument( value ); }
-
-    template< class T >
-    inline auto operator<<( string& s, T const& value )
-        -> string&
-    { return s.append( impl::as_string_append_argument( value ) ); }
-
-    template< class T >
-    inline auto operator<<( string&& s, T const& value )
-        -> string&&
-    { return move( s << value ); }
-
-    template< class... Args >
-    inline auto concatenate( const Args&... args )
-        -> string
-    { return (std::string() << ... << args); }
-    
 
     //----------------------------------------------------------- Conversion text → number:
 
@@ -194,7 +154,6 @@ namespace kickstart::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::ub_here,
-        d::str, d::operator<<, d::concatenate,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
