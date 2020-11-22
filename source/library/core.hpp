@@ -36,13 +36,13 @@
 #include <assert.h>         // assert
 
 #include <stddef.h>         // size_t
-#include <stdio.h>          // stdin, stdout, stdcerr, ...
 #include <stdlib.h>         // EXIT_..., strtod
 #include <string.h>         // strerror
 
 #include <sstream>          // TODO: get rid of?
 
 namespace kickstart::_definitions {
+    using namespace kickstart::utf8::io;
     using namespace std::string_literals;
     using   std::invalid_argument, std::out_of_range;
     using   std::ostringstream;
@@ -57,9 +57,6 @@ namespace kickstart::_definitions {
     //----------------------------------------------------------- Misc basic stuff:
 
     [[noreturn]] inline void ub_here() { throw; }
-
-    using C_file_ptr = FILE*;
-
 
     //----------------------------------------------------------- Conversion anything → text:
 
@@ -221,72 +218,6 @@ namespace kickstart::_definitions {
     inline auto to_int( const C_str s )
         -> int
     { return to_int( string( s ) ); }
-
-
-    //----------------------------------------------------------- Text stream i/o:
-
-    inline auto output_to( const C_file_ptr f, const string_view& s )
-        -> bool
-    {
-        const Size n = s.length();
-        if( n <= 0 ) {
-            return true;
-        }
-
-        auto& utf8_fwrite = utf8::standard_streams::singleton().write_func_for( f );
-        const Size n_written = utf8_fwrite( &*s.begin(), n, f );
-        return n_written == n;
-    }
-
-    inline auto output( const string_view& s )
-        -> bool
-    { return output_to( stdout, s ); }
-
-    inline auto output_error_message( const string_view& s )
-        -> bool
-    { return output_to( stderr, s ); }
-
-    inline auto any_input_from( const C_file_ptr f )
-        -> optional<string>
-    {
-        auto& utf8_fgetc = utf8::standard_streams::singleton().read_byte_func_for( f );
-
-        string  line;
-        int     code;
-        while( (code = utf8_fgetc( f )) != EOF and code != '\n' ) {
-            line += char( code );
-        }
-        hopefully( not ::ferror( f ) ) 
-            or KS_FAIL( "fgetc failed" );
-        if( code == EOF and line.empty() ) {
-            return {};
-        }
-        return line;
-    }
-
-    inline auto input_from( const C_file_ptr f )
-        -> string
-    {
-        optional<string> input = any_input_from( f );
-        hopefully( input.has_value() )
-            or KS_FAIL( "At end of file." );
-        return move( input.value() );
-    }
-
-    inline auto any_input()
-        -> optional<string>
-    { return any_input_from( stdin ); }
-
-    inline auto input()
-        -> string
-    { return input_from( stdin ); }
-
-    inline auto input( const string_view& prompt )
-        -> string
-    {
-        output( prompt );
-        return input();
-    }
 
 
     //----------------------------------------------------------- Program startup support:

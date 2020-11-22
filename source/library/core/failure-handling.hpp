@@ -32,8 +32,8 @@
 #include <string>
 
 #define KS_FAIL_( X, s )                                        \
-    ::kickstart::_definitions::fail_<X>(                               \
-        ::kickstart::_definitions::concatenate( __func__, " - ", s )   \
+    ::kickstart::_definitions::fail_<X>(                        \
+        std::string() + __func__ + " - " + std::string( s )     \
         )
 #define KS_FAIL( s ) \
     KS_FAIL_( std::runtime_error, s )
@@ -80,6 +80,5 @@ namespace kickstart::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::_definitions
 
-namespace kickstart::all {
-    using namespace _definitions::exported_names;
-}  // namespace kickstart::all
+namespace kickstart::failure_handling   { using namespace _definitions::exported_names; }
+namespace kickstart::all                { using namespace failure_handling; }
