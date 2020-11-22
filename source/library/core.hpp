@@ -41,6 +41,7 @@
 namespace kickstart::_definitions {
     using namespace kickstart::utf8::io;
     using namespace std::string_literals;
+
     using   std::invalid_argument, std::out_of_range;
     using   std::ostringstream;
     using   std::function;
@@ -96,20 +97,27 @@ namespace kickstart::_definitions {
         -> string
     { return (std::string() << ... << args); }
     
-    inline auto p_start_of( const string_view& s ) -> const char* { return s.data(); }
-    inline auto p_end_of( const string_view& s ) -> const char* { return s.data() + s.size(); }
+    inline auto get_p_start( const string_view& s )
+        -> const char*
+    { return s.data(); }
+
+    inline auto get_p_beyond( const string_view& s )
+        -> const char*
+    { return s.data() + s.size(); }
 
     inline auto trimmed_view( const string_view& s )
         -> string_view
     {
-        const char* p_first = p_start_of( s );
-        const char* p_beyond = p_end_of( s );
+        const char* p_first     = get_p_start( s );
+        const char* p_beyond    = get_p_beyond( s );
+
         while( p_first != p_beyond and is_( ascii::space, *p_first ) ) {
             ++p_first;
         }
         while( p_beyond != p_first and is_( ascii::space, *(p_beyond - 1) ) ) {
             --p_beyond;
         }
+
         return {p_first, static_cast<size_t>( p_beyond - p_first )};
     }
 
@@ -149,15 +157,15 @@ namespace kickstart::_definitions {
         hopefully( spec.length() != 0 )
             or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
 
-        const auto [value, p_end] = impl::wrapped_strtod( p_start_of( spec ) );
+        const auto [value, p_end] = impl::wrapped_strtod( get_p_start( spec ) );
 
         hopefully( errno != ERANGE )
             or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
 
-        hopefully( p_end >= p_end_of( spec ) )
+        hopefully( p_end >= get_p_beyond( spec ) )
             or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
 
-        hopefully( p_end == p_end_of( spec ) )
+        hopefully( p_end == get_p_beyond( spec ) )
             or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
 
         hopefully( errno == 0 )
@@ -222,7 +230,7 @@ namespace kickstart::_definitions {
     namespace exported_names { using
         d::ub_here,
         d::str, d::operator<<, d::concatenate,
-        d::p_start_of, d::p_end_of,
+        d::get_p_start, d::get_p_beyond,
         d::trimmed_view, d::trimmed_string, d::trimmed,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
