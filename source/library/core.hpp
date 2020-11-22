@@ -28,16 +28,13 @@
 
 // Library includes actually used in this header.
 #include "core/ascii.hpp"
-#include "core/failure-handling.hpp"    // hopefully, fail, ...
-#include "core/stdstuff.hpp"            // Safe-with-`using` stuff from std library.
-#include "core/type_aliases.hpp"
-#include "core/utf8.hpp"                // Workarounds for Windows.
+#include "core/failure-handling.hpp"        // hopefully, fail, ...
+#include "core/program-statup-support.hpp"  // with_exceptions_displayed
+#include "core/stdstuff.hpp"                // Safe-with-`using` stuff from std library.
+#include "core/type_aliases.hpp"            // Size etc.
+#include "core/utf8.hpp"                    // Workarounds for Windows.
 
 #include <assert.h>         // assert
-
-#include <stddef.h>         // size_t
-#include <stdlib.h>         // EXIT_..., strtod
-#include <string.h>         // strerror
 
 #include <sstream>          // TODO: get rid of?
 
@@ -220,55 +217,17 @@ namespace kickstart::_definitions {
     { return to_int( string( s ) ); }
 
 
-    //----------------------------------------------------------- Program startup support:
-
-    using Simple_startup        = void();
-    using Startup_with_args     = void( const string_view&, const vector<string_view>& );
-
-    inline auto with_exceptions_displayed( const function<Simple_startup>& do_things )
-        -> int
-    {
-        try{
-            do_things();
-            return EXIT_SUCCESS;
-        } catch( const Clean_app_exit_exception& x ) {
-            output_error_message( ""s << x.what() << "\n" );
-        } catch( const exception& x ) {
-            output_error_message( "!"s << x.what() << "\n" );
-        }
-        return EXIT_FAILURE;
-    }
-
-    inline auto with_exceptions_displayed(
-        const function<Startup_with_args>&      do_things,
-        const int                               n_cmd_parts,
-        const Type_<const C_str*>               cmd_parts
-        ) -> int
-    {
-        assert( n_cmd_parts >= 1 );
-        assert( cmd_parts != nullptr );
-        return with_exceptions_displayed( [&]() -> void
-            {
-                do_things(
-                    cmd_parts[0],
-                    vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
-                );
-            } );
-    }
-
-
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::ub_here,
         d::str, d::operator<<, d::concatenate,
         d::p_start_of, d::p_end_of,
-        d::trimmed, d::trimmed_string,
+        d::trimmed_view, d::trimmed_string, d::trimmed,
         d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
         d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
         d::to_double, d::to_int,
-        d::output_to, d::output, d::any_input_from, d::input_from, d::any_input, d::input,
-        d::with_exceptions_displayed;
+        d::output_to, d::output, d::any_input_from, d::input_from, d::any_input, d::input;
     }  // namespace exported names
 }  // namespace kickstart::_definitions
 
