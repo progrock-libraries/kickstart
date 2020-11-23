@@ -47,6 +47,16 @@ namespace kickstart::utf8::io::_definitions {
 
     using C_file_ptr = FILE*;
 
+    inline void flush( const C_file_ptr f = stdout )
+    {
+        assert( f != stdin );
+        hopefully( f != stdin )
+            or KS_FAIL_( logic_error,
+                "Flushing `stdin` (or any input stream) is Undefined Behavior."
+            );
+        ::fflush( f );
+    }
+
     inline auto output_to( const C_file_ptr f, const string_view& s )
         -> bool
     {
@@ -66,16 +76,12 @@ namespace kickstart::utf8::io::_definitions {
 
     inline auto output_error_message( const string_view& s )
         -> bool
-    { return output_to( stderr, s ); }
-
-    inline void flush( const C_file_ptr f = stdout )
     {
-        assert( f != stdin );
-        hopefully( f != stdin )
-            or KS_FAIL_( logic_error,
-                "Flushing `stdin` (or any input stream) is Undefined Behavior."
-                );
-        ::fflush( f );
+        const bool success = output_to( stderr, s );
+        if( success ) {
+            flush( stderr );
+        }
+        return success;
     }
 
     inline auto any_input_from( const C_file_ptr f )
