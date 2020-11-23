@@ -83,4 +83,4 @@ namespace kickstart::failure_handling::_definitions {
 }  // namespace kickstart::failure_handling::_definitions
 
 namespace kickstart::failure_handling   { using namespace _definitions::exported_names; }
-namespace kickstart::all                { using namespace failure_handling; }
+namespace kickstart::core               { using namespace failure_handling; }

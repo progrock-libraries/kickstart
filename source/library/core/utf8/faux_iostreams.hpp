@@ -26,26 +26,61 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <string_view>
+#include "io.hpp"
+#include "../text_conversion/to-text.hpp"
 
-namespace kickstart::string_view_pointers::_definitions {
-    using   std::string_view;
+namespace kickstart::utf8::faux_iostreams::_definitions {
+    using namespace kickstart::utf8::io;
+    using namespace kickstart::text_conversion;
 
-    inline auto get_p_start( const string_view& s )
-        -> const char*
-    { return s.data(); }
+    struct Faux_cout_stream {};
+    struct Faux_cerr_stream {};
+    struct Faux_endl {};
 
-    inline auto get_p_beyond( const string_view& s )
-        -> const char*
-    { return s.data() + s.size(); }
+    inline auto operator<<( Faux_cout_stream, const Faux_endl& )
+        -> Faux_cout_stream
+    {
+        output( "\n" );
+        flush();
+        return {};
+    }
+
+    template< class Value >
+    inline auto operator<<( Faux_cout_stream, const Value& v )
+        -> Faux_cout_stream
+    {
+        output( str( v ) );
+        return {};
+    }
+
+    inline auto operator<<( Faux_cerr_stream, const Faux_endl& )
+        -> Faux_cout_stream
+    {
+        output_error_message( "\n" );     // Already flushes every item.
+        return {};
+    }
+
+    template< class Value >
+    inline auto operator<<( Faux_cerr_stream, const Value& v )
+        -> Faux_cout_stream
+    {
+        output_error_message( str( v ) );
+        return {};
+    }
+
+    inline const auto   out     = Faux_cout_stream();
+    inline const auto   err     = Faux_cerr_stream();
+    inline const auto   endl    = Faux_endl();
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::get_p_start,
-        d::get_p_beyond;
+        d::out,
+        d::err,
+        d::endl;
     }  // namespace exported names
-}  // namespace kickstart::string_view_pointers::_definitions
+}  // namespace kickstart::utf8::io::_definitions
 
-namespace kickstart::string_view_pointers   { using namespace _definitions::exported_names; }
-namespace kickstart::core                   { using namespace string_view_pointers; }
+namespace kickstart::utf8::faux_iostreams   { using namespace _definitions::exported_names; }
+namespace kickstart::core                   { namespace utf8_streams = utf8::faux_iostreams; }

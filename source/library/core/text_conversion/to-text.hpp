@@ -91,4 +91,4 @@ namespace kickstart::text_conversion::_definitions {
 }  // namespace kickstart::text_conversion::_definitions
 
 namespace kickstart::text_conversion    { using namespace _definitions::exported_names; }
-namespace kickstart::all                { using namespace text_conversion; }
+namespace kickstart::core               { using namespace text_conversion; }

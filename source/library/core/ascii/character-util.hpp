@@ -78,4 +78,4 @@ namespace kickstart::ascii {
 
 }  // namespace kickstart::ascii
 
-namespace kickstart::all { namespace ascii = kickstart::ascii; }
+namespace kickstart::core   { namespace ascii = kickstart::ascii; }

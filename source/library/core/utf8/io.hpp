@@ -94,7 +94,7 @@ namespace kickstart::utf8::io::_definitions {
         while( (code = utf8_fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
-        hopefully( not ::ferror( f ) )  or KS_FAIL( "fgetc failed" );
+        hopefully( not ::ferror( f ) )  or KS_FAIL( "::fgetc failed" );
         if( code == EOF and line.empty() ) {
             return {};
         }
@@ -127,6 +127,7 @@ namespace kickstart::utf8::io::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::flush,
         d::output_to,
         d::output,
         d::output_error_message,
@@ -138,4 +139,4 @@ namespace kickstart::utf8::io::_definitions {
 }  // namespace kickstart::utf8::io::_definitions
 
 namespace kickstart::utf8::io   { using namespace _definitions::exported_names; }
-namespace kickstart::all        { using namespace utf8::io; }
+namespace kickstart::core       { using namespace utf8::io; }

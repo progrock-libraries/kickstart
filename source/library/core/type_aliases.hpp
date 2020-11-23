@@ -55,4 +55,4 @@ namespace kickstart::type_aliases::_definitions {
 }  // namespace kickstart::type_aliases::_definitions
 
 namespace kickstart::type_aliases   { using namespace _definitions::exported_names; }
-namespace kickstart::all            { using namespace type_aliases; }
+namespace kickstart::core           { using namespace type_aliases; }

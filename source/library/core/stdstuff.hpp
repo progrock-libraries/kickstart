@@ -49,6 +49,4 @@ namespace kickstart::stdstuff {
     using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
 }  // namespace kickstart::stdstuff
 
-namespace kickstart::all {
-    using namespace stdstuff;
-}  // namespace kickstart::all
+namespace kickstart::core   { using namespace stdstuff; }

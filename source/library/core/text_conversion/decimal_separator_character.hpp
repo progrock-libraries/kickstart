@@ -41,4 +41,4 @@ namespace kickstart::text_conversion {
 
 }  // namespace kickstart::text_conversion
 
-namespace kickstart::all                { using namespace text_conversion; }
+namespace kickstart::core       { using namespace text_conversion; }
