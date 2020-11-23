@@ -35,7 +35,7 @@ namespace kickstart::ascii {
     struct {  // character
         static constexpr auto includes( const char ch )
             -> bool
-        { return (0 <= ch and ch < 128); }
+        { return (static_cast<unsigned char>( ch ) < 128); }
     } constexpr character;
 
     struct {  // lowercase

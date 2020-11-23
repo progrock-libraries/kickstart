@@ -236,7 +236,7 @@ namespace kickstart::utf8::standard_streams::_definitions {
     inline auto For_windows::Console_io::read_widechar( const winapi::HANDLE handle )
         -> wint_t
     {
-        for( const int dummy : {1, 2} ) {
+        for( const int [[maybe_unused]] dummy : {1, 2} ) {
             wchar_t ch = 0;
             winapi::DWORD n_chars_read = 0;
             winapi::ReadConsoleW( handle, &ch, 1, &n_chars_read, nullptr );
