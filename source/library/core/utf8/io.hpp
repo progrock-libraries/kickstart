@@ -68,6 +68,16 @@ namespace kickstart::utf8::io::_definitions {
         -> bool
     { return output_to( stderr, s ); }
 
+    inline void flush( const C_file_ptr f = stdout )
+    {
+        assert( f != stdin );
+        hopefully( f != stdin )
+            or KS_FAIL_( logic_error,
+                "Flushing `stdin` (or any input stream) is Undefined Behavior."
+                );
+        ::fflush( f );
+    }
+
     inline auto any_input_from( const C_file_ptr f )
         -> optional<string>
     {
