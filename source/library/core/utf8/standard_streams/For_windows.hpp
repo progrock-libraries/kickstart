@@ -42,8 +42,11 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include <queue>        // std::queue
 #include <string>       // std::wstring
 
-namespace kickstart::utf8::standard_streams {
-    using std::queue, std::wstring;
+namespace kickstart::utf8::standard_streams::_definitions {
+    using namespace kickstart::type_aliases;        // Type_ etc.
+
+    using   std::queue,
+            std::wstring;
 
     namespace winapi {
         // Visual C++ 2019 (16.3.3) and later may issue errors on the Windows API function
@@ -125,8 +128,6 @@ namespace kickstart::utf8::standard_streams {
         For_windows( const For_windows& ) = delete;
         auto operator=( const For_windows& ) -> For_windows& = delete;
 
-        template< class T > using Type_ = T;
-
         struct Console_data
         {
             FILE*           streams[3]      = {};
@@ -139,6 +140,32 @@ namespace kickstart::utf8::standard_streams {
         {
             bool            at_start_of_line    = true;
             queue<int>      bytes               = {};
+        };
+
+        class Console_io
+        {
+            constexpr static int ctrl_z = 26;
+
+            static auto is_surrogate( const wchar_t ) //code_point )
+                -> bool
+            { return false; }       // TODO:
+
+            static inline auto read_widechar( const winapi::HANDLE handle ) -> wint_t;
+
+        public:
+            static inline auto read_byte( const Type_<FILE*> ) -> int;
+            static inline auto write( const Type_<const void*> buffer, const Size n, FILE* ) -> Size;
+        };
+
+        struct C_streams_io
+        {
+            static auto read_byte( const Type_<FILE*> f )
+                -> int
+            { return ::fgetc( f ); }
+
+            static auto write( const Type_<const void*> buffer, const Size buffer_size, const Type_<FILE*> f)
+                -> Size
+            { return ::fwrite( buffer, 1, buffer_size, f ); }
         };
 
         Console_data    m_console;
@@ -175,102 +202,6 @@ namespace kickstart::utf8::standard_streams {
             }
         }
 
-        struct Console_io
-        {
-            constexpr static int ctrl_z = 26;
-
-            static auto is_surrogate( const wchar_t ) //code_point )
-                -> bool
-            { return false; }       // TODO:
-
-            static auto read_widechar( const winapi::HANDLE handle )
-                -> wint_t
-            {
-                for( const int dummy : {1, 2} ) {
-                    wchar_t ch = 0;
-                    winapi::DWORD n_chars_read = 0;
-                    winapi::ReadConsoleW( handle, &ch, 1, &n_chars_read, nullptr );
-                    if( n_chars_read == 0 ) {
-                        return WEOF;
-                    } else if( ch == L'\n' ) {
-                        continue;
-                    } else if( ch == L'\r' ) {
-                        return L'\n';
-                    }
-                    return ch;
-                }
-                return WEOF;
-            }
-
-            static auto read_byte( const Type_<FILE*> )
-                -> int
-            {
-                auto& streams = singleton();
-                auto& input = streams.m_input;
-                while( input.bytes.empty() ) {
-                    const wint_t    code        = read_widechar( streams.m_console.input_handle );
-                    const bool      soft_eof    = (input.at_start_of_line and code == ctrl_z);
-
-                    if( code != WEOF ) {
-                        input.at_start_of_line = false;
-                    }
-
-                    // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
-                    // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
-                    if( soft_eof or code == WEOF ) {
-                        input.bytes.push( EOF );
-                    } else if( not is_surrogate( code ) ) {
-                        char buffer[32];        // Max UTF-8 length is 4, this is more than enough.
-
-                        const winapi::DWORD     flags           = 0;
-                        const wchar_t           code_as_wchar   = code;
-                        const int               n_bytes         = winapi::WideCharToMultiByte(
-                            winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
-                            );
-
-                        for( int i = 0; i < n_bytes; ++i ) {
-                            input.bytes.push( buffer[i] );
-                        }
-                    }
-                }
-
-                const int result = input.bytes.front();
-                input.bytes.pop();
-                return result;
-            }
-
-            static auto write( const Type_<const void*> buffer, const Size n, FILE* )
-                -> Size
-            {
-                if( n <= 0 ) {
-                    return 0;
-                }
-                assert( n <= Size( INT_MAX ) );
-
-                auto ws = wstring( n, L'\0' );
-                const int flags = 0;
-                const int ws_len = winapi::MultiByteToWideChar(
-                    winapi::cp_utf8, flags, static_cast<const char*>( buffer ), int( n ), ws.data(), int( n )
-                    );
-                assert( ws_len > 0 );       // More precisely, the number of UTF-8 encoded code points.
-                const auto handle = For_windows::singleton().m_console.output_handle;
-                winapi::DWORD n_chars_written;
-                winapi::WriteConsoleW( handle, ws.data(), ws_len, &n_chars_written, nullptr );
-                return (int( n_chars_written ) < ws_len? 0 : n);    // Reporting actual count is costly.
-            }
-        };
-
-        struct C_streams_io
-        {
-            static auto read_byte( const Type_<FILE*> f )
-                -> int
-            { return ::fgetc( f ); }
-
-            static auto write( const Type_<const void*> buffer, const Size buffer_size, const Type_<FILE*> f)
-                -> Size
-            { return ::fwrite( buffer, 1, buffer_size, f ); }
-        };
-
     public:
         using Func = utf8::standard_streams::Interface::Func;
 
@@ -302,9 +233,83 @@ namespace kickstart::utf8::standard_streams {
         }
     };
 
-    static_assert(
-        Interface::is_implemented_by_<For_windows>()
+    inline auto For_windows::Console_io::read_widechar( const winapi::HANDLE handle )
+        -> wint_t
+    {
+        for( const int dummy : {1, 2} ) {
+            wchar_t ch = 0;
+            winapi::DWORD n_chars_read = 0;
+            winapi::ReadConsoleW( handle, &ch, 1, &n_chars_read, nullptr );
+            if( n_chars_read == 0 ) {
+                return WEOF;
+            } else if( ch == L'\n' ) {
+                continue;
+            } else if( ch == L'\r' ) {
+                return L'\n';
+            }
+            return ch;
+        }
+        return WEOF;
+    }
+
+    inline auto For_windows::Console_io::read_byte( const Type_<FILE*> )
+        -> int
+    {
+        auto& streams = singleton();
+        auto& input = streams.m_input;
+        while( input.bytes.empty() ) {
+            const wint_t    code        = read_widechar( streams.m_console.input_handle );
+            const bool      soft_eof    = (input.at_start_of_line and code == ctrl_z);
+
+            if( code != WEOF ) {
+                input.at_start_of_line = false;
+            }
+
+            // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
+            // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
+            if( soft_eof or code == WEOF ) {
+                input.bytes.push( EOF );
+            } else if( not is_surrogate( code ) ) {
+                char buffer[32];        // Max UTF-8 length is 4, this is more than enough.
+
+                const winapi::DWORD     flags           = 0;
+                const wchar_t           code_as_wchar   = code;
+                const int               n_bytes         = winapi::WideCharToMultiByte(
+                    winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
+                );
+
+                for( int i = 0; i < n_bytes; ++i ) {
+                    input.bytes.push( buffer[i] );
+                }
+            }
+        }
+
+        const int result = input.bytes.front();
+        input.bytes.pop();
+        return result;
+    }
+
+    inline auto For_windows::Console_io::write( const Type_<const void*> buffer, const Size n, FILE* )
+        -> Size
+    {
+        if( n <= 0 ) {
+            return 0;
+        }
+        assert( n <= Size( INT_MAX ) );
+
+        auto ws = wstring( n, L'\0' );
+        const int flags = 0;
+        const int ws_len = winapi::MultiByteToWideChar(
+            winapi::cp_utf8, flags, static_cast<const char*>( buffer ), int( n ), ws.data(), int( n )
         );
+        assert( ws_len > 0 );       // More precisely, the number of UTF-8 encoded code points.
+        const auto handle = For_windows::singleton().m_console.output_handle;
+        winapi::DWORD n_chars_written;
+        winapi::WriteConsoleW( handle, ws.data(), ws_len, &n_chars_written, nullptr );
+        return (int( n_chars_written ) < ws_len? 0 : n);    // Reporting actual count is costly.
+    }
+
+    static_assert( Interface::is_implemented_by_<For_windows>() );
 
     inline auto singleton()
         -> For_windows&
@@ -312,4 +317,13 @@ namespace kickstart::utf8::standard_streams {
 
     inline void init() { singleton(); }
 
-}  // namespace kickstart::utf8::standard_streams
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::singleton,
+        d::init;
+    }  // namespace exported names
+}  // namespace kickstart::utf8::standard_streams::_definitions
+
+namespace kickstart::utf8::standard_streams     { using namespace _definitions::exported_names; }
