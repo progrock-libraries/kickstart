@@ -4,7 +4,7 @@ Example usage:
 
 ~~~cpp
 #include <kickstart/all.hpp>
-using namespace kickstart;
+using namespace kickstart::all;
 
 void cpp_main()
 {
