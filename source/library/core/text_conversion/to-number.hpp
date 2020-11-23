@@ -127,7 +127,7 @@ namespace kickstart::text_conversion::_definitions {
         size_t n_chars;
         const int result = impl::wrapped_stoi( s, n_chars );
         hopefully( n_chars == s.length() )
-            or KS_FAIL( "Extraneous characters at the end of “" + s + "”." );
+            or KS_FAIL( "Extraneous characters at the end of “"s << s << "”." );
         return result;
     }
 
