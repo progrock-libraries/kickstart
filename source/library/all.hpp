@@ -25,9 +25,9 @@
 // SOFTWARE.
 
 #include "core.hpp"
-namespace kickstart::all { using namespace core; }
+#include "iostreams.hpp"
 
-#ifndef KS_NO_IOSTREAMS
-#   include "iostreams.hpp"
-#endif
-namespace kickstart::all { using namespace iostreams; }
+namespace kickstart::all {
+    using namespace core;
+    using namespace iostreams;
+}

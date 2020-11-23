@@ -8,6 +8,7 @@ auto main()
             << 2.72 << " and " << 3.14 << "."
             << endl;
 
+    cout << endl;
     double a;
     cout << "Number A, please: ";  cin >> a;
     double b;
