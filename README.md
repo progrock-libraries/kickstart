@@ -26,7 +26,7 @@ Here
 
 * **`using namespace kickstart::all;`** is safe, as opposed to `using namespace std;`.
 
-* The **`kickstart`** namespace provides `cout` and `endl` from the standard library.  
+* The **`kickstart::all`** namespace provides `cout` and `endl` from the standard library.  
   It also provides few more select standard library identifiers, plus this header's stuff.
 
 * **`input`** is a function reading a line from standard input.  
