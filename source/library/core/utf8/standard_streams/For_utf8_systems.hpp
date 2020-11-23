@@ -27,7 +27,7 @@
 #include "Interface.hpp"
 #include "../../type_aliases.hpp"
 
-namespace kickstart::utf8::standard_streams  {
+namespace kickstart::utf8::standard_streams::_definitions  {
     using namespace type_aliases;       // `Size` etc.
 
     class For_utf8_systems
@@ -60,4 +60,14 @@ namespace kickstart::utf8::standard_streams  {
     }
 
     inline void init() { singleton(); }
-}  // namespace kickstart::utf8::standard_streams
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::singleton,
+        d::init;
+    }  // namespace exported names
+}  // namespace kickstart::utf8::standard_streams::_definitions
+
+namespace kickstart::utf8::standard_streams     { using namespace _definitions::exported_names; }
