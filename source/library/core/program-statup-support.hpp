@@ -39,7 +39,9 @@
 #include <string_view>
 #include <vector>
 
-namespace kickstart::_definitions {
+namespace kickstart::startup::_definitions {
+    using namespace kickstart::failure_handling;
+    using namespace kickstart::type_aliases;
     using namespace std::string_literals;
 
     using   kickstart::utf8::io::output_error_message;
@@ -88,7 +90,7 @@ namespace kickstart::_definitions {
         d::Startup_with_args,
         d::with_exceptions_displayed;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::startup::_definitions
 
 namespace kickstart::startup    { using namespace _definitions::exported_names; }
 namespace kickstart::all        { using namespace startup; }

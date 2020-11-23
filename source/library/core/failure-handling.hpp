@@ -32,13 +32,14 @@
 #include <string>
 
 #define KS_FAIL_( X, s )                                        \
-    ::kickstart::_definitions::fail_<X>(                        \
+    ::kickstart::failure_handling::fail_<X>(                    \
         std::string() + __func__ + " - " + std::string( s )     \
         )
 #define KS_FAIL( s ) \
     KS_FAIL_( std::runtime_error, s )
 
-namespace kickstart::_definitions {
+namespace kickstart::failure_handling::_definitions {
+    using namespace kickstart::type_aliases;
     using   std::exception, std::runtime_error,
             std::string;
 
@@ -72,13 +73,15 @@ namespace kickstart::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        std::exception,
+        std::runtime_error,
         d::hopefully,
         d::fail_,
         d::fail,
         d::Clean_app_exit_exception,
         d::exit_app_with_message;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::failure_handling::_definitions
 
 namespace kickstart::failure_handling   { using namespace _definitions::exported_names; }
 namespace kickstart::all                { using namespace failure_handling; }

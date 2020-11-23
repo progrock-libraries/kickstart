@@ -3,7 +3,7 @@ Small exercises should be as simple in C++ as in Python. Well that's impossible 
 Example usage:
 
 ~~~cpp
-#include "kickstart.hpp"
+#include <kickstart/all.hpp>
 using namespace kickstart;
 
 void cpp_main()

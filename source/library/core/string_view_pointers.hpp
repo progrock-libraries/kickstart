@@ -28,7 +28,7 @@
 
 #include <string_view>
 
-namespace kickstart::_definitions {
+namespace kickstart::string_view_pointers::_definitions {
     using   std::string_view;
 
     inline auto get_p_start( const string_view& s )
@@ -45,7 +45,7 @@ namespace kickstart::_definitions {
         d::get_p_start,
         d::get_p_beyond;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::string_view_pointers::_definitions
 
-namespace kickstart::string_view_pointers   { using namespace kickstart::_definitions::exported_names; }
+namespace kickstart::string_view_pointers   { using namespace _definitions::exported_names; }
 namespace kickstart::all                    { using namespace string_view_pointers; }

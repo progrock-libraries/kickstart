@@ -26,13 +26,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "type_aliases.hpp"         // C_str
+#include "../type_aliases.hpp"          // C_str
 
 #include <sstream>
 #include <string>
 #include <string_view>
 
-namespace kickstart::_definitions {
+namespace kickstart::text_conversion::_definitions {
+    using namespace kickstart::type_aliases;        // C_str etc.
     using   std::ostringstream,
             std::string,
             std::string_view;
@@ -84,8 +85,7 @@ namespace kickstart::_definitions {
         d::operator<<,
         d::concatenate;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::text_conversion::_definitions
 
-namespace kickstart::all {
-    using namespace kickstart::_definitions::exported_names;
-}  // namespace kickstart::all
+namespace kickstart::text_conversion    { using namespace _definitions::exported_names; }
+namespace kickstart::all                { using namespace text_conversion; }

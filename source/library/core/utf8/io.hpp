@@ -37,7 +37,7 @@
 #include <string>
 #include <string_view>
 
-namespace kickstart::utf8::_definitions {
+namespace kickstart::utf8::io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::type_aliases;        // Size etc.
 
@@ -119,7 +119,7 @@ namespace kickstart::utf8::_definitions {
         d::any_input,
         d::input;
     }  // namespace exported names
-}  // namespace kickstart::utf8::_definitions
+}  // namespace kickstart::utf8::io::_definitions
 
-namespace kickstart::utf8::io   { using namespace utf8::_definitions::exported_names; }
+namespace kickstart::utf8::io   { using namespace _definitions::exported_names; }
 namespace kickstart::all        { using namespace utf8::io; }

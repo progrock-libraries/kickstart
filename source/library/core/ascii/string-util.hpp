@@ -27,7 +27,7 @@
 // SOFTWARE.
 
 #include "character-util.hpp"
-#include "../string_view-pointers.hpp"
+#include "../string_view_pointers.hpp"
 
 #include <string>
 #include <string_view>

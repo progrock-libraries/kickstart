@@ -30,7 +30,7 @@
 #include <stddef.h>     // size_t, ptrdiff_t
 #include <stdint.h>     // int32_t, int64_t
 
-namespace kickstart::_definitions {
+namespace kickstart::type_aliases::_definitions {
     using Size      = ptrdiff_t;
     using Index     = ptrdiff_t;
     using C_str     = const char*;
@@ -52,7 +52,7 @@ namespace kickstart::_definitions {
         d::Int, d::Float, d::Int32, d::Float32,
         d::Type_;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::type_aliases::_definitions
 
 namespace kickstart::type_aliases   { using namespace _definitions::exported_names; }
 namespace kickstart::all            { using namespace type_aliases; }

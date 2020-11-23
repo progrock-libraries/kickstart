@@ -28,11 +28,11 @@
 
 // Library includes actually used in this header.
 #include "core/ascii.hpp"
-#include "core/conversion-to-text.hpp"
+#include "core/text_conversion/to-text.hpp"
 #include "core/failure-handling.hpp"        // hopefully, fail, ...
 #include "core/program-statup-support.hpp"  // with_exceptions_displayed
 #include "core/stdstuff.hpp"                // Safe-with-`using` stuff from std library.
-#include "core/string_view-pointers.hpp"    // Get raw pointers as opposed to iterators.
+#include "core/string_view_pointers.hpp"    // Get raw pointers as opposed to iterators.
 #include "core/type_aliases.hpp"            // Size etc.
 #include "core/utf8.hpp"                    // Workarounds for Windows.
 
@@ -40,8 +40,12 @@
 
 #include <sstream>          // TODO: get rid of?
 
-namespace kickstart::_definitions {
+namespace kickstart::core::_definitions {
+    using namespace kickstart::failure_handling;
+    using namespace kickstart::string_view_pointers;
     using namespace kickstart::utf8::io;
+    using namespace kickstart::text_conversion;
+    using namespace kickstart::type_aliases;
     using namespace std::string_literals;
 
     using   std::invalid_argument, std::out_of_range;
@@ -74,8 +78,11 @@ namespace kickstart::_definitions {
     }  // namespace impl
 
     // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
-    // scanning at some point, e.g. due to null-termination or invalid-as-number characters. Also, the
+    // scanning at some point, e.g. due to null-termination or invalid-as-number characters. The
     // specification should not be followed by text that would be a valid continuation (e.g. digits).
+    // The LC_NUMERIC category setting of the current C library locale determines recognition of
+    // the radix point character, essentially English period or mainland European comma.
+    //
     inline auto fast_full_string_to_double( const string_view& spec )
         -> double
     {
@@ -159,8 +166,8 @@ namespace kickstart::_definitions {
         d::to_double, d::to_int,
         d::output_to, d::output, d::any_input_from, d::input_from, d::any_input, d::input;
     }  // namespace exported names
-}  // namespace kickstart::_definitions
+}  // namespace kickstart::core::_definitions
 
 namespace kickstart::all {
-    using namespace kickstart::_definitions::exported_names;
+    using namespace kickstart::core::_definitions::exported_names;
 }  // namespace kickstart::all
