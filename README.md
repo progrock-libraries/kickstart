@@ -36,4 +36,4 @@ Here
   Whitespace on ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails. If extraneous characters were ignored (the default in the standard library) then `3,14` would erroneously produce `3`.
 
 * **`with_exceptions_displayed`** invokes the specified main function,  
-  catches any exception and presents its message on `std::cerr`.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
+  catches any exception and presents its message on the process’ standard error stream.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
