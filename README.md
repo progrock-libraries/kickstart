@@ -24,7 +24,7 @@ auto main() -> int { return with_exceptions_displayed( cpp_main ); }
 
 Here
 
-* **`using namespace kickstart;`** is safe, as opposed to `using namespace std;`.
+* **`using namespace kickstart::all;`** is safe, as opposed to `using namespace std;`.
 
 * The **`kickstart`** namespace provides `cout` and `endl` from the standard library.  
   It also provides few more select standard library identifiers, plus this header's stuff.
