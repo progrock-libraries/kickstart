@@ -91,11 +91,13 @@ namespace kickstart::ascii::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::get_p_start, d::get_p_beyond,
-        d::trimmed_view, d::trimmed_string, d::trimmed,
-        d::to_lower, d::to_upper;
+        d::trimmed_view,
+        d::trimmed_string,
+        d::trimmed,
+        d::to_lower,
+        d::to_upper;
     }  // namespace exported names
 }  // namespace kickstart::ascii::_definitions
 
 namespace kickstart::ascii  { using namespace kickstart::ascii::_definitions::exported_names; }
-namespace kickstart::all    { using namespace kickstart::ascii; }
+namespace kickstart::all    { namespace ascii = kickstart::ascii; }

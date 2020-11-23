@@ -80,10 +80,13 @@ namespace kickstart::text_conversion::_definitions {
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
-    namespace exported_names { using
-        d::str,
-        d::operator<<,
-        d::concatenate;
+    namespace exported_names {
+        using namespace std::string_literals;
+        using namespace std::string_view_literals;
+        using
+            d::str,
+            d::operator<<,
+            d::concatenate;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
 

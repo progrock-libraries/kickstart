@@ -4,7 +4,7 @@ KS_ASSERT_UTF8_LITERALS();  using namespace kickstart::all;
 
 void cpp_main()
 {
-    const string answer = trimmed( input( "Hi, what’s your name? ") );
+    const string answer = ascii::trimmed( input( "Hi, what’s your name? ") );
     const string_view username = (answer.empty()? "“Nomen Nescio”"sv : answer);
     output( ""s << "Greetings, " << username << "! Happy to meet you!\n" );
 }

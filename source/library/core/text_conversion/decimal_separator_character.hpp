@@ -26,11 +26,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core/ascii.hpp"
-#include "core/text_conversion.hpp"
-#include "core/failure-handling.hpp"        // hopefully, fail, ...
-#include "core/program-statup-support.hpp"  // with_exceptions_displayed
-#include "core/stdstuff.hpp"                // Safe-with-`using` stuff from std library.
-#include "core/string_view_pointers.hpp"    // Get raw pointers as opposed to iterators.
-#include "core/type_aliases.hpp"            // Size etc.
-#include "core/utf8.hpp"                    // Workarounds for Windows.
+#include <stdio.h>
+
+namespace kickstart::text_conversion {
+
+    // The decimal separator character specified by the C library's current locale.
+    inline auto decimal_separator_character()
+        -> char
+    {
+        char buffer[16];        // "0.000000" = 8+1 chars.
+        sprintf( buffer, "%f", 0.0 );
+        return buffer[1];
+    }
+
+}  // namespace kickstart::text_conversion
+
+namespace kickstart::all                { using namespace text_conversion; }

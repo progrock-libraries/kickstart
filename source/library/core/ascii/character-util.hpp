@@ -27,7 +27,6 @@
 // SOFTWARE.
 
 namespace kickstart::ascii {
-
     template< class Group >
     constexpr auto is_( Group, const char ch )
         -> bool
@@ -79,6 +78,4 @@ namespace kickstart::ascii {
 
 }  // namespace kickstart::ascii
 
-namespace kickstart::all {
-    namespace ascii = kickstart::ascii;
-}  // namespace kickstart::all
+namespace kickstart::all { namespace ascii = kickstart::ascii; }
