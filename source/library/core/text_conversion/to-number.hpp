@@ -71,51 +71,55 @@ namespace kickstart::text_conversion::_definitions {
         }
     }  // namespace impl
 
-       // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
-       // scanning at some point, e.g. due to null-termination or invalid-as-number characters. The
-       // specification should not be followed by text that would be a valid continuation (e.g. digits).
-       // The LC_NUMERIC category setting of the current C library locale determines recognition of
-       // the radix point character, essentially English period or mainland European comma.
-       //
-    inline auto fast_full_string_to_double( const string_view& spec )
-        -> double
-    {
-        hopefully( spec.length() != 0 )
-            or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
+    namespace fast {
+        // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
+        // scanning at some point, e.g. due to null-termination or invalid-as-number characters. The
+        // specification should not be followed by text that would be a valid continuation (e.g. digits).
+        // The LC_NUMERIC category setting of the current C library locale determines recognition of
+        // the radix point character, essentially English period or mainland European comma.
+        //
+        inline auto full_string_to_double( const string_view& spec )
+            -> double
+        {
+            hopefully( spec.length() != 0 )
+                or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
 
-        const auto [value, p_end] = impl::wrapped_strtod( get_p_start( spec ) );
+            const auto [value, p_end] = impl::wrapped_strtod( get_p_start( spec ) );
 
-        hopefully( errno != ERANGE )
-            or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
+            hopefully( errno != ERANGE )
+                or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
 
-        hopefully( p_end >= get_p_beyond( spec ) )
-            or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
+            hopefully( p_end >= get_p_beyond( spec ) )
+                or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
 
-        hopefully( p_end == get_p_beyond( spec ) )
-            or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
+            hopefully( p_end == get_p_beyond( spec ) )
+                or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
 
-        hopefully( errno == 0 )
-            or KS_FAIL( ""s
-                << "strtod(\"" << spec << "\")"
-                << " unexpectedly failed with strerror message “" << strerror( errno ) << "”."
-            );
+            hopefully( errno == 0 )
+                or KS_FAIL( ""s
+                    << "strtod(\"" << spec << "\")"
+                    << " unexpectedly failed with strerror message “" << strerror( errno ) << "”."
+                );
 
-        return value;
-    }
+            return value;
+        }
 
-    inline auto fast_trimmed_string_to_double( const string_view& spec )
-        -> double
-    { return fast_full_string_to_double( ascii::trimmed( spec ) ); }
+        inline auto trimmed_string_to_double( const string_view& spec )
+            -> double
+        { return full_string_to_double( ascii::trimmed( spec ) ); }
+    }  // namespace fast
 
-    inline auto safe_full_string_to_double( const string_view& spec )
-        -> double
-    { return fast_full_string_to_double( string( spec ) ); }
+    namespace safe {
+        inline auto full_string_to_double( const string_view& spec )
+            -> double
+        { return fast::full_string_to_double( string( spec ) ); }
 
-    inline auto safe_trimmed_string_to_double( const string_view& spec )
-        -> double
-    { return safe_full_string_to_double( ascii::trimmed( spec ) ); }
+        inline auto trimmed_string_to_double( const string_view& spec )
+            -> double
+        { return full_string_to_double( ascii::trimmed( spec ) ); }
+    }  // namespace safe
 
-    inline const auto& to_double = safe_trimmed_string_to_double;
+    inline const auto& to_double = safe::trimmed_string_to_double;
 
     inline auto to_int( const string& s )
         -> int
@@ -138,10 +142,12 @@ namespace kickstart::text_conversion::_definitions {
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
-    namespace exported_names { using
-        d::fast_full_string_to_double, d::fast_trimmed_string_to_double,
-        d::safe_full_string_to_double, d::safe_trimmed_string_to_double,
-        d::to_double, d::to_int;
+    namespace exported_names {
+        namespace fast = d::fast;       // full_string_to_double, trimmed_string_to_double
+        namespace safe = d::safe;       // full_string_to_double, trimmed_string_to_double
+        using
+            d::to_double,
+            d::to_int;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
 
