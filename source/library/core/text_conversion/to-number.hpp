@@ -49,7 +49,7 @@ namespace kickstart::text_conversion::_definitions {
 
     namespace impl {
         // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
-        inline auto wrapped_strtod( const C_str spec )
+        inline auto wrapped_strtod( const C_str spec ) noexcept
             -> pair<double, const char*>
         {
             char* p_end;
@@ -64,9 +64,9 @@ namespace kickstart::text_conversion::_definitions {
             try {
                 return stoi( s, &n_chars );
             } catch( const invalid_argument& ) {
-                KS_FAIL_( invalid_argument, "“" + s + "” is an invalid `int` value spec." );
+                KS_FAIL_( invalid_argument, "“"s << s << "” is an invalid `int` value spec." );
             } catch( const out_of_range& ) {
-                KS_FAIL_( out_of_range, "The number “" + s + "” is out of range for `int`." );
+                KS_FAIL_( out_of_range, "The number “"s << s << "” is out of range for `int`." );
             }
         }
     }  // namespace impl
