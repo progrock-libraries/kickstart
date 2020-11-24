@@ -70,7 +70,6 @@ namespace kickstart::text_conversion::_definitions {
             } catch( const out_of_range& ) {
                 KS_FAIL_( out_of_range, "The number “"s << s << "” is out of range for `int`." );
             }
-            throw;
         }
     }  // namespace impl
 

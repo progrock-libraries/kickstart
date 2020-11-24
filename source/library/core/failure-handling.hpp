@@ -28,13 +28,16 @@
 
 #include "type_aliases.hpp"
 
+#include <assert.h>
+
 #include <stdexcept>
 #include <string>
 
 #define KS_FAIL_( X, s )                                        \
-    ::kickstart::failure_handling::fail_<X>(                    \
-        std::string() + __func__ + " - " + std::string( s )     \
-        )
+        ::kickstart::failure_handling::fail_<X>(                \
+            std::string() + __func__ + " - " + std::string( s ) \
+            );
+
 #define KS_FAIL( s ) \
     KS_FAIL_( std::runtime_error, s )
 
@@ -43,12 +46,14 @@ namespace kickstart::failure_handling::_definitions {
     using   std::exception, std::runtime_error,
             std::string;
 
+    [[noreturn]] inline void unreachable() { assert( false ); throw ~42; }
+
     inline auto hopefully( const bool condition ) -> bool { return condition; }
 
     template< class X >
-    inline auto fail_( const string& s ) -> bool { throw X( s ); }
+    [[noreturn]] inline auto fail_( const string& s ) -> bool { throw X( s ); }
 
-    inline auto fail( const string& s ) -> bool { return fail_<runtime_error>( s ); }
+    [[noreturn]] inline auto fail( const string& s ) -> bool { fail_<runtime_error>( s ); }
 
     class Clean_app_exit_exception:
         public exception
@@ -74,6 +79,7 @@ namespace kickstart::failure_handling::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         std::exception, std::logic_error, std::runtime_error,
+        d::unreachable,
         d::hopefully,
         d::fail_,
         d::fail,
