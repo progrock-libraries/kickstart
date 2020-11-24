@@ -1,7 +1,7 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 
-// kickstart.iostreams.hpp - minimal convenience functionality for C++ learners.
+// kickstart.hpp - minimal convenience functionality for C++ learners.
 // Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -24,17 +24,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-namespace kickstart::iostreams {
-    using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
-    using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
-    using   std::fixed, std::scientific, std::hexfloat, std::defaultfloat;      // From <iostream>.
-    using   std::left, std::right, std::internal;                               // From <iostream>.
-    using   std::setw, std::setprecision, std::setfill, std::quoted;            // From <iomanip>.
-    using   std::ifstream, std::ofstream;                                       // From <fstream>.
-    using   std::istringstream, std::ostringstream;                             // From <sstream>.
-}  // namespace kickstart::iostreams
+#include "core.hpp"
+#include "streams/iostreams.hpp"

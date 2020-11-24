@@ -27,6 +27,5 @@
 // SOFTWARE.
 
 #include <kickstart/core/utf8/execution-character-set.hpp>
-#include <kickstart/core/utf8/faux_iostreams.hpp>
 #include <kickstart/core/utf8/io.hpp>
 #include <kickstart/core/utf8/standard_streams.hpp>

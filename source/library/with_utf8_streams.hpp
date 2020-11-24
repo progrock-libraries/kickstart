@@ -25,4 +25,4 @@
 // SOFTWARE.
 
 #include "core.hpp"
-#include "streams.hpp"
+#include "streams/faux_utf8_iostreams.hpp"

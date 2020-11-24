@@ -26,10 +26,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "io.hpp"
-#include "../text_conversion/to-text.hpp"
+#include "../core/utf8/io.hpp"
+#include "../core/text_conversion/to-text.hpp"
 
-namespace kickstart::utf8::faux_iostreams::_definitions {
+namespace kickstart::faux_utf8_iostreams::_definitions {
     using namespace kickstart::utf8::io;
     using namespace kickstart::text_conversion;
 
@@ -80,7 +80,14 @@ namespace kickstart::utf8::faux_iostreams::_definitions {
         d::err,
         d::endl;
     }  // namespace exported names
-}  // namespace kickstart::utf8::io::_definitions
+}  // namespace kickstart::faux_utf8_iostreams::_definitions
 
-namespace kickstart::utf8::faux_iostreams   { using namespace _definitions::exported_names; }
-namespace kickstart::core                   { namespace utf8_streams = utf8::faux_iostreams; }
+namespace kickstart::faux_utf8_iostreams    { using namespace _definitions::exported_names; }
+
+namespace kickstart::with_utf8_streams {
+    using namespace core;
+    using namespace faux_utf8_iostreams;
+}
+
+// Convenience alias for `using namespace` directives:
+namespace kickstart_utf8 = kickstart::with_utf8_streams;
