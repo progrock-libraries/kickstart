@@ -2,7 +2,7 @@ Small exercises should be as simple in C++ as in Python. Well that's impossible 
 
 Example usage:
 
-File [*examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp*](source/examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp):
+\[File [*examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp*](source/examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp)\]:
 ~~~cpp
 #include <kickstart/with_utf8_streams.hpp>
 using namespace kickstart::with_utf8_streams;
