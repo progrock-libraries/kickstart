@@ -13,6 +13,7 @@ void cpp_main()
             << 2.72 << " and " << 3.14 << "."
             << endl;
 
+    cout << endl;
     const double    a   = to_double( input( "Number A, please: " ) );
     const double    b   = to_double( input( "Number B, please: " ) );
     
