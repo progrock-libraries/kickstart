@@ -43,12 +43,3 @@ namespace kickstart::iostreams {
     using   std::ifstream, std::ofstream;                                       // From <fstream>.
     using   std::istringstream, std::ostringstream;                             // From <sstream>.
 }  // namespace kickstart::iostreams
-
-namespace kickstart::core {}
-namespace kickstart::with_iostreams {
-    using namespace core;
-    using namespace iostreams;
-}
-
-// Convenience alias for `using namespace` directives:
-namespace kickstart_ascii = kickstart::with_iostreams;

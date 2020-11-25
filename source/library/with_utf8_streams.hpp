@@ -24,5 +24,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core.hpp"
+#include "all-except-streams.hpp"
 #include "streams/faux_utf8_iostreams.hpp"
+
+namespace kickstart::with_utf8_streams {
+    using namespace all_except_streams;
+    using namespace faux_utf8_iostreams;
+}
+
+// Convenience alias for `using namespace` directives:
+namespace kickstart_utf8 = kickstart::with_utf8_streams;

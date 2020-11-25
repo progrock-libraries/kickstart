@@ -24,5 +24,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core.hpp"
+#include "all-except-streams.hpp"
 #include "streams/iostreams.hpp"
+
+
+namespace kickstart::with_iostreams {
+    using namespace all_except_streams;
+    using namespace iostreams;
+}
+
+// Convenience alias for `using namespace` directives:
+namespace kickstart_ascii = kickstart::with_iostreams;

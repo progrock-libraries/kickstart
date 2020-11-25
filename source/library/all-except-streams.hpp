@@ -24,6 +24,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "all-except-streams.hpp"
-#include "with_iostreams.hpp"
-#include "with_utf8_streams.hpp"
+#include "core.hpp"
+#include "misc/ansi_escape_seq.hpp"
+
+namespace kickstart::all_except_streams {
+    using namespace core;
+    namespace ansi_escape_seq = kickstart::ansi_escape_seq;
+}

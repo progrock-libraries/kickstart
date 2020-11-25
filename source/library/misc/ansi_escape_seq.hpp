@@ -26,60 +26,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../core/utf8/io.hpp"
 #include "../core/text_conversion/to-text.hpp"
 
-namespace kickstart::faux_utf8_iostreams::_definitions {
-    using namespace kickstart::utf8::io;
+namespace kickstart::ansi_escape_seq::_definitions {
     using namespace kickstart::text_conversion;
 
-    struct Faux_cout_stream {};
-    struct Faux_cerr_stream {};
-    struct Faux_endl {};
+    using   std::string;
 
-    inline auto operator<<( Faux_cout_stream, const Faux_endl& )
-        -> Faux_cout_stream
-    {
-        output( "\n" );
-        flush();
-        return {};
-    }
+    inline const char       escape  = char( 27 );
+    inline const string     lead_in = ""s << escape << '[';
 
-    template< class Value >
-    inline auto operator<<( Faux_cout_stream, const Value& v )
-        -> Faux_cout_stream
-    {
-        output( str( v ) );
-        return {};
-    }
+    inline auto color( const int n )
+        -> string
+    { return ""s << lead_in << n << "m"; }
 
-    inline auto operator<<( Faux_cerr_stream, const Faux_endl& )
-        -> Faux_cout_stream
-    {
-        output_error_message( "\n" );     // Already flushes every item.
-        return {};
-    }
-
-    template< class Value >
-    inline auto operator<<( Faux_cerr_stream, const Value& v )
-        -> Faux_cout_stream
-    {
-        output_error_message( str( v ) );
-        return {};
-    }
-
-    inline const auto   out     = Faux_cout_stream();
-    inline const auto   err     = Faux_cerr_stream();
-    inline const auto   endl    = Faux_endl();
-
+    namespace colors {
+        inline const string restore     = color( 0 );
+        inline const string red         = color( 91 );
+        inline const string yellow      = color( 93 );
+        inline const string blue        = color( 96 );
+    }  // namespace colors
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::out,
-        d::err,
-        d::endl;
+        d::escape,
+        d::lead_in,
+        d::color;
     }  // namespace exported names
-}  // namespace kickstart::faux_utf8_iostreams::_definitions
+}  // namespace kickstart::ansi_escape_seq::_definitions
 
-namespace kickstart::faux_utf8_iostreams    { using namespace _definitions::exported_names; }
+namespace kickstart::ansi_escape_seq {
+    using namespace _definitions::exported_names;
+    inline namespace colors { using namespace _definitions::colors; }
+}
