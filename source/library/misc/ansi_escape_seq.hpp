@@ -41,10 +41,49 @@ namespace kickstart::ansi_escape_seq::_definitions {
     { return ""s << lead_in << n << "m"; }
 
     namespace colors {
-        inline const string restore     = color( 0 );
-        inline const string red         = color( 91 );
-        inline const string yellow      = color( 93 );
-        inline const string blue        = color( 96 );
+        // https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#text-formatting
+
+        inline const string restore             = color( 0 );
+        inline const string bold                = color( 1 );
+        inline const string underline           = color( 4 );
+        inline const string no_underline        = color( 24 );
+        inline const string negative            = color( 7 );
+        inline const string positive            = color( 27 );
+        inline const string black               = color( 30 );
+        inline const string red                 = color( 31 );
+        inline const string green               = color( 32 );
+        inline const string yellow              = color( 33 );
+        inline const string blue                = color( 34 );
+        inline const string magenta             = color( 35 );
+        inline const string cyan                = color( 36 );
+        inline const string white               = color( 37 );
+        inline const string extended            = color( 38 );
+        inline const string restore_fg          = color( 39 );
+        inline const string bg_black            = color( 40 );
+        inline const string bg_red              = color( 41 );
+        inline const string bg_green            = color( 42 );
+        inline const string bg_yellow           = color( 43 );
+        inline const string bg_blue             = color( 44 );
+        inline const string bg_magenta          = color( 45 );
+        inline const string bg_cyan             = color( 46 );
+        inline const string bg_white            = color( 47 );
+        inline const string bg_extended         = color( 48 );
+        inline const string restore_bg          = color( 49 );
+        inline const string bright_black        = color( 90 );
+        inline const string bright_red          = color( 91 );
+        inline const string bright_green        = color( 92 );
+        inline const string bright_yellow       = color( 93 );
+        inline const string bright_blue         = color( 94 );
+        inline const string bright_magenta      = color( 95 );
+        inline const string bright_cyan         = color( 96 );
+        inline const string bright_white        = color( 97 );
+        inline const string bg_bright_black     = color( 100 );
+        inline const string bg_bright_red       = color( 101 );
+        inline const string bg_bright_green     = color( 102 );
+        inline const string bg_bright_yellow    = color( 103 );
+        inline const string bg_bright_blue      = color( 104 );
+        inline const string bg_bright_magenta   = color( 105 );
+        inline const string bg_bright_white     = color( 106 );
     }  // namespace colors
 
     //----------------------------------------------------------- @exported:
