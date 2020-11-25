@@ -24,8 +24,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "all-except-streams.hpp"
-#include "with_iostreams.hpp"
 #include "with_utf8_streams.hpp"
 
-namespace kickstart{ namespace all = with_iostreams; }  // Default to familiarity.
+namespace kickstart{ namespace all = with_utf8_streams; }   // Default to portable.
