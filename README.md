@@ -1,4 +1,4 @@
-Small exercises should be as simple in C++ as in Python. Well that's impossible but ***this C++ header can help*** a little. Requires C++17.
+Small exercises should be as simple in C++ as in Python. Well that's impossible but ***this C++ header library can help*** a little. Requires C++17.
 
 Example usage:
 
