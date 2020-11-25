@@ -2,6 +2,7 @@ Small exercises should be as simple in C++ as in Python. Well that's impossible 
 
 Example usage:
 
+[*examples/numeric-input/sum-of-two-numbers.2-kickstart-input.cpp*](source/examples/numeric-input/sum-of-two-numbers.2-kickstart-input.cpp)
 ~~~cpp
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
