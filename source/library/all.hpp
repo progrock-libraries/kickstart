@@ -27,3 +27,5 @@
 #include "all-except-streams.hpp"
 #include "with_iostreams.hpp"
 #include "with_utf8_streams.hpp"
+
+namespace kickstart{ namespace all = with_iostreams; }  // Default to familiarity.
