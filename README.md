@@ -2,17 +2,16 @@ Small exercises should be as simple in C++ as in Python. Well that's impossible 
 
 Example usage:
 
-[*examples/numeric-input/sum-of-two-numbers.2-kickstart-io.cpp*](source/examples/numeric-input/sum-of-two-numbers.2-kickstart-io.cpp)
+[*examples/sum-of-two-numbers.3-with-exception-handler.cpp*](source/examples/sum-of-two-numbers.3-with-exception-handler.cpp)
 ~~~cpp
-#include <kickstart/all.hpp>
-using namespace kickstart::all;
+#include <kickstart/with_utf8_streams.hpp>
+using namespace kickstart::with_utf8_streams;
 
-auto main()
-    -> int
+void cpp_main()
 {
-    out << "This program computes the sum of two numbers A and B like "
-        << 2.72 << " and " << 3.14 << "."
-        << endl;
+    out     << "This program computes the sum of two numbers A and B like "
+            << 2.72 << " and " << 3.14 << "."
+            << endl;
 
     out << endl;
     const double    a   = to_double( input( "Number A, please: " ) );
@@ -21,13 +20,15 @@ auto main()
     out << endl;
     out << a << " + " << b << " = " << a + b << "."  << endl;
 }
+
+auto main() -> int { return with_exceptions_displayed( cpp_main ); }
 ~~~
 
 Here
 
-* **`using namespace kickstart::all;`** is safe, as opposed to `using namespace std;`.
+* The **`using namespace kickstart::with_utf8_streams;`** directive is safe, as opposed to `using namespace std;`.
 
-* The **`kickstart::all`** namespace provides an **UTF-8** stream called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports ANSI escape sequences e.g. for colors. This namespace also provides few more select standard library identifiers, plus this header's stuff.
+* The `kickstart::with_utf8_streams` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports ANSI escape sequences e.g. for colors. This namespace also provides a few select standard library identifiers, plus this header's stuff.
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string. The main idea is to have the convenience of Python's `input` function.
 

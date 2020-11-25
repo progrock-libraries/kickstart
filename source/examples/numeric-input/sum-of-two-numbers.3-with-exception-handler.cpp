@@ -1,6 +1,5 @@
-#include <kickstart/core.hpp>
-using namespace kickstart::core;    // Clean, no iostreams.
-using namespace utf8_streams;       // `out` and `endl` faux iostream stuff.
+#include <kickstart/with_utf8_streams.hpp>
+using namespace kickstart::with_utf8_streams;
 
 void cpp_main()
 {
