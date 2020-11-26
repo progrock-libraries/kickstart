@@ -4,5 +4,5 @@ using   std::cout, std::endl;
 
 auto main() -> int
 {
-    cout << "Every 日本国 кошка loves Norwegian “blåbærsyltetøy”!" << endl;
+    cout << "Iostreams: every 日本国 кошка loves Norwegian “blåbærsyltetøy”! 😋" << endl;
 }

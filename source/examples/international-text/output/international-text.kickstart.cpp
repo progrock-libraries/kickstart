@@ -4,5 +4,5 @@ using namespace kickstart::core;
 
 auto main() -> int
 {
-    output( "Every 日本国 кошка loves Norwegian “blåbærsyltetøy”!\n" );
+    output( "Kickstart: every 日本国 кошка loves Norwegian “blåbærsyltetøy”! 😋\n" );
 }
