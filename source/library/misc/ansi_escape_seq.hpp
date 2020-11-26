@@ -36,6 +36,18 @@ namespace kickstart::ansi_escape_seq::_definitions {
     inline const char       escape  = char( 27 );
     inline const string     lead_in = ""s << escape << '[';
 
+    inline auto home()
+        -> string
+    { return lead_in + "H"; }
+
+    inline auto cursor_to( const int column, const int line )
+        -> string
+    { return ""s << lead_in << line << ";" << column << "H"; }
+
+    inline auto clear_console()
+        -> string
+    { return home() << lead_in << "2J"; }
+
     inline auto color( const int n )
         -> string
     { return ""s << lead_in << n << "m"; }
@@ -91,6 +103,9 @@ namespace kickstart::ansi_escape_seq::_definitions {
     namespace exported_names { using
         d::escape,
         d::lead_in,
+        d::home,
+        d::cursor_to,
+        d::clear_console,
         d::color;
     }  // namespace exported names
 }  // namespace kickstart::ansi_escape_seq::_definitions
