@@ -86,6 +86,7 @@ Iostreams: every ▯ ▯ ▯  кошка loves Norwegian “blåbærsyltetøy”
 
 To do the codepage configuration properly from within the program, so that the user doesn’t see and doesn’t have to deal with it, one would ideally use the Windows API. Here instead I show how you *can* just automate commands like those above, by using the `system` function. The separately compiled source below that does this, relies on an assumption that in Windows the `system` function executes a Cmd (Microsoft: “Command Prompt”) command.
 
+[[*examples/international-text/output/windows-utf8-console.cpp*](windows-utf8-console.cpp)]:
 ~~~cpp
 #ifndef _WIN32
 #   error "This file is for Windows systems only."
@@ -153,6 +154,6 @@ Active code page: 850
 > _
 ~~~
 
-Voilà! :)
+Voilà! 😊
 
 But it's simpler to just use the Kickstart library or another such library, and that also supports UTF-8 *input*.
