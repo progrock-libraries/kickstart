@@ -24,7 +24,7 @@ This text is problematic in a Windows console because
 
 * by the design of the API Windows consoles are by default limited to the Basic Multilingual Plane—the BMP—of Unicode, corresponding to original 16-bit Unicode, and since that part doesn’t include modern emoticons even with Kickstart output the “😋” emoticon is displayed as something else, e.g. as a single rectangle “▯”.
 
-So, in Windows Kickstart output transmits the program’s text properly to the console window, unlike current standard library implementations as of 2020. The most common non-ASCII text, such as Cyrillic “кошка”, therefore displays properly, or at least recognizably except for uppercase/lowercase, and some more rare non-ASCII text such as Chinese “日本国” is stored correctly in the window’s text buffer, where you can copy it out correctly. Most modern emoticons are however messed up beyond recognition, since they just don’t exist in a Windows console window’s symbol repertoire.
+So, in Windows Kickstart output transmits the program’s text properly to the console window, unlike current standard library implementations as of 2020. The most common non-ASCII text, such as Cyrillic “кошка” and Norwegian “blåbærsyltetøy”, therefore displays properly, or at least recognizably except for uppercase/lowercase, and some more rare non-ASCII text such as Chinese “日本国” is stored correctly in the window’s text buffer, where you can copy it out correctly. Most modern emoticons are however messed up beyond recognition, since they just don’t exist in a Windows console window’s symbol repertoire.
 ## Results.
 
 
