@@ -5,7 +5,7 @@
 #endif
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include "../../../assertion-headers/assert-is-c++17-or-later.hpp"
-#include "../../../assertion-headers/assert_utf8_literals.hpp"
+#include "../../../assertion-headers/assert-utf8-literals.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
