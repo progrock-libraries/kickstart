@@ -26,10 +26,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core.hpp"
-#include "misc.hpp"
-
-namespace kickstart::all_except_streams {
-    using namespace core;
-    namespace ansi_escape_seq = kickstart::ansi_escape_seq;
-}
+#include "misc/ansi_escape_seq.hpp"
+#include "misc/pc_dingbats.hpp"
