@@ -63,6 +63,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
         inline const string no_underline        = color( 24 );
         inline const string negative            = color( 7 );
         inline const string positive            = color( 27 );
+
         inline const string black               = color( 30 );
         inline const string red                 = color( 31 );
         inline const string green               = color( 32 );
@@ -73,6 +74,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
         inline const string white               = color( 37 );
         inline const string extended            = color( 38 );
         inline const string restore_fg          = color( 39 );
+
         inline const string bg_black            = color( 40 );
         inline const string bg_red              = color( 41 );
         inline const string bg_green            = color( 42 );
@@ -83,6 +85,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
         inline const string bg_white            = color( 47 );
         inline const string bg_extended         = color( 48 );
         inline const string restore_bg          = color( 49 );
+
         inline const string bright_black        = color( 90 );
         inline const string bright_red          = color( 91 );
         inline const string bright_green        = color( 92 );
