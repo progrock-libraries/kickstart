@@ -34,7 +34,7 @@
 #include <utility>
 #include <vector>
 
-namespace kickstart::stdstuff {
+namespace kickstart::stdlib_names {
     using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
 
     // Collections.
@@ -47,6 +47,6 @@ namespace kickstart::stdstuff {
     using   std::function;                                              // From <functional>.
     using   std::optional;                                              // From <optional>.
     using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
-}  // namespace kickstart::stdstuff
+}  // namespace kickstart::stdlib_names
 
-namespace kickstart::core   { using namespace stdstuff; }
+namespace kickstart::core   { using namespace stdlib_names; }
