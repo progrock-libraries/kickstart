@@ -27,8 +27,7 @@
 // SOFTWARE.
 
 #include "all-except-streams.hpp"
-#include "streams/iostreams.hpp"
-
+#include "output-operators/iostreams.hpp"
 
 namespace kickstart::with_iostreams {
     using namespace all_except_streams;

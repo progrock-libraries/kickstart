@@ -27,7 +27,7 @@
 // SOFTWARE.
 
 #include "all-except-streams.hpp"
-#include "streams/faux_utf8_iostreams.hpp"
+#include "output-operators/faux_utf8_iostreams.hpp"
 
 namespace kickstart::with_utf8_streams {
     using namespace all_except_streams;

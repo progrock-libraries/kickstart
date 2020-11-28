@@ -26,8 +26,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "streams/faux_utf8_iostreams.hpp"
+#include "output-operators/faux_utf8_iostreams.hpp"
 
 #ifndef KICKSTART_NO_IOSTREAMS_PLEASE
-#   include "streams/iostreams.hpp"
+#   include "output-operators/iostreams.hpp"
 #endif
