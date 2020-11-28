@@ -7,8 +7,8 @@ auto main() -> int
     using namespace ansi_escape_seq::colors;
     out << "Hello, colored world!" << endl;
     out << "Examples: "
-        << red << "red" << restore << ", "
-        << yellow << "yellow" << restore << " and "
-        << blue << "blue" << restore << " (or cyan, really) colored text."
+        << bright_red << "red" << restore << ", "
+        << bright_yellow << "yellow" << restore << " and "
+        << bright_blue << "blue" << restore << " colored text."
         << endl;
 }
