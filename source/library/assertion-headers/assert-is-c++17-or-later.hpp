@@ -1,9 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "assertion-headers/assert-is-c++17-or-later.hpp"
-#include "assertion-headers/assert_utf8_literals.hpp"
 
-// kickstart.hpp - minimal convenience functionality for C++ learners.
+// kickstart.core.hpp - minimal convenience functionality for C++ learners.
+// The “core” is because the (rather large) iostreams headers are not included.
+//
 // Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -26,14 +26,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "all-except-streams.hpp"
-#include "streams/iostreams.hpp"
+// Library includes actually used in this header.
 
-
-namespace kickstart::with_iostreams {
-    using namespace all_except_streams;
-    using namespace iostreams;
-}
-
-// Convenience alias for `using namespace` directives:
-namespace kickstart_ascii = kickstart::with_iostreams;
+#if __cplusplus < 201703L
+static_assert( __cplusplus >= 201703L,
+    R"(Requires C++17 or later. For MSVC use e.g. `/std:c++17 /Zc:__cplusplus /FI"iso646.h" /wd4459 /utf-8`.)"
+    // https://blogs.msdn.microsoft.com/vcblog/2018/04/09/msvc-now-correctly-reports-__cplusplus/
+    );
+#   include <C++17-or-later-is-required>
+#endif

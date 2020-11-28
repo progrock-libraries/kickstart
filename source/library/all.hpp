@@ -1,5 +1,7 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#include "assertion-headers/assert-is-c++17-or-later.hpp"
+#include "assertion-headers/assert_utf8_literals.hpp"
 
 // kickstart.hpp - minimal convenience functionality for C++ learners.
 // Requires C++17 or later.

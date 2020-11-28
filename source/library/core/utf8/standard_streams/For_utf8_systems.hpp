@@ -3,6 +3,8 @@
 #ifdef _WIN64
 #   error "This header is not for 64-bit Windows systems."
 #endif
+#include "../../../assertion-headers/assert-is-c++17-or-later.hpp"
+#include "../../../assertion-headers/assert_utf8_literals.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //

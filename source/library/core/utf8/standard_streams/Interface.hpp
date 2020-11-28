@@ -1,5 +1,7 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#include "../../../assertion-headers/assert-is-c++17-or-later.hpp"
+#include "../../../assertion-headers/assert_utf8_literals.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
