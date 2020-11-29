@@ -27,7 +27,7 @@
 // SOFTWARE.
 
 #include "core.hpp"
-#include "misc.hpp"
+#include "console.hpp"
 
 namespace kickstart::all_except_streams {
     using namespace core;

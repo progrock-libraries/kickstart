@@ -26,5 +26,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "misc/ansi_escape_seq.hpp"
-#include "misc/pc_dingbats.hpp"
+#include "console/ansi_escape_seq.hpp"
+#include "console/pc_dingbats.hpp"
