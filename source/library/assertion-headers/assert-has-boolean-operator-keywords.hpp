@@ -1,8 +1,10 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "assertion-headers/assert-reasonable-compiler.hpp"
+#include "assert-is-c++17-or-later.hpp"     // static_assert with 2 args.
 
-// kickstart.hpp - minimal convenience functionality for C++ learners.
+// kickstart.core.hpp - minimal convenience functionality for C++ learners.
+// The “core” is because the (rather large) iostreams headers are not included.
+//
 // Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -25,10 +27,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core.hpp"
-#include "console.hpp"
-
-namespace kickstart::all_except_streams {
-    using namespace core;
-    namespace ansi_escape_seq = kickstart::ansi_escape_seq;
-}
+#if defined( _MSC_VER ) && !defined( KS_ASSUME_BOOLEAN_OPERATOR_NAMES_PLEASE )
+#   ifndef and
+        static_assert( false,
+            "Requires standard boolean keywords like `and`. For MSVC use e.g."
+            " `/std:c++17 /Zc:__cplusplus /FI\"iso646.h\" /EHsc /wd4459 /utf-8`."
+            );
+#       error <requires_standard_boolean_keywords>
+#   endif
+#endif

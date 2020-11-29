@@ -1,8 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "assertion-headers/assert-reasonable-compiler.hpp"
 
-// kickstart.hpp - minimal convenience functionality for C++ learners.
+// kickstart.core.hpp - minimal convenience functionality for C++ learners.
+// The “core” is because the (rather large) iostreams headers are not included.
+//
 // Requires C++17 or later.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -25,10 +26,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "core.hpp"
-#include "console.hpp"
-
-namespace kickstart::all_except_streams {
-    using namespace core;
-    namespace ansi_escape_seq = kickstart::ansi_escape_seq;
-}
+#include "assert-has-boolean-operator-keywords.hpp"
+#include "assert-is-c++17-or-later.hpp"
+#include "assert-utf8-literals.hpp"

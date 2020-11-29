@@ -1,6 +1,8 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+// Can't just include "reasonable-compiler" assert because it uses this file.
 #include "../../assertion-headers/assert-is-c++17-or-later.hpp"
+#include "../../assertion-headers/assert-has-boolean-operator-keywords.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -26,8 +28,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-// Library includes actually used in this header.
 
 #define KS_ASSERT_UTF8_LITERALS()                                                   \
     static_assert(                                                                  \

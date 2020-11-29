@@ -4,8 +4,7 @@
 #   error "This header is for 64-bit Windows systems only."
 #endif
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include "../../../assertion-headers/assert-is-c++17-or-later.hpp"
-#include "../../../assertion-headers/assert-utf8-literals.hpp"
+#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
