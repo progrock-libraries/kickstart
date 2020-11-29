@@ -2,3 +2,4 @@ build/visual studio 2019/
 *.exe
 *.obj
 *.out
+.vs/*

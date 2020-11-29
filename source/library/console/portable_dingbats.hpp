@@ -27,11 +27,12 @@
 // SOFTWARE.
 
 // These symbols are portable in the sense that they can be presented in Windows.
-namespace kickstart::pc_dingbats {
+namespace kickstart::portable_dingbats {
     struct Codes
     {
         char        pc;         // Windows codepage 437.
         char        utf8[6];    // Unicode.
+        operator const char* () const { return utf8; }
     };
 
     constexpr auto smiley               = Codes{ char(  1 ), "☺" };
@@ -65,4 +66,4 @@ namespace kickstart::pc_dingbats {
     constexpr auto arrow_left_right     = Codes{ char( 29 ), "↔" };
     constexpr auto pointer_up           = Codes{ char( 30 ), "▲" };
     constexpr auto pointer_down         = Codes{ char( 31 ), "▼" };
-}  // namespace ::pc_dingbats
+}  // namespace ::portable_dingbats
