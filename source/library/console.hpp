@@ -27,4 +27,4 @@
 // SOFTWARE.
 
 #include "console/ansi_escape_seq.hpp"
-#include "console/pc_dingbats.hpp"
+#include "console/portable_dingbats.hpp"
