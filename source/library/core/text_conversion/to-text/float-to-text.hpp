@@ -37,6 +37,18 @@ namespace kickstart::text_conversion::_definitions {
 
     const int default_n_decimals = 6;       // In the C and C++ standard libraries.
 
+    inline auto to_fixed(
+        const double    value,
+        const int       n_decimals = default_n_decimals
+        ) -> string
+    {
+        const int buf_size = 1 + ::snprintf( nullptr, 0, "%.*f", n_decimals, value );
+        auto result = string( buf_size, '\0' );
+        const int n_chars = ::snprintf( result.data(), result.size(), "%.*f", n_decimals, value );
+        result.resize( n_chars );
+        return result;
+    }
+
     inline auto to_scientific(
         const double    value,
         const int       n_decimals = default_n_decimals
@@ -55,6 +67,7 @@ namespace kickstart::text_conversion::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::default_n_decimals,
+        d::to_fixed,
         d::to_scientific;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
