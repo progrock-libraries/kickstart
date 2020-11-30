@@ -2,10 +2,10 @@ Small exercises should be as simple in C++ as in Python. Well that's impossible 
 
 Example usage:
 
-\[File [*examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp*](source/examples/numeric-input/sum-of-two-numbers.3-with-exception-handler.cpp)\]:
+[[*source/examples/numeric-io/input/sum-of-two-numbers.3-with-exception-handler.cpp*](source/examples/numeric-io/input/sum-of-two-numbers.3-with-exception-handler.cpp)/]:
 ~~~cpp
-#include <kickstart/with_utf8_streams.hpp>
-using namespace kickstart::with_utf8_streams;
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
 void cpp_main()
 {
@@ -26,9 +26,9 @@ auto main() -> int { return with_exceptions_displayed( cpp_main ); }
 
 Here
 
-* The **`using namespace kickstart::with_utf8_streams;`** directive is safe, as opposed to `using namespace std;`.
+* The **`using namespace kickstart::all;`** directive is safe, as opposed to `using namespace std;`.
 
-* The `kickstart::with_utf8_streams` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports ANSI escape sequences e.g. for colors. This namespace also provides a few select standard library identifiers, plus this header's stuff.
+* The `kickstart::all` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports ANSI escape sequences e.g. for colors. This namespace also provides a few select standard library identifiers, plus this header's stuff.
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string. The main idea is to have the convenience of Python's `input` function.
 

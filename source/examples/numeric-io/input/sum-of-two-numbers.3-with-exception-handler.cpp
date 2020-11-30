@@ -1,5 +1,5 @@
-#include <kickstart/with_utf8_streams.hpp>
-using namespace kickstart::with_utf8_streams;
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
 void cpp_main()
 {
