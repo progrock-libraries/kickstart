@@ -79,7 +79,7 @@ namespace kickstart::failure_handling::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        std::exception, std::logic_error, std::runtime_error,
+        std::exception, std::logic_error, std::range_error, std::runtime_error,
         d::unreachable,
         d::hopefully,
         d::fail_,
