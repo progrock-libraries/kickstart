@@ -27,7 +27,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../core/utf8/io.hpp"
+#include "../core/text-encoding-utf8/io.hpp"
 #include "../core/text_conversion/to-text.hpp"
 
 namespace kickstart::faux_utf8_iostreams::_definitions {

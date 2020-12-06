@@ -1,1 +1,1 @@
-#include <kickstart/core/utf8/standard_streams/Interface.hpp>
+#include <kickstart/core/text-encoding-utf8/standard_streams/Interface.hpp>

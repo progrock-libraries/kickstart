@@ -28,9 +28,9 @@
 // SOFTWARE.
 
 #include "to-text.hpp"
-#include "../ascii.hpp"
 #include "../failure-handling.hpp"
 #include "../string_view_pointers.hpp"
+#include "../text-encoding-ascii.hpp"
 #include "../type_aliases.hpp"          // C_str
 
 #include <string.h>     // strerror

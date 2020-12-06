@@ -27,5 +27,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "ascii/character-util.hpp"
-#include "ascii/string-util.hpp"
+#include "text-encoding-ascii/character-util.hpp"
+#include "text-encoding-ascii/string-util.hpp"

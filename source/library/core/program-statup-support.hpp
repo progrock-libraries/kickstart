@@ -27,9 +27,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "type_aliases.hpp"         // Type_, C_str
-#include "failure-handling.hpp"     // Clean_app_exception
-#include "utf8/io.hpp"              // output_error_message
+#include "type_aliases.hpp"             // Type_, C_str
+#include "failure-handling.hpp"         // Clean_app_exception
+#include "text-encoding-utf8/io.hpp"    // output_error_message
 
 #include <assert.h>         // assert
 #include <stdlib.h>         // EXIT_..., strtod
