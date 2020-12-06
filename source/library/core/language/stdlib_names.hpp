@@ -27,6 +27,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <stddef.h>     // size_t, ptrdiff_t
+
 #include <array>
 #include <functional>
 #include <iterator>
@@ -42,9 +44,16 @@ namespace kickstart::stdlib_names {
     // Collections.
     using   std::array;                                                 // From <array>.
     using   std::begin, std::end, std::size;                            // From <iterator>.
+    #ifdef __cpp_lib_ssize
+        using std::ssize;
+    #else
+        template< class T >
+        auto ssize( const T& c ) -> ptrdiff_t { return static_cast<ptrdiff_t>( size( c ) ); }
+    #endif
     using   std::getline, std::string;                                  // From <string>.
     using   std::string_view;                                           // From <string_view>.
     using   std::vector;                                                // From <vector>.
+
 
     // Misc.
     using   std::function;                                              // From <functional>.
