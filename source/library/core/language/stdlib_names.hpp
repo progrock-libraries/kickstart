@@ -29,6 +29,7 @@
 
 #include <array>
 #include <functional>
+#include <iterator>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -40,6 +41,7 @@ namespace kickstart::stdlib_names {
 
     // Collections.
     using   std::array;                                                 // From <array>.
+    using   std::begin, std::end, std::size;                            // From <iterator>.
     using   std::getline, std::string;                                  // From <string>.
     using   std::string_view;                                           // From <string_view>.
     using   std::vector;                                                // From <vector>.
