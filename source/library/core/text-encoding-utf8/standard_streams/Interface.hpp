@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../type_aliases.hpp"
+#include "../../language/type_aliases.hpp"
 
 #include <stdio.h>      // FILE*
 
@@ -31,7 +31,7 @@
 
 namespace kickstart::utf8::standard_streams {
     using   std::is_same_v;         // From <type_traits>.
-    using namespace type_aliases;   // `Size` etc.
+    using namespace language;       // `Size` etc.
 
     namespace _definitions {
         using std::tuple;               // From <tuple>;

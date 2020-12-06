@@ -27,14 +27,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../type_aliases.hpp"       // C_str
+#include "../../language/type_aliases.hpp"      // C_str
 
 #include <sstream>
 #include <string>
 #include <string_view>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::type_aliases;        // C_str etc.
+    using namespace kickstart::language;    // C_str etc.
     using   std::ostringstream,
             std::string,
             std::string_view;

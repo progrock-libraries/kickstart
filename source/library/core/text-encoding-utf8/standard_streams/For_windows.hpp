@@ -27,7 +27,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 // SOFTWARE.
 
 #include "Interface.hpp"
-#include "../../type_aliases.hpp"
+#include "../../language/type_aliases.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
@@ -44,7 +44,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include <string>       // std::wstring
 
 namespace kickstart::utf8::standard_streams::_definitions {
-    using namespace kickstart::type_aliases;        // Type_ etc.
+    using namespace kickstart::language;        // Type_ etc.
 
     using   std::queue,
             std::wstring;

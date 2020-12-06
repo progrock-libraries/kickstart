@@ -28,9 +28,9 @@
 // SOFTWARE.
 
 
-#include "standard_streams.hpp"     // standard_streams::*
-#include "../failure-handling.hpp"  // hopefully, fail
-#include "../type_aliases.hpp"      // Size etc.
+#include "standard_streams.hpp"                 // standard_streams::*
+#include "../failure-handling.hpp"              // hopefully, fail
+#include "../language/type_aliases.hpp"         // Size etc.
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 
@@ -40,7 +40,7 @@
 
 namespace kickstart::utf8::io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::type_aliases;        // Size etc.
+    using namespace kickstart::language;            // Size etc.
 
     using   std::optional,
             std::string,

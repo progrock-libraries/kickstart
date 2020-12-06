@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -27,33 +27,27 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <limits.h>     // CHAR_BIT
-#include <stddef.h>     // size_t, ptrdiff_t
-#include <stdint.h>     // int32_t, int64_t
+#include <array>
+#include <functional>
+#include <optional>
+#include <string>
+#include <string_view>
+#include <utility>
+#include <vector>
 
-namespace kickstart::type_aliases::_definitions {
-    using Size      = ptrdiff_t;
-    using Index     = ptrdiff_t;
-    using C_str     = const char*;
-    using Byte      = unsigned char;
+namespace kickstart::stdlib_names {
+    using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
 
-    using Int       = int64_t;
-    using Float     = double;       static_assert( sizeof( double )*CHAR_BIT >= 64, "!" );
+    // Collections.
+    using   std::array;                                                 // From <array>.
+    using   std::getline, std::string;                                  // From <string>.
+    using   std::string_view;                                           // From <string_view>.
+    using   std::vector;                                                // From <vector>.
 
-    using Int32     = int32_t;
-    using Float32   = float;
+    // Misc.
+    using   std::function;                                              // From <functional>.
+    using   std::optional;                                              // From <optional>.
+    using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
+}  // namespace kickstart::stdlib_names
 
-    template< class T > using Type_ = T;
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::Size, d::Index, d::C_str, d::Byte,
-        d::Int, d::Float, d::Int32, d::Float32,
-        d::Type_;
-    }  // namespace exported names
-}  // namespace kickstart::type_aliases::_definitions
-
-namespace kickstart::type_aliases   { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace type_aliases; }
+namespace kickstart::core   { using namespace stdlib_names; }

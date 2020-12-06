@@ -27,7 +27,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "type_aliases.hpp"
+#include "language/type_aliases.hpp"
 
 #include <assert.h>
 
@@ -43,7 +43,7 @@
     KS_FAIL_( std::runtime_error, s )
 
 namespace kickstart::failure_handling::_definitions {
-    using namespace kickstart::type_aliases;
+    using namespace kickstart::language;
     using   std::exception, std::runtime_error,
             std::string;
 

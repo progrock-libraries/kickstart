@@ -31,9 +31,9 @@
 #include "../failure-handling.hpp"
 #include "../string_view_pointers.hpp"
 #include "../text-encoding-ascii.hpp"
-#include "../type_aliases.hpp"          // C_str
+#include "../language/type_aliases.hpp"         // C_str
 
-#include <string.h>     // strerror
+#include <string.h>                             // strerror
 
 #include <stdexcept>
 #include <string>
@@ -43,7 +43,7 @@
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::string_view_pointers;
-    using namespace kickstart::type_aliases;        // C_str etc.
+    using namespace kickstart::language;        // C_str etc.
     namespace ascii = kickstart::ascii;
     using   std::invalid_argument, std::out_of_range,
             std::string,
