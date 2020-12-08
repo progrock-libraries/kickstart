@@ -37,6 +37,11 @@ namespace kickstart::language::_definitions {
         -> Result
     { return static_cast<Result>( ssize( c ) ); }
 
+    template< class Collection >
+    inline auto int_size( const Collection& c )
+        -> int
+    { return ssize_<int>( c ); }
+
     template< class Collection >        // TODO: enable_if random access
     inline auto begin_ptr_of( Collection& c )
         -> auto
@@ -50,7 +55,7 @@ namespace kickstart::language::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::ssize_,
+        d::ssize_, d::int_size,
         d::begin_ptr_of, d::end_ptr_of;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
