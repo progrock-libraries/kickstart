@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -27,7 +27,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "language/bit-level.hpp"               // bits_per_
-#include "language/collection-util.hpp"         // ssize_
-#include "language/stdlib_names.hpp"            // Safe-with-`using` stuff from std library.
-#include "language/type_aliases.hpp"            // Size, Index, C_str, Byte, Int, Float
+#include "stdlib_names.hpp"
+
+namespace kickstart::language::_definitions {
+    using core::ssize;
+
+    template< class Result, class Collection >
+    inline auto ssize_( const Collection& c )
+        -> Result
+    { return static_cast<Result>( ssize( c ) ); }
+
+    template< class Collection >        // TODO: enable_if random access
+    inline auto begin_ptr_of( Collection& c )
+        -> auto
+    { return c.data(); }
+
+    template< class Collection >        // TODO: enable_if random access
+    inline auto end_ptr_of( Collection& c )
+        -> auto
+    { return c.data() + c.size(); }
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::ssize_,
+        d::begin_ptr_of, d::end_ptr_of;
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::core           { using namespace language; }
