@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -38,7 +38,7 @@
 #include <utility>
 #include <vector>
 
-namespace kickstart::stdlib_names {
+namespace kickstart::stdlib {
     using namespace std::literals;      // E.g. being able to write `"hello"s` and `42s`.
 
     // Collections.
@@ -59,6 +59,6 @@ namespace kickstart::stdlib_names {
     using   std::function;                                              // From <functional>.
     using   std::optional;                                              // From <optional>.
     using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
-}  // namespace kickstart::stdlib_names
+}  // namespace kickstart::stdlib
 
-namespace kickstart::core   { using namespace stdlib_names; }
+namespace kickstart::core   { using namespace stdlib; }

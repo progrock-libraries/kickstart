@@ -28,5 +28,5 @@
 
 // Library includes actually used in this header.
 
-#include "../core/text-encoding-utf8/execution-character-set.hpp"
+#include "../core/text-encoding-utf8/execution-character-set-checking.hpp"
 KS_ASSERT_UTF8_LITERALS();

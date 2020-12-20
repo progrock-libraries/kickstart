@@ -27,6 +27,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "text-encoding-utf8/execution-character-set.hpp"
-#include "text-encoding-utf8/io.hpp"
-#include "text-encoding-utf8/standard_streams.hpp"
+#include "text-encoding-utf8/execution-character-set-checking.hpp"

@@ -28,9 +28,9 @@
 // SOFTWARE.
 
 
-#include "standard_streams.hpp"                 // standard_streams::*
-#include "../failure-handling.hpp"              // hopefully, fail
-#include "../language/type_aliases.hpp"         // Size etc.
+#include "standard_streams.hpp"                     // standard_streams::*
+#include "../../core/failure-handling.hpp"          // hopefully, fail
+#include "../../core/language/type_aliases.hpp"     // Size etc.
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 
@@ -38,7 +38,7 @@
 #include <string>
 #include <string_view>
 
-namespace kickstart::utf8::io::_definitions {
+namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Size etc.
 
@@ -137,7 +137,7 @@ namespace kickstart::utf8::io::_definitions {
         d::any_input,
         d::input;
     }  // namespace exported names
-}  // namespace kickstart::utf8::io::_definitions
+}  // namespace kickstart::utf8_io::_definitions
 
-namespace kickstart::utf8::io   { using namespace _definitions::exported_names; }
-namespace kickstart::core       { using namespace utf8::io; }
+namespace kickstart::utf8_io    { using namespace _definitions::exported_names; }
+namespace kickstart::core       { using namespace utf8_io; }

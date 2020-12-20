@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -27,7 +27,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "language/bit-level.hpp"               // bits_per_
-#include "language/collection-util.hpp"         // ssize_
-#include "language/stdlib/basics.hpp"           // Safe-with-`using` stuff from std library.
-#include "language/type_aliases.hpp"            // Size, Index, C_str, Byte, Int, Float
+// Iostreams intentionally not included by default, it's large.
+// It can be included via `<kickstart/with_iostreams.hpp>`.
+#include "stdlib/basics.hpp"

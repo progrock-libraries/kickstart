@@ -32,4 +32,3 @@
 #include "core/text-encoding-utf8.hpp"      // Workarounds for Windows.
 #include "core/failure-handling.hpp"        // hopefully, fail, ...
 #include "core/language.hpp"                // Size etc.
-#include "core/program-statup-support.hpp"  // with_exceptions_displayed

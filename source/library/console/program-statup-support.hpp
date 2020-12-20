@@ -27,9 +27,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "language/type_aliases.hpp"    // Type_, C_str
-#include "failure-handling.hpp"         // Clean_app_exception
-#include "text-encoding-utf8/io.hpp"    // output_error_message
+#include "../core/language/type_aliases.hpp"    // Type_, C_str
+#include "../core/failure-handling.hpp"         // Clean_app_exception
+#include "utf8/io.hpp"                          // output_error_message
 
 #include <assert.h>         // assert
 #include <stdlib.h>         // EXIT_..., strtod
@@ -45,7 +45,7 @@ namespace kickstart::startup::_definitions {
     using namespace kickstart::language;
     using namespace std::string_literals;
 
-    using   kickstart::utf8::io::output_error_message;
+    using   kickstart::utf8_io::output_error_message;
     using   std::function,
             std::string_view,
             std::vector;

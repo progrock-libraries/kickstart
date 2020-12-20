@@ -26,11 +26,11 @@
 // SOFTWARE.
 
 #include "all-except-streams.hpp"
-#include "output-operators/faux_utf8_iostreams.hpp"
+#include "console/utf8/faux_iostreams.hpp"
 
 namespace kickstart::with_utf8_streams {
     using namespace all_except_streams;
-    using namespace faux_utf8_iostreams;
+    using namespace faux_iostreams;
 }
 
 // Convenience alias for `using namespace` directives:

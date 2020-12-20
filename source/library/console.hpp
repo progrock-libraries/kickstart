@@ -27,3 +27,5 @@
 
 #include "console/ansi_escape_seq.hpp"
 #include "console/portable_dingbats.hpp"
+#include "console/program-statup-support.hpp"   // with_exceptions_displayed
+#include "console/utf8.hpp"

@@ -22,14 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../language/type_aliases.hpp"
+#include "../../../core/language/type_aliases.hpp"
 
 #include <stdio.h>      // FILE*
 
 #include <type_traits>
 #include <tuple>
 
-namespace kickstart::utf8::standard_streams {
+namespace kickstart::utf8_io::standard_streams {
     using   std::is_same_v;         // From <type_traits>.
     using namespace language;       // `Size` etc.
 
@@ -85,4 +85,4 @@ namespace kickstart::utf8::standard_streams {
     inline void init() { singleton>(); }  // Just for readability when other stuff is not used.
 #endif
 
-}  // namespace kickstart::utf8::standard_streams
+}  // namespace kickstart::utf8_io::standard_streams

@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -27,11 +27,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../core/text-encoding-utf8/io.hpp"
-#include "../core/text_conversion/to-text.hpp"
+#include "io.hpp"
+#include "../../core/text_conversion/to-text.hpp"
 
-namespace kickstart::faux_utf8_iostreams::_definitions {
-    using namespace kickstart::utf8::io;
+namespace kickstart::faux_iostreams::_definitions {
+    using namespace kickstart::utf8_io;
     using namespace kickstart::text_conversion;
 
     struct Faux_cout_stream {};
@@ -81,6 +81,6 @@ namespace kickstart::faux_utf8_iostreams::_definitions {
         d::err,
         d::endl;
     }  // namespace exported names
-}  // namespace kickstart::faux_utf8_iostreams::_definitions
+}  // namespace kickstart::faux_iostreams::_definitions
 
-namespace kickstart::faux_utf8_iostreams    { using namespace _definitions::exported_names; }
+namespace kickstart::faux_iostreams    { using namespace _definitions::exported_names; }

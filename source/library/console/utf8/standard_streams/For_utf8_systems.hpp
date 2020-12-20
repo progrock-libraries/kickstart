@@ -26,10 +26,10 @@
 // SOFTWARE.
 
 #include "Interface.hpp"
-#include "../../type_aliases.hpp"
+#include "../../../core/language/type_aliases.hpp"
 
-namespace kickstart::utf8::standard_streams::_definitions  {
-    using namespace type_aliases;       // `Size` etc.
+namespace kickstart::utf8_io::standard_streams::_definitions  {
+    using namespace language;       // `Size` etc.
 
     class For_utf8_systems
     {
@@ -69,6 +69,6 @@ namespace kickstart::utf8::standard_streams::_definitions  {
         d::singleton,
         d::init;
     }  // namespace exported names
-}  // namespace kickstart::utf8::standard_streams::_definitions
+}  // namespace kickstart::utf8_io::standard_streams::_definitions
 
-namespace kickstart::utf8::standard_streams     { using namespace _definitions::exported_names; }
+namespace kickstart::utf8_io::standard_streams     { using namespace _definitions::exported_names; }

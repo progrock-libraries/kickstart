@@ -27,7 +27,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 // SOFTWARE.
 
 #include "Interface.hpp"
-#include "../../language/type_aliases.hpp"
+#include "../../../core/language/type_aliases.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
@@ -43,7 +43,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include <queue>        // std::queue
 #include <string>       // std::wstring
 
-namespace kickstart::utf8::standard_streams::_definitions {
+namespace kickstart::utf8_io::standard_streams::_definitions {
     using namespace kickstart::language;        // Type_ etc.
 
     using   std::queue,
@@ -204,7 +204,7 @@ namespace kickstart::utf8::standard_streams::_definitions {
         }
 
     public:
-        using Func = utf8::standard_streams::Interface::Func;
+        using Func = utf8_io::standard_streams::Interface::Func;
 
         auto read_byte_func_for( const Type_<FILE*> f ) const
             -> Func::Read_byte&
@@ -326,6 +326,6 @@ namespace kickstart::utf8::standard_streams::_definitions {
         d::singleton,
         d::init;
     }  // namespace exported names
-}  // namespace kickstart::utf8::standard_streams::_definitions
+}  // namespace kickstart::utf8_io::standard_streams::_definitions
 
-namespace kickstart::utf8::standard_streams     { using namespace _definitions::exported_names; }
+namespace kickstart::utf8_io::standard_streams     { using namespace _definitions::exported_names; }
