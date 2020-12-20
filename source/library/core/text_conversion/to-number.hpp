@@ -29,8 +29,8 @@
 
 #include "to-text.hpp"
 #include "../failure-handling.hpp"
-#include "../string_view_pointers.hpp"
 #include "../text-encoding-ascii.hpp"
+#include "../language/collection-util.hpp"      // begin_ptr_of, end_ptr_of
 #include "../language/type_aliases.hpp"         // C_str
 
 #include <string.h>                             // strerror
@@ -42,8 +42,7 @@
 
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::failure_handling;
-    using namespace kickstart::string_view_pointers;
-    using namespace kickstart::language;        // C_str etc.
+    using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of
     namespace ascii = kickstart::ascii;
     using   std::invalid_argument, std::out_of_range,
             std::string,
@@ -87,15 +86,15 @@ namespace kickstart::text_conversion::_definitions {
             hopefully( spec.length() != 0 )
                 or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
 
-            const auto [value, p_end] = impl::wrapped_strtod( get_p_start( spec ) );
+            const auto [value, p_end] = impl::wrapped_strtod( begin_ptr_of( spec ) );
 
             hopefully( errno != ERANGE )
                 or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
 
-            hopefully( p_end >= get_p_beyond( spec ) )
+            hopefully( p_end >= end_ptr_of( spec ) )
                 or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
 
-            hopefully( p_end == get_p_beyond( spec ) )
+            hopefully( p_end == end_ptr_of( spec ) )
                 or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
 
             hopefully( errno == 0 )

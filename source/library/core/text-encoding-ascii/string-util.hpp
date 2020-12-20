@@ -28,21 +28,21 @@
 // SOFTWARE.
 
 #include "character-util.hpp"
-#include "../string_view_pointers.hpp"
+#include "../language/collection-util.hpp"
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::string_view_pointers;
+    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of
     using   std::string,
             std::string_view;
 
     inline auto trimmed_view( const string_view& s )
         -> string_view
     {
-        const char* p_first     = get_p_start( s );
-        const char* p_beyond    = get_p_beyond( s );
+        const char* p_first     = begin_ptr_of( s );
+        const char* p_beyond    = end_ptr_of( s );
 
         while( p_first != p_beyond and is_( space, *p_first ) ) {
             ++p_first;

@@ -33,4 +33,3 @@
 #include "core/failure-handling.hpp"        // hopefully, fail, ...
 #include "core/language.hpp"                // Size etc.
 #include "core/program-statup-support.hpp"  // with_exceptions_displayed
-#include "core/string_view_pointers.hpp"    // Get raw pointers as opposed to iterators.
