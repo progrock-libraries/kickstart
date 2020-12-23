@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // kickstart.core.hpp - minimal convenience functionality for C++ learners.
 // The “core” is because the (rather large) iostreams headers are not included.
@@ -27,5 +27,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "to-text/string-output-operator.hpp"
-#include "to-text/float-to-text.hpp"
+#include    "../../language/type_aliases.hpp"
+#include    <stdexcept>
+#include    <string_view>
+
+namespace kickstart::text_conversion {
+    namespace exception {
+        using Invalid       = std::invalid_argument;
+        using Range         = std::out_of_range;
+
+        // The specification string is empty.
+        class Empty_specification:
+            public Invalid
+        { using Invalid::Invalid; };
+
+        // An attempted number specification contains text (possibly just whitespace) after the spec.
+        class Unexpected_trailing_text:
+            public Invalid
+        { using Invalid::Invalid; };
+
+        // An integer specification contains decimals.
+        class Decimals_for_integer:
+            public Invalid
+        { using Invalid::Invalid; };
+
+        // The specified value is outside the number range of the result type.
+        class Representable_range_exceeded:
+            public Range
+        { using Range::Range; };
+
+        // The specified value is in the type's range but is unsuitable for the given purpose.
+        class Unsuitable:
+            public Range
+        { using Range::Range; };
+    }  // namespace exception
+}  // namespace kickstart::text_conversion
