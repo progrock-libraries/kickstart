@@ -49,28 +49,34 @@ namespace kickstart::text_conversion::_definitions {
             std::string_view,
             std::pair;
 
-    namespace impl {
-        // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
-        inline auto wrapped_strtod( const C_str spec ) noexcept
-            -> pair<double, const char*>
-        {
-            char* p_end;
-            errno = 0;
-            const double value = strtod( spec, &p_end );
-            return {value, p_end};
-        }
+    // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
+    inline auto wrapped_strtod( const C_str spec ) noexcept
+        -> pair<double, const char*>
+    {
+        char* p_end;
+        errno = 0;
+        const double value = strtod( spec, &p_end );
+        return {value, p_end};
+    }
 
-        inline auto wrapped_stoi( const string& s, size_t& n_chars )
-            -> int
-        {
-            try {
-                return stoi( s, &n_chars );
-            } catch( const invalid_argument& ) {
-                KS_FAIL_( invalid_argument, "“"s << s << "” is an invalid `int` value spec." );
-            } catch( const out_of_range& ) {
-                KS_FAIL_( out_of_range, "The number “"s << s << "” is out of range for `int`." );
-            }
+    inline auto wrapped_stoi( const string& s )
+        -> pair<int, size_t>
+    {
+        try {
+            pair<int, size_t> result;
+            result.first = stoi( s, &result.second );
+            return result;
+        } catch( const invalid_argument& ) {
+            KS_FAIL_( invalid_argument, "“"s << s << "” is an invalid `int` value spec." );
+        } catch( const out_of_range& ) {
+            KS_FAIL_( out_of_range, "The number “"s << s << "” is out of range for `int`." );
         }
+    }
+        
+    inline auto wrapped_stoi( const string_view& s )
+        -> pair<int, size_t>
+    {
+        return wrapped_stoi( string( s ) );
     }  // namespace impl
 
     namespace fast {
@@ -86,7 +92,7 @@ namespace kickstart::text_conversion::_definitions {
             hopefully( spec.length() != 0 )
                 or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
 
-            const auto [value, p_end] = impl::wrapped_strtod( begin_ptr_of( spec ) );
+            const auto [value, p_end] = wrapped_strtod( begin_ptr_of( spec ) );
 
             hopefully( errno != ERANGE )
                 or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
@@ -123,31 +129,43 @@ namespace kickstart::text_conversion::_definitions {
 
     inline const auto& to_double = safe::trimmed_string_to_double;
 
-    inline auto to_int( const string& s )
+    template< class Number >
+    auto to_( const string_view& s ) -> Number;
+
+    template<>
+    inline auto to_<int>( const string_view& s )
         -> int
     {
-        size_t n_chars;
-        const int result = impl::wrapped_stoi( s, n_chars );
+        const auto [result, n_chars] = wrapped_stoi( s );
         hopefully( n_chars == s.length() )
             or KS_FAIL( "Extraneous characters at the end of “"s << s << "”." );
         return result;
     }
 
+    [[deprecated]]
+    inline auto to_int( const string& s )
+        -> int
+    { return to_<int>( s ); }
+
+    [[deprecated]]
     inline auto to_int( const string_view& s )
         -> int
-    { return to_int( string( s ) ); }
+    { return to_<int>( s ); }
 
+    [[deprecated]]
     inline auto to_int( const C_str s )
         -> int
-    { return to_int( string( s ) ); }
+    { return to_<int>( s ); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
+
     namespace exported_names {
         namespace fast = d::fast;       // full_string_to_double, trimmed_string_to_double
         namespace safe = d::safe;       // full_string_to_double, trimmed_string_to_double
         using
+            d::to_,
             d::to_double,
             d::to_int;
     }  // namespace exported names
