@@ -27,15 +27,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../to-text.hpp"
 #include "../../failure-handling.hpp"
 #include "../../text-encoding-ascii.hpp"
 #include "../../language/collection-util.hpp"   // begin_ptr_of, end_ptr_of
 #include "../../language/type_aliases.hpp"      // C_str
+#include "../to-text.hpp"
+#include "to-number-exceptions.hpp"
 
 #include <string.h>                             // strerror
 
-#include <stdexcept>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -43,9 +43,9 @@
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of
+    using namespace exception;                  // Invalid, Range, ...
     namespace ascii = kickstart::ascii;
-    using   std::invalid_argument, std::out_of_range,
-            std::string,
+    using   std::string,
             std::string_view,
             std::pair;
 
@@ -66,13 +66,13 @@ namespace kickstart::text_conversion::_definitions {
             pair<int, size_t> result;
             result.first = stoi( s, &result.second );
             return result;
-        } catch( const invalid_argument& ) {
-            KS_FAIL_( invalid_argument, "“"s << s << "” is an invalid `int` value spec." );
-        } catch( const out_of_range& ) {
-            KS_FAIL_( out_of_range, "The number “"s << s << "” is out of range for `int`." );
+        } catch( const Invalid& ) {
+            KS_FAIL_( Invalid, "“"s << s << "” is an invalid `int` value spec." );
+        } catch( const Range& ) {
+            KS_FAIL_( Representable_range_exceeded, "The number “"s << s << "” is out of range for `int`." );
         }
     }
-        
+ 
     inline auto wrapped_stoi( const string_view& s )
         -> pair<int, size_t>
     {
@@ -90,18 +90,18 @@ namespace kickstart::text_conversion::_definitions {
             -> double
         {
             hopefully( spec.length() != 0 )
-                or KS_FAIL_( invalid_argument, "An empty string is not a valid number specification." );
+                or KS_FAIL_( Empty_specification, "An empty string is not a valid number specification." );
 
             const auto [value, p_end] = wrapped_strtod( begin_ptr_of( spec ) );
 
             hopefully( errno != ERANGE )
-                or KS_FAIL_( out_of_range, "“"s << spec << "” denotes a too large or small number." );
+                or KS_FAIL_( Representable_range_exceeded, "“"s << spec << "” denotes a too large or small number." );
 
-            hopefully( p_end >= end_ptr_of( spec ) )
-                or KS_FAIL_( invalid_argument, "“"s << spec << "” is not a valid number specification." );
+            hopefully( p_end == begin_ptr_of( spec ) )
+                or KS_FAIL_( Invalid, "“"s << spec << "” is not a valid number specification." );
 
-            hopefully( p_end == end_ptr_of( spec ) )
-                or KS_FAIL_( invalid_argument, "“"s << spec << "” is followed by a valid spec continuation." );
+            hopefully( p_end > end_ptr_of( spec ) )
+                or KS_FAIL_( Unexpected_trailing_text, "“"s << spec << "” is followed by a valid spec continuation." );
 
             hopefully( errno == 0 )
                 or KS_FAIL( ""s
@@ -138,7 +138,7 @@ namespace kickstart::text_conversion::_definitions {
     {
         const auto [result, n_chars] = wrapped_stoi( s );
         hopefully( n_chars == s.length() )
-            or KS_FAIL( "Extraneous characters at the end of “"s << s << "”." );
+            or KS_FAIL_( Unexpected_trailing_text, "Extraneous characters at the end of “"s << s << "”." );
         return result;
     }
 
