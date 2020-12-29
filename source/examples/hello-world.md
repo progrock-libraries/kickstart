@@ -1,4 +1,4 @@
-# “*Hello, world!*” (Or, installing & first use.)
+# “Hello, world!” – *installation & first use*.
 
 To install the library,
 

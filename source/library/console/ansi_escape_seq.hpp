@@ -39,7 +39,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
 
     inline auto home()
         -> string
-    { return lead_in + "H"; }
+    { return ""s << lead_in << "H"; }
 
     inline auto cursor_to( const int column, const int line )
         -> string

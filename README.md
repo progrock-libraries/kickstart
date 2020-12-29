@@ -1,4 +1,8 @@
-Small exercises should be as simple in C++ as in Python. Well that's impossible but ***this C++ header library can help*** a little. Requires C++17.
+Small exercises should be as simple in C++ as in Python. Well that's impossible but ***this C++ 17 header library can help***.
+
+There’s a separate “Hello, world!”-document with [detailed installation instructions](source/examples/hello-world.md).
+
+---
 
 Example usage:
 
@@ -24,14 +28,24 @@ void cpp_main()
 auto main() -> int { return with_exceptions_displayed( cpp_main ); }
 ~~~
 
-Here
+In this code:
 
-* The **`using namespace kickstart::all;`** directive is safe, as opposed to `using namespace std;`.
+* The **`using namespace kickstart::all;`** directive is relatively safe, as opposed to `using namespace std;`.
 
-* The `kickstart::all` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports ANSI escape sequences e.g. for colors. This namespace also provides a few select standard library identifiers, plus this header's stuff.
+* The `kickstart::all` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp) e.g. for colors. And this namespace provides [a few select standard library identifiers](https://github.com/alf-p-steinbach/kickstart/blob/3b42be306df654d5e04534676e18711f73cc0b27/source/library/core/language/stdlib/basics.hpp#L42-L61), plus of course this header's stuff.
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string. The main idea is to have the convenience of Python's `input` function.
 
-* **`to_double`** converts a string to `double`, or fails with an exception. Whitespace on ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails. If extraneous characters were ignored (the default in the standard library) then `3,14` would erroneously produce `3`.
+* **`to_double`** converts a string to `double`, or fails with an exception. Whitespace on ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
 
 * **`with_exceptions_displayed`** invokes the specified main function; catches any exception; and presents its message on the process’ standard error stream.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
+
+---
+
+Some rationales & explanations:
+
+* If extraneous characters were ignored then text input `3,14` would erroneously convert to number `3`. That’s unfortunately the default in the standard library. Kickstart fixes that for you.
+
+* It can be argued that Windows’ `E_FAIL` should be used in Windows because the common C and C++ `EXIT_FAILURE` value, namely 1, is very ambiguous in Windows. Namely, in Windows value 1 as process exit code can mean (1) `ERROR_INVALID_FUNCTION`, or (2) the “HRESULT” `S_FALSE`, or (3) a general failure from a C or C++ program. However, the [principle of least surprise](https://en.wikipedia.org/wiki/Principle_of_least_astonishment) is a roughly equally strong argument for `EXIT_FAILURE`: a beginner learning from examples in a book will expect `EXIT_FAILURE`, the value 1.
+
+* The `<<` notation for output is merely *similar* to the iostreams notation, and internally directs output to the C `FILE*` standard streams `stdout` and `stderr`. More advanced iostreams features such as e.g. manipulators `setprecision` or `setw` are not supported. This makes it possible to provide efficient console i/o with UTF-8 support in Windows. However, iostreams can be used with Kickstart. Iostreams headers are not included by default because there’s a possible cost of increased size of the executable.

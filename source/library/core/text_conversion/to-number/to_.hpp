@@ -72,7 +72,7 @@ namespace kickstart::text_conversion::_definitions {
             KS_FAIL_( Representable_range_exceeded, "The number “"s << s << "” is out of range for `int`." );
         }
     }
- 
+
     inline auto wrapped_stoi( const string_view& s )
         -> pair<int, size_t>
     {
