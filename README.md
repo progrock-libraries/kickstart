@@ -27,7 +27,7 @@ void cpp_main()
 auto main() -> int { return with_exceptions_displayed( cpp_main ); }
 ~~~
 
-In [this code]((source/examples/numeric-io/input/sum-of-two-numbers.3-with-exception-handler.cpp)):
+In [this code](source/examples/numeric-io/input/sum-of-two-numbers.3-with-exception-handler.cpp):
 
 * The **`using namespace kickstart::all;`** directive is relatively safe, as opposed to `using namespace std;`.
 
