@@ -1,4 +1,6 @@
-Small exercises should be as simple in C++ as in Python. Well that's impossible but ***this C++ 17 header library can help***.
+Small exercises should be as simple in C++ as in Python.
+
+Well that's impossible but ***this C++ 17 header library can help***.
 
 There’s a separate “Hello, world!”-document with [detailed installation instructions](source/examples/hello-world.md).
 
@@ -35,7 +37,7 @@ In [this code](source/examples/numeric-io/input/sum-of-two-numbers.3-with-except
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string. The main idea is to have the convenience of Python's `input` function.
 
-* **`to_double`** converts a string to `double`, or fails with an exception. Whitespace on ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
+* **`to_double`** converts a string to `double`, or fails with an exception. Whitespace on the ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
 
 * **`with_exceptions_displayed`** invokes the specified main function; catches any exception; and presents its message on the process’ standard error stream.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
 
