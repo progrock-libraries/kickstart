@@ -31,7 +31,7 @@ In [this code](source/examples/numeric-io/input/sum-of-two-numbers.3-with-except
 
 * The **`using namespace kickstart::all;`** directive is relatively safe, as opposed to `using namespace std;`.
 
-* The `kickstart::all` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp) e.g. for [**colors**](source/library/console/ansi_escape_seq.hpp#L56-L103). And this namespace provides [a few select standard library identifiers](https://github.com/alf-p-steinbach/kickstart/blob/3b42be306df654d5e04534676e18711f73cc0b27/source/library/core/language/stdlib/basics.hpp#L42-L61), plus most all the rest of Kickstart.
+* The `kickstart::all` namespace provides an **UTF-8** stream-like object called **`out`** + an **`endl`**, corresponding roughly to `cout` and `endl` from the standard library. The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp) e.g. for [**colors**](source/library/console/ansi_escape_seq.hpp#L56-L103). And this namespace provides [a few select standard library identifiers](source/library/core/language/stdlib/basics.hpp#L42-L61), plus most all the rest of Kickstart.
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string. The main idea is to have the convenience of Python's `input` function.
 
