@@ -61,7 +61,7 @@ namespace kickstart::text_conversion::_definitions {
     template< class T >
     inline auto str( T const& value )
         -> string
-    { return impl::as_string_append_argument( value ); }
+    { return string( impl::as_string_append_argument( value ) ); }
 
     template< class T >
     inline auto operator<<( string& s, T const& value )
