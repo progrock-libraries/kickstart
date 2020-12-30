@@ -29,7 +29,7 @@ I.e. there is a “kickstart-master/source/library/all.hpp” header, which is t
 
 A simple way is to
 
-* **copy** the “kickstart/source/library” folder from the unzipped archive, to a folder that your compiler searches for headers, and **rename** the folder copy from “library” to “kickstart”.
+* **copy** the “kickstart-master/source/library” folder from the unzipped archive, to a folder that your compiler searches for headers, and **rename** the folder copy from “library” to “kickstart”.
 
 For example, in Ubuntu it worked nicely to place the new “kickstart” folder in
 ~~~pre
@@ -73,7 +73,7 @@ Short explanations:
 
 * The `out` stream is an object that provides `<<` notation, that for output to the console supports UTF-8 encoding in a portable way, i.e. international text also in Windows consoles.
 
-To compile you should specify at least C++17 and use of UTF-8 to the compiler, plus, for Visual C++, that it should support the standard `and`, `or` and `not` keywords. For g++ this just means using the option **`-std=c++17`**, because with g++ UTF-8 and the boolean keywords support is the default. For example, here using MinGW g++ in Windows:
+To compile you should specify at least C++17 and use of UTF-8 to the compiler, plus, for Visual C++, that it should support the standard `and`, `or` and `not` keywords. For g++ this just means using the option **`-std=c++17`**, because with g++, UTF-8 and the boolean keywords support is the default. For example, here using MinGW g++ in Windows:
 
 ~~~pre
 [C:\my\dev\libraries\kickstart-1\source\examples]
@@ -126,6 +126,6 @@ Hello, world!
 
 For Visual C++ you can store common compiler options in the **CL** environment variable, and then they’re used automatically.
 
-For g++ there is as far as I know no such general options environment variable, though there are some more specific environment variables, e.g. `CPATH` for include folder paths. However, it's possible to configure the compiler via a ***specs* file**, which (undocumented) must have Unix line endings. You can generate a copy of the *specs* file currently in use, via option `-dumpspecs`.
+For g++ there is as far as I know no such general options environment variable, though there are some more specific environment variables, e.g. `CPATH` for include folder paths. However, it's possible to configure the g++ compiler via a ***specs* file**, which (undocumented) must have Unix line endings. You can generate a copy of the *specs* file text currently in use, via option `-dumpspecs`.
 
 Still, though at one time I did force myself to generate a g++ *specs* file with every new installation of that compiler, I now prefer to just use a script wrapper (in Windows a batch file) and/or a command interpreter alias, or an explicitly used environment variable.
