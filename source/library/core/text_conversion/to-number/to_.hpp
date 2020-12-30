@@ -44,15 +44,8 @@ namespace kickstart::text_conversion::_definitions {
             std::string_view,
             std::pair;
 
-    // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
-    inline auto wrapped_strtod( const C_str spec ) noexcept
-        -> pair<double, const char*>
-    {
-        char* p_end;
-        errno = 0;
-        const double value = strtod( spec, &p_end );
-        return {value, p_end};
-    }
+    template< class Number >
+    auto to_( const string_view& s ) -> Number;
 
     inline auto wrapped_stoi( const string& s )
         -> pair<int, size_t>
@@ -73,6 +66,41 @@ namespace kickstart::text_conversion::_definitions {
     {
         return wrapped_stoi( string( s ) );
     }  // namespace impl
+
+    template<>
+    inline auto to_<int>( const string_view& s )
+        -> int
+    {
+        const auto [result, n_chars] = wrapped_stoi( s );
+        hopefully( n_chars == s.length() )
+            or KS_FAIL_( Unexpected_trailing_text, "Extraneous characters at the end of “"s << s << "”." );
+        return result;
+    }
+
+    [[deprecated]]
+    inline auto to_int( const string& s )
+        -> int
+    { return to_<int>( s ); }
+
+    [[deprecated]]
+    inline auto to_int( const string_view& s )
+        -> int
+    { return to_<int>( s ); }
+
+    [[deprecated]]
+    inline auto to_int( const C_str s )
+        -> int
+    { return to_<int>( s ); }
+
+    // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
+    inline auto wrapped_strtod( const C_str spec ) noexcept
+        -> pair<double, const char*>
+    {
+        char* p_end;
+        errno = 0;
+        const double value = strtod( spec, &p_end );
+        return {value, p_end};
+    }
 
     namespace fast {
         // Due to implementation via strtod the string referenced by spec must guarantee that strtod stops
@@ -122,35 +150,13 @@ namespace kickstart::text_conversion::_definitions {
         { return full_string_to_double( ascii::trimmed( spec ) ); }
     }  // namespace safe
 
-    inline const auto& to_double = safe::trimmed_string_to_double;
-
-    template< class Number >
-    auto to_( const string_view& s ) -> Number;
-
     template<>
-    inline auto to_<int>( const string_view& s )
-        -> int
-    {
-        const auto [result, n_chars] = wrapped_stoi( s );
-        hopefully( n_chars == s.length() )
-            or KS_FAIL_( Unexpected_trailing_text, "Extraneous characters at the end of “"s << s << "”." );
-        return result;
-    }
+    inline auto to_<double>( const string_view& s )
+        -> double
+    { return safe::trimmed_string_to_double( s ); }
 
     [[deprecated]]
-    inline auto to_int( const string& s )
-        -> int
-    { return to_<int>( s ); }
-
-    [[deprecated]]
-    inline auto to_int( const string_view& s )
-        -> int
-    { return to_<int>( s ); }
-
-    [[deprecated]]
-    inline auto to_int( const C_str s )
-        -> int
-    { return to_<int>( s ); }
+    inline const auto& to_double = safe::trimmed_string_to_double;
 
 
     //----------------------------------------------------------- @exported:
