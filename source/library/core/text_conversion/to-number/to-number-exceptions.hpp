@@ -36,8 +36,13 @@ namespace kickstart::text_conversion {
             public Invalid
         { using Invalid::Invalid; };
 
-        // An attempted number specification contains text (possibly just whitespace) after the spec.
-        class Unexpected_trailing_text:
+        // There is unexpected valid spec (continuation) text after the spec.
+        class Unexpected_spec_extension:
+            public Invalid
+        { using Invalid::Invalid; };
+
+        // An attempted number specification contains text (possibly just whitespace) at the end.
+        class Unexpected_suffix_text:
             public Invalid
         { using Invalid::Invalid; };
 

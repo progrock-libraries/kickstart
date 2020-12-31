@@ -30,6 +30,7 @@
 #include "to-number-exceptions.hpp"
 
 #include <string.h>                             // strerror
+#include <limits.h>                             // INT_MIN, INT_MAX
 
 #include <string>
 #include <string_view>
@@ -45,52 +46,10 @@ namespace kickstart::text_conversion::_definitions {
             std::pair;
 
     template< class Number >
-    auto to_( const string_view& s ) -> Number;
-
-    inline auto wrapped_stoi( const string& s )
-        -> pair<int, size_t>
-    {
-        try {
-            pair<int, size_t> result;
-            result.first = stoi( s, &result.second );
-            return result;
-        } catch( const Invalid& ) {
-            KS_FAIL_( Invalid, "“"s << s << "” is an invalid `int` value spec." );
-        } catch( const Range& ) {
-            KS_FAIL_( Representable_range_exceeded, "The number “"s << s << "” is out of range for `int`." );
-        }
-    }
-
-    inline auto wrapped_stoi( const string_view& s )
-        -> pair<int, size_t>
-    {
-        return wrapped_stoi( string( s ) );
-    }  // namespace impl
-
-    template<>
-    inline auto to_<int>( const string_view& s )
-        -> int
-    {
-        const auto [result, n_chars] = wrapped_stoi( s );
-        hopefully( n_chars == s.length() )
-            or KS_FAIL_( Unexpected_trailing_text, "Extraneous characters at the end of “"s << s << "”." );
-        return result;
-    }
-
-    [[deprecated]]
-    inline auto to_int( const string& s )
-        -> int
-    { return to_<int>( s ); }
-
-    [[deprecated]]
-    inline auto to_int( const string_view& s )
-        -> int
-    { return to_<int>( s ); }
-
-    [[deprecated]]
-    inline auto to_int( const C_str s )
-        -> int
-    { return to_<int>( s ); }
+    auto to_(
+        const string_view&          s,
+        const Type_<const char**>   pp_beyond_spec = nullptr
+        ) -> Number;
 
     // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
     inline auto wrapped_strtod( const C_str spec ) noexcept
@@ -109,22 +68,30 @@ namespace kickstart::text_conversion::_definitions {
         // The LC_NUMERIC category setting of the current C library locale determines recognition of
         // the radix point character, essentially English period or mainland European comma.
         //
-        inline auto full_string_to_double( const string_view& spec )
-            -> double
+        inline auto full_string_to_double(
+            const string_view&          spec,
+            const Type_<const char**>   pp_beyond_spec = nullptr
+            ) -> double
         {
             hopefully( spec.length() != 0 )
                 or KS_FAIL_( Empty_specification, "An empty string is not a valid number specification." );
 
             const auto [value, p_end] = wrapped_strtod( begin_ptr_of( spec ) );
+            if( pp_beyond_spec ) {
+                *pp_beyond_spec = p_end;
+            }
 
             hopefully( errno != ERANGE )
                 or KS_FAIL_( Representable_range_exceeded, "“"s << spec << "” denotes a too large or small number." );
 
-            hopefully( p_end == begin_ptr_of( spec ) )
+            hopefully( p_end > begin_ptr_of( spec ) )
                 or KS_FAIL_( Invalid, "“"s << spec << "” is not a valid number specification." );
 
-            hopefully( p_end > end_ptr_of( spec ) )
-                or KS_FAIL_( Unexpected_trailing_text, "“"s << spec << "” is followed by a valid spec continuation." );
+            hopefully( p_end <= end_ptr_of( spec ) )
+                or KS_FAIL_( Unexpected_spec_extension, "“"s << spec << "” is followed by a valid spec continuation." );
+
+            hopefully( p_end == end_ptr_of( spec ) )
+                or KS_FAIL_( Unexpected_suffix_text, "“"s << spec << "” has some unexpected text at the end." );
 
             hopefully( errno == 0 )
                 or KS_FAIL( ""s
@@ -135,28 +102,70 @@ namespace kickstart::text_conversion::_definitions {
             return value;
         }
 
-        inline auto trimmed_string_to_double( const string_view& spec )
-            -> double
-        { return full_string_to_double( ascii::trimmed( spec ) ); }
+        inline auto trimmed_string_to_double(
+            const string_view&          spec,
+            const Type_<const char**>   pp_beyond_spec = nullptr
+            ) -> double
+        { return full_string_to_double( ascii::trimmed( spec ), pp_beyond_spec ); }
     }  // namespace fast
 
     namespace safe {
-        inline auto full_string_to_double( const string_view& spec )
-            -> double
-        { return fast::full_string_to_double( string( spec ) ); }
+        inline auto full_string_to_double(
+            const string_view&          spec,
+            const Type_<const char**>   pp_beyond_spec = nullptr
+            ) -> double
+        { return fast::full_string_to_double( string( spec ), pp_beyond_spec ); }
 
-        inline auto trimmed_string_to_double( const string_view& spec )
-            -> double
-        { return full_string_to_double( ascii::trimmed( spec ) ); }
+        inline auto trimmed_string_to_double(
+            const string_view&          spec,
+            const Type_<const char**>   pp_beyond_spec = nullptr
+            ) -> double
+        { return full_string_to_double( ascii::trimmed( spec ), pp_beyond_spec ); }
     }  // namespace safe
 
     template<>
-    inline auto to_<double>( const string_view& s )
-        -> double
-    { return safe::trimmed_string_to_double( s ); }
+    inline auto to_<double>(
+        const string_view&          s,
+        const Type_<const char**>   pp_beyond_spec
+        ) -> double
+    { return safe::trimmed_string_to_double( s, pp_beyond_spec ); }
 
     [[deprecated]]
     inline const auto& to_double = safe::trimmed_string_to_double;
+
+    template<>
+    inline auto to_<int>(
+        const string_view&          s,
+        const Type_<const char**>   pp_beyond_spec
+        ) -> int
+    {
+        Type_<const char*> p_beyond_spec;
+        const double d = to_<double>( s, &p_beyond_spec );
+        if( pp_beyond_spec ) {
+            *pp_beyond_spec = p_beyond_spec;
+        }
+        hopefully( INT_MIN <= d and d <= INT_MAX )
+            or KS_FAIL_( exception::Representable_range_exceeded, "" );
+        const int result = int( d );
+        hopefully( result == d )
+            or KS_FAIL_( exception::Decimals_for_integer, "" );
+        return result;
+    }
+
+    [[deprecated]]
+    inline auto to_int( const string& s )
+        -> int
+    { return to_<int>( s ); }
+
+    [[deprecated]]
+    inline auto to_int( const string_view& s )
+        -> int
+    { return to_<int>( s ); }
+
+    [[deprecated]]
+    inline auto to_int( const C_str s )
+        -> int
+    { return to_<int>( s ); }
 
 
     //----------------------------------------------------------- @exported:
