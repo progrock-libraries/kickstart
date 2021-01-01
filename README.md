@@ -19,8 +19,8 @@ void cpp_main()
         << endl;
 
     out << endl;
-    const double    a   = to_<double>( input( "Number A, please: " ) );
-    const double    b   = to_<double>( input( "Number B, please: " ) );
+    const auto  a   = to_<double>( input( "Number A, please: " ) );
+    const auto  b   = to_<double>( input( "Number B, please: " ) );
     
     out << endl;
     out << a << " + " << b << " = " << a + b << "."  << endl;
