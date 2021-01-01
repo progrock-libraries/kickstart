@@ -37,7 +37,7 @@ In [this code](source/examples/numeric-io/input/sum-of-two-numbers.3-with-except
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string.
 
-* **`to_<double>`** converts a string to `double`, or fails with an exception. ASCII whitespace on the ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
+* **`to_<double>`** converts a string to `double`, or *fails with an exception*. I.e. you never get an arbitrary result on failure, as iostreams give you by default. ASCII whitespace on the ends of the string is ignored, but other extraneous characters cause failure.
 
 * **`with_exceptions_displayed`** invokes the specified main function; catches any exception; and presents the outer exception message, if any, on the process’ standard error stream.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
 
