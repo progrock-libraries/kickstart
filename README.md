@@ -19,8 +19,8 @@ void cpp_main()
         << endl;
 
     out << endl;
-    const double    a   = to_double( input( "Number A, please: " ) );
-    const double    b   = to_double( input( "Number B, please: " ) );
+    const double    a   = to_<double>( input( "Number A, please: " ) );
+    const double    b   = to_<double>( input( "Number B, please: " ) );
     
     out << endl;
     out << a << " + " << b << " = " << a + b << "."  << endl;
@@ -37,7 +37,7 @@ In [this code](source/examples/numeric-io/input/sum-of-two-numbers.3-with-except
 
 * **`input`** reads a line from standard input as an UTF-8 encoded string.
 
-* **`to_double`** converts a string to `double`, or fails with an exception. ASCII whitespace on the ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
+* **`to_<double>`** converts a string to `double`, or fails with an exception. ASCII whitespace on the ends of the string is ignored, but other extraneous characters cause failure. For example, if a user by mistake  types Norwegian `3,14` instead of `3.14`, then conversion of `3,14` fails.
 
 * **`with_exceptions_displayed`** invokes the specified main function; catches any exception; and presents the outer exception message, if any, on the process’ standard error stream.  When an exception occurs `EXIT_FAILURE` is returned, otherwise `EXIT_SUCCESS`.
 
