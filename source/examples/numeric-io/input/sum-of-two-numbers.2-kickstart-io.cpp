@@ -9,8 +9,8 @@ auto main()
         << endl;
 
     out << endl;
-    const double    a   = to_double( input( "Number A, please: " ) );
-    const double    b   = to_double( input( "Number B, please: " ) );
+    const double    a   = to_<double>( input( "Number A, please: " ) );
+    const double    b   = to_<double>( input( "Number B, please: " ) );
     
     out << endl;
     out << a << " + " << b << " = " << a + b << "."  << endl;
