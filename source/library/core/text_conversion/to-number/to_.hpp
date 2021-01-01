@@ -84,14 +84,14 @@ namespace kickstart::text_conversion::_definitions {
             hopefully( errno != ERANGE )
                 or KS_FAIL_( Representable_range_exceeded, "“"s << spec << "” denotes a too large or small number." );
 
-            hopefully( p_end > begin_ptr_of( spec ) )
+            hopefully( not( p_end == begin_ptr_of( spec ) ) )
                 or KS_FAIL_( Invalid, "“"s << spec << "” is not a valid number specification." );
 
-            hopefully( p_end <= end_ptr_of( spec ) )
-                or KS_FAIL_( Unexpected_spec_extension, "“"s << spec << "” is followed by a valid spec continuation." );
+            hopefully( not( p_end < end_ptr_of( spec ) ) )
+                or KS_FAIL_( Unexpected_suffix_text, "“"s << spec << "” has some unexpected text at the end." );
 
             hopefully( p_end == end_ptr_of( spec ) )
-                or KS_FAIL_( Unexpected_suffix_text, "“"s << spec << "” has some unexpected text at the end." );
+                or KS_FAIL_( Unexpected_spec_extension, "“"s << spec << "” is followed by a valid spec continuation." );
 
             hopefully( errno == 0 )
                 or KS_FAIL( ""s
@@ -131,7 +131,9 @@ namespace kickstart::text_conversion::_definitions {
     { return safe::trimmed_string_to_double( s, pp_beyond_spec ); }
 
     [[deprecated]]
-    inline const auto& to_double = safe::trimmed_string_to_double;
+    inline auto to_double( const string_view& s )
+        -> double
+    { return safe::trimmed_string_to_double( s ); }
 
     template<>
     inline auto to_<int>(
