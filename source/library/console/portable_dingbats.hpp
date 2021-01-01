@@ -65,4 +65,4 @@ namespace kickstart::portable_dingbats {
     constexpr auto arrow_left_right     = Codes{ char( 29 ), "↔" };
     constexpr auto pointer_up           = Codes{ char( 30 ), "▲" };
     constexpr auto pointer_down         = Codes{ char( 31 ), "▼" };
-}  // namespace ::portable_dingbats
+}  // namespace kickstart::portable_dingbats
