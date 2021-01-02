@@ -84,6 +84,14 @@ namespace kickstart::startup::_definitions {
         } );
     }
 
+    inline auto with_exceptions_displayed( const function<Startup_with_args>& do_things )
+        -> int
+    {
+        const C_str dummy_cmd[] = {"", nullptr};
+        return with_exceptions_displayed( do_things, 1, dummy_cmd );
+    }
+
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
