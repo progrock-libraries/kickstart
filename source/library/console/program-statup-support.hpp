@@ -76,12 +76,12 @@ namespace kickstart::startup::_definitions {
         assert( n_cmd_parts >= 1 );
         assert( cmd_parts != nullptr );
         return with_exceptions_displayed( [&]() -> void
-            {
-                do_things(
-                    cmd_parts[0],
-                    vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
-                );
-            } );
+        {
+            do_things(
+                cmd_parts[0],
+                vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
+            );
+        } );
     }
 
     //----------------------------------------------------------- @exported:
