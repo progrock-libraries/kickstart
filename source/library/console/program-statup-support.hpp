@@ -2,11 +2,6 @@
 #pragma once
 #include "../assertion-headers/assert-reasonable-compiler.hpp"
 
-// kickstart.core.hpp - minimal convenience functionality for C++ learners.
-// The “core” is because the (rather large) iostreams headers are not included.
-//
-// Requires C++17 or later.
-
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -27,9 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../core/language/type_aliases.hpp"    // Type_, C_str
-#include "../core/failure-handling.hpp"         // Clean_app_exception
-#include "utf8/io.hpp"                          // output_error_message
+#include "../core/language/type_aliases.hpp"            // Type_, C_str
+#include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
+#include "../core/failure-handling.hpp"                 // Clean_app_exception
+#include "utf8/io.hpp"                                  // output_error_message
 
 #include <assert.h>         // assert
 #include <stdlib.h>         // EXIT_..., strtod
@@ -49,9 +45,6 @@ namespace kickstart::startup::_definitions {
     using   std::function,
             std::string_view,
             std::vector;
-
-    using Simple_startup        = void();
-    using Startup_with_args     = void( const string_view&, const vector<string_view>& );
 
     inline auto with_exceptions_displayed( const function<Simple_startup>& do_things )
         -> int
