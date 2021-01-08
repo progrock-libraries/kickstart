@@ -1,10 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#ifndef _WIN64
-#   error "This header is for 64-bit Windows systems only."
-#endif
-static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../system-api/windows/winapi-header-boilerplate-stuff.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -29,11 +25,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include "Interface.hpp"
 #include "../../../core/language/type_aliases.hpp"
 #include "../../../system-api/windows/winapi-console.hpp"
-
-// Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
-#if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
-#   include <windows.h>
-#endif
+#include "../../../system-api/windows/winapi-encoding-conversion.hpp"
 
 #include <assert.h>     // assert
 #include <stdint.h>     // uint32_t
@@ -49,49 +41,6 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
 
     using   std::queue,
             std::wstring;
-
-    namespace winapi {
-        // Visual C++ 2019 (16.3.3) and later may issue errors on the Windows API function
-        // declarations here when <windows.h> is also included, as explained in
-        //
-        // “Including Windows.h and Boost.Interprocess headers leads to C2116 and C2733”
-        // https://developercommunity.visualstudio.com/content/problem/756694/including-windowsh-and-boostinterprocess-headers-l.html
-        //
-        // A fix is to use the per October 2019 undocumented option “/Zc:externC-”.
-        //
-        // A more fragile fix is to include <windows.h> BEFORE any Kickstart header, or
-        // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
-
-        #ifdef MessageBox       // <windows.h> has been included
-            using   ::MultiByteToWideChar, WideCharToMultiByte;
-
-            const auto cp_utf8                              = CP_UTF8;
-        #else
-            using namespace kickstart::winapi;
-
-            const UINT cp_utf8      = 65001;
-
-            extern "C" auto __stdcall MultiByteToWideChar(
-                UINT                            CodePage,
-                DWORD                           dwFlags,
-                const char*                     lpMultiByteStr,
-                int                             cbMultiByte,
-                wchar_t*                        lpWideCharStr,
-                int                             cchWideChar
-                ) -> int;
-
-            extern "C" auto __stdcall WideCharToMultiByte(
-                UINT                            CodePage,
-                DWORD                           dwFlags,
-                const wchar_t*                  lpWideCharStr,
-                int                             cchWideChar,
-                char*                           lpMultiByteStr,
-                int                             cbMultiByte,
-                const char*                     lpDefaultChar,
-                BOOL*                           lpUsedDefaultChar
-                ) -> int;
-        #endif
-    }  // namespace winapi
 
     class For_windows
     {
@@ -248,7 +197,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
                 const wchar_t           code_as_wchar   = code;
                 const int               n_bytes         = winapi::WideCharToMultiByte(
                     winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
-                );
+                    );
 
                 for( int i = 0; i < n_bytes; ++i ) {
                     input.bytes.push( buffer[i] );
@@ -273,7 +222,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
         const int flags = 0;
         const int ws_len = winapi::MultiByteToWideChar(
             winapi::cp_utf8, flags, static_cast<const char*>( buffer ), int( n ), ws.data(), int( n )
-        );
+            );
         assert( ws_len > 0 );       // More precisely, the number of UTF-8 encoded code points.
         const auto handle = For_windows::singleton().m_console.output_handle;
         winapi::DWORD n_chars_written;
