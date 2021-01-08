@@ -25,7 +25,7 @@
 #include "Interface.hpp"
 #include "../../../core/language/type_aliases.hpp"
 #include "../../../system-api/windows/winapi-console.hpp"
-#include "../../../system-api/windows/winapi-encoding-conversion.hpp"
+#include "../../../system-api/windows/winapi-text-encoding.hpp"
 
 #include <assert.h>     // assert
 #include <stdint.h>     // uint32_t
