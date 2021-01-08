@@ -47,39 +47,39 @@ namespace kickstart::winapi::_definitions {
     // A more fragile fix is to include <windows.h> BEFORE any Kickstart header, or
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
-#ifdef MessageBox       // <windows.h> has been included
-    using   ::GetConsoleMode, ::SetConsoleMode,
-            ::ReadConsoleW, ::WriteConsoleW;
+    #ifdef MessageBox       // <windows.h> has been included
+        using   ::GetConsoleMode, ::SetConsoleMode,
+                ::ReadConsoleW, ::WriteConsoleW;
 
-    const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-    const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
-#else
-    using namespace kickstart::winapi;
-    const DWORD enable_virtual_terminal_processing  = 0x0004;
-    const DWORD enable_extended_flags               = 0x0080;
-    //const DWORD enable_virtual_terminal_input       = 0x0200;
+        const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
+    #else
+        using namespace kickstart::winapi;
+        const DWORD enable_virtual_terminal_processing  = 0x0004;
+        const DWORD enable_extended_flags               = 0x0080;
+        //const DWORD enable_virtual_terminal_input       = 0x0200;
 
-    extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
-        -> BOOL;
-    extern "C" auto __stdcall SetConsoleMode( HANDLE  hConsoleHandle, DWORD dwMode )
-        -> BOOL;
+        extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
+            -> BOOL;
+        extern "C" auto __stdcall SetConsoleMode( HANDLE  hConsoleHandle, DWORD dwMode )
+            -> BOOL;
 
-    extern "C" auto __stdcall ReadConsoleW(
-        HANDLE                          hConsoleInput,
-        void*                           lpBuffer,
-        DWORD                           nNumberOfCharsToRead,
-        DWORD*                          lpNumberOfCharsRead,
-        void*                           pInputControl
-        ) -> BOOL;
+        extern "C" auto __stdcall ReadConsoleW(
+            HANDLE                          hConsoleInput,
+            void*                           lpBuffer,
+            DWORD                           nNumberOfCharsToRead,
+            DWORD*                          lpNumberOfCharsRead,
+            void*                           pInputControl
+            ) -> BOOL;
 
-    extern "C" auto __stdcall WriteConsoleW(
-        HANDLE          hConsoleOutput,
-        const void*     lpBuffer,
-        DWORD           nNumberOfCharsToWrite,
-        DWORD*          lpNumberOfCharsWritten,
-        void*           lpReserved
-        ) -> BOOL;
-#endif
+        extern "C" auto __stdcall WriteConsoleW(
+            HANDLE          hConsoleOutput,
+            const void*     lpBuffer,
+            DWORD           nNumberOfCharsToWrite,
+            DWORD*          lpNumberOfCharsWritten,
+            void*           lpReserved
+            ) -> BOOL;
+    #endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
