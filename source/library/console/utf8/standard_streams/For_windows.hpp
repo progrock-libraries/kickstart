@@ -28,6 +28,7 @@ static_assert( sizeof( void* ) == 8 );  // 64-bit system
 
 #include "Interface.hpp"
 #include "../../../core/language/type_aliases.hpp"
+#include "../../../system-api/windows/winapi-types.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
@@ -62,7 +63,6 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
         // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
         #ifdef MessageBox       // <windows.h> has been included
-            using   ::BOOL, ::DWORD, ::HANDLE, ::UINT;
             using   ::GetConsoleMode, ::SetConsoleMode,
                     ::MultiByteToWideChar, WideCharToMultiByte,
                     ::ReadConsoleW, ::WriteConsoleW;
@@ -71,11 +71,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
             const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
             const auto cp_utf8                              = CP_UTF8;
         #else
-            using BOOL      = int;
-            using DWORD     = uint32_t;
-            using HANDLE    = void*;
-            using UINT      = unsigned;
-
+            using namespace kickstart::winapi;
             const DWORD enable_virtual_terminal_processing  = 0x0004;
             const DWORD enable_extended_flags               = 0x0080;
             //const DWORD enable_virtual_terminal_input       = 0x0200;
