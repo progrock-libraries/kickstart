@@ -33,6 +33,6 @@
             "Requires standard boolean keywords like `and`. For MSVC use e.g."
             " `/std:c++17 /Zc:__cplusplus /FI\"iso646.h\" /EHsc /wd4459 /utf-8`."
             );
-#       error <requires_standard_boolean_keywords>
+#       include <requires_standard_boolean_keywords>
 #   endif
 #endif
