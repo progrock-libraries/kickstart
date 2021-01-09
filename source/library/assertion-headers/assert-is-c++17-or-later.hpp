@@ -1,11 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 
-// kickstart.core.hpp - minimal convenience functionality for C++ learners.
-// The “core” is because the (rather large) iostreams headers are not included.
-//
-// Requires C++17 or later.
-
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
