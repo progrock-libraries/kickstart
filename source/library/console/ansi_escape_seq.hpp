@@ -95,7 +95,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
     { return impl::cached::color_string( n ); }
 
     namespace colors {
-        // https://docs.microsoft.com/en-us/windows/console/console-virtual-terminal-sequences#text-formatting
+        // https://docs.microsoft.com/en-us/windows/consoles/console-virtual-terminal-sequences#text-formatting
 
         inline const string_view restore            = color( 0 );
         inline const string_view bold               = color( 1 );

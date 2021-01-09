@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "winapi-header-boilerplate-stuff.hpp"
+#include "header-boilerplate-stuff.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,16 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/winapi-types.hpp"
-
-#include <assert.h>     // assert
-#include <stdint.h>     // uint32_t
-#include <io.h>         // _get_osfhandle
-#include <limits.h>     // INT_MAX
-#include <wchar.h>      // wint_t, WEOF
-
-#include <queue>        // std::queue
-#include <string>       // std::wstring
+#include <stdint.h>     // int32_t, uint32_t
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -48,49 +39,23 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::GetConsoleMode, ::SetConsoleMode,
-                ::ReadConsoleW, ::WriteConsoleW;
-
-        const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
+        using   ::BOOL, ::DWORD, ::HANDLE, ::UINT;
     #else
-        using namespace kickstart::winapi;
-        const DWORD enable_virtual_terminal_processing  = 0x0004;
-        const DWORD enable_extended_flags               = 0x0080;
-        //const DWORD enable_virtual_terminal_input       = 0x0200;
-
-        extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
-            -> BOOL;
-        extern "C" auto __stdcall SetConsoleMode( HANDLE  hConsoleHandle, DWORD dwMode )
-            -> BOOL;
-
-        extern "C" auto __stdcall ReadConsoleW(
-            HANDLE                          hConsoleInput,
-            void*                           lpBuffer,
-            DWORD                           nNumberOfCharsToRead,
-            DWORD*                          lpNumberOfCharsRead,
-            void*                           pInputControl
-            ) -> BOOL;
-
-        extern "C" auto __stdcall WriteConsoleW(
-            HANDLE          hConsoleOutput,
-            const void*     lpBuffer,
-            DWORD           nNumberOfCharsToWrite,
-            DWORD*          lpNumberOfCharsWritten,
-            void*           lpReserved
-            ) -> BOOL;
+        using BOOL      = int32_t;      // Or just `int`, which is 32-bit in Windows.
+        using DWORD     = uint32_t;
+        using HANDLE    = void*;
+        using UINT      = uint32_t;
     #endif
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::enable_virtual_terminal_processing,
-        d::enable_extended_flags,
-        d::GetConsoleMode,
-        d::SetConsoleMode,
-        d::ReadConsoleW,
-        d::WriteConsoleW;
+        d::BOOL,
+        d::DWORD,
+        d::HANDLE,
+        d::UINT;
     }  // namespace exported names
-}  // namespace kickstart::utf8_io::standard_streams::_definitions
+}  // namespace kickstart::winapi::_definitions
 
-namespace kickstart::winapi { using namespace _definitions::exported_names; }
+namespace kickstart::winapi     { using namespace _definitions::exported_names; }

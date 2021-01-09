@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "winapi-header-boilerplate-stuff.hpp"
+#include "header-boilerplate-stuff.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/winapi-types.hpp"
+#include "../../system-api/windows/types.hpp"
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
