@@ -29,6 +29,3 @@ namespace kickstart::with_iostreams {
     using namespace all_except_streams;
     using namespace iostreams;
 }
-
-// Convenience alias for `using namespace` directives:
-namespace kickstart_ascii = kickstart::with_iostreams;

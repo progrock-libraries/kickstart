@@ -95,4 +95,3 @@ namespace kickstart::startup::_definitions {
 }  // namespace kickstart::startup::_definitions
 
 namespace kickstart::startup    { using namespace _definitions::exported_names; }
-namespace kickstart::core       { using namespace startup; }

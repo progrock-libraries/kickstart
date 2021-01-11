@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase Greek pi.
-#include <kickstart/core.hpp>
-using namespace kickstart::core;
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
 auto main() -> int
 {

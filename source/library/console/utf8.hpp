@@ -24,6 +24,5 @@
 
 #include "../core/text-encoding-utf8/execution-character-set-checking.hpp"
 
-#include "utf8/faux_iostreams.hpp"
 #include "utf8/io.hpp"
 #include "utf8/standard_streams.hpp"

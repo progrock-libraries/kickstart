@@ -1,6 +1,6 @@
-#include <kickstart/with_utf8_streams.hpp>
+#include <kickstart/all.hpp>
 #include <kickstart/assertion-headers/assert-posix-number-names-support.hpp>
-using namespace kickstart_utf8;
+using namespace kickstart::all;
 
 #include <math.h>
 

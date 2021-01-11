@@ -2,7 +2,7 @@
 
 Displaying international text in a portable manner is easy with Kickstart:
 
-[[*examples/international-text/output/international-text.kickstart.cpp*](international-text.kickstart.cpp)]:
+[[*examples/utf8-io/output/international-text.kickstart.cpp*](international-text.kickstart.cpp)]:
 ~~~cpp
 // Source encoding: utf-8  --  π is (or should be) a lowercase Greek pi.
 #include <kickstart/core.hpp>
@@ -61,23 +61,23 @@ However, you can configure a Windows console to accept UTF-8 *output*. Beware, t
 A Windows **codepage** is a number that identifies an encoding. A console window’s assumption about the encoding of a program’s output is called the console’s **active codepage**. One way to check the active codepage is via the `chcp` (short for “change codepage”) command:
 
 ~~~txt
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > chcp
 Active code page: 850
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > _
 ~~~
 
 Codepage 850 is a Western European adaption of the original IBM PC character set, codepage 437. The UTF-8 encoding is codepage **65001**. One way to set the codepage is via the same `chcp` command, just supplied with the number:
 
 ~~~txt
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > chcp 65001 & i
 Active code page: 65001
 Iostreams: every ▯ ▯ ▯  кошка loves Norwegian “blåbærsyltetøy”! ▯
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > _
 ~~~
 
@@ -86,7 +86,7 @@ Iostreams: every ▯ ▯ ▯  кошка loves Norwegian “blåbærsyltetøy”
 
 To do the codepage configuration properly from within the program, so that the user doesn’t see and doesn’t have to deal with it, one would ideally use the Windows API. Here instead I show how you *can* just automate commands like those above, by using the `system` function. The separately compiled source below that does this, relies on an assumption that in Windows the `system` function executes a Cmd (Microsoft: “Command Prompt”) command.
 
-[[*examples/international-text/output/windows-utf8-console.cpp*](windows-utf8-console.cpp)]:
+[[*examples/utf8-io/output/windows-utf8-console.cpp*](windows-utf8-console.cpp)]:
 ~~~cpp
 #ifndef _WIN32
 #   error "This file is for Windows systems only."
@@ -132,25 +132,25 @@ namespace {
 Adding this support to the iostreams output program:
 
 ~~~txt
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > del *.exe
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > g++ %options% international-text.iostreams.cpp windows-utf8-console.cpp -o i
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > chcp 850
 Active code page: 850
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > i
 Iostreams: every ▯ ▯ ▯  кошка loves Norwegian “blåbærsyltetøy”! ▯
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > chcp
 Active code page: 850
 
-[C:\my\dev\libraries\kickstart-1\source\examples\international-text\output]
+[C:\my\dev\libraries\kickstart-1\source\examples\utf8-io\output]
 > _
 ~~~
 

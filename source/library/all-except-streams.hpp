@@ -26,6 +26,10 @@
 #include "console.hpp"
 
 namespace kickstart::all_except_streams {
-    using namespace core;
+    using namespace core;           // From "core.hpp"
+    using namespace startup;        // From "console.hpp"
+    using namespace utf8_io;        // Ditto.
+
     namespace ansi_escape_seq = kickstart::ansi_escape_seq;
+    namespace portable_dingbats = kickstart::portable_dingbats;
 }

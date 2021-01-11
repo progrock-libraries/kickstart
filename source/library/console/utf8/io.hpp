@@ -135,4 +135,3 @@ namespace kickstart::utf8_io::_definitions {
 }  // namespace kickstart::utf8_io::_definitions
 
 namespace kickstart::utf8_io    { using namespace _definitions::exported_names; }
-namespace kickstart::core       { using namespace utf8_io; }
