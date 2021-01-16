@@ -31,35 +31,37 @@ namespace kickstart::portable_dingbats {
         operator const char* () const { return utf8; }
     };
 
-    constexpr auto smiley               = Codes{ char(  1 ), "☺" };
-    constexpr auto inv_smiley           = Codes{ char(  2 ), "☻" };
-    constexpr auto suit_heart           = Codes{ char(  3 ), "♥" };
-    constexpr auto suit_diamonds        = Codes{ char(  4 ), "♦" };
-    constexpr auto suit_clubs           = Codes{ char(  5 ), "♣" };
-    constexpr auto suit_spades          = Codes{ char(  6 ), "♠" };
-    constexpr auto bullet_point         = Codes{ char(  7 ), "•" };
-    constexpr auto inv_bullet_point     = Codes{ char(  8 ), "◘" };
-    constexpr auto circle               = Codes{ char(  9 ), "○" };
-    constexpr auto inv_circle           = Codes{ char( 10 ), "◙" };
-    constexpr auto gender_male          = Codes{ char( 11 ), "♂" };
-    constexpr auto gender_female        = Codes{ char( 12 ), "♀" };
-    constexpr auto musical_note         = Codes{ char( 13 ), "♪" };
-    constexpr auto musical_double_note  = Codes{ char( 14 ), "♫" };
-    constexpr auto sun                  = Codes{ char( 15 ), "☼" };
-    constexpr auto pointer_right        = Codes{ char( 16 ), "►" };
-    constexpr auto pointer_left         = Codes{ char( 17 ), "◄" };
-    constexpr auto arrow_up_down        = Codes{ char( 18 ), "↕" };
-    constexpr auto double_exclamation   = Codes{ char( 19 ), "‼" };
-    constexpr auto paragraph            = Codes{ char( 20 ), "¶" };
-    constexpr auto section_sign         = Codes{ char( 21 ), "§" };
-    constexpr auto bold_m_dash          = Codes{ char( 22 ), "▬" };
-    constexpr auto arrow_up_down_based  = Codes{ char( 23 ), "↨" };
-    constexpr auto arrow_up             = Codes{ char( 24 ), "↑" };
-    constexpr auto arrow_down           = Codes{ char( 25 ), "↓" };
-    constexpr auto arrow_right          = Codes{ char( 26 ), "→" };
-    constexpr auto arrow_left           = Codes{ char( 27 ), "←" };
-    constexpr auto right_angle          = Codes{ char( 28 ), "∟" };
-    constexpr auto arrow_left_right     = Codes{ char( 29 ), "↔" };
-    constexpr auto pointer_up           = Codes{ char( 30 ), "▲" };
-    constexpr auto pointer_down         = Codes{ char( 31 ), "▼" };
+    // u8 prefixes to avoid an avalanche of warnings when erroneously building with
+    // Visual C++ and Windows ANSI as C++ execution character set.
+    constexpr auto smiley               = Codes{ char(  1 ), u8"☺" };
+    constexpr auto inv_smiley           = Codes{ char(  2 ), u8"☻" };
+    constexpr auto suit_heart           = Codes{ char(  3 ), u8"♥" };
+    constexpr auto suit_diamonds        = Codes{ char(  4 ), u8"♦" };
+    constexpr auto suit_clubs           = Codes{ char(  5 ), u8"♣" };
+    constexpr auto suit_spades          = Codes{ char(  6 ), u8"♠" };
+    constexpr auto bullet_point         = Codes{ char(  7 ), u8"•" };
+    constexpr auto inv_bullet_point     = Codes{ char(  8 ), u8"◘" };
+    constexpr auto circle               = Codes{ char(  9 ), u8"○" };
+    constexpr auto inv_circle           = Codes{ char( 10 ), u8"◙" };
+    constexpr auto gender_male          = Codes{ char( 11 ), u8"♂" };
+    constexpr auto gender_female        = Codes{ char( 12 ), u8"♀" };
+    constexpr auto musical_note         = Codes{ char( 13 ), u8"♪" };
+    constexpr auto musical_double_note  = Codes{ char( 14 ), u8"♫" };
+    constexpr auto sun                  = Codes{ char( 15 ), u8"☼" };
+    constexpr auto pointer_right        = Codes{ char( 16 ), u8"►" };
+    constexpr auto pointer_left         = Codes{ char( 17 ), u8"◄" };
+    constexpr auto arrow_up_down        = Codes{ char( 18 ), u8"↕" };
+    constexpr auto double_exclamation   = Codes{ char( 19 ), u8"‼" };
+    constexpr auto paragraph            = Codes{ char( 20 ), u8"¶" };
+    constexpr auto section_sign         = Codes{ char( 21 ), u8"§" };
+    constexpr auto bold_m_dash          = Codes{ char( 22 ), u8"▬" };
+    constexpr auto arrow_up_down_based  = Codes{ char( 23 ), u8"↨" };
+    constexpr auto arrow_up             = Codes{ char( 24 ), u8"↑" };
+    constexpr auto arrow_down           = Codes{ char( 25 ), u8"↓" };
+    constexpr auto arrow_right          = Codes{ char( 26 ), u8"→" };
+    constexpr auto arrow_left           = Codes{ char( 27 ), u8"←" };
+    constexpr auto right_angle          = Codes{ char( 28 ), u8"∟" };
+    constexpr auto arrow_left_right     = Codes{ char( 29 ), u8"↔" };
+    constexpr auto pointer_up           = Codes{ char( 30 ), u8"▲" };
+    constexpr auto pointer_down         = Codes{ char( 31 ), u8"▼" };
 }  // namespace kickstart::portable_dingbats

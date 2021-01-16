@@ -28,25 +28,49 @@ In Windows Kickstart output transmits the program’s text properly to the conso
 
 ## Results.
 
-Linux, here in Ubuntu:
+### *Ubuntu terminal result.*
 
-![Results in Ubuntu: all perfect](images/sshot-1.cropped.png)
+All is well in an **Ubuntu terminal** in a virtual machine:
 
-It’s all perfectly presented, both with Kickstart i/o and with iostreams i/o.
+![Result in Ubuntu: all perfect](images/ubuntu-in-vm.cropped.png)
+
+The Ubuntu defaults Just Work&trade;, because
+
+* the default C++ encoding of literals matches the terminal’s default encoding expecation, namely UTF-8, and
+* the default terminal emulation provides decent Unicode text presentation.
+
+---
+### *Windows Terminal results.*
+
+Ubuntu in WSL (the *Windows Subsystem for Linux*) running in a **[Windows Terminal](https://github.com/microsoft/terminal) instance** works OK for both Kickstart and iostreams output:
+
+![Result in WSL in Windows Terminal: all perfect](images/ubuntu-in-windows-terminal.cropped.png)
+
+However, when these examples are built as Windows console programs and are run in Windows Terminal, then, while the Kickstart output is still OK, the iostreams output gets messy. That’s because the console by default expects a text encoding like the original IBM PC character set. Kickstart works around that by using an UTF-16 based output API if the output goes to the screen, but the common iostreams implementations don’t do that, so that the UTF-8 bytes appear as gibberish.
+
+A simple fix is to use the command **`chcp 65001`**, which sets the expected encoding (the **active codepage**) to UTF-8 (codepage 65001):
+
+![Result in Cmd in Windows Terminal: mixed by default](images/windows-in-windows-terminal.cropped.png)
+
+In passing, command `cl` is the Windows system compiler Visual C++.
+
+---
+### *Windows console results.*
+
+
+with a less perfect terminal, e.g. here with WSL Ubuntu in an ordinary Windows console window, the result is much less perfect 😞:
+
+![Results in WSL: Chinese and emoticon problems](images/ubuntu-in-windows-wsl-console.cropped.png)
+
+Since it’s a Linux environment the program’s UTF-8 encoded text is correctly transferred to the Windows console, both with Kickstart i/o and with iostreams i/o, but still the Chinese glyphs and the smiley emoticon are not rendered correctly.
+
+For the Chinese glyphs the problem is that Windows console window here is used with a font (namely the Western default) that doesn’t have Chinese glyphs.
+
+The emoticon problem is more fundamental, namely that the original design of Windows console windows only has room for one 16-bit value per symbol, which essentially limits consoles to a subset of Unicode called the Basic Multilingual Plane or BMP, as in original Unicode.
 
 ---
 
-Ubuntu in a Windows WSL (the *Windows Subsystem for Linux*) console:
-
-![Results in WSL: Chinese and emoticon problems](images/sshot-2.cropped.png)
-
-Since it’s a Linux environment the UTF-8 encoded text is correctly transferred to the console, both with Kickstart i/o and with iostreams i/o.
-
-But the Chinese glyhps are not rendered correctly, because the WSL console window is an ordinary Windows console window here used with a font that doesn’t have Chinese glyphs. Presumably in China a font is used that *can* display these glyphs. However, the emoticon problem is more fundamental, namely that with UTF-16 encoding the emoticon is represented with two 16-bit values called a “surrogate pair”, while the original design of Windows console windows only has room for one 16-bit value per symbol.
-
----
-
-Windows Cmd:
+Windows Cmd (i.e. an ordinary console window):
 
 ![Results in Windows: Chinese and emoticon problems, iostreams output garbled](images/sshot-3.cropped.png)
 
