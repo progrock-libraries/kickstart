@@ -5,8 +5,8 @@ Displaying international text in a portable manner is easy with Kickstart:
 File [[*examples/utf8-io/output/international-text.kickstart.cpp*](international-text.kickstart.cpp)]:
 ~~~cpp
 // Source encoding: utf-8  --  π is (or should be) a lowercase Greek pi.
-#include <kickstart/core.hpp>
-using namespace kickstart::core;
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
 auto main() -> int
 {
