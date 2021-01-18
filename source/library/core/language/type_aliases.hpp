@@ -30,17 +30,19 @@
 namespace kickstart::language::_definitions {
     template< class T > using Type_ = T;
 
-    using Size          = ptrdiff_t;
-    using Index         = ptrdiff_t;
-    using C_str         = const char*;
-    using Byte          = unsigned char;
+    using Size              = ptrdiff_t;
+    using Index             = ptrdiff_t;
+    using Unsigned_size     = size_t;
+    using Unsigned_index    = size_t;
+    using C_str             = const char*;
+    using Byte              = unsigned char;
 
 
-    using Integer       = int64_t;
-    using Number        = double;       static_assert( bits_per_<Number> >= 64, "!" );
+    using Integer           = int64_t;
+    using Number            = double;       static_assert( bits_per_<Number> >= 64, "!" );
 
-    using Integer32     = int32_t;
-    using Number32      = float;        static_assert( bits_per_<Number32> >= 32, "!" );
+    using Integer32         = int32_t;
+    using Number32          = float;        static_assert( bits_per_<Number32> >= 32, "!" );
 
 
     //----------------------------------------------------------- @exported:
