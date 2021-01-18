@@ -23,9 +23,11 @@
 // SOFTWARE.
 
 #include "stdlib-includes/basics.hpp"
+#include "type_aliases.hpp"
 
 namespace kickstart::language::_definitions {
-    using core::ssize;
+    using kickstart::core::ssize;
+    using kickstart::language::Size;
 
     template< class Result, class Collection >
     inline auto ssize_( const Collection& c )
@@ -37,15 +39,25 @@ namespace kickstart::language::_definitions {
         -> int
     { return ssize_<int>( c ); }
 
-    template< class Collection >        // TODO: enable_if random access
-    inline auto begin_ptr_of( Collection& c )
+    template< class Array >        // TODO: enable_if random access
+    inline auto begin_ptr_of( Array& a )
         -> auto
-    { return c.data(); }
+    { return a.data(); }
 
-    template< class Collection >        // TODO: enable_if random access
-    inline auto end_ptr_of( Collection& c )
+    template< class Item, Size n >
+    inline auto begin_ptr_of( Item (&a)[n] )
         -> auto
-    { return c.data() + c.size(); }
+    { return &a[0]; }
+
+    template< class Array >        // TODO: enable_if random access
+    inline auto end_ptr_of( Array& a )
+        -> auto
+    { return a.data() + a.size(); }
+
+    template< class Item, Size n >
+    inline auto end_ptr_of( Item (&a)[n] )
+        -> auto
+    { return &a[0] + n; }
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;

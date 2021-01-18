@@ -22,5 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace kickstart::process::_definitions {
-}  // namespace kickstart::process::_definitions
+#include <string_view>
+#include <vector>
+
+namespace kickstart::process {
+    using   std::string_view,
+            std::vector;
+
+    inline auto command_line() -> string_view;
+    inline auto command_line_parts() -> vector<string_view>;
+}  // namespace kickstart::process
