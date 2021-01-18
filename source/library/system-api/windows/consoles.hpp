@@ -40,7 +40,8 @@ namespace kickstart::winapi::_definitions {
 
     #ifdef MessageBox       // <windows.h> has been included
         using   ::GetConsoleMode, ::SetConsoleMode,
-                ::ReadConsoleW, ::WriteConsoleW;
+                ::ReadConsoleW, ::WriteConsoleW,
+                ::GetConsoleProcessList;
 
         const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
         const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
@@ -70,6 +71,11 @@ namespace kickstart::winapi::_definitions {
             DWORD*          lpNumberOfCharsWritten,
             void*           lpReserved
             ) -> BOOL;
+
+        extern "C" auto __stdcall GetConsoleProcessList(
+            DWORD*          lpdwProcessList,
+            DWORD           dwProcessCount
+            ) -> DWORD;
     #endif
 
     //----------------------------------------------------------- @exported:
@@ -80,7 +86,8 @@ namespace kickstart::winapi::_definitions {
         d::GetConsoleMode,
         d::SetConsoleMode,
         d::ReadConsoleW,
-        d::WriteConsoleW;
+        d::WriteConsoleW,
+        d::GetConsoleProcessList;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 

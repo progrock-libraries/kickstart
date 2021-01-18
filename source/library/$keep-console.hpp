@@ -13,13 +13,14 @@
 //----------------------------------------------------------------------------------------
 // Description.
 //
-// Stops the program when it's finished, e.g. keeps its console window open.
+// Keeps the console window open when the program finishes.
 //
 // Advantages over a “stop here please” statement at the end of `main`:
 //
 // • Reliable in the face of typical beginner's non-empty input buffer.
 // • Yields clean, portable main code.
 // • When used as a forced include, stops /after/ other static cleanup.
+// • In Windows there's no added interaction when the program runs in a provided console.
 //
 // Generally this is needed only when you run a beginner's program from an IDE in Windows,
 // and then in the author's informed opinion a better way is to just use the IDE's
@@ -50,22 +51,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <stdlib.h>     // ::system
+
+#ifdef _WIN32
+#   include "system-api/windows/consoles.hpp"       // GetConsoleProcessList
+#endif
+
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
     #if defined( _WIN32 )
         inline const auto& pause_command = R"(pause)";
+
+        inline auto is_console_owner()
+            -> bool
+        {
+            namespace winapi = kickstart::winapi;
+            winapi::DWORD dummy;
+            return (winapi::GetConsoleProcessList( &dummy, 1 ) == 1);
+        }
     #elif defined( __unix__ )
         inline const auto& pause_command = R"(read -p "? Press ENTER to continue: " dummy)";
+
+        inline auto is_console_owner()
+            -> bool
+        { return true; }        // TODO: Maybe actually check this, if that's possible.
     #else
     #   error "This header is for Windows and Unix platforms only."
     #endif
-} // namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a
 
-#include <stdlib.h>     // ::system
-
-namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
     struct Stop_at_end
     {
-        ~Stop_at_end() { ::system( pause_command ); }
+        ~Stop_at_end() { if( is_console_owner() ) { ::system( pause_command ); } }
         Stop_at_end() {}
     };
     
