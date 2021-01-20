@@ -32,14 +32,14 @@ namespace kickstart::language::_definitions {
 
     template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
-    template< class Fp_type > inline const int bits_per_mantissa_of_;
-    template<> inline const int bits_per_mantissa_of_<float>        = FLT_MANT_DIG;
-    template<> inline const int bits_per_mantissa_of_<double>       = DBL_MANT_DIG;
-    template<> inline const int bits_per_mantissa_of_<long double>  = LDBL_MANT_DIG;
+    template< class Fp_type > constexpr int bits_per_mantissa_of_;
+    template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;
 
 
     template< class Fp_type >
-    const Fp_type largest_exact_integer_of_ =
+    constexpr Fp_type largest_exact_integer_of_ =
         intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> ) - 1;
 
 
