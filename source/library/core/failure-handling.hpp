@@ -70,7 +70,13 @@ namespace kickstart::failure_handling::_definitions {
         fail_<X>( message );
     }
 
-    [[noreturn]] inline auto fail( const string& s ) -> bool { fail_<runtime_error>( s ); }
+    [[noreturn]] inline auto fail( const string& s )
+        -> bool
+    { fail_<runtime_error>( s ); }
+
+    [[noreturn]] inline auto fail( const Funcname& funcname, const string& s = "" )
+        -> bool
+    { fail_<runtime_error>( funcname, s ); }
 
     class Clean_app_exit_exception:
         public exception
