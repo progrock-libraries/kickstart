@@ -38,11 +38,13 @@ namespace kickstart::language::_definitions {
     using Byte              = unsigned char;
 
 
-    using Integer           = int64_t;
-    using Number            = double;       static_assert( bits_per_<Number> >= 64, "!" );
-
     using Integer32         = int32_t;
     using Number32          = float;        static_assert( bits_per_<Number32> >= 32, "!" );
+    using Integer64         = int64_t;
+    using Number64          = double;       static_assert( bits_per_<Number64> >= 64, "!" );
+
+    using Integer           = Integer64;
+    using Number            = Number64;
 
 
     //----------------------------------------------------------- @exported:
