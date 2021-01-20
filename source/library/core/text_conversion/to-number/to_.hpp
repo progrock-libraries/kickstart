@@ -33,16 +33,18 @@
 #include <string.h>                             // strerror
 #include <limits.h>                             // INT_MIN, INT_MAX
 
+#include <algorithm>        // std::min, std::max
 #include <string>
 #include <string_view>
 #include <utility>
 
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::failure_handling;
-    using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of
+    using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of, lar...
     using namespace exception;                  // Invalid, Range, ...
     namespace ascii = kickstart::ascii;
-    using   std::string,
+    using   std::min, std::max,
+            std::string,
             std::string_view,
             std::pair;
 
@@ -147,7 +149,9 @@ namespace kickstart::text_conversion::_definitions {
         if( pp_beyond_spec ) {
             *pp_beyond_spec = p_beyond_spec;
         }
-        hopefully( INT_MIN <= d and d <= INT_MAX )
+        constexpr double minval = min<double>( -largest_exact_integer_of_<double>, INT_MIN );
+        constexpr double maxval = max<double>( largest_exact_integer_of_<double>, INT_MAX );
+        hopefully( minval <= d and d <= maxval )
             or KS_FAIL_( exception::Representable_range_exceeded, "" );
         const int result = int( d );
         hopefully( result == d )

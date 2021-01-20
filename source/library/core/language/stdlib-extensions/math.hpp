@@ -28,10 +28,10 @@
 namespace kickstart::language::_definitions {
 
     template< class Int = int >
-    inline auto is_even( const Int x ) -> bool { return x % 2 == 0; }
+    inline constexpr auto is_even( const Int x ) -> bool { return x % 2 == 0; }
 
     template< class Int = int >
-    inline auto is_odd( const Int x ) -> bool { return x % 2 == 1; }
+    inline constexpr auto is_odd( const Int x ) -> bool { return x % 2 == 1; }
 
     namespace impl
     {
