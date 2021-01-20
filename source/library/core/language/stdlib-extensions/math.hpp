@@ -27,9 +27,14 @@
 
 namespace kickstart::language::_definitions {
 
+    template< class Int = int >
+    inline auto is_even( const Int x ) -> bool { return x % 2 == 0; }
+
+    template< class Int = int >
+    inline auto is_odd( const Int x ) -> bool { return x % 2 == 1; }
+
     namespace impl
     {
-        inline auto is_odd( const int x ) -> bool { return x % 2 == 1; }
 
         template< class Fp_type >
         constexpr inline auto intpow_( const Fp_type base, const int exponent )
@@ -67,6 +72,8 @@ namespace kickstart::language::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::is_even,
+        d::is_odd,
         d::intpow_,
         d::intpow;
     }  // namespace exported names
