@@ -23,7 +23,7 @@ auto main() -> int
 
 In [the above code](source/examples/motivational/name-and-age.kickstart.cpp):
 
-* The **`using namespace kickstart::all;`** directive is relatively safe.  
+* The **`using namespace kickstart::all;`** directive is in practice safe.  
   The `kickstart::all` namespace here provides a Python-like UTF-8 input function `input`, a conversion function `to_<int>`, and an UTF-8 stream-like object called **`out`** + an **`endl`**, that correspond roughly to `std::cout` and `std::endl` from the standard library.
 
 * **`input`** inputs a line of text as an UTF-8 encoded string.  
