@@ -70,10 +70,8 @@ namespace kickstart::startup::_definitions {
         assert( cmd_parts != nullptr );
         return with_exceptions_displayed( [&]() -> void
         {
-            do_things(
-                cmd_parts[0],
-                vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts )
-            );
+            const auto args = vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts );
+            do_things( cmd_parts[0], args );
         } );
     }
 

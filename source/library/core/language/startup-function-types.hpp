@@ -22,17 +22,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "type_aliases.hpp"    // Type_, C_str
+#include "collection-util.hpp"  // Array_span_
+#include "type_aliases.hpp"     // Type_, C_str
 
 #include <string_view>
 #include <vector>
 
 namespace kickstart::language::_definitions {
+    using   kickstart::language::Array_span_;
     using   std::string_view,
             std::vector;
 
     using Simple_startup        = void();
-    using Startup_with_args     = void( const string_view&, const vector<string_view>& );
+    using Startup_with_args     = void( const string_view&, const Array_span_<const string_view>& );
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;

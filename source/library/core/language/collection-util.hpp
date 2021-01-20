@@ -141,7 +141,8 @@ namespace kickstart::language::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::ssize_, d::int_size,
-        d::begin_ptr_of, d::end_ptr_of;
+        d::begin_ptr_of, d::end_ptr_of,
+        d::Array_span_, d::array_span_of;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
