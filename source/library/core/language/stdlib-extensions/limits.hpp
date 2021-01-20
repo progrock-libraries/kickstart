@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,41 +22,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "stdlib-extensions/limits.hpp"     // bits_per_
+#include "math.hpp"     // intpow_
 
-#include <stddef.h>     // size_t, ptrdiff_t
-#include <stdint.h>     // int32_t, int64_t
+#include <float.h>      // DBL_MANT_DIG
+#include <limits.h>     // CHAR_BIT
 
 namespace kickstart::language::_definitions {
-    template< class T > using Type_ = T;
+    using kickstart::language::intpow_;
 
-    using Size                  = ptrdiff_t;
-    using Index                 = ptrdiff_t;
-    using Unsigned_size         = size_t;
-    using Unsigned_index        = size_t;
-    using C_str                 = const char*;
-    using Byte                  = unsigned char;
+    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
+
+    template< class Fp_type > inline const int bits_per_mantissa_of_;
+    template<> inline const int bits_per_mantissa_of_<float>        = FLT_MANT_DIG;
+    template<> inline const int bits_per_mantissa_of_<double>       = DBL_MANT_DIG;
+    template<> inline const int bits_per_mantissa_of_<long double>  = LDBL_MANT_DIG;
 
 
-    using Int32                 = int32_t;
-    using Unsigned_int32        = uint32_t;
-    using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
-    using Int64                 = int64_t;
-    using Unsigned_int64        = uint64_t;
-    using Number64              = double;       static_assert( bits_per_<Number64> >= 64, "!" );
-
-    using Integer   = Int64;
-    using Number    = Number64;
+    template< class Fp_type >
+    const Fp_type largest_exact_integer_of_ =
+        intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> ) - 1;
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Type_,
-        d::Size, d::Index, d::C_str, d::Byte,
-        d::Int32, d::Unsigned_int32, d::Number32,
-        d::Int64, d::Unsigned_int64, d::Number64,
-        d::Integer, d::Number;
+        d::bits_per_,
+        d::bits_per_mantissa_of_,
+        d::largest_exact_integer_of_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 

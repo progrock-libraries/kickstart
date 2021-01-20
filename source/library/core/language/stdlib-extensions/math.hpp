@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,15 +22,53 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <limits.h>     // CHAR_BIT
+#include <cmath>        // Special functions, for completeness.
+#include <math.h>       // DBL_MANT_DIG
 
 namespace kickstart::language::_definitions {
-    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
+    namespace impl
+    {
+        inline auto is_odd( const int x ) -> bool { return x % 2 == 1; }
+
+        template< class Fp_type >
+        constexpr inline auto intpow_( const Fp_type base, const int exponent )
+            -> Fp_type
+        {
+            Fp_type result = 1;
+            Fp_type weight = base;
+            for( int n = exponent; n != 0; weight *= weight ) {
+                if( is_odd( n ) ) {
+                    result *= weight;
+                }
+                n /= 2;
+            }
+            return result;
+        }
+    }  // namespace impl
+
+    // Essentially this is Horner's rule adapted to calculating a power, so that the
+    // number of floating point multiplications is at worst O(log2(n)).
+    template< class Fp_type = double>
+    constexpr inline auto intpow_( const Fp_type base, const int exponent )
+        -> Fp_type
+    {
+        return (0?0
+            : exponent == 0?        1.0
+            : exponent < 0?         1.0/impl::intpow_<Fp_type>( base, -exponent )
+            :                       impl::intpow_<Fp_type>( base, exponent )
+            );
+    }
+
+    constexpr inline auto intpow( const double base, const int exponent )
+        -> double
+    { return intpow_<double>( base, exponent ); }
+        
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::bits_per_;
+        d::intpow_,
+        d::intpow;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
