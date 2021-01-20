@@ -26,3 +26,4 @@
 // It can be included via `<kickstart/with_iostreams.hpp>`.
 
 #include "stdlib-extensions/limits.hpp"
+#include "stdlib-extensions/math.hpp"
