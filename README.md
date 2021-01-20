@@ -27,7 +27,7 @@ In [the above code](source/examples/motivational/name-and-age.kickstart.cpp):
   The `kickstart::all` namespace here provides a Python-like UTF-8 input function `input`, a conversion function `to_<int>`, and an UTF-8 stream-like object called **`out`** + an **`endl`**, that correspond roughly to `std::cout` and `std::endl` from the standard library.
 
 * **`input`** inputs a line of text as an UTF-8 encoded string.  
-  In particular this means that the user can type in non-English characters such as Norwegian “æ”, “ø” and “å”.
+  In particular this means that the user can type in non-English characters such as Norwegian ‘æ’, ‘ø’ and ‘å’.
 
 * **`to_<int>`** converts a string to `int`, or *fails with an exception*.  
   I.e. you never get an arbitrary result on failure, as iostreams give you by default.
