@@ -149,8 +149,8 @@ namespace kickstart::text_conversion::_definitions {
         if( pp_beyond_spec ) {
             *pp_beyond_spec = p_beyond_spec;
         }
-        constexpr double minval = min<double>( -largest_exact_integer_of_<double>, INT_MIN );
-        constexpr double maxval = max<double>( largest_exact_integer_of_<double>, INT_MAX );
+        constexpr double minval = max<double>( -largest_exact_integer_of_<double>, INT_MIN );
+        constexpr double maxval = min<double>( largest_exact_integer_of_<double>, INT_MAX );
         hopefully( minval <= d and d <= maxval )
             or KS_FAIL_( exception::Representable_range_exceeded, "" );
         const int result = int( d );
