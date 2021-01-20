@@ -46,6 +46,6 @@ Some details:
  
 * The `kickstart::all` namespace also provides [a few select standard library identifiers](source/library/core/language/stdlib-includes/basics.hpp#L42-L61). In particular you can use `string`, `array` and `vector` directly instead of writing `std::string`, `std::array` and `std::vector`.
 
-If `to_<int>` ignored extraneous characters then text input `3,14` would erroneously convert to number `3`, and the program could then produce an incorrect but still plausible result. That’s unfortunately the default in the standard library, but Kickstart fixes that for you. If `to_<int>` finds extraneous characters other than leading or trailing whitespace, then it fails with an exception.
+If `to_<int>` ignored all characters after a valid specification then text input `3,14` would erroneously convert to number `3`, and the program could then produce an incorrect but still plausible result. That’s unfortunately the default in the standard library, but Kickstart fixes that for you. If `to_<int>` finds extraneous characters other than leading or trailing whitespace, then it fails with an exception.
 
 The library offers a hierarchy of functionality so that you can choose a suitable level of abstraction and detail for the task at hand. For example, `to_<int>` is just a thin checking wrapper around `to_<double>`, which in turn is effectively an alias for `safe::trimmed_string_to_double`. And for example, `out << v` effectively invokes just `output(str(v))`.
