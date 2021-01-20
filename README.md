@@ -32,7 +32,7 @@ In [the above code](source/examples/motivational/name-and-age.kickstart.cpp):
 * **`to_<int>`** converts a string to `int`, or *fails with an exception*.  
   I.e. you never get an arbitrary result on failure, as iostreams give you by default.
 
-Input is expressed as the expression result of a function call `input()` instead of the modification of variables that one gets with iostreams `>>` or `std::getline`. The function call expression result supports use of `const`. And that in turn makes the code shorter and more clear.
+Input is expressed as the expression result of a function call `input()` instead of the modification of variables that one gets with iostreams `>>` or `std::getline`. The input-as-expression-result supports use of `const`. And that in turn makes the code shorter and more clear.
 
 Iostreams headers are not included by default because there’s a possible cost of increased size of the executable. Kickstart input and output is instead by default implemented in terms of C `stdin`, `stdout` and `stderr` operations. However, when the input comes directly from a Windows console, or output goes directly to a Windows console, then Kickstart instead uses the UTF-16 based Windows API so as to deal correctly with non-ASCII characters.
 
