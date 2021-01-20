@@ -34,6 +34,16 @@ namespace kickstart::math::_definitions {
     template< class Int = int >
     inline constexpr auto is_odd( const Int x ) -> bool { return x % 2 == 1; }
 
+    constexpr double e                  = 2.71828182845904523536;
+    constexpr double log2e              = 1.44269504088896340736;
+    constexpr double log10e             = 0.434294481903251827651;
+    constexpr double ln2                = 0.693147180559945309417;
+    constexpr double ln10               = 2.30258509299404568402;
+    constexpr double pi                 = 3.14159265358979323846;
+    constexpr double inv_sqrt_pi        = 1.12837916709551257390;
+    constexpr double sqrt2              = 1.41421356237309504880;
+    constexpr double inv_sqrt2          = 0.707106781186547524401;
+
     namespace impl
     {
 
@@ -73,10 +83,9 @@ namespace kickstart::math::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::is_even,
-        d::is_odd,
-        d::intpow_,
-        d::intpow;
+        d::is_even, d::is_odd,
+        d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi, d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2,
+        d::intpow_, d::intpow;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 

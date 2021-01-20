@@ -24,6 +24,7 @@
 
 #include "math.hpp"     // intpow_
 
+#include <climits>      // For completeness.
 #include <float.h>      // DBL_MANT_DIG
 #include <limits.h>     // CHAR_BIT
 
