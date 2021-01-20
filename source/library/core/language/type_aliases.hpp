@@ -30,21 +30,23 @@
 namespace kickstart::language::_definitions {
     template< class T > using Type_ = T;
 
-    using Size              = ptrdiff_t;
-    using Index             = ptrdiff_t;
-    using Unsigned_size     = size_t;
-    using Unsigned_index    = size_t;
-    using C_str             = const char*;
-    using Byte              = unsigned char;
+    using Size                  = ptrdiff_t;
+    using Index                 = ptrdiff_t;
+    using Unsigned_size         = size_t;
+    using Unsigned_index        = size_t;
+    using C_str                 = const char*;
+    using Byte                  = unsigned char;
 
 
-    using Integer32         = int32_t;
-    using Number32          = float;        static_assert( bits_per_<Number32> >= 32, "!" );
-    using Integer64         = int64_t;
-    using Number64          = double;       static_assert( bits_per_<Number64> >= 64, "!" );
+    using Int32                 = int32_t;
+    using Unsigned_int32        = uint32_t;
+    using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
+    using Int64                 = int64_t;
+    using Unsigned_int64        = uint64_t;
+    using Number64              = double;       static_assert( bits_per_<Number64> >= 64, "!" );
 
-    using Integer           = Integer64;
-    using Number            = Number64;
+    using Integer   = Int64;
+    using Number    = Number64;
 
 
     //----------------------------------------------------------- @exported:
@@ -52,7 +54,9 @@ namespace kickstart::language::_definitions {
     namespace exported_names { using
         d::Type_,
         d::Size, d::Index, d::C_str, d::Byte,
-        d::Integer, d::Number, d::Integer32, d::Number32;
+        d::Int32, d::Unsigned_int32, d::Number32,
+        d::Int64, d::Unsigned_int64, d::Number64,
+        d::Integer, d::Number;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
