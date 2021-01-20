@@ -25,7 +25,8 @@
 #include <cmath>        // Special functions, for completeness.
 #include <math.h>       // DBL_MANT_DIG
 
-namespace kickstart::language::_definitions {
+// Important to not introduce possible future name conflicts with <math.h>.
+namespace kickstart::math::_definitions {
 
     template< class Int = int >
     inline constexpr auto is_even( const Int x ) -> bool { return x % 2 == 0; }
@@ -77,7 +78,7 @@ namespace kickstart::language::_definitions {
         d::intpow_,
         d::intpow;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::math::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }
+namespace kickstart::math           { using namespace _definitions::exported_names; }
+namespace kickstart::core           { namespace math = kickstart::math; }

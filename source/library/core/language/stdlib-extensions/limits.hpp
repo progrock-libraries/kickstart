@@ -28,7 +28,7 @@
 #include <limits.h>     // CHAR_BIT
 
 namespace kickstart::language::_definitions {
-    using kickstart::language::intpow_;
+    using kickstart::math::intpow_;
 
     template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 

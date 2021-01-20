@@ -149,9 +149,9 @@ namespace kickstart::text_conversion::_definitions {
         if( pp_beyond_spec ) {
             *pp_beyond_spec = p_beyond_spec;
         }
-        constexpr double minval = max<double>( -largest_exact_integer_of_<double>, INT_MIN );
-        constexpr double maxval = min<double>( largest_exact_integer_of_<double>, INT_MAX );
-        hopefully( minval <= d and d <= maxval )
+        hopefully( -largest_exact_integer_of_<double> <= d and d <= largest_exact_integer_of_<double> )
+            or KS_FAIL_( exception::Range, "Intermediate result could not be represented exactly as `<double>`." );
+        hopefully( INT_MIN <= d and d <= INT_MAX )
             or KS_FAIL_( exception::Representable_range_exceeded, "" );
         const int result = int( d );
         hopefully( result == d )

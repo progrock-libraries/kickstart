@@ -28,10 +28,11 @@
 
 #include <stdexcept>
 #include <string>
+#include <string_view>
 
-#define KS_FAIL_( X, s )                                        \
-        ::kickstart::failure_handling::fail_<X>(                \
-            std::string() + __func__ + " - " + std::string( s ) \
+#define KS_FAIL_( X, s )                                                        \
+        ::kickstart::failure_handling::fail_<X>(                                \
+            kickstart::failure_handling::Funcname{ __func__ }, std::string( s ) \
             );
 
 #define KS_FAIL( s ) \
@@ -40,7 +41,13 @@
 namespace kickstart::failure_handling::_definitions {
     using namespace kickstart::language;
     using   std::exception, std::runtime_error,
-            std::string;
+            std::string,
+            std::string_view;
+
+    struct Funcname
+    {
+        string_view     value;
+    };
 
     [[noreturn]] inline void unreachable() { assert( false ); throw ~42; }
 
@@ -48,6 +55,20 @@ namespace kickstart::failure_handling::_definitions {
 
     template< class X >
     [[noreturn]] inline auto fail_( const string& s ) -> bool { throw X( s ); }
+
+    template< class X >
+    [[noreturn]] inline auto fail_( const Funcname& funcname, const string& s = "" )
+        -> bool
+    {
+        auto message = string( funcname.value );
+        if( s.length() > 0 ) {
+            message += " - ";
+            message += s;
+        } else {
+            message += " failed";
+        }
+        fail_<X>( message );
+    }
 
     [[noreturn]] inline auto fail( const string& s ) -> bool { fail_<runtime_error>( s ); }
 
@@ -75,6 +96,7 @@ namespace kickstart::failure_handling::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         std::exception, std::logic_error, std::range_error, std::runtime_error,
+        d::Funcname,
         d::unreachable,
         d::hopefully,
         d::fail_,
