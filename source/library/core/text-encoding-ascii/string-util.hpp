@@ -98,6 +98,7 @@ namespace kickstart::ascii::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::is_all_ascii,
         d::trimmed_view,
         d::trimmed_string,
         d::trimmed,

@@ -28,6 +28,7 @@
 
 #include "../core/language/type_aliases.hpp"            // Type_, C_str
 #include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
+#include "../core/text-encoding-ascii/string-util.hpp"  // is_all_ascii
 #include "../core/failure-handling.hpp"                 // Clean_app_exception
 #include "utf8/io.hpp"                                  // output_error_message
 
@@ -77,7 +78,8 @@ namespace kickstart::console_startup::_definitions {
             namespace winapi = kickstart::winapi;
             if( winapi::GetACP() != winapi::cp_utf8 ) {
                 for( int i = 0; i < n_cmd_parts; ++i ) {
-                    
+                    hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
+                        or KS_FAIL( "Not UTF-8 locale and ommmand line contains non-ASCII code(s)." );
                 }
             }
         }
