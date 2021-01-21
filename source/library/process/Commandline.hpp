@@ -22,13 +22,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "../core/language/collection-util.hpp"     // Array_span_
+
 #include <string_view>
-#include <vector>
 
-namespace kickstart::process {
-    using   std::string_view,
-            std::vector;
+namespace kickstart::process::_definitions {
+    using   kickstart::language::Array_span_;
+    using   std::string_view;
 
-    inline auto command_line() -> string_view;
-    inline auto command_line_parts() -> vector<string_view>;
-}  // namespace kickstart::process
+    class Commandline
+    {
+        Commandline( const Commandline& ) = delete;
+        auto operator=( const Commandline& ) -> Commandline& = delete;
+
+        Commandline();
+
+    public:
+        virtual auto text() const -> string_view = 0;
+        virtual auto verb() const -> string_view = 0;
+        virtual auto args() const -> Array_span_<string_view> = 0;
+
+        static auto singleton() -> const Commandline&;
+    };
+
+    inline auto commandline() -> const Commandline& { return Commandline::singleton(); }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Commandline,
+        d::commandline;
+    }  // namespace exported_names
+}  // namespace kickstart::process::_definitions
