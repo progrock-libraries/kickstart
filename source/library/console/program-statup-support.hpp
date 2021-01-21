@@ -22,6 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#ifdef _WIN32
+#   include "../system-api/windows/consoles.hpp"        // GetACP
+#endif
+
 #include "../core/language/type_aliases.hpp"            // Type_, C_str
 #include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
 #include "../core/failure-handling.hpp"                 // Clean_app_exception
@@ -68,6 +72,16 @@ namespace kickstart::console_startup::_definitions {
     {
         assert( n_cmd_parts >= 1 );
         assert( cmd_parts != nullptr );
+        #ifdef _WIN32
+        {
+            namespace winapi = kickstart::winapi;
+            if( winapi::GetACP() != winapi::cp_utf8 ) {
+                for( int i = 0; i < n_cmd_parts; ++i ) {
+                    
+                }
+            }
+        }
+        #endif
         return with_exceptions_displayed( [&]() -> void
         {
             const auto args = vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts );

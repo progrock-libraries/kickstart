@@ -35,7 +35,8 @@ namespace kickstart::process::_definitions {
         Commandline( const Commandline& ) = delete;
         auto operator=( const Commandline& ) -> Commandline& = delete;
 
-        Commandline();
+    protected:
+        Commandline() {}
 
     public:
         virtual auto text() const -> string_view = 0;

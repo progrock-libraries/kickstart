@@ -39,11 +39,14 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::MultiByteToWideChar, WideCharToMultiByte;
+        using   ::GetACP, ::MultiByteToWideChar, ::WideCharToMultiByte;
         const auto cp_utf8 = CP_UTF8;
     #else
         using namespace kickstart::winapi;
         const UINT cp_utf8      = 65001;
+
+        extern "C" auto __stdcall GetACP()
+            -> UINT;
 
         extern "C" auto __stdcall MultiByteToWideChar(
             UINT                            CodePage,
@@ -70,6 +73,7 @@ namespace kickstart::winapi::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::cp_utf8,
+        d::GetACP,
         d::MultiByteToWideChar,
         d::WideCharToMultiByte;
     }  // namespace exported names

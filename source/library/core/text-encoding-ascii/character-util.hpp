@@ -24,53 +24,65 @@
 
 namespace kickstart::ascii {
     template< class Group >
-    constexpr auto is_( Group, const char ch )
+    constexpr auto is( Group, const char ch )
         -> bool
     { return Group::includes( ch ); }
 
-    struct {  // character
+    struct Character
+    {
         static constexpr auto includes( const char ch )
             -> bool
         { return (static_cast<unsigned char>( ch ) < 128); }
-    } constexpr character;
+    };
+    constexpr Character     character   = {};
 
-    struct {  // lowercase
+    struct Lowercase
+    {
         static constexpr auto includes( const char ch )
             -> bool
         { return ('a' <= ch and ch <= 'z'); }
-    } constexpr lowercase;
+    };
+    constexpr Lowercase     lowercase   = {};
 
-    struct {  // uppercase
+    struct Uppercase
+    {
         static constexpr auto includes( const char ch )
             -> bool
         { return ('A' <= ch and ch <= 'B'); }
-    } constexpr uppercase;
+    };
+    constexpr Uppercase     uppercase   = {};
 
-    struct {  // letter
+    struct Letter
+    {
         static constexpr auto includes( const char ch )
             -> bool
-        { return (is_( lowercase, ch ) or is_( uppercase, ch )); }
-    } constexpr letter;
+        { return (is( lowercase, ch ) or is( uppercase, ch )); }
+    };
+    constexpr Letter        letter      = {};
 
-    struct {  // digit
+    struct Digit
+    {
         static constexpr auto includes( const char ch )
             -> bool
         { return ('0' <= ch and ch <= '9'); }
-    } constexpr digit;
+    };
+    constexpr Digit         digit       = {};
 
-    struct {  // space
+    struct Space
+    {
         static constexpr auto includes( const char ch )
             -> bool
         { return (ch == ' ' or ch == '\f' or ch == '\n' or ch == '\r' or ch == '\t' or ch == '\v'); }
-    } constexpr space;
+    };
+    constexpr Space         space       = {};
 
     inline auto to_lower( const char ch )
         -> char
-    { return (is_( uppercase, ch )? char( ch - 'A' + 'a' ) : ch); }
+    { return (is( uppercase, ch )? char( ch - 'A' + 'a' ) : ch); }
 
     inline auto to_upper( const char ch )
         -> char
-    { return (is_( lowercase, ch )? char( ch - 'a' + 'A' ) : ch); }
+    { return (is( lowercase, ch )? char( ch - 'a' + 'A' ) : ch); }
 
 }  // namespace kickstart::ascii
 
