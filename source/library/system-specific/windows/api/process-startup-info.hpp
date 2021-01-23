@@ -22,7 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/types.hpp"
+#include "../../../system-specific/windows/api/types.hpp"
+#include "memory.hpp"           // LocalFree
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -39,17 +40,25 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::LocalFree;
+        using   ::GetCommandLineW,
+                ::CommandLineToArgvW;
     #else
         using namespace kickstart::winapi;
-        extern "C" auto __stdcall LocalFree( HANDLE hMem )
-            -> HANDLE;
-    #endif
+
+        extern "C" auto __stdcall GetCommandLineW()
+            -> wchar_t*;
+
+        extern "C" auto __stdcall CommandLineToArgvW(
+            const wchar_t*      lpCmdLine,
+            int*                pNumArgs
+            ) -> wchar_t**;
+#endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::LocalFree;
+        d::GetCommandLineW,
+        d::CommandLineToArgvW;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 

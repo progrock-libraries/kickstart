@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../system-api/windows/header-boilerplate-stuff.hpp"
+#include "../../../system-specific/windows/api/header-boilerplate-stuff.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,8 +24,8 @@
 
 #include "Interface.hpp"
 #include "../../../core/language/type_aliases.hpp"
-#include "../../../system-api/windows/consoles.hpp"
-#include "../../../system-api/windows/text-encoding.hpp"
+#include "../../../system-specific/windows/api/consoles.hpp"
+#include "../../../system-specific/windows/api/text-encoding.hpp"
 
 #include <assert.h>     // assert
 #include <stdint.h>     // uint32_t

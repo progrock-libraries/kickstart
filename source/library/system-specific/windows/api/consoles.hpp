@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/types.hpp"
+#include "../../../system-specific/windows/api/types.hpp"
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -39,44 +39,56 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::GetACP, ::MultiByteToWideChar, ::WideCharToMultiByte;
-        const auto cp_utf8 = CP_UTF8;
+        using   ::GetConsoleMode, ::SetConsoleMode,
+                ::ReadConsoleW, ::WriteConsoleW,
+                ::GetConsoleProcessList;
+
+        const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
+        const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
     #else
         using namespace kickstart::winapi;
-        const UINT cp_utf8      = 65001;
+        const DWORD enable_virtual_terminal_processing  = 0x0004;
+        const DWORD enable_extended_flags               = 0x0080;
+        //const DWORD enable_virtual_terminal_input       = 0x0200;
 
-        extern "C" auto __stdcall GetACP()
-            -> UINT;
+        extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
+            -> BOOL;
+        extern "C" auto __stdcall SetConsoleMode( HANDLE  hConsoleHandle, DWORD dwMode )
+            -> BOOL;
 
-        extern "C" auto __stdcall MultiByteToWideChar(
-            UINT                            CodePage,
-            DWORD                           dwFlags,
-            const char*                     lpMultiByteStr,
-            int                             cbMultiByte,
-            wchar_t*                        lpWideCharStr,
-            int                             cchWideChar
-            ) -> int;
+        extern "C" auto __stdcall ReadConsoleW(
+            HANDLE                          hConsoleInput,
+            void*                           lpBuffer,
+            DWORD                           nNumberOfCharsToRead,
+            DWORD*                          lpNumberOfCharsRead,
+            void*                           pInputControl
+            ) -> BOOL;
 
-        extern "C" auto __stdcall WideCharToMultiByte(
-            UINT                            CodePage,
-            DWORD                           dwFlags,
-            const wchar_t*                  lpWideCharStr,
-            int                             cchWideChar,
-            char*                           lpMultiByteStr,
-            int                             cbMultiByte,
-            const char*                     lpDefaultChar,
-            BOOL*                           lpUsedDefaultChar
-            ) -> int;
+        extern "C" auto __stdcall WriteConsoleW(
+            HANDLE          hConsoleOutput,
+            const void*     lpBuffer,
+            DWORD           nNumberOfCharsToWrite,
+            DWORD*          lpNumberOfCharsWritten,
+            void*           lpReserved
+            ) -> BOOL;
+
+        extern "C" auto __stdcall GetConsoleProcessList(
+            DWORD*          lpdwProcessList,
+            DWORD           dwProcessCount
+            ) -> DWORD;
     #endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::cp_utf8,
-        d::GetACP,
-        d::MultiByteToWideChar,
-        d::WideCharToMultiByte;
+        d::enable_virtual_terminal_processing,
+        d::enable_extended_flags,
+        d::GetConsoleMode,
+        d::SetConsoleMode,
+        d::ReadConsoleW,
+        d::WriteConsoleW,
+        d::GetConsoleProcessList;
     }  // namespace exported names
-}  // namespace kickstart::utf8_io::standard_streams::_definitions
+}  // namespace kickstart::winapi::_definitions
 
 namespace kickstart::winapi { using namespace _definitions::exported_names; }

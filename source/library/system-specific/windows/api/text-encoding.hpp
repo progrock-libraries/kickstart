@@ -22,8 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/types.hpp"
-#include "memory.hpp"           // LocalFree
+#include "../../../system-specific/windows/api/types.hpp"
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -40,26 +39,44 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::GetCommandLineW,
-                ::CommandLineToArgvW;
+        using   ::GetACP, ::MultiByteToWideChar, ::WideCharToMultiByte;
+        const auto cp_utf8 = CP_UTF8;
     #else
         using namespace kickstart::winapi;
+        const UINT cp_utf8      = 65001;
 
-        extern "C" auto __stdcall GetCommandLineW()
-            -> wchar_t*;
+        extern "C" auto __stdcall GetACP()
+            -> UINT;
 
-        extern "C" auto __stdcall CommandLineToArgvW(
-            const wchar_t*      lpCmdLine,
-            int*                pNumArgs
-            ) -> wchar_t**;
-#endif
+        extern "C" auto __stdcall MultiByteToWideChar(
+            UINT                            CodePage,
+            DWORD                           dwFlags,
+            const char*                     lpMultiByteStr,
+            int                             cbMultiByte,
+            wchar_t*                        lpWideCharStr,
+            int                             cchWideChar
+            ) -> int;
+
+        extern "C" auto __stdcall WideCharToMultiByte(
+            UINT                            CodePage,
+            DWORD                           dwFlags,
+            const wchar_t*                  lpWideCharStr,
+            int                             cchWideChar,
+            char*                           lpMultiByteStr,
+            int                             cbMultiByte,
+            const char*                     lpDefaultChar,
+            BOOL*                           lpUsedDefaultChar
+            ) -> int;
+    #endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::GetCommandLineW,
-        d::CommandLineToArgvW;
+        d::cp_utf8,
+        d::GetACP,
+        d::MultiByteToWideChar,
+        d::WideCharToMultiByte;
     }  // namespace exported names
-}  // namespace kickstart::winapi::_definitions
+}  // namespace kickstart::utf8_io::standard_streams::_definitions
 
 namespace kickstart::winapi { using namespace _definitions::exported_names; }

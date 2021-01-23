@@ -1,5 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#include "../assertion-headers/assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -21,15 +22,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _WIN64
-#   error "This header is for 64-bit Windows systems only."
-#endif
-static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include "../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../core/language/collection-util.hpp"     // Array_span_
 
-#include "../../core/language/type_aliases.hpp"
+#include <string_view>
 
-// Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
-#if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
-#   include <windows.h>
-#endif
+namespace kickstart::process::_definitions {
+    using   kickstart::language::Array_span_;
+    using   std::string_view;
+
+    class Commandline
+    {
+        Commandline( const Commandline& ) = delete;
+        auto operator=( const Commandline& ) -> Commandline& = delete;
+
+    protected:
+        Commandline() {}
+
+    public:
+        virtual auto fulltext() const -> string_view = 0;
+        virtual auto verb() const -> string_view = 0;
+        virtual auto args() const -> Array_span_<const string_view> = 0;
+
+        static inline auto singleton() -> const Commandline&;
+    };
+
+    inline auto commandline() -> const Commandline& { return Commandline::singleton(); }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Commandline,
+        d::commandline;
+    }  // namespace exported_names
+}  // namespace kickstart::process::_definitions

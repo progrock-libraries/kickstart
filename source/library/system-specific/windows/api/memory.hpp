@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../system-api/windows/types.hpp"
+#include "../../../system-specific/windows/api/types.hpp"
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -39,55 +39,17 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::GetConsoleMode, ::SetConsoleMode,
-                ::ReadConsoleW, ::WriteConsoleW,
-                ::GetConsoleProcessList;
-
-        const auto enable_virtual_terminal_processing   = ENABLE_VIRTUAL_TERMINAL_PROCESSING;
-        const auto enable_extended_flags                = ENABLE_EXTENDED_FLAGS;
+        using   ::LocalFree;
     #else
         using namespace kickstart::winapi;
-        const DWORD enable_virtual_terminal_processing  = 0x0004;
-        const DWORD enable_extended_flags               = 0x0080;
-        //const DWORD enable_virtual_terminal_input       = 0x0200;
-
-        extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
-            -> BOOL;
-        extern "C" auto __stdcall SetConsoleMode( HANDLE  hConsoleHandle, DWORD dwMode )
-            -> BOOL;
-
-        extern "C" auto __stdcall ReadConsoleW(
-            HANDLE                          hConsoleInput,
-            void*                           lpBuffer,
-            DWORD                           nNumberOfCharsToRead,
-            DWORD*                          lpNumberOfCharsRead,
-            void*                           pInputControl
-            ) -> BOOL;
-
-        extern "C" auto __stdcall WriteConsoleW(
-            HANDLE          hConsoleOutput,
-            const void*     lpBuffer,
-            DWORD           nNumberOfCharsToWrite,
-            DWORD*          lpNumberOfCharsWritten,
-            void*           lpReserved
-            ) -> BOOL;
-
-        extern "C" auto __stdcall GetConsoleProcessList(
-            DWORD*          lpdwProcessList,
-            DWORD           dwProcessCount
-            ) -> DWORD;
+        extern "C" auto __stdcall LocalFree( HANDLE hMem )
+            -> HANDLE;
     #endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::enable_virtual_terminal_processing,
-        d::enable_extended_flags,
-        d::GetConsoleMode,
-        d::SetConsoleMode,
-        d::ReadConsoleW,
-        d::WriteConsoleW,
-        d::GetConsoleProcessList;
+        d::LocalFree;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 
