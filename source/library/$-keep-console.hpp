@@ -5,10 +5,10 @@
 // Ideally don’t `#include` this header. Instead specify it as a forced include:
 //
 // • Visual C++ compiler:
-//   Use option `/FI "kickstart/stop-at-end.hpp"`.
+//   Use option `/FI "$-kickstart/stop-at-end.hpp"`.
 //
 // • g++ and clang compilers:
-//   Use option `-include "kickstart/stop-at-end.hpp"`.
+//   Use option `-include "$-kickstart/stop-at-end.hpp"`.
 
 //----------------------------------------------------------------------------------------
 // Description.
