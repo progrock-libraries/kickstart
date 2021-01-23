@@ -25,7 +25,7 @@
 #   error "This header is for 64-bit Windows systems only."
 #endif
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include "../../../assertion-headers/assert-reasonable-compiler.hpp"
+#include "../../../assertion-headers/$-assert-reasonable-compiler.hpp"
 
 #include "../../../core/language/type_aliases.hpp"
 

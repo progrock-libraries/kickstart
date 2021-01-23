@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "assert-is-c++17-or-later.hpp"     // static_assert with 2 args.
+#include "$-assert-is-c++17-or-later.hpp"       // static_assert with 2 args.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //

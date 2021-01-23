@@ -1,6 +1,5 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/$-assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,6 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace kickstart::numerical_input::_definitions {
-
-}  // namespace kickstart::numerical_input::_definitions
+#include "$-assert-has-boolean-operator-keywords.hpp"
+#include "$-assert-is-c++17-or-later.hpp"
+#include "$-assert-utf8-literals.hpp"
