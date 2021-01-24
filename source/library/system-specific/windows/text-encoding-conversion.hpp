@@ -24,11 +24,13 @@
 
 #include "../../core/failure-handling.hpp"
 #include "../../core/language/collection-util.hpp"          // int_size
+#include "api/text-encoding.hpp"
+
+#include <assert.h>         // assert
+#include <limits.h>         // INT_MAX
 
 #include <string>
 #include <string_view>
-
-#include "api/text-encoding.hpp"
 
 namespace kickstart::system_specific::_definitions {
     using   std::string,
@@ -43,6 +45,7 @@ namespace kickstart::system_specific::_definitions {
         if( ws.empty() ) {
             return "";
         }
+        assert( ws.size() <= size_t( INT_MAX ) );
 
         const winapi::DWORD flags = 0;
         const int buffer_size = winapi::WideCharToMultiByte(
