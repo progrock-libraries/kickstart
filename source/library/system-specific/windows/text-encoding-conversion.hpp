@@ -1,0 +1,61 @@
+﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
+#pragma once
+#include "../../assertion-headers/$-assert-reasonable-compiler.hpp"
+
+// Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in all
+// copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+// AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+// SOFTWARE.
+
+#include "../../core/failure-handling.hpp"
+#include "../../core/language/collection-util.hpp"          // int_size
+
+#include <string>
+#include <string_view>
+
+#include "api/text-encoding.hpp"
+
+namespace kickstart::system_specific::_definitions {
+    using   std::string,
+            std::wstring_view;
+    namespace winapi = kickstart::winapi;
+    using namespace kickstart::failure_handling;        // hopefully, fail
+    using namespace kickstart::language;                // int_size
+
+    inline auto to_utf8( const wstring_view& ws )
+        -> string
+    {
+        if( ws.empty() ) {
+            return "";
+        }
+
+        const winapi::DWORD flags = 0;
+        const int buffer_size = winapi::WideCharToMultiByte(
+            winapi::cp_utf8, flags, ws.data(), int_size( ws ), nullptr, 0, nullptr, nullptr
+            );
+        hopefully( buffer_size != 0 )
+            or KS_FAIL( "WideCharToMultiByte failed" );
+
+        auto result = string( buffer_size, '\0' );
+        const int string_size = winapi::WideCharToMultiByte(
+            winapi::cp_utf8, flags, ws.data(), int_size( ws ), result.data(), buffer_size, nullptr, nullptr
+            );
+        result.resize( string_size );       // Not clear if this is necessary.
+        return result;
+    }
+}  // namespace kickstart::system_specific::_definitions
