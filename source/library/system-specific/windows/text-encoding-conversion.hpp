@@ -22,9 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "api/text-encoding.hpp"
 #include "../../core/failure-handling.hpp"
 #include "../../core/language/collection-util.hpp"          // int_size
-#include "api/text-encoding.hpp"
 
 #include <assert.h>         // assert
 #include <limits.h>         // INT_MAX
@@ -33,11 +33,11 @@
 #include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using   std::string,
-            std::wstring_view;
     namespace winapi = kickstart::winapi;
     using namespace kickstart::failure_handling;        // hopefully, fail
     using namespace kickstart::language;                // int_size
+    using   std::string,
+            std::wstring_view;
 
     inline auto to_utf8( const wstring_view& ws )
         -> string
