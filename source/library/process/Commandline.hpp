@@ -23,9 +23,9 @@
 // SOFTWARE.
 
 #if defined( _WIN32 )
-#   include "Commandline/Commandline.for-windows.hpp"
+#   include "Commandline/for-windows.hpp"
 #elif defined( __linux__ )
 #   error
 #else
-#   include "Commandline/Commandline.empty.hpp"
+#   include "Commandline/empty-commandline.hpp"
 #endif

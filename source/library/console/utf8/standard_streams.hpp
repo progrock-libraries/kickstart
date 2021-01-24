@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #ifdef _WIN64
-#   include "standard_streams/For_windows.hpp"
+#   include "standard_streams/for-windows.hpp"
 #else
-#   include "standard_streams/For_utf8_systems.hpp"
+#   include "standard_streams/for-utf8-systems.hpp"
 #endif

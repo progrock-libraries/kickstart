@@ -24,7 +24,7 @@
 
 #include "../../core/language/type_aliases.hpp"
 #include "../../system-specific/windows/api/process-startup-info.hpp"
-#include "Commandline.interface.hpp"
+#include "module-interface.hpp"
 
 #include <assert.h>
 
