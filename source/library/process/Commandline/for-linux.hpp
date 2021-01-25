@@ -64,7 +64,7 @@ namespace kickstart::process::_definitions {
             m_command_line.pop_back();      // A final ASCII zero translated to space.
 
             for( char const* p = command_line.data(); *p; p += strlen( p ) + 1 ) {
-                    m_parts.push_back( string( p ) );
+                m_parts.push_back( string( p ) );
             }
 
             for( const auto& s: m_parts ) {
