@@ -48,16 +48,7 @@ namespace kickstart::process::_definitions {
     {
         friend auto Commandline::singleton() -> const Commandline&;
 
-        using Self = Windows_commandline;
-
-        Windows_commandline( const Self& ) = delete;
-        auto operator=( const Self& ) -> Self& = delete;
-
         static void free_parts( const Type_<wchar_t**> p ) { winapi::LocalFree( p ); }
-
-        string                  m_command_line;
-        vector<string>          m_parts;
-        vector<string_view>     m_part_views;
 
         Windows_commandline()
         {
@@ -80,15 +71,6 @@ namespace kickstart::process::_definitions {
             }
             m_part_views = vector<string_view>( m_parts.begin(), m_parts.end() );
         }
-
-    public:
-        auto fulltext() const -> string_view override   { return m_command_line; }
-        auto verb() const -> string_view override       { return m_part_views[0]; }
-
-        auto args() const
-            -> Array_span_<const string_view>
-            override
-        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
     };
 
     inline auto Commandline::singleton()

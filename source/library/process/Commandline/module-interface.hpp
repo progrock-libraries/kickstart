@@ -24,11 +24,18 @@
 
 #include "../../core/language/collection-util.hpp"     // Array_span_
 
+#include <string>
 #include <string_view>
+#include <vector>
 
 namespace kickstart::process::_definitions {
     using   kickstart::language::Array_span_;
-    using   std::string_view;
+    using   std::string,
+            std::string_view,
+            std::vector;
+
+    using namespace kickstart::failure_handling;    // hopefully, fail
+    using namespace kickstart::language;            // Type_, end_ptr_of
 
     class Commandline
     {
@@ -36,19 +43,28 @@ namespace kickstart::process::_definitions {
         auto operator=( const Commandline& ) -> Commandline& = delete;
 
     protected:
-        Commandline() {}
+        string                  m_command_line;
+        vector<string>          m_parts;
+        vector<string_view>     m_part_views;
+
+        Commandline() {}        // Makes the class effectively abstract.
 
     public:
-        virtual auto fulltext() const -> string_view = 0;
-        virtual auto verb() const -> string_view = 0;
-        virtual auto args() const -> Array_span_<const string_view> = 0;
+        auto fulltext() const -> string_view    { return m_command_line; }
+        auto verb() const -> string_view        { return m_part_views[0]; }
+
+        auto args() const
+            -> Array_span_<const string_view>
+        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
 
         operator string_view() const { return fulltext(); }
 
         static inline auto singleton() -> const Commandline&;
     };
 
-    inline auto commandline() -> const Commandline& { return Commandline::singleton(); }
+    inline auto commandline()
+        -> const Commandline&
+    { return Commandline::singleton(); }
 
 
     //----------------------------------------------------------- @exported:

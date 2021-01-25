@@ -30,9 +30,6 @@
 #include "../../core/text_conversion/to-text/string-output-operator.hpp"
 
 #include <assert.h>
-
-#include <string>
-#include <vector>
 #include <fstream>
 
 namespace kickstart::process::_definitions {
@@ -40,23 +37,12 @@ namespace kickstart::process::_definitions {
             std::vector,
             std::ifstream;
 
-    using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Type_, end_ptr_of
     using namespace kickstart::text_conversion;     // "<<" string builder.
 
     class Linux_commandline
         : public Commandline
     {
         friend auto Commandline::singleton() -> const Commandline&;
-
-        using Self = Linux_commandline;
-
-        Linux_commandline( const Self& ) = delete;
-        auto operator=( const Self& ) -> Self& = delete;
-
-        string                  m_command_line;
-        vector<string>          m_parts;
-        vector<string_view>     m_part_views;
 
         Linux_commandline()
         {
@@ -67,22 +53,13 @@ namespace kickstart::process::_definitions {
             string result;
             getline( f, m_command_line )
                 or fail( ""s << "failed to read “" << path << "”" );
-            for( char const* p = &m_command_line[0]; *p; p += strlen( p ) + 1 ) {
+            for( char const* p = m_command_line.data(); *p; p += strlen( p ) + 1 ) {
                     m_parts.push_back( string( p ) );
             }
             for( const auto& s: m_parts ) {
                 m_part_views.push_back( string_view( s ) );
             }
         }
-
-    public:
-        auto fulltext() const -> string_view override   { return m_command_line; }
-        auto verb() const -> string_view override       { return m_part_views[0]; }
-
-        auto args() const
-            -> Array_span_<const string_view>
-            override
-        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
     };
 
     inline auto Commandline::singleton()
