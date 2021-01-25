@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "header-boilerplate-stuff.hpp"
+#include "$-header-boilerplate-stuff.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -39,6 +39,10 @@ namespace kickstart::winapi::_definitions {
     // A more fragile fix is to include <windows.h> BEFORE any Kickstart header, or
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
+    #ifdef _MSC_VER
+    #   pragma comment( lib, "shell32.lib" )        // g++ links this implicitly.
+    #endif
+    
     #ifdef MessageBox       // <windows.h> has been included
         using   ::GetCommandLineW,
                 ::CommandLineToArgvW;
