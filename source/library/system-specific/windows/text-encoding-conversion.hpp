@@ -61,4 +61,12 @@ namespace kickstart::system_specific::_definitions {
         result.resize( string_size );       // Not clear if this is necessary.
         return result;
     }
+
+   //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::to_utf8;
+    }  // namespace exported names
 }  // namespace kickstart::system_specific::_definitions
+
+namespace kickstart::system_specific    { using namespace _definitions::exported_names; }

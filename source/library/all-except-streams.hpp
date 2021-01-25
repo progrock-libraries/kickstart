@@ -24,6 +24,7 @@
 
 #include "core.hpp"
 #include "console.hpp"
+#include "process.hpp"
 
 namespace kickstart::all_except_streams {
     using namespace core;               // From "core.hpp"
@@ -32,4 +33,5 @@ namespace kickstart::all_except_streams {
 
     namespace ansi_escape_seq = kickstart::ansi_escape_seq;
     namespace portable_dingbats = kickstart::portable_dingbats;
+    namespace process = kickstart::process;
 }

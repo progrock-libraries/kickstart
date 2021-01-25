@@ -27,26 +27,96 @@
 #include <sstream>
 #include <string>
 #include <string_view>
+#include <type_traits>
 
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::language;    // C_str etc.
     using   std::ostringstream,
             std::string,
-            std::string_view;
+            std::string_view,
+            std::is_convertible_v;
 
     namespace impl {
-        inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
-        inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
         inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
+        inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
+        inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
+
+        enum class Conversion_kind_value { none, to_c_str, to_string, to_string_view };
+
+        template< class Type >
+        constexpr auto conversion_kind_value_()
+            -> Conversion_kind_value
+        {
+            if constexpr( is_convertible_v<Type, string_view> ) {
+                return Conversion_kind_value::to_string_view;
+            } else if constexpr( is_convertible_v<Type, string>) {
+                return Conversion_kind_value::to_string;
+            } else if constexpr( is_convertible_v<Type, C_str> ) {
+                return Conversion_kind_value::to_c_str;
+            } else {
+                return Conversion_kind_value::none;
+            }
+        }
+
+        struct Conversion_kind_none {};
+        struct Conversion_kind_to_c_str {};
+        struct Conversion_kind_to_string {};
+        struct Conversion_kind_to_string_view {};
+
+        template< Conversion_kind_value kind > struct Conversion_kind_t_;
+        template<> struct Conversion_kind_t_<Conversion_kind_value::none>{ using T = Conversion_kind_none; };
+        template<> struct Conversion_kind_t_<Conversion_kind_value::to_c_str>{ using T = Conversion_kind_to_c_str; };
+        template<> struct Conversion_kind_t_<Conversion_kind_value::to_string>{ using T = Conversion_kind_to_string; };
+        template<> struct Conversion_kind_t_<Conversion_kind_value::to_string_view>{ using T = Conversion_kind_to_string_view; };
+
+        template< Conversion_kind_value kind >
+        using Conversion_kind_ = typename Conversion_kind_t_<kind>::T;
 
         template< class T >
-        inline auto as_string_append_argument( const T& value )
+        inline auto as_string_append_argument( const T& value, Conversion_kind_none )
             -> string
         {
             ostringstream stream;
             stream << value;
             return stream.str();
         }
+
+        template< class T >
+        inline auto as_string_append_argument( const T& value, Conversion_kind_to_c_str )
+            -> C_str
+        { return as_string_append_argument( C_str( value ) ); }
+
+        template< class T >
+        inline auto as_string_append_argument( const T& value, Conversion_kind_to_string )
+            -> string
+        { return as_string_append_argument( string( value ) ); }
+
+        template< class T >
+        inline auto as_string_append_argument( const T& value, Conversion_kind_to_string_view )
+            -> string_view
+        { return as_string_append_argument( string_view( value ) ); }
+
+        //template< class T >
+        //inline auto as_string_append_argument( const T& value )
+        //    -> string
+        //{
+        //    if constexpr( is_convertible_v<T, string_view> ) {
+        //        return string( as_string_append_argument( string_view( value ) ) );
+        //    } else if constexpr( is_convertible_v<T, C_str> ) {
+        //        return as_string_append_argument( C_str( value ) );
+        //    } else if constexpr( is_convertible_v<T, string>) {
+        //        return as_string_append_argument( string( value ) );
+        //    } else {
+        //        ostringstream stream;
+        //        stream << value;
+        //        return stream.str();
+        //    }
+        //}
+
+        template< class T >
+        inline auto as_string_append_argument( const T& value )
+            -> auto
+        {  return as_string_append_argument( value, Conversion_kind_<conversion_kind_value_<T>()>() ); }
 
         inline auto as_string_append_argument( const bool value )
             -> string

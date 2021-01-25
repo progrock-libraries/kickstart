@@ -22,41 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../core/language/collection-util.hpp"     // Array_span_
-
-#include <string_view>
+#include "module-interface.hpp"
 
 namespace kickstart::process::_definitions {
-    using   kickstart::language::Array_span_;
-    using   std::string_view;
+    const inline auto& not_implemented_message =
+        "Kickstart command line access isn’t implemented for your platform.";
 
-    class Commandline
-    {
-        Commandline( const Commandline& ) = delete;
-        auto operator=( const Commandline& ) -> Commandline& = delete;
-
-    protected:
-        Commandline() {}
-
-    public:
-        virtual auto fulltext() const -> string_view = 0;
-        virtual auto verb() const -> string_view = 0;
-        virtual auto args() const -> Array_span_<const string_view> = 0;
-
-        operator string_view() const { return fulltext(); }
-
-        static inline auto singleton() -> const Commandline&;
-    };
-
-    inline auto commandline() -> const Commandline& { return Commandline::singleton(); }
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::Commandline,
-        d::commandline;
-    }  // namespace exported_names
+    inline auto Commandline::singleton()
+        -> const Commandline&
+    { KS_FAIL( not_implemented_message ); }
 }  // namespace kickstart::process::_definitions
-
-namespace kickstart::process        { using namespace _definitions; }
