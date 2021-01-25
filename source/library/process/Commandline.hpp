@@ -25,7 +25,7 @@
 #if defined( _WIN32 )
 #   include "Commandline/for-windows.hpp"
 #elif defined( __linux__ )
-#   error
+#   include "Commandline/for-linux.hpp"
 #else
 #   include "Commandline/no-commandline.hpp"
 #endif
