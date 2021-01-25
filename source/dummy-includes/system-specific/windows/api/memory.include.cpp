@@ -1,1 +1,3 @@
-#include <kickstart/system-specific/windows/api/memory.hpp>
+#ifdef _WIN32
+#   include <kickstart/system-specific/windows/api/memory.hpp>
+#endif
