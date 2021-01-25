@@ -24,7 +24,8 @@
 
 #include "module-interface.hpp"
 
-#include "../../core/language/type_aliases.hpp"
+#include "../../core/language/collection-util.hpp"      // end_ptr_of
+#include "../../core/language/type_aliases.hpp"         // Type_
 #include "../../system-specific/windows/text-encoding-conversion.hpp"
 #include "../../system-specific/windows/api/process-startup-info.hpp"
 
@@ -40,7 +41,7 @@ namespace kickstart::process::_definitions {
             std::unique_ptr, std::make_unique;
 
     using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Type_
+    using namespace kickstart::language;            // Type_, end_ptr_of
 
     class Windows_commandline
         : public Commandline
@@ -87,7 +88,7 @@ namespace kickstart::process::_definitions {
         auto args() const
             -> Array_span_<const string_view>
             override
-        { return {&m_part_views[1], &m_part_views.back()}; }
+        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
     };
 
     inline auto Commandline::singleton()
