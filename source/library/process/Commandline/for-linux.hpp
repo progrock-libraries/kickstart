@@ -28,6 +28,7 @@
 #include "../../core/language/collection-util.hpp"      // end_ptr_of
 #include "../../core/language/type_aliases.hpp"         // Type_
 #include "../../core/text_conversion/to-text/string-output-operator.hpp"
+#include "../../core/text-encoding-ascii/character-util.hpp"
 
 #include <assert.h>
 #include <fstream>
@@ -50,12 +51,22 @@ namespace kickstart::process::_definitions {
             ifstream f( path );
             hopefully( not f.fail() )
                 or KS_FAIL( ""s << "failed to open “" << path << "”" );
-            string result;
-            getline( f, m_command_line )
+            string command_line;
+            getline( f, command_line )
                 or fail( ""s << "failed to read “" << path << "”" );
-            for( char const* p = m_command_line.data(); *p; p += strlen( p ) + 1 ) {
+
+            for( const char ch: command_line ) {
+                if( ch == '\\' or is( ascii::space, ch ) ) {
+                    m_command_line += '\\';
+                }
+                m_command_line += (ch == '\0'? ' ' : ch);
+            }
+            m_command_line.pop_back();      // A final ASCII zero translated to space.
+
+            for( char const* p = command_line.data(); *p; p += strlen( p ) + 1 ) {
                     m_parts.push_back( string( p ) );
             }
+
             for( const auto& s: m_parts ) {
                 m_part_views.push_back( string_view( s ) );
             }
