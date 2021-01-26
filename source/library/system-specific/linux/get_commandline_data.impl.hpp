@@ -34,12 +34,16 @@
 
 #include <fstream>
 #include <string>
+#include <string_view>
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::text_conversion;     // "<<" string builder.
     using namespace kickstart::failure_handling;    // hopefully, fail
+    using namespace std::string_view_literals;
+
     using   std::ifstream,
-            std::string;
+            std::string,
+            std::string_view;
 
     inline auto get_commandline_data()
         -> Commandline_data
@@ -53,8 +57,9 @@ namespace kickstart::system_specific::_definitions {
             or KS_FAIL( ""s << "failed to read “" << path << "”" );
 
         Commandline_data result;
+        const auto npos = string_view::npos;
         for( const char ch: command_line ) {
-            if( ch == '\\' or ch == '\'' or ch == '"' or ch == ';' or ch == '&' or is( ascii::space, ch ) ) {
+            if( "\\\'\";&|"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
                 result.fulltext += '\\';
             }
             result.fulltext += (ch == '\0'? ' ' : ch);
