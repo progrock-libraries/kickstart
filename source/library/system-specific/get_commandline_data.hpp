@@ -39,6 +39,6 @@ namespace kickstart::system_specific {
     namespace kickstart::system_specific {
         inline auto get_commandline_data()
             -> Commandline_data
-    { KS_FAIL( "This platform is not supported." );  }
+        { KS_FAIL( "This platform is not supported." );  }
     }  // namespace kickstart::system_specific::_definitions
 #endif
