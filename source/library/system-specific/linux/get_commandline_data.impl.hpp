@@ -50,11 +50,11 @@ namespace kickstart::system_specific::_definitions {
             or KS_FAIL( ""s << "failed to open “" << path << "”" );
         string command_line;
         getline( f, command_line )
-            or fail( ""s << "failed to read “" << path << "”" );
+            or KS_FAIL( ""s << "failed to read “" << path << "”" );
 
         Commandline_data result;
         for( const char ch: command_line ) {
-            if( ch == '\\' or ch == '\'' or ch == '"' or is( ascii::space, ch ) ) {
+            if( ch == '\\' or ch == '\'' or ch == '"' or ch == ';' or is( ascii::space, ch ) ) {
                 result.fulltext += '\\';
             }
             result.fulltext += (ch == '\0'? ' ' : ch);
