@@ -40,7 +40,7 @@ namespace kickstart::system_specific {
 #   include "linux/get_commandline_data.impl.hpp"
 #else
 #   include <kickstart/core/failure-handling.hpp>
-    namespace kickstart::system_specific {
+    namespace kickstart::system_specific::_definitions {
         inline auto get_commandline_data()
             -> Commandline_data
         { KS_FAIL( "This platform is not supported." );  }
