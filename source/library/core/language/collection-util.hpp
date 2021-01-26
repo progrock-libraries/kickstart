@@ -80,7 +80,7 @@ namespace kickstart::language::_definitions {
         static auto at( const Index i, Self& self )
             -> auto&
         {
-            hopefully( Unsigned_index( i ) < Unsigned_size( size() ) )
+            hopefully( Unsigned_index( i ) < Unsigned_size( self.size() ) )
                 or KS_FAIL_( out_of_range, ""s << "Index value " << i << " is out of range." );
             return self[i];
         }
