@@ -37,6 +37,8 @@ namespace kickstart::system_specific {
 #else
 #   include <kickstart/core/failure-handling.hpp>
     namespace kickstart::system_specific {
-        inline auto get_commandline_data() -> Commandline_data  { KS_FAIL( "" );  }
+        inline auto get_commandline_data()
+            -> Commandline_data
+    { KS_FAIL( "This platform is not supported." );  }
     }  // namespace kickstart::system_specific::_definitions
 #endif
