@@ -3,5 +3,5 @@ using namespace kickstart::all;
 
 auto main() -> int
 {
-    out << "“" << process::commandline() << "”" << endl;
+    out << "“" << process::the_commandline() << "”" << endl;
 }

@@ -30,6 +30,7 @@
 #include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
 #include "../core/text-encoding-ascii/string-util.hpp"  // is_all_ascii
 #include "../core/failure-handling.hpp"                 // Clean_app_exception
+#include "../process/Commandline.hpp"
 #include "utf8/io.hpp"                                  // output_error_message
 
 #include <assert.h>         // assert
@@ -42,6 +43,7 @@
 #include <vector>
 
 namespace kickstart::console_startup::_definitions {
+    namespace process = kickstart::process;
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;
     using namespace std::string_literals;
@@ -65,6 +67,9 @@ namespace kickstart::console_startup::_definitions {
         return EXIT_FAILURE;
     }
 
+    // For non-Windows platforms the parts are unconditionally assumed to be UTF-8 encoded.
+    // In Windows the parts are assumed to be UTF-8 encoded if the process' ANSI codepage is UTF-8.
+    // Otherwise, in Windows, non-ASCII characters will cause a `std::invalid_argument` exception.
     inline auto with_exceptions_displayed(
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
@@ -79,7 +84,7 @@ namespace kickstart::console_startup::_definitions {
             if( winapi::GetACP() != winapi::cp_utf8 ) {
                 for( int i = 0; i < n_cmd_parts; ++i ) {
                     hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
-                        or KS_FAIL( "Not UTF-8 locale and ommmand line contains non-ASCII code(s)." );
+                        or KS_FAIL_( std::invalid_argument, "Not UTF-8 locale and ommmand line contains non-ASCII code(s)." );
                 }
             }
         }
@@ -94,8 +99,11 @@ namespace kickstart::console_startup::_definitions {
     inline auto with_exceptions_displayed( const function<Startup_with_args>& do_things )
         -> int
     {
-        const C_str dummy_cmd[] = {"", nullptr};
-        return with_exceptions_displayed( do_things, 1, dummy_cmd );
+        const auto& c = process::the_commandline();
+        return with_exceptions_displayed( [&]() -> void
+        {
+            do_things( c.verb(), c.args() );
+        } );
     }
 
 

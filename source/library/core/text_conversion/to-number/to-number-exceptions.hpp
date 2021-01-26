@@ -22,9 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include    "../../language/type_aliases.hpp"
 #include    <stdexcept>
-#include    <string_view>
 
 namespace kickstart::text_conversion {
     namespace exception {

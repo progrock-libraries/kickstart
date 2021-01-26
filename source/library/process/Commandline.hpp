@@ -28,6 +28,7 @@
 
 #include <string>
 #include <string_view>
+#include <utility>
 #include <vector>
 
 namespace kickstart::process::_definitions {
@@ -35,6 +36,7 @@ namespace kickstart::process::_definitions {
     using   k::system_specific::Commandline_data, k::system_specific::get_commandline_data;
     using   std::string,
             std::string_view,
+            std::move,                  // From <utility>
             std::vector;
 
     using namespace kickstart::failure_handling;    // hopefully, fail
@@ -73,7 +75,7 @@ namespace kickstart::process::_definitions {
         }
     };
 
-    inline auto commandline()
+    inline auto the_commandline()
         -> const Commandline&
     { return Commandline::singleton(); }
 
@@ -82,7 +84,7 @@ namespace kickstart::process::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::Commandline,
-        d::commandline;
+        d::the_commandline;
     }  // namespace exported_names
 }  // namespace kickstart::process::_definitions
 
