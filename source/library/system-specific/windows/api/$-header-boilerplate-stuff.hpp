@@ -23,6 +23,7 @@
 
 #ifndef _WIN64
 #   error "This header is for 64-bit Windows systems only."
+#   include <nosuch>
 #endif
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include "../../../assertion-headers/$-assert-reasonable-compiler.hpp"

@@ -25,15 +25,19 @@
 #include "Commandline_data.hpp"
 
 namespace kickstart::system_specific {
+    namespace _definitions {
+        inline auto get_commandline_data() -> Commandline_data;
+    }  // namespace _definitions
 
-    inline auto get_commandline_data() -> Commandline_data;
-
-}  // namespace kickstart::system_specific::_definitions
+    inline auto get_commandline_data()
+        -> Commandline_data
+    { return _definitions::get_commandline_data(); }
+}  // namespace kickstart::system_specific
 
 #if defined( _WIN32 )
 #   include "windows/get_commandline_data.impl.hpp"
-//#elif defined( __linux__ 
-//#   error
+#elif defined( __linux__ )
+#   include "linux/get_commandline_data.impl.hpp"
 #else
 #   include <kickstart/core/failure-handling.hpp>
     namespace kickstart::system_specific {

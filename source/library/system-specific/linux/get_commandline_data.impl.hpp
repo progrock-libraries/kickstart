@@ -1,6 +1,10 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 #include "../../assertion-headers/$-assert-reasonable-compiler.hpp"
+#ifndef __linux__
+#   error "This header is for Linux systems only."
+#   include <nosuch>
+#endif
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -25,47 +29,40 @@
 #include "../Commandline_data.hpp"
 
 #include "../../core/failure-handling.hpp"
-#include "../../core/language/collection-util.hpp"      // end_ptr_of
-#include "../../core/language/type_aliases.hpp"         // Type_
-#include "../../system-specific/windows/text-encoding-conversion.hpp"
-#include "../../system-specific/windows/api/process-startup-info.hpp"
+#include "../../core/text_conversion/to-text/string-output-operator.hpp"
+#include "../../core/text-encoding-ascii/character-util.hpp"
 
-#include <assert.h>
-
-#include <vector>
-#include <memory>
+#include <fstream>
+#include <string>
 
 namespace kickstart::system_specific::_definitions {
-    using   kickstart::system_specific::to_utf8;
-    using   std::string,
-            std::vector,
-            std::unique_ptr;
-
+    using namespace kickstart::text_conversion;     // "<<" string builder.
     using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Type_, end_ptr_of
-
-    inline void free_parts( const Type_<wchar_t**> p ) { winapi::LocalFree( p ); }
+    using   std::ifstream,
+            std::string;
 
     inline auto get_commandline_data()
         -> Commandline_data
     {
-        namespace winapi = kickstart::winapi;
-        using Raw_parts = unique_ptr< Type_<wchar_t*>[], Type_<void(wchar_t**)>* >;
-
-        const Type_<wchar_t*> command_line = winapi::GetCommandLineW();
-        int n_parts = 0;
-        const auto raw_parts = Raw_parts(
-            winapi::CommandLineToArgvW( command_line, &n_parts ),
-            free_parts
-        );
-        hopefully( raw_parts != nullptr )
-            or KS_FAIL( "Failed to split command line into parts (::CommandLineToArgvW failed)" );
-        assert( n_parts >= 1 );
+        const auto& path = "/proc/self/cmdline";    // “self” provides getpid()
+        ifstream f( path );
+        hopefully( not f.fail() )
+            or KS_FAIL( ""s << "failed to open “" << path << "”" );
+        string command_line;
+        getline( f, command_line )
+            or fail( ""s << "failed to read “" << path << "”" );
 
         Commandline_data result;
-        result.fulltext = to_utf8( command_line );
-        for( int i = 0; i < n_parts; ++i ) {
-            result.parts.push_back( to_utf8( raw_parts[i] ) );
+        for( const char ch: command_line ) {
+            if( ch == '\\' or ch == '\'' or ch == '"' or is( ascii::space, ch ) ) {
+                result.fulltext += '\\';
+            }
+            result.fulltext += (ch == '\0'? ' ' : ch);
+        }
+        result.fulltext.pop_back();     // A final ASCII zero translated to space.
+
+        for( char const* p = command_line.data(); *p; p += strlen( p ) + 1 ) {
+            result.parts.push_back( string( p ) );
         }
         return result;
     }
