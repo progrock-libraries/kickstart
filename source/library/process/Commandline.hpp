@@ -22,10 +22,68 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if defined( _WIN32 )
-#   include "Commandline/for-windows.hpp"
-#elif defined( __linux__ )
-#   include "Commandline/for-linux.hpp"
-#else
-#   include "Commandline/no-commandline.hpp"
-#endif
+#include "../core/failure-handling.hpp"
+#include "../core/language/collection-util.hpp"     // Array_span_
+#include "../system-specific/get_commandline_data.hpp"
+
+#include <string>
+#include <string_view>
+#include <vector>
+
+namespace kickstart::process::_definitions {
+    namespace k = kickstart;
+    using   k::system_specific::Commandline_data, k::system_specific::get_commandline_data;
+    using   std::string,
+            std::string_view,
+            std::vector;
+
+    using namespace kickstart::failure_handling;    // hopefully, fail
+    using namespace kickstart::language;            // Array_span_, Type_, end_ptr_of
+
+    class Commandline
+    {
+        using Self = Commandline;
+        Commandline( const Self& ) = delete;
+        auto operator=( const Self& ) -> Self& = delete;
+
+        Commandline_data        m_data;
+        vector<string_view>     m_part_views;
+
+        Commandline():
+            m_data( get_commandline_data() )
+        {
+            m_part_views = { m_data.parts.begin(), m_data.parts.end() };
+        }
+
+    public:
+        auto fulltext() const   -> string_view  { return m_data.fulltext; }
+        auto verb() const       -> string_view  { return m_part_views[0]; }
+
+        auto args() const
+            -> Array_span_<const string_view>
+        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
+
+        operator string_view() const { return fulltext(); }
+
+        static inline auto singleton()
+            -> const Commandline&
+        {
+            static Commandline the_instance;
+            return the_instance;
+        }
+    };
+
+    inline auto commandline()
+        -> const Commandline&
+    { return Commandline::singleton(); }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Commandline,
+        d::commandline;
+    }  // namespace exported_names
+}  // namespace kickstart::process::_definitions
+
+namespace kickstart::process        { using namespace _definitions; }
