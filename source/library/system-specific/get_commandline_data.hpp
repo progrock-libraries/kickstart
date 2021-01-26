@@ -32,7 +32,11 @@ namespace kickstart::system_specific {
 
 #if defined( _WIN32 )
 #   include "windows/get_commandline_data.impl.hpp"
-#elif defined( __linux__ 
-#   error
+//#elif defined( __linux__ 
+//#   error
 #else
+#   include <kickstart/core/failure-handling.hpp>
+    namespace kickstart::system_specific {
+        inline auto get_commandline_data() -> Commandline_data  { KS_FAIL( "" );  }
+    }  // namespace kickstart::system_specific::_definitions
 #endif
