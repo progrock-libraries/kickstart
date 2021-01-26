@@ -33,7 +33,7 @@ namespace kickstart::language::_definitions {
 
     template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
-    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "0" for clang.
+    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
     template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
     template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
     template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;

@@ -46,7 +46,6 @@ namespace kickstart::math::_definitions {
 
     namespace impl
     {
-
         template< class Fp_type >
         constexpr inline auto intpow_( const Fp_type base, const int exponent )
             -> Fp_type
