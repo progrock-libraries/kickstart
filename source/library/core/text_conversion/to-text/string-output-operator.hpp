@@ -55,8 +55,8 @@ namespace kickstart::text_conversion::_definitions {
                 return Conversion_kind_value::to_string;
             } else if constexpr( is_convertible_v<Type, C_str> ) {
                 return Conversion_kind_value::to_c_str;
-            } else if constexpr( is_convertible_v<Type, bool> ) {
-                return Conversion_kind_value::to_bool;
+            //} else if constexpr( is_convertible_v<Type, bool> ) {     // TODO
+            //    return Conversion_kind_value::to_bool;
             } else {
                 return Conversion_kind_value::general;
             }

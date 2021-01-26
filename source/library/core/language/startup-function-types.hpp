@@ -33,12 +33,14 @@ namespace kickstart::language::_definitions {
     using   std::string_view,
             std::vector;
 
+    using Cmdline_args          = Array_span_<const string_view>;
     using Simple_startup        = void();
-    using Startup_with_args     = void( const string_view&, const Array_span_<const string_view>& );
+    using Startup_with_args     = void( const string_view&, const Cmdline_args & );
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Cmdline_args,
         d::Simple_startup,
         d::Startup_with_args;
     }  // namespace exported names
