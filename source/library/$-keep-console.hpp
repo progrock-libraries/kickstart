@@ -76,6 +76,7 @@ namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
         { return true; }        // TODO: Maybe actually check this, if that's possible.
     #else
     #   error "This header is for Windows and Unix platforms only."
+    #   include <nosuch>
     #endif
 
     struct Stop_at_end
