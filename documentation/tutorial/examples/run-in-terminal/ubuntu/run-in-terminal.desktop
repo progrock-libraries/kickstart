@@ -1,0 +1,11 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=Run in terminal
+Comment=Run a specified program in a console, with a stop at the end.
+Exec=/usr/local/bin/run-in-terminal.sh %u
+Terminal=true
+Type=Application
+Categories=Application;Utility;
+StartupNotify=true
+MimeType=application/x-sharedlib;application/x-executable;
+
