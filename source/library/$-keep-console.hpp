@@ -69,8 +69,8 @@ namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
             return (winapi::GetConsoleProcessList( &dummy, 1 ) == 1);
         }
     #elif defined( __unix__ )
-        //inline const auto& pause_command = R"(read -p "▷ Press ENTER to continue: " dummy)";
-        inline const auto& pause_command = "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy";
+        inline const auto& pause_command =
+            "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy";
 
         inline auto is_console_owner()
             -> bool
