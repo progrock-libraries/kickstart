@@ -21,16 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _WIN64
-#   error "This header is for 64-bit Windows systems only."
-#   include <nosuch>
-#endif
-static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include "../../../assertion-headers/$-assert-reasonable-compiler.hpp"
-
-#include "../../../core/language/type_aliases.hpp"
-
-// Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
-#if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )
-#   include <windows.h>
-#endif
+#include "¤-assert-has-boolean-operator-keywords.hpp"
+#include "¤-assert-is-c++17-or-later.hpp"
+#include "¤-assert-utf8-literals.hpp"

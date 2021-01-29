@@ -1,5 +1,5 @@
 #include <kickstart/all.hpp>
-#include <kickstart/assertion-headers/$-assert-posix-number-names-support.hpp>
+#include <kickstart/assertion-headers/¤-assert-posix-number-names-support.hpp>
 using namespace kickstart::all;
 
 #include <math.h>
