@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/¤-assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/~assert-reasonable-compiler.hpp"
 #ifndef __linux__
 #   error "This header is for Linux systems only."
 #   include <nosuch>
