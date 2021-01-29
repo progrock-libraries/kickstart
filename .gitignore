@@ -3,3 +3,4 @@ build/visual studio 2019/
 *.obj
 *.out
 .vs/*
+*.o

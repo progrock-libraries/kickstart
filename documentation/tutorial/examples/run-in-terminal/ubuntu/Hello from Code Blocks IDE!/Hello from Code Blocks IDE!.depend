@@ -1,0 +1,4 @@
+# depslib dependency file v1.0
+1611710792 source:/media/sf_C_DRIVE/my/dev/libraries/kickstart-1/documentation/tutorial/examples/hello-world.cpp
+	<kickstart/all.hpp>
+
