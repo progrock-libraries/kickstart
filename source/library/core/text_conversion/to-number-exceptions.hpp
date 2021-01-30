@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include "../../assertion-headers/~assert-reasonable-compiler.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -26,37 +26,37 @@
 
 namespace kickstart::text_conversion {
     namespace exception {
-        using Invalid       = std::invalid_argument;
-        using Range         = std::out_of_range;
+        using Invalid_argument      = std::invalid_argument;
+        using Out_of_range          = std::out_of_range;
 
         // The specification string is empty.
         class Empty_specification:
-            public Invalid
-        { using Invalid::Invalid; };
+            public Invalid_argument
+        { using Invalid_argument::Invalid_argument; };
 
         // There is unexpected valid spec (continuation) text after the spec.
         class Unexpected_spec_extension:
-            public Invalid
-        { using Invalid::Invalid; };
+            public Invalid_argument
+        { using Invalid_argument::Invalid_argument; };
 
         // An attempted number specification contains text (possibly just whitespace) at the end.
         class Unexpected_suffix_text:
-            public Invalid
-        { using Invalid::Invalid; };
+            public Invalid_argument
+        { using Invalid_argument::Invalid_argument; };
 
         // An integer specification contains decimals.
         class Decimals_for_integer:
-            public Invalid
-        { using Invalid::Invalid; };
+            public Invalid_argument
+        { using Invalid_argument::Invalid_argument; };
 
         // The specified value is outside the number range of the result type.
         class Representable_range_exceeded:
-            public Range
-        { using Range::Range; };
+            public Out_of_range
+        { using Out_of_range::Out_of_range; };
 
         // The specified value is in the type's range but is unsuitable for the given purpose.
         class Unsuitable:
-            public Range
-        { using Range::Range; };
+            public Out_of_range
+        { using Out_of_range::Out_of_range; };
     }  // namespace exception
 }  // namespace kickstart::text_conversion

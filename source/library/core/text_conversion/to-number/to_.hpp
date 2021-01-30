@@ -28,7 +28,7 @@
 #include "../../language/type_aliases.hpp"              // C_str
 #include "../../language/stdlib-extensions/limits.hpp"  // largest_exact_integer_of_
 #include "../to-text.hpp"
-#include "to-number-exceptions.hpp"
+#include "../to-number-exceptions.hpp"
 
 #include <string.h>                             // strerror
 #include <limits.h>                             // INT_MIN, INT_MAX
@@ -41,7 +41,7 @@
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of, lar...
-    using namespace exception;                  // Invalid, Range, ...
+    using namespace exception;                  // Invalid_argument, Out_of_range, ...
     namespace ascii = kickstart::ascii;
     using   std::min, std::max,
             std::string,
@@ -88,7 +88,7 @@ namespace kickstart::text_conversion::_definitions {
                 or KS_FAIL_( Representable_range_exceeded, "“"s << spec << "” denotes a too large or small number." );
 
             hopefully( not( p_end == begin_ptr_of( spec ) ) )
-                or KS_FAIL_( Invalid, "“"s << spec << "” is not a valid number specification." );
+                or KS_FAIL_( Invalid_argument, "“"s << spec << "” is not a valid number specification." );
 
             hopefully( not( p_end < end_ptr_of( spec ) ) )
                 or KS_FAIL_( Unexpected_suffix_text, "“"s << spec << "” has some unexpected text at the end." );
@@ -150,7 +150,10 @@ namespace kickstart::text_conversion::_definitions {
             *pp_beyond_spec = p_beyond_spec;
         }
         hopefully( -largest_exact_integer_of_<double> <= d and d <= largest_exact_integer_of_<double> )
-            or KS_FAIL_( exception::Range, "Intermediate result could not be represented exactly as `<double>`." );
+            or KS_FAIL_(
+                exception::Out_of_range,
+                "Intermediate result could not be represented exactly as `<double>`."
+                );
         hopefully( INT_MIN <= d and d <= INT_MAX )
             or KS_FAIL_( exception::Representable_range_exceeded, "" );
         const int result = int( d );

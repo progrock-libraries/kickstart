@@ -29,6 +29,7 @@
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 
+#include <stdexcept>
 #include <optional>
 #include <string>
 #include <string_view>
@@ -37,11 +38,16 @@ namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Size etc.
 
-    using   std::optional,
+    using   std::runtime_error,
+            std::optional,
             std::string,
             std::string_view;
 
     using C_file_ptr = FILE*;
+
+    struct End_of_file_error:
+        runtime_error
+    { using runtime_error::runtime_error; };
 
     inline void flush( const C_file_ptr f = stdout )
     {
@@ -90,7 +96,8 @@ namespace kickstart::utf8_io::_definitions {
         while( (code = utf8_fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
-        hopefully( not ::ferror( f ) )  or KS_FAIL( "::fgetc failed" );
+        hopefully( not ::ferror( f ) )
+            or KS_FAIL( "::fgetc failed" );
         if( code == EOF and line.empty() ) {
             return {};
         }
@@ -101,7 +108,8 @@ namespace kickstart::utf8_io::_definitions {
         -> string
     {
         optional<string> input = any_input_from( f );
-        hopefully( input.has_value() ) or KS_FAIL( "At end of file." );
+        hopefully( input.has_value() )
+            or KS_FAIL_( End_of_file_error, "At end of file." );
         return move( input.value() );
     }
 
@@ -123,6 +131,7 @@ namespace kickstart::utf8_io::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::End_of_file_error,
         d::flush,
         d::output_to,
         d::output,
