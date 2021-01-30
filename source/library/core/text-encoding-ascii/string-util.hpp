@@ -23,13 +23,14 @@
 // SOFTWARE.
 
 #include "character-util.hpp"
-#include "../language/collection-util.hpp"
+#include "../language/collection-util.hpp"      // int_size
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of
+    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of, int_size
+    using namespace std::string_view_literals;  // ""sv
     using   std::string,
             std::string_view;
 
@@ -93,6 +94,32 @@ namespace kickstart::ascii::_definitions {
         }
         return result;
     }
+
+    inline auto repeated_times( const int n, const string_view& s )
+        -> string
+    {
+        string result;
+        for( int i = 1; i <= n; ++i ) {
+            result += s;
+        }
+        return result;
+    }
+
+    inline auto operator*( const int n, const string_view& s )
+        -> string
+    { return repeated_times( n, s ); }
+
+    inline auto spaces( const int n )
+        -> string
+    { return n * " "sv; }
+
+    inline auto at_left_in( const int field_width, const string_view& s )
+        -> string
+    { return string( s ) + spaces( field_width - int_size( s ) ); }
+
+    inline auto at_right_in( const int field_width, const string_view& s )
+        -> string
+    { return spaces( field_width - int_size( s ) ) + string( s ); }
 
 
     //----------------------------------------------------------- @exported:
