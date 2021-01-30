@@ -150,15 +150,18 @@ namespace kickstart::text_conversion::_definitions {
             *pp_beyond_spec = p_beyond_spec;
         }
         hopefully( -largest_exact_integer_of_<double> <= d and d <= largest_exact_integer_of_<double> )
-            or KS_FAIL_(
-                exception::Out_of_range,
-                "Intermediate result could not be represented exactly as `<double>`."
+            or KS_FAIL_( exception::Out_of_range,
+                "This integer value could not be represented exactly with type `<double>`."
                 );
         hopefully( INT_MIN <= d and d <= INT_MAX )
-            or KS_FAIL_( exception::Representable_range_exceeded, "" );
+            or KS_FAIL_( exception::Representable_range_exceeded,
+                "The representable value range for type `int` was exceeded."
+                );
         const int result = int( d );
         hopefully( result == d )
-            or KS_FAIL_( exception::Decimals_for_integer, "" );
+            or KS_FAIL_( exception::Decimals_specified_for_integer,
+                "Decimals were specified for an integer value."
+                );
         return result;
     }
 

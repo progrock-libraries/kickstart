@@ -45,7 +45,7 @@ namespace kickstart::text_conversion {
         { using Invalid_argument::Invalid_argument; };
 
         // An integer specification contains decimals.
-        class Decimals_for_integer:
+        class Decimals_specified_for_integer:
             public Invalid_argument
         { using Invalid_argument::Invalid_argument; };
 
@@ -55,7 +55,7 @@ namespace kickstart::text_conversion {
         { using Out_of_range::Out_of_range; };
 
         // The specified value is in the type's range but is unsuitable for the given purpose.
-        class Unsuitable:
+        class Unsuitable_value:
             public Out_of_range
         { using Out_of_range::Out_of_range; };
     }  // namespace exception
