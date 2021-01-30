@@ -135,11 +135,6 @@ namespace kickstart::text_conversion::_definitions {
         -> string&&
     { return move( s << value ); }
 
-    template< class... Args >
-    inline auto concatenate( const Args&... args )
-        -> string
-    { return (std::string() << ... << args); }
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
@@ -148,8 +143,7 @@ namespace kickstart::text_conversion::_definitions {
         using namespace std::string_view_literals;
         using
             d::str,
-            d::operator<<,
-            d::concatenate;
+            d::operator<<;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
 

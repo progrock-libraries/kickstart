@@ -95,32 +95,6 @@ namespace kickstart::ascii::_definitions {
         return result;
     }
 
-    inline auto repeated_times( const int n, const string_view& s )
-        -> string
-    {
-        string result;
-        for( int i = 1; i <= n; ++i ) {
-            result += s;
-        }
-        return result;
-    }
-
-    inline auto operator*( const int n, const string_view& s )
-        -> string
-    { return repeated_times( n, s ); }
-
-    inline auto spaces( const int n )
-        -> string
-    { return n * " "sv; }
-
-    inline auto at_left_in( const int field_width, const string_view& s )
-        -> string
-    { return string( s ) + spaces( field_width - int_size( s ) ); }
-
-    inline auto at_right_in( const int field_width, const string_view& s )
-        -> string
-    { return spaces( field_width - int_size( s ) ) + string( s ); }
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;

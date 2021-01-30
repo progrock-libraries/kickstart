@@ -28,3 +28,4 @@
 #include "stdlib-extensions/limits.hpp"
 #include "stdlib-extensions/math.hpp"
 #include "stdlib-extensions/standard-exceptions.hpp"
+#include "stdlib-extensions/strings.hpp"
