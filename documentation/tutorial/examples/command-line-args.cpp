@@ -1,12 +1,12 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-void cppmain( const string& cmd_verb, const Array_span_<const string>& cmd_args )
+auto main() -> int
 {
-    out << cmd_verb << endl;
-    for( const string& arg: cmd_args ) {
+    const auto& cmd = process::the_commandline();
+
+    out << cmd.verb() << endl;
+    for( const string& arg: cmd.args() ) {
         out << arg << endl;
     }
 }
-
-auto main() -> int { with_command_line_parts( cppmain ); }
