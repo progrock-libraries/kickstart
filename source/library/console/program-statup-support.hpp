@@ -54,6 +54,37 @@ namespace kickstart::console_startup::_definitions {
             std::string_view,
             std::vector;
 
+    inline void with_command_line_parts(
+        const int                               n_cmd_parts,
+        const Type_<const C_str*>               cmd_parts,
+        const function<Startup_with_args>&      do_things
+        )
+    {
+        assert( n_cmd_parts >= 1 );
+        assert( cmd_parts != nullptr );
+        #ifdef _WIN32
+            {
+                namespace winapi = kickstart::winapi;
+                if( winapi::GetACP() != winapi::cp_utf8 ) {
+                    for( int i = 0; i < n_cmd_parts; ++i ) {
+                        hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
+                            or KS_FAIL_( std::invalid_argument,
+                                "Not UTF-8 locale and ommmand line contains non-ASCII code(s)."
+                            );
+                    }
+                }
+            }
+        #endif
+        const auto args = vector<string>( cmd_parts + 1, cmd_parts + n_cmd_parts );
+        do_things( cmd_parts[0], args );
+    }
+
+    inline void with_command_line_parts( const function<Startup_with_args>& do_things )
+    {
+        const auto& c = process::the_commandline();
+        do_things( c.verb(), c.args() );
+    }
+
     inline auto with_exceptions_displayed( const function<Simple_startup>& do_things )
         -> int
     {
@@ -77,35 +108,18 @@ namespace kickstart::console_startup::_definitions {
         const Type_<const C_str*>               cmd_parts
         ) -> int
     {
-        assert( n_cmd_parts >= 1 );
-        assert( cmd_parts != nullptr );
-        #ifdef _WIN32
-        {
-            namespace winapi = kickstart::winapi;
-            if( winapi::GetACP() != winapi::cp_utf8 ) {
-                for( int i = 0; i < n_cmd_parts; ++i ) {
-                    hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
-                        or KS_FAIL_( std::invalid_argument,
-                            "Not UTF-8 locale and ommmand line contains non-ASCII code(s)."
-                            );
-                }
-            }
-        }
-        #endif
         return with_exceptions_displayed( [&]() -> void
         {
-            const auto args = vector<string>( cmd_parts + 1, cmd_parts + n_cmd_parts );
-            do_things( cmd_parts[0], args );
+            with_command_line_parts( n_cmd_parts, cmd_parts, do_things );
         } );
     }
 
     inline auto with_exceptions_displayed( const function<Startup_with_args>& do_things )
         -> int
     {
-        const auto& c = process::the_commandline();
         return with_exceptions_displayed( [&]() -> void
         {
-            do_things( c.verb(), c.args() );
+            with_command_line_parts( do_things );
         } );
     }
 
@@ -115,6 +129,7 @@ namespace kickstart::console_startup::_definitions {
     namespace exported_names { using
         d::Simple_startup,
         d::Startup_with_args,
+        d::with_command_line_parts,
         d::with_exceptions_displayed;
     }  // namespace exported names
 }  // namespace kickstart::console_startup::_definitions
