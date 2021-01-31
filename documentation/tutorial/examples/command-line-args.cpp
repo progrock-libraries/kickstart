@@ -1,6 +1,5 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
-using   std::string;
 
 void cppmain( const string& verb, const Array_span_<const string>& args )
 {
