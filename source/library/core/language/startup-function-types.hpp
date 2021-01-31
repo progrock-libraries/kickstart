@@ -25,17 +25,17 @@
 #include "collection-util.hpp"  // Array_span_
 #include "type_aliases.hpp"     // Type_, C_str
 
-#include <string_view>
+#include <string>
 #include <vector>
 
 namespace kickstart::language::_definitions {
     using   kickstart::language::Array_span_;
-    using   std::string_view,
+    using   std::string,
             std::vector;
 
-    using Cmdline_args          = Array_span_<const string_view>;
+    using Cmdline_args          = Array_span_<const string>;
     using Simple_startup        = void();
-    using Startup_with_args     = void( const string_view&, const Cmdline_args & );
+    using Startup_with_args     = void( const string&, const Cmdline_args& );
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;

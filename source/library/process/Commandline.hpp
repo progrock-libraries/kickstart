@@ -23,8 +23,8 @@
 // SOFTWARE.
 
 #include "../core/failure-handling.hpp"
-#include "../core/language/collection-util.hpp"     // Array_span_
-#include "../system-specific/get_commandline_data.hpp"
+#include "../core/language/collection-util.hpp"             // Array_span_
+#include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
 
 #include <string>
 #include <string_view>
@@ -49,23 +49,20 @@ namespace kickstart::process::_definitions {
         auto operator=( const Self& ) -> Self& = delete;
 
         Commandline_data        m_data;
-        vector<string_view>     m_part_views;
 
         Commandline():
             m_data( get_commandline_data() )
-        {
-            m_part_views = { m_data.parts.begin(), m_data.parts.end() };
-        }
+        {}
 
     public:
-        auto fulltext() const   -> string_view  { return m_data.fulltext; }
-        auto verb() const       -> string_view  { return m_part_views[0]; }
+        auto fulltext() const   -> const string&    { return m_data.fulltext; }
+        auto verb() const       -> const string&    { return m_data.parts[0]; }
 
         auto args() const
-            -> Array_span_<const string_view>
-        { return {begin_ptr_of( m_part_views ) + 1, end_ptr_of( m_part_views )}; }
+            -> Array_span_<const string>
+        { return {begin_ptr_of( m_data.parts ) + 1, end_ptr_of( m_data.parts )}; }
 
-        operator string_view() const { return fulltext(); }
+        operator const string& () const { return fulltext(); }
 
         static inline auto singleton()
             -> const Commandline&

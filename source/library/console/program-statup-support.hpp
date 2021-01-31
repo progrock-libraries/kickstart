@@ -50,6 +50,7 @@ namespace kickstart::console_startup::_definitions {
 
     using   kickstart::utf8_io::output_error_message;
     using   std::function,
+            std::string,
             std::string_view,
             std::vector;
 
@@ -84,14 +85,16 @@ namespace kickstart::console_startup::_definitions {
             if( winapi::GetACP() != winapi::cp_utf8 ) {
                 for( int i = 0; i < n_cmd_parts; ++i ) {
                     hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
-                        or KS_FAIL_( std::invalid_argument, "Not UTF-8 locale and ommmand line contains non-ASCII code(s)." );
+                        or KS_FAIL_( std::invalid_argument,
+                            "Not UTF-8 locale and ommmand line contains non-ASCII code(s)."
+                            );
                 }
             }
         }
         #endif
         return with_exceptions_displayed( [&]() -> void
         {
-            const auto args = vector<string_view>( cmd_parts + 1, cmd_parts + n_cmd_parts );
+            const auto args = vector<string>( cmd_parts + 1, cmd_parts + n_cmd_parts );
             do_things( cmd_parts[0], args );
         } );
     }
