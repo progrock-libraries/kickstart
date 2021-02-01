@@ -26,6 +26,7 @@
 #include "../core/language/collection-util.hpp"             // Array_span_
 #include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
 
+#include <memory>
 #include <string>
 #include <string_view>
 #include <utility>
@@ -34,7 +35,8 @@
 namespace kickstart::process::_definitions {
     namespace k = kickstart;
     using   k::system_specific::Commandline_data, k::system_specific::get_commandline_data;
-    using   std::string,
+    using   std::unique_ptr, std::make_unique,
+            std::string,
             std::string_view,
             std::move,                  // From <utility>
             std::vector;
@@ -54,6 +56,28 @@ namespace kickstart::process::_definitions {
             m_data( get_commandline_data() )
         {}
 
+        Commandline( const int n_parts, const Type_<const char**> parts ):
+            m_data{ parts[0], vector<string>( parts + 1, parts + n_parts ) }
+        {}
+
+        static inline auto new_or_existing_singleton(
+            const int                   n_parts,
+            const Type_<const char**>   parts
+            ) -> const Commandline&
+        {
+            static unique_ptr<Commandline> p_the_instance = nullptr;
+
+            // TODO: correctness: add mutex; speed: fast path optimization for already existing.
+            hopefully( n_parts == 0 or not p_the_instance )
+                or KS_FAIL( "Creation arguments specified for access of existing singleton." );
+            if( not p_the_instance ) {
+                p_the_instance = unique_ptr<Commandline>(
+                    n_parts == 0? new Commandline() : new Commandline( n_parts, parts )
+                    );
+            }
+            return *p_the_instance;
+        }
+
     public:
         auto fulltext() const   -> const string&    { return m_data.fulltext; }
         auto verb() const       -> const string&    { return m_data.parts[0]; }
@@ -64,17 +88,21 @@ namespace kickstart::process::_definitions {
 
         operator const string& () const { return fulltext(); }
 
+        static inline auto create_singleton(
+            const int                   n_parts,
+            const Type_<const char**>   parts
+            ) -> const Commandline&
+        {
+            assert( n_parts > 0 );
+            return new_or_existing_singleton( n_parts, parts );
+        }
+
         static inline auto singleton()
             -> const Commandline&
-        {
-            static Commandline the_instance;
-            return the_instance;
-        }
+        { return new_or_existing_singleton( 0, nullptr ); }
     };
 
-    inline auto the_commandline()
-        -> const Commandline&
-    { return Commandline::singleton(); }
+    inline auto the_commandline() -> const Commandline& { return Commandline::singleton(); }
 
 
     //----------------------------------------------------------- @exported:
