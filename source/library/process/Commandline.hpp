@@ -25,6 +25,7 @@
 #include "../core/failure-handling.hpp"
 #include "../core/language/collection-util.hpp"             // Array_span_
 #include "../core/language/type_aliases.hpp"                // C_str
+#include "../core/text-encoding-ascii/character-util.hpp"
 #include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
 #ifdef _WIN32
 #   include "../system-specific/windows/text-encoding-conversion.hpp"
@@ -39,8 +40,10 @@
 #include <vector>
 
 namespace kickstart::process::_definitions {
+    using namespace std::string_view_literals;
     namespace k = kickstart;
     namespace x = kickstart::language::x;
+    namespace ascii = kickstart::ascii;
     using   k::language::C_str,
             k::system_specific::Commandline_data,
             k::system_specific::get_commandline_data;
@@ -97,8 +100,25 @@ namespace kickstart::process::_definitions {
 
         Commandline( const int n_parts, const Type_<const C_str*> parts ):
             Assert_good_enough_commandline_data( n_parts, parts ),
-            m_data{ parts[0], vector<string>( parts + 1, parts + n_parts ) }
-        {}
+            m_data{ "", vector<string>( parts, parts + n_parts ) }
+        {
+            #ifdef _WIN32x
+                // TODO
+            #else
+                // Synthesize a valid, if ugly, fulltext Unix command line.
+                for( int i = 0; i < n_parts; ++i ) {
+                    const auto npos = string_view::npos;
+                    for( const char* p = parts[i]; *p; ++p ) {
+                        const char ch = *p;
+                        if( "\\\'\";&|"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
+                            m_data.fulltext += '\\';
+                        }
+                        m_data.fulltext += (ch == '\0'? ' ' : ch);
+                    }
+                    m_data.fulltext.pop_back();         // A final ASCII zero translated to space.
+                }
+            #endif
+        }
 
         static inline auto new_or_existing_singleton(
             const int                               n_parts,
