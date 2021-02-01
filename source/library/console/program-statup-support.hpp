@@ -55,33 +55,45 @@ namespace kickstart::console_startup::_definitions {
             std::vector;
 
     inline void with_command_line_parts(
-        const int                               n_cmd_parts,
-        const Type_<const C_str*>               cmd_parts,
-        const function<Startup_with_args>&      do_things
+        const function<Simple_startup>&     do_things,
+        const int                           n_cmd_parts,
+        const Type_<const C_str*>           cmd_parts,
+        const bool                          override_os_cmdline = false
         )
     {
-        assert( n_cmd_parts >= 1 );
-        assert( cmd_parts != nullptr );
-        #ifdef _WIN32
-            {
-                namespace winapi = kickstart::winapi;
-                if( winapi::GetACP() != winapi::cp_utf8 ) {
-                    for( int i = 0; i < n_cmd_parts; ++i ) {
-                        hopefully( ascii::is_all_ascii( cmd_parts[i] ) )
-                            or KS_FAIL_( std::invalid_argument,
-                                "Not UTF-8 locale and ommmand line contains non-ASCII code(s)."
-                            );
-                    }
-                }
-            }
+        #if defined( _WIN32 )
+            const bool is_windows = true;
+        #else
+            const bool is_windows = false;
         #endif
-        const auto args = vector<string>( cmd_parts + 1, cmd_parts + n_cmd_parts );
-        do_things( cmd_parts[0], args );
+
+        if( override_os_cmdline or not is_windows ) {
+            process::Commandline::create_singleton( n_cmd_parts, cmd_parts );
+        }
+        do_things();
     }
 
-    inline void with_command_line_parts( const function<Startup_with_args>& do_things )
+    inline void with_command_line_parts(
+        const function<Startup_with_args>&      do_things,
+        const int                               n_cmd_parts,
+        const Type_<const C_str*>               cmd_parts,
+        const bool                              override_os_cmdline = false
+    )
     {
-        const auto& c = process::the_commandline();
+        const auto simple_do_things = [&do_things]() -> void
+        {
+            const auto& c = process::Commandline::singleton();  // a.k.a. the_commandline();
+            do_things( c.verb(), c.args() );
+        };
+
+        with_command_line_parts(
+            simple_do_things, n_cmd_parts, cmd_parts, override_os_cmdline
+            );
+    }
+
+    inline void with_os_command_line_parts( const function<Startup_with_args>& do_things )
+    {
+        const auto& c = process::Commandline::singleton();  // a.k.a. the_commandline();
         do_things( c.verb(), c.args() );
     }
 
@@ -100,17 +112,20 @@ namespace kickstart::console_startup::_definitions {
     }
 
     // For non-Windows platforms the parts are unconditionally assumed to be UTF-8 encoded.
-    // In Windows the parts are assumed to be UTF-8 encoded if the process' ANSI codepage is UTF-8.
-    // Otherwise, in Windows, non-ASCII characters will cause a `std::invalid_argument` exception.
+    // In Windows with OS commandline override specified, parts invalid as UTF-8 will cause
+    // a `std::invalid_argument` exception.
     inline auto with_exceptions_displayed(
-        const function<Startup_with_args>&      do_things,
-        const int                               n_cmd_parts,
-        const Type_<const C_str*>               cmd_parts
+        const function<Simple_startup>&     do_things,
+        const int                           n_cmd_parts,
+        const Type_<const C_str*>           cmd_parts,
+        const bool                          override_os_cmdline = false
         ) -> int
     {
         return with_exceptions_displayed( [&]() -> void
         {
-            with_command_line_parts( n_cmd_parts, cmd_parts, do_things );
+            with_command_line_parts(
+                do_things, n_cmd_parts, cmd_parts, override_os_cmdline
+                );
         } );
     }
 
@@ -119,7 +134,25 @@ namespace kickstart::console_startup::_definitions {
     {
         return with_exceptions_displayed( [&]() -> void
         {
-            with_command_line_parts( do_things );
+            with_os_command_line_parts( do_things );
+        } );
+    }
+
+    // For non-Windows platforms the parts are unconditionally assumed to be UTF-8 encoded.
+    // In Windows with OS commandline override specified, parts invalid as UTF-8 will cause
+    // a `std::invalid_argument` exception.
+    inline auto with_exceptions_displayed(
+        const function<Startup_with_args>&      do_things,
+        const int                               n_cmd_parts,
+        const Type_<const C_str*>               cmd_parts,
+        const bool                              override_os_cmdline = false
+        ) -> int
+    {
+        return with_exceptions_displayed( [&]() -> void
+        {
+            with_command_line_parts(
+                do_things, n_cmd_parts, cmd_parts, override_os_cmdline
+                );
         } );
     }
 
@@ -130,6 +163,7 @@ namespace kickstart::console_startup::_definitions {
         d::Simple_startup,
         d::Startup_with_args,
         d::with_command_line_parts,
+        d::with_os_command_line_parts,
         d::with_exceptions_displayed;
     }  // namespace exported names
 }  // namespace kickstart::console_startup::_definitions

@@ -37,7 +37,7 @@ namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;        // hopefully, fail
     using namespace kickstart::language;                // int_size
     using   std::string,
-            std::wstring_view;
+            std::string_view, std::wstring_view;
 
     inline auto to_utf8( const wstring_view& ws )
         -> string
@@ -62,10 +62,28 @@ namespace kickstart::system_specific::_definitions {
         return result;
     }
 
+    inline auto is_valid_utf8( const string_view& s )
+        -> bool
+    {
+        if( s.empty() ) {
+            return true;
+        }
+
+        assert( s.size() <= size_t( INT_MAX ) );
+
+        const winapi::DWORD flags = winapi::mb_err_invalid_chars;
+        const int buffer_size = winapi::MultiByteToWideChar(
+            winapi::cp_utf8, flags, s.data(), int_size( s ), nullptr, 0
+            );
+        return buffer_size > 0;
+    }
+
+
    //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::to_utf8;
+        d::to_utf8,
+        d::is_valid_utf8;
     }  // namespace exported names
 }  // namespace kickstart::system_specific::_definitions
 

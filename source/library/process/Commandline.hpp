@@ -24,7 +24,13 @@
 
 #include "../core/failure-handling.hpp"
 #include "../core/language/collection-util.hpp"             // Array_span_
+#include "../core/language/type_aliases.hpp"                // C_str
 #include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
+#ifdef _WIN32
+#   include "../system-specific/windows/text-encoding-conversion.hpp"
+#endif
+
+#include <assert.h>
 
 #include <memory>
 #include <string>
@@ -34,8 +40,11 @@
 
 namespace kickstart::process::_definitions {
     namespace k = kickstart;
-    using   k::system_specific::Commandline_data, k::system_specific::get_commandline_data;
-    using   std::unique_ptr, std::make_unique,
+    namespace x = kickstart::language::x;
+    using   k::language::C_str,
+            k::system_specific::Commandline_data,
+            k::system_specific::get_commandline_data;
+    using   std::unique_ptr,
             std::string,
             std::string_view,
             std::move,                  // From <utility>
@@ -44,7 +53,37 @@ namespace kickstart::process::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Array_span_, Type_, end_ptr_of
 
-    class Commandline
+    inline void assert_good_enough_commandline_data(
+        const int                   n_parts,
+        const Type_<const C_str*>   parts
+        )
+    {
+        assert( n_parts > 0 );
+        assert( parts != nullptr );
+        #ifdef _WIN32
+        {
+            for( int i = 0; i < n_parts; ++i ) {
+                hopefully( system_specific::is_valid_utf8( parts[i] ) )
+                    or KS_FAIL_( x::invalid_argument, "Invalid as UTF-8-encoded text." );
+            }
+        }
+        #endif
+        (void) n_parts;  (void) parts;
+    }
+
+    struct Assert_good_enough_commandline_data
+    {
+        Assert_good_enough_commandline_data() {}
+
+        Assert_good_enough_commandline_data(
+            const int                               n_parts,
+            const Type_<const Type_<const char*>*>  parts
+            )
+        { assert_good_enough_commandline_data( n_parts, parts ); }
+    };
+
+    class Commandline:
+        private Assert_good_enough_commandline_data
     {
         using Self = Commandline;
         Commandline( const Self& ) = delete;
@@ -56,13 +95,14 @@ namespace kickstart::process::_definitions {
             m_data( get_commandline_data() )
         {}
 
-        Commandline( const int n_parts, const Type_<const char**> parts ):
+        Commandline( const int n_parts, const Type_<const C_str*> parts ):
+            Assert_good_enough_commandline_data( n_parts, parts ),
             m_data{ parts[0], vector<string>( parts + 1, parts + n_parts ) }
         {}
 
         static inline auto new_or_existing_singleton(
-            const int                   n_parts,
-            const Type_<const char**>   parts
+            const int                               n_parts,
+            const Type_<const Type_<const char*>*>  parts
             ) -> const Commandline&
         {
             static unique_ptr<Commandline> p_the_instance = nullptr;
@@ -89,8 +129,8 @@ namespace kickstart::process::_definitions {
         operator const string& () const { return fulltext(); }
 
         static inline auto create_singleton(
-            const int                   n_parts,
-            const Type_<const char**>   parts
+            const int                               n_parts,
+            const Type_<const Type_<const char*>>*  parts
             ) -> const Commandline&
         {
             assert( n_parts > 0 );
@@ -108,6 +148,7 @@ namespace kickstart::process::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::assert_good_enough_commandline_data,
         d::Commandline,
         d::the_commandline;
     }  // namespace exported_names

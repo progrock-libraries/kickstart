@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "language/stdlib-extensions/standard-exceptions.hpp"
 #include "language/type_aliases.hpp"
 
 #include <assert.h>
 
-#include <stdexcept>
 #include <string>
 #include <string_view>
 
@@ -40,8 +40,8 @@
 
 namespace kickstart::failure_handling::_definitions {
     using namespace kickstart::language;
-    using   std::exception, std::runtime_error,
-            std::string,
+    namespace x = kickstart::language::x;
+    using   std::string,
             std::string_view;
 
     struct Funcname
@@ -51,13 +51,19 @@ namespace kickstart::failure_handling::_definitions {
 
     [[noreturn]] inline void unreachable() { assert( false ); throw ~42; }
 
-    inline auto hopefully( const bool condition ) -> bool { return condition; }
+    inline auto hopefully( const bool condition )
+        -> bool
+    { return condition; }
 
     template< class X >
-    [[noreturn]] inline auto fail_( const string& s ) -> bool { throw X( s ); }
+    [[noreturn]]
+    inline auto fail_( const string& s )
+        -> bool
+    { throw X( s ); }
 
     template< class X >
-    [[noreturn]] inline auto fail_( const Funcname& funcname, const string& s = "" )
+    [[noreturn]]
+    inline auto fail_( const Funcname& funcname, const string& s = "" )
         -> bool
     {
         auto message = string( funcname.value );
@@ -70,18 +76,20 @@ namespace kickstart::failure_handling::_definitions {
         fail_<X>( message );
     }
 
-    [[noreturn]] inline auto fail( const string& s )
+    [[noreturn]]
+    inline auto fail( const string& s )
         -> bool
-    { fail_<runtime_error>( s ); }
+    { fail_<x::runtime_error>( s ); }
 
-    [[noreturn]] inline auto fail( const Funcname& funcname, const string& s = "" )
+    [[noreturn]]
+    inline auto fail( const Funcname& funcname, const string& s = "" )
         -> bool
-    { fail_<runtime_error>( funcname, s ); }
+    { fail_<x::runtime_error>( funcname, s ); }
 
     class Clean_app_exit_exception:
-        public exception
+        public x::Base
     {
-        runtime_error   m_message;
+        x::runtime_error    m_message;
 
     public:
         auto what() const

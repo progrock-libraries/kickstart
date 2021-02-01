@@ -41,9 +41,11 @@ namespace kickstart::winapi::_definitions {
     #ifdef MessageBox       // <windows.h> has been included
         using   ::GetACP, ::MultiByteToWideChar, ::WideCharToMultiByte;
         const auto cp_utf8 = CP_UTF8;
+        const auto mb_err_invalid_chars = MB_ERR_INVALID_CHARS;
     #else
         using namespace kickstart::winapi;
-        const UINT cp_utf8      = 65001;
+        const UINT cp_utf8                  = 65001;
+        const DWORD mb_err_invalid_chars    = 8;
 
         extern "C" auto __stdcall GetACP()
             -> UINT;
@@ -72,7 +74,7 @@ namespace kickstart::winapi::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::cp_utf8,
+        d::cp_utf8, d::mb_err_invalid_chars,
         d::GetACP,
         d::MultiByteToWideChar,
         d::WideCharToMultiByte;
