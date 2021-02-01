@@ -102,22 +102,28 @@ namespace kickstart::process::_definitions {
             Assert_good_enough_commandline_data( n_parts, parts ),
             m_data{ "", vector<string>( parts, parts + n_parts ) }
         {
-            #ifdef _WIN32x
-                // TODO
+            #if defined( _WIN32 )
+                const char escape = '^';
+            #elif defined( __unix__ )
+                const char escape = '\\';
             #else
-                // Synthesize a valid, if ugly, fulltext Unix command line.
-                for( int i = 0; i < n_parts; ++i ) {
-                    const auto npos = string_view::npos;
-                    for( const char* p = parts[i]; *p; ++p ) {
-                        const char ch = *p;
-                        if( "\\\'\";&|"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
-                            m_data.fulltext += '\\';
-                        }
-                        m_data.fulltext += (ch == '\0'? ' ' : ch);
-                    }
-                    m_data.fulltext.pop_back();         // A final ASCII zero translated to space.
-                }
+                const char escape = '\0';
             #endif
+
+            // Synthesize a (for Windows and Unix valid, if ugly) fulltext command line.
+            for( int i = 0; i < n_parts; ++i ) {
+                for( const char* p = parts[i]; *p; ++p ) {
+                    const char ch = *p;
+                    const auto npos = string_view::npos;
+                    if( "\'\";&|<>"sv.find( ch ) != npos or
+                        ch == escape or
+                        is( ascii::space, ch )
+                        ) {
+                        m_data.fulltext += escape;
+                    }
+                    m_data.fulltext += ch;
+                }
+            }
         }
 
         static inline auto new_or_existing_singleton(
