@@ -5,6 +5,7 @@
 #include <initializer_list>
 #include <optional>
 #include <memory>
+#include <string>
 #include <type_traits>
 
 namespace my {
@@ -13,6 +14,7 @@ namespace my {
     using   std::initializer_list,      // From <initializer_list>.
             std::move,                  // From <optional>.
             std::shared_ptr,            // From <memory>.
+            std::string,                // From <string>
             std::is_same_v;             // From <type_traits>.
 
     class Options

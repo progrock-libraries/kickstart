@@ -3,11 +3,11 @@
 #   pragma GCC diagnostic ignored "-Wmissing-field-initializers"    // Sillywarning.
 #endif
 
-#include <kickstart/all.hpp>
-using namespace kickstart::all;
-
 #include "wrapped-cxxoptions.hpp"       // my::Options
 using my::Options;
+
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
 void cppmain()
 {
