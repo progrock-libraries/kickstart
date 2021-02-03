@@ -9,7 +9,7 @@
 
 namespace my {
     namespace ks = kickstart::all;
-    using   ks::Array_span_, ks::C_str, ks::int_size, ks::begin_ptr_of;
+    using   ks::Array_span_, ks::C_str, ks::str, ks::int_size, ks::begin_ptr_of;
     using   std::initializer_list,      // From <initializer_list>.
             std::move,                  // From <optional>.
             std::shared_ptr,            // From <memory>.

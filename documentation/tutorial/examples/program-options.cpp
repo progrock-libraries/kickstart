@@ -34,7 +34,7 @@ void cppmain()
             << ", debug = " << Options::spec_for( debug )
             << ", foo = " << foo
             << "." << endl;
-        const vector<string> rest = r.unmatched();
+        const vector<string>& rest = r.unmatched();
         if( rest.empty() ) {
             out << "Everything in the command line was matched as options." << endl;
         } else {
