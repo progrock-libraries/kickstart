@@ -93,10 +93,22 @@ namespace kickstart::process::_definitions {
         auto operator=( const Self& ) -> Self& = delete;
 
         Commandline_data        m_data;
+        vector<C_str>           m_c_strings;
+
+        void init_c_strings()
+        {
+            assert( m_c_strings.empty() );
+            m_c_strings.reserve( m_data.parts.size() );
+            for( const string& s: m_data.parts ) {
+                m_c_strings.push_back( s.c_str() );
+            }
+        }
 
         Commandline():
             m_data( get_commandline_data() )
-        {}
+        {
+            init_c_strings();
+        }
 
         Commandline( const int n_parts, const Type_<const C_str*> parts ):
             Assert_good_enough_commandline_data( n_parts, parts ),
@@ -111,6 +123,7 @@ namespace kickstart::process::_definitions {
             #endif
 
             // Synthesize a (for Windows and Unix valid, if ugly) fulltext command line.
+            // TODO: Generalize and fix for Windows. Current code does not quote enough.
             for( int i = 0; i < n_parts; ++i ) {
                 for( const char* p = parts[i]; *p; ++p ) {
                     const char ch = *p;
@@ -124,6 +137,7 @@ namespace kickstart::process::_definitions {
                     m_data.fulltext += ch;
                 }
             }
+            init_c_strings();
         }
 
         static inline auto new_or_existing_singleton(
@@ -151,6 +165,10 @@ namespace kickstart::process::_definitions {
         auto args() const
             -> Array_span_<const string>
         { return {begin_ptr_of( m_data.parts ) + 1, end_ptr_of( m_data.parts )}; }
+
+        auto c_strings() const
+            -> Array_span_<const C_str>
+        { return {begin_ptr_of( m_c_strings ), end_ptr_of( m_c_strings )}; }
 
         operator const string& () const { return fulltext(); }
 
