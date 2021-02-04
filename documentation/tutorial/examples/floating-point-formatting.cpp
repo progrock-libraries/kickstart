@@ -1,5 +1,6 @@
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
+using ascii::at_right_in;
 
 auto main() -> int
 {
