@@ -26,7 +26,7 @@
 
 #include "../../core/failure-handling.hpp"
 #include "../../core/language/collection-util.hpp"      // end_ptr_of
-#include "../../core/language/type_aliases.hpp"         // Type_
+#include "../../core/language/type-aliases.hpp"         // Type_
 #include "../../system-specific/windows/text-encoding-conversion.hpp"
 #include "../../system-specific/windows/api/process-startup-info.hpp"
 

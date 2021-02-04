@@ -25,7 +25,7 @@
 #include "../../failure-handling.hpp"
 #include "../../text-encoding-ascii.hpp"
 #include "../../language/collection-util.hpp"           // begin_ptr_of, end_ptr_of
-#include "../../language/type_aliases.hpp"              // C_str
+#include "../../language/type-aliases.hpp"              // C_str
 #include "../../language/stdlib-extensions/limits.hpp"  // largest_exact_integer_of_
 #include "../to-text.hpp"
 #include "../to-number-exceptions.hpp"

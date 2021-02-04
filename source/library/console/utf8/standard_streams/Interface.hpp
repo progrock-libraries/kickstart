@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../../core/language/type_aliases.hpp"
+#include "../../../core/language/type-aliases.hpp"
 
 #include <stdio.h>      // FILE*
 

@@ -25,7 +25,7 @@
 
 #include "standard_streams.hpp"                     // standard_streams::*
 #include "../../core/failure-handling.hpp"          // hopefully, fail
-#include "../../core/language/type_aliases.hpp"     // Size etc.
+#include "../../core/language/type-aliases.hpp"     // Size etc.
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 

@@ -28,7 +28,7 @@
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
 #include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
 
-#include "../../../core/language/type_aliases.hpp"
+#include "../../../core/language/type-aliases.hpp"
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
 #if defined( KS_USE_WINDOWS_H ) || defined( BOOST_USE_WINDOWS_H )

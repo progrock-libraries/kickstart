@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include "language/stdlib-extensions/standard-exceptions.hpp"
-#include "language/type_aliases.hpp"
+#include "language/type-aliases.hpp"
 
 #include <assert.h>
 

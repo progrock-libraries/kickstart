@@ -26,7 +26,7 @@
 #   include "../system-specific/windows/api/consoles.hpp"        // GetACP
 #endif
 
-#include "../core/language/type_aliases.hpp"            // Type_, C_str
+#include "../core/language/type-aliases.hpp"            // Type_, C_str
 #include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
 #include "../core/text-encoding-ascii/string-util.hpp"  // is_all_ascii
 #include "../core/failure-handling.hpp"                 // Clean_app_exception

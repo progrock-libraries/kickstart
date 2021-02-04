@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include "Interface.hpp"
-#include "../../../core/language/type_aliases.hpp"
+#include "../../../core/language/type-aliases.hpp"
 #include "../../../system-specific/windows/api/consoles.hpp"
 #include "../../../system-specific/windows/api/text-encoding.hpp"
 

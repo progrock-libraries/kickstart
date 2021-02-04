@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include "collection-util.hpp"  // Array_span_
-#include "type_aliases.hpp"     // Type_, C_str
+#include "type-aliases.hpp"     // Type_, C_str
 
 #include <string>
 #include <vector>

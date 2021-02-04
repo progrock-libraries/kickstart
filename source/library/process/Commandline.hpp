@@ -24,7 +24,7 @@
 
 #include "../core/failure-handling.hpp"
 #include "../core/language/collection-util.hpp"             // Array_span_
-#include "../core/language/type_aliases.hpp"                // C_str
+#include "../core/language/type-aliases.hpp"                // C_str
 #include "../core/text-encoding-ascii/character-util.hpp"
 #include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
 #ifdef _WIN32

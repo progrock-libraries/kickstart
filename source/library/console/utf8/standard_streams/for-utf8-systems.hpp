@@ -26,7 +26,7 @@
 // SOFTWARE.
 
 #include "Interface.hpp"
-#include "../../../core/language/type_aliases.hpp"
+#include "../../../core/language/type-aliases.hpp"
 
 namespace kickstart::utf8_io::standard_streams::_definitions  {
     using namespace language;       // `Size` etc.

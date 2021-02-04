@@ -25,7 +25,7 @@
 #include "../failure-handling.hpp"
 #include "../text_conversion/to-text/string-output-operator.hpp"
 #include "stdlib-includes/basics.hpp"
-#include "type_aliases.hpp"
+#include "type-aliases.hpp"
 
 namespace kickstart::language::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
