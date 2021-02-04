@@ -107,16 +107,20 @@ namespace kickstart::language::_definitions {
 
         auto begin() -> Item* { return m_p_first; }
         auto begin() const -> const Item* { return m_p_first; }
-        auto cbegin() const -> const Item* { return m_p_first; }
         auto end() -> Item* { return m_p_beyond; }
         auto end() const -> const Item* { return m_p_beyond; }
-        auto cend() const -> const Item* { return m_p_beyond; }
 
-        auto operator[]( const Index i ) -> Item& { return m_p_first[i]; }
-        auto operator[]( const Index i ) const -> const Item& { return m_p_first[i]; }
+        auto cbegin() const -> const Item* { return begin(); }
+        auto cend() const -> const Item* { return end(); }
+
+        auto item( const Index i ) -> Item& { return m_p_first[i]; }
+        auto item( const Index i ) const -> const Item& { return m_p_first[i]; }
 
         auto at( const Index i ) -> Item& { return at( i, *this ); }
         auto at( const Index i ) const -> const Item& { return at( i, *this ); }
+
+        auto operator[]( const Index i ) -> Item& { return item( i ); }
+        auto operator[]( const Index i ) const -> const Item& { return item( i ); }
     };
 
     template< class Item >

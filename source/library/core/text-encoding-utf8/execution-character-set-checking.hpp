@@ -1,5 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+
 // Can't just include "reasonable-compiler" assert because it uses this file.
 #include "../../assertion-headers/~assert-is-c++17-or-later.hpp"
 #include "../../assertion-headers/~assert-has-boolean-operator-keywords.hpp"

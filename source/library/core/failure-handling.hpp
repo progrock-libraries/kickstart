@@ -102,7 +102,7 @@ namespace kickstart::failure_handling::_definitions {
         {}
     };
 
-    inline auto exit_app_with_message( const string& s )
+    inline auto fail_app_with_message( const string& s )
         -> bool
     { return fail_<Clean_app_exit_exception>( s ); }
 
@@ -116,7 +116,7 @@ namespace kickstart::failure_handling::_definitions {
         d::fail_,
         d::fail,
         d::Clean_app_exit_exception,
-        d::exit_app_with_message;
+        d::fail_app_with_message;
     }  // namespace exported names
 }  // namespace kickstart::failure_handling::_definitions
 

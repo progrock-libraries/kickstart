@@ -55,13 +55,34 @@ namespace kickstart::language::_definitions {
         -> string
     { return (std::string() << ... << args); }
 
+    inline auto starts_with( const string_view& substring, const string_view& s )
+        -> bool
+    { return s.substr( 0, substring.size() ) == substring; }
+
+    inline auto starts_with( const char ch, const string_view& s )
+        -> bool
+    { return s.size() >= 1 and s.front() == ch; }
+
+    inline auto ends_with( const string_view& substring, const string_view& s )
+        -> bool
+    {
+        const size_t nss = substring.size();
+        const size_t ns = s.size();
+        return nss <= ns and s.substr( ns - nss ) == substring;
+    }
+
+    inline auto ends_with( const char ch, const string_view& s )
+        -> bool
+    { return s.size() >= 1 and s.back() == ch; }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::repeated_times, d::operator*,
         d::spaces,
-        d::concatenated;
+        d::concatenated,
+        d::starts_with, d::ends_with;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
