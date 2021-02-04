@@ -40,7 +40,8 @@ namespace kickstart::language::_definitions {
 
     template< class Fp_type >
     constexpr Fp_type largest_exact_integer_of_ =
-        intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> ) - 1;
+        intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) +
+        (intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
 
 
     //----------------------------------------------------------- @exported:
