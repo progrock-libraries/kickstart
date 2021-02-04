@@ -141,8 +141,8 @@ namespace kickstart::process::_definitions {
         }
 
         static inline auto new_or_existing_singleton(
-            const int                               n_parts,
-            const Type_<const Type_<const char*>*>  parts
+            const int                   n_parts,
+            const Type_<const C_str*>   parts
             ) -> const Commandline&
         {
             static unique_ptr<Commandline> p_the_instance = nullptr;
