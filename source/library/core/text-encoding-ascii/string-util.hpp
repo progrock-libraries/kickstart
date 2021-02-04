@@ -22,14 +22,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include "../language/collection-util.hpp"              // int_size
+#include "../language/stdlib-extensions/strings.hpp"    // spaces
 #include "character-util.hpp"
-#include "../language/collection-util.hpp"      // int_size
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of, int_size
+    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of, int_size, spaces
     using namespace std::string_view_literals;  // ""sv
     using   std::string,
             std::string_view;
@@ -73,6 +74,14 @@ namespace kickstart::ascii::_definitions {
         -> string
     { return trimmed_string( s ); }
 
+    inline auto at_left_in( const int field_width, const string_view& s )
+        -> string
+    { return string( s ) + spaces( field_width - int_size( s ) ); }
+
+    inline auto at_right_in( const int field_width, const string_view& s )
+        -> string
+    { return spaces( field_width - int_size( s ) ) + string( s ); }
+
     inline auto to_lower( const string_view& s )
         -> string
     {
@@ -100,11 +109,9 @@ namespace kickstart::ascii::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::is_all_ascii,
-        d::trimmed_view,
-        d::trimmed_string,
-        d::trimmed,
-        d::to_lower,
-        d::to_upper;
+        d::trimmed_view, d::trimmed_string, d::trimmed,
+        d::at_left_in, d::at_right_in,
+        d::to_lower, d::to_upper;
     }  // namespace exported names
 }  // namespace kickstart::ascii::_definitions
 

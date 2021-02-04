@@ -51,14 +51,6 @@ namespace kickstart::language::_definitions {
         -> string
     { return n * " "sv; }
 
-    inline auto at_left_in( const int field_width, const string_view& s )
-        -> string
-    { return string( s ) + spaces( field_width - int_size( s ) ); }
-
-    inline auto at_right_in( const int field_width, const string_view& s )
-        -> string
-    { return spaces( field_width - int_size( s ) ) + string( s ); }
-
     template< class... Args >
     inline auto concatenated( const Args&... args )
         -> string
@@ -70,7 +62,6 @@ namespace kickstart::language::_definitions {
     namespace exported_names { using
         d::repeated_times, d::operator*,
         d::spaces,
-        d::at_left_in, d::at_right_in,
         d::concatenated;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
