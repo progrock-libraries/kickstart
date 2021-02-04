@@ -173,8 +173,8 @@ namespace kickstart::process::_definitions {
         operator const string& () const { return fulltext(); }
 
         static inline auto create_singleton(
-            const int                               n_parts,
-            const Type_<const Type_<const char*>>*  parts
+            const int                   n_parts,
+            const Type_<const C_str*>   parts
             ) -> const Commandline&
         {
             assert( n_parts > 0 );
