@@ -22,3 +22,16 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <filesystem>
+
+namespace kickstart::language::_definitions {
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names {
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::core           { using namespace language; }

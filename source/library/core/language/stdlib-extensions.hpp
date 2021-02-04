@@ -25,6 +25,7 @@
 // Iostreams intentionally not included by default, it's large.
 // It can be included via `<kickstart/with_iostreams.hpp>`.
 
+#include "stdlib-extensions/filesystem.hpp"
 #include "stdlib-extensions/limits.hpp"
 #include "stdlib-extensions/math.hpp"
 #include "stdlib-extensions/standard-exceptions.hpp"
