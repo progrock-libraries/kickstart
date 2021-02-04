@@ -115,5 +115,5 @@ namespace kickstart::ascii::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::ascii::_definitions
 
-namespace kickstart::ascii  { using namespace kickstart::ascii::_definitions::exported_names; }
+namespace kickstart::ascii  { using namespace _definitions::exported_names; }
 namespace kickstart::core   { namespace ascii = kickstart::ascii; }
