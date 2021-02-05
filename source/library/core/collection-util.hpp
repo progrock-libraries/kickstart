@@ -150,5 +150,4 @@ namespace kickstart::core::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::core::_definitions
 
-//namespace kickstart::language       { using namespace _definitions::exported_names; }
 namespace kickstart::core           { using namespace _definitions::exported_names; }
