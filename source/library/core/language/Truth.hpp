@@ -2,7 +2,6 @@
 #pragma once
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
-#if 0
 /// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
 /// than `bool`.
 
@@ -27,14 +26,25 @@
 // SOFTWARE.
 
 
-#include <cppx-core-language/syntax/declarations.hpp>           // CPPX_USE_STD
-#include <cppx-core-language/tmp/Enable_if_.hpp>                // cppx::Enable_if_
-
 #include <type_traits>      // std::is_same_v
+#include <utility>          // std::enable_if_t
 
-namespace cppx
-{
-    CPPX_USE_STD( enable_if_t, is_same_v );
+namespace kickstart::language::_definitions {
+    using   std::is_same_v,
+            std::enable_if_t;
+
+    template< class T >
+    static constexpr bool is_bool_ = is_same_v<T, bool>;
+
+    template< bool v >
+    using Enable_if_ = enable_if_t<v>;
+
+    template< class Truth_class >
+    struct Truth_values_
+    {
+        static const Truth_class yes;
+        static const Truth_class no;
+    };
 
     /// \brief A drop-in replacement for `bool` without implicit conversion from/to types
     /// other than `bool`.
@@ -53,17 +63,6 @@ namespace cppx
     /// that you usually get with a `std::vector<bool>`. The proxy objects of the latter
     /// allows it to store just 1 bit per item, at a cost that includes marginally reduced
     /// efficiency and high inconvenience. That cost is avoided with `Truth` as item type.
-
-    template< class T >
-    static constexpr bool is_bool_ = std::is_same_v<T, bool>;
-
-    template< class Truth_class >
-    struct Truth_values_
-    {
-        static const Truth_class yes;
-        static const Truth_class no;
-    };
-
     class Truth:
         public Truth_values_<Truth>
     {
@@ -77,8 +76,8 @@ namespace cppx
         template<
             class Result,
             class = Enable_if_<is_bool_<Result>>
-        >
-            constexpr operator Result() const noexcept { return m_value; }
+            >
+        constexpr operator Result() const noexcept { return m_value; }
 
         /// \brief Construction from `bool` (only).
         ///
@@ -86,8 +85,8 @@ namespace cppx
         template<
             class Arg,
             class = Enable_if_<is_bool_<Arg>>
-        >
-            constexpr Truth( const Arg value ) noexcept: m_value( value ) {}
+            >
+        constexpr Truth( const Arg value ) noexcept: m_value( value ) {}
     };
 
     template< class Truth_class >
@@ -108,29 +107,49 @@ namespace cppx
         -> int
     { return 0 + !!value; }
 
-    constexpr inline auto operator!=( const Truth lhs, const Truth rhs )
+    constexpr inline auto operator-( const Truth value )
         -> bool
-    { return !!lhs != !!rhs; }
+    { return value; }
 
-    constexpr inline auto operator<=( const Truth lhs, const Truth rhs )
-        -> bool
-    { return !!lhs <= !!rhs; }
+    constexpr inline auto compare( const Truth lhs, const Truth rhs )
+        -> int
+    { return +lhs - +rhs; }
 
     constexpr inline auto operator<( const Truth lhs, const Truth rhs )
         -> bool
-    { return !!lhs < !!rhs; }
+    { return -lhs < -rhs; }
+
+    constexpr inline auto operator<=( const Truth lhs, const Truth rhs )
+        -> bool
+    { return -lhs <= -rhs; }
 
     constexpr inline auto operator==( const Truth lhs, const Truth rhs )
         -> bool
-    { return !!lhs == !!rhs; }
+    { return -lhs == -rhs; }
 
     constexpr inline auto operator>=( const Truth lhs, const Truth rhs )
         -> bool
-    { return !!lhs >= !!rhs; }
+    { return -lhs >= -rhs; }
 
     constexpr inline auto operator>( const Truth lhs, const Truth rhs )
         -> bool
-    { return !!lhs > !!rhs; }
+    { return -lhs > -rhs; }
 
-}  // namespace cppx
-#endif
+    constexpr inline auto operator!=( const Truth lhs, const Truth rhs )
+        -> bool
+    { return -lhs != -rhs; }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Truth,
+        d::is_true, d::is_false,
+        d::operator+,
+        d::compare,
+        d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=;
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::core           { using namespace language; }
