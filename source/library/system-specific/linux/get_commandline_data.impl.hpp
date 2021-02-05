@@ -30,7 +30,7 @@
 
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
-#include <kickstart/core/text-encoding-ascii/character-util.hpp>
+#include <kickstart/core/text-encoding/ascii/character-util.hpp>
 
 #include <fstream>
 #include <string>

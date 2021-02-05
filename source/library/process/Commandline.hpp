@@ -25,7 +25,7 @@
 #include <kickstart/core/collection-util.hpp>                       // Array_span_
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>                 // C_str
-#include <kickstart/core/text-encoding-ascii/character-util.hpp>
+#include <kickstart/core/text-encoding/ascii/character-util.hpp>
 #include <kickstart/system-specific/get_commandline_data.hpp>       // get_command_line_data
 #ifdef _WIN32
 #   include <kickstart/system-specific/windows/text-encoding-conversion.hpp>

@@ -25,7 +25,7 @@
 #include <kickstart/core/collection-util.hpp>       // ssize_
 #include <kickstart/core/stdlib-extensions.hpp>     // bits_per, ...
 #include <kickstart/core/text_conversion.hpp>
-#include <kickstart/core/text-encoding-ascii.hpp>
-#include <kickstart/core/text-encoding-utf8.hpp>    // Workarounds for Windows.
+#include <kickstart/core/text-encoding/ascii.hpp>
+#include <kickstart/core/text-encoding/utf8.hpp>    // Workarounds for Windows.
 #include <kickstart/core/failure-handling.hpp>      // hopefully, fail, ...
 #include <kickstart/core/language.hpp>              // Size etc.

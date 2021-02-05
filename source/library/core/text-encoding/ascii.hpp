@@ -22,5 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/text-encoding-ascii/character-util.hpp>
-#include <kickstart/core/text-encoding-ascii/string-util.hpp>
+#include <kickstart/core/text-encoding/ascii/character-util.hpp>
+#include <kickstart/core/text-encoding/ascii/string-util.hpp>

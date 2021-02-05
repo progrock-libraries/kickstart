@@ -25,7 +25,7 @@
 #include <kickstart/core/collection-util.hpp>               // int_size
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
 #include <kickstart/core/language/Truth.hpp>
-#include <kickstart/core/text-encoding-ascii/character-util.hpp>
+#include <kickstart/core/text-encoding/ascii/character-util.hpp>
 
 #include <string>
 #include <string_view>
