@@ -28,6 +28,8 @@
 #include <stdint.h>     // int32_t, int64_t
 
 namespace kickstart::language::_definitions {
+    using namespace kickstart::limits;      // bits_per_
+
     template< class T > using Type_ = T;
 
     using Size                  = ptrdiff_t;

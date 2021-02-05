@@ -28,7 +28,7 @@
 #include <float.h>      // DBL_MANT_DIG
 #include <limits.h>     // CHAR_BIT
 
-namespace kickstart::language::_definitions {
+namespace kickstart::limits::_definitions {
     using kickstart::math::intpow_;
 
     template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
@@ -51,7 +51,7 @@ namespace kickstart::language::_definitions {
         d::bits_per_mantissa_of_,
         d::largest_exact_integer_of_;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::limits::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }
+namespace kickstart::limits         { using namespace _definitions::exported_names; }
+namespace kickstart::core           { using namespace limits; }
