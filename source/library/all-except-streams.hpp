@@ -22,9 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core.hpp>
 #include <kickstart/console.hpp>
-#include <kickstart/process.hpp>
+#include <kickstart/core.hpp>
 
 namespace kickstart::all_except_streams {
     using namespace core;               // From "core.hpp"
