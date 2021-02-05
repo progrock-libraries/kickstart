@@ -45,7 +45,7 @@ namespace kickstart::language::_definitions {
     }
 
     inline auto operator*( const int n, const string_view& s )
-    -> string
+        -> string
     { return repeated_times( n, s ); }
 
     inline auto spaces( const int n )
