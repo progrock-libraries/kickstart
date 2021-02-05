@@ -112,14 +112,14 @@ namespace kickstart::language::fsx::_definitions {
 
         //--------------------------- Queries:
 
-        auto has_root_name() const              -> Truth     { return m_value.has_root_name(); }
-        auto has_root_directory() const         -> Truth     { return m_value.has_root_directory(); }
-        auto has_root_path() const              -> Truth     { return m_value.has_root_path(); }
-        auto has_relative_path() const          -> Truth     { return m_value.has_relative_path(); }
-        auto has_parent_path() const            -> Truth     { return m_value.has_parent_path(); }
-        auto has_filename() const               -> Truth     { return m_value.has_filename(); }
-        auto has_filename_mainpart() const      -> Truth     { return m_value.has_stem(); }
-        auto has_filename_extension() const     -> Truth     { return m_value.has_extension(); }
+        auto has_root_name() const              -> Truth    { return m_value.has_root_name(); }
+        auto has_root_directory() const         -> Truth    { return m_value.has_root_directory(); }
+        auto has_root_path() const              -> Truth    { return m_value.has_root_path(); }
+        auto has_relative_path() const          -> Truth    { return m_value.has_relative_path(); }
+        auto has_parent_path() const            -> Truth    { return m_value.has_parent_path(); }
+        auto has_filename() const               -> Truth    { return m_value.has_filename(); }
+        auto has_filename_mainpart() const      -> Truth    { return m_value.has_stem(); }
+        auto has_filename_extension() const     -> Truth    { return m_value.has_extension(); }
 
         auto root_name() const                  -> Path     { return from_stdlib_path( m_value.root_name() ); }
         auto root_directory() const             -> Path     { return from_stdlib_path( m_value.root_directory() ); }
@@ -130,8 +130,8 @@ namespace kickstart::language::fsx::_definitions {
         auto filename_mainpart() const          -> Path     { return from_stdlib_path( m_value.stem() ); }
         auto filename_extension() const         -> Path     { return from_stdlib_path( m_value.extension() ); }
 
-        auto is_absolute() const                -> Truth     { return m_value.is_absolute(); }
-        auto is_relative() const                -> Truth     { return m_value.is_relative(); }
+        auto is_absolute() const                -> Truth    { return m_value.is_absolute(); }
+        auto is_relative() const                -> Truth    { return m_value.is_relative(); }
 
         auto is_empty() const noexcept
             -> Truth

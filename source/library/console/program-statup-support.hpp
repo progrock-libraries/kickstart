@@ -59,7 +59,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Simple_startup>&     do_things,
         const int                           n_cmd_parts,
         const Type_<const C_str*>           cmd_parts,
-        const Truth                          override_os_cmdline = false
+        const Truth                         override_os_cmdline = false
         )
     {
         #if defined( _WIN32 )
@@ -78,7 +78,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts,
-        const Truth                              override_os_cmdline = false
+        const Truth                             override_os_cmdline = false
     )
     {
         const auto simple_do_things = [&do_things]() -> void
@@ -119,7 +119,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Simple_startup>&     do_things,
         const int                           n_cmd_parts,
         const Type_<const C_str*>           cmd_parts,
-        const Truth                          override_os_cmdline = false
+        const Truth                         override_os_cmdline = false
         ) -> int
     {
         return with_exceptions_displayed( [&]() -> void
@@ -146,7 +146,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts,
-        const Truth                              override_os_cmdline = false
+        const Truth                             override_os_cmdline = false
         ) -> int
     {
         return with_exceptions_displayed( [&]() -> void

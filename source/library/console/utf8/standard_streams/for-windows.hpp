@@ -60,7 +60,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
 
         struct Input_state
         {
-            Truth            at_start_of_line    = true;
+            Truth           at_start_of_line    = true;
             queue<int>      bytes               = {};
         };
 
@@ -182,7 +182,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
         auto& input = streams.m_input;
         while( input.bytes.empty() ) {
             const wint_t    code        = read_widechar( streams.m_console.input_handle );
-            const Truth      soft_eof    = (input.at_start_of_line and code == ctrl_z);
+            const Truth     soft_eof    = (input.at_start_of_line and code == ctrl_z);
 
             if( code != WEOF ) {
                 input.at_start_of_line = false;
