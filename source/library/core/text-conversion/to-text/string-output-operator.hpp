@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>     // C_str
 
 #include <sstream>
@@ -30,7 +31,7 @@
 #include <type_traits>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::language;                // C_str etc.
+    using namespace kickstart::language;                // Truth, C_str etc.
     using   std::ostringstream,
             std::string,
             std::string_view,
@@ -40,7 +41,7 @@ namespace kickstart::text_conversion::_definitions {
         inline auto as_string_append_argument( const string_view& s ) -> const string_view& { return s; }
         inline auto as_string_append_argument( const string& s ) -> const string& { return s; }
         inline auto as_string_append_argument( const C_str s ) -> C_str { return s; }
-        inline auto as_string_append_argument( const bool value ) -> string_view { return (value? "T" : "F"); }
+        inline auto as_string_append_argument( const Truth value ) -> string_view { return (value? "T" : "F"); }
 
         enum class Conversion_kind_value {  general, to_bool, to_c_str, to_string, to_string_view, none };
 
@@ -55,7 +56,7 @@ namespace kickstart::text_conversion::_definitions {
                 return Conversion_kind_value::to_string;
             } else if constexpr( is_convertible_v<Type, C_str> ) {
                 return Conversion_kind_value::to_c_str;
-            //} else if constexpr( is_convertible_v<Type, bool> ) {     // TODO
+            //} else if constexpr( is_convertible_v<Type, Truth> ) {     // TODO
             //    return Conversion_kind_value::to_bool;
             } else {
                 return Conversion_kind_value::general;
@@ -93,7 +94,7 @@ namespace kickstart::text_conversion::_definitions {
         template< class T >
         inline auto as_string_append_argument( const T& value, Conversion_kind_to_bool )
             -> string_view
-        { return as_string_append_argument( bool( value ) ); }
+        { return as_string_append_argument( Truth( value ) ); }
 
         template< class T >
         inline auto as_string_append_argument( const T& value, Conversion_kind_to_c_str )

@@ -25,6 +25,7 @@
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/collection-util.hpp>          // int_size
+#include <kickstart/core/language/Truth.hpp>
 
 #include <assert.h>         // assert
 #include <limits.h>         // INT_MAX
@@ -35,7 +36,7 @@
 namespace kickstart::system_specific::_definitions {
     namespace winapi = kickstart::winapi;
     using namespace kickstart::failure_handling;        // hopefully, fail
-    using namespace kickstart::language;                // int_size
+    using namespace kickstart::language;                // Truth, int_size
     using   std::string,
             std::string_view, std::wstring_view;
 
@@ -63,7 +64,7 @@ namespace kickstart::system_specific::_definitions {
     }
 
     inline auto is_valid_utf8( const string_view& s )
-        -> bool
+        -> Truth
     {
         if( s.empty() ) {
             return true;

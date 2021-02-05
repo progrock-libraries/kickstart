@@ -22,16 +22,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/Truth.hpp>
+
 namespace kickstart::ascii {
+    using language::Truth;
+
     template< class Group >
     constexpr auto is( Group, const char ch )
-        -> bool
+        -> Truth
     { return Group::includes( ch ); }
 
     struct Character
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return (static_cast<unsigned char>( ch ) < 128); }
     };
     constexpr Character     character   = {};
@@ -39,7 +43,7 @@ namespace kickstart::ascii {
     struct Lowercase
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return ('a' <= ch and ch <= 'z'); }
     };
     constexpr Lowercase     lowercase   = {};
@@ -47,7 +51,7 @@ namespace kickstart::ascii {
     struct Uppercase
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return ('A' <= ch and ch <= 'B'); }
     };
     constexpr Uppercase     uppercase   = {};
@@ -55,7 +59,7 @@ namespace kickstart::ascii {
     struct Letter
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return (is( lowercase, ch ) or is( uppercase, ch )); }
     };
     constexpr Letter        letter      = {};
@@ -63,7 +67,7 @@ namespace kickstart::ascii {
     struct Digit
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return ('0' <= ch and ch <= '9'); }
     };
     constexpr Digit         digit       = {};
@@ -71,7 +75,7 @@ namespace kickstart::ascii {
     struct Space
     {
         static constexpr auto includes( const char ch )
-            -> bool
+            -> Truth
         { return (ch == ' ' or ch == '\f' or ch == '\n' or ch == '\r' or ch == '\t' or ch == '\v'); }
     };
     constexpr Space         space       = {};

@@ -25,6 +25,7 @@
 
 #include <kickstart/console/utf8/standard_streams.hpp>  // standard_streams::*
 #include <kickstart/core/failure-handling.hpp>          // hopefully, fail
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>     // Size etc.
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
@@ -36,7 +37,7 @@
 
 namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Size etc.
+    using namespace kickstart::language;            // Truth, Size etc.
 
     using   std::runtime_error,
             std::optional,
@@ -60,7 +61,7 @@ namespace kickstart::utf8_io::_definitions {
     }
 
     inline auto output_to( const C_file_ptr f, const string_view& s )
-        -> bool
+        -> Truth
     {
         const Size n = s.length();
         if( n <= 0 ) {
@@ -73,13 +74,13 @@ namespace kickstart::utf8_io::_definitions {
     }
 
     inline auto output( const string_view& s )
-        -> bool
+        -> Truth
     { return output_to( stdout, s ); }
 
     inline auto output_error_message( const string_view& s )
-        -> bool
+        -> Truth
     {
-        const bool success = output_to( stderr, s );
+        const Truth success = output_to( stderr, s );
         if( success ) {
             flush( stderr );
         }

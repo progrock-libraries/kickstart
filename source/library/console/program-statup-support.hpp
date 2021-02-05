@@ -27,6 +27,7 @@
 #endif
 
 #include <kickstart/console/utf8/io.hpp>                        // output_error_message
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>             // Type_, C_str
 #include <kickstart/core/language/startup-function-types.hpp>   // Simple_startup, Startup_with_args
 #include <kickstart/core/text-encoding-ascii/string-util.hpp>   // is_all_ascii
@@ -58,13 +59,13 @@ namespace kickstart::console_startup::_definitions {
         const function<Simple_startup>&     do_things,
         const int                           n_cmd_parts,
         const Type_<const C_str*>           cmd_parts,
-        const bool                          override_os_cmdline = false
+        const Truth                          override_os_cmdline = false
         )
     {
         #if defined( _WIN32 )
-            const bool is_windows = true;
+            const Truth is_windows = true;
         #else
-            const bool is_windows = false;
+            const Truth is_windows = false;
         #endif
 
         if( override_os_cmdline or not is_windows ) {
@@ -77,7 +78,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts,
-        const bool                              override_os_cmdline = false
+        const Truth                              override_os_cmdline = false
     )
     {
         const auto simple_do_things = [&do_things]() -> void
@@ -118,7 +119,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Simple_startup>&     do_things,
         const int                           n_cmd_parts,
         const Type_<const C_str*>           cmd_parts,
-        const bool                          override_os_cmdline = false
+        const Truth                          override_os_cmdline = false
         ) -> int
     {
         return with_exceptions_displayed( [&]() -> void
@@ -145,7 +146,7 @@ namespace kickstart::console_startup::_definitions {
         const function<Startup_with_args>&      do_things,
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts,
-        const bool                              override_os_cmdline = false
+        const Truth                              override_os_cmdline = false
         ) -> int
     {
         return with_exceptions_displayed( [&]() -> void

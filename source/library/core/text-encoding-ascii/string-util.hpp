@@ -24,19 +24,20 @@
 
 #include <kickstart/core/language/collection-util.hpp>              // int_size
 #include <kickstart/core/language/stdlib-extensions/strings.hpp>    // spaces
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/text-encoding-ascii/character-util.hpp>
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::language;        // begin_ptr_of, end_ptr_of, int_size, spaces
+    using namespace kickstart::language;    // Truth, begin_ptr_of, end_ptr_of, int_size, spaces
     using namespace std::string_view_literals;  // ""sv
     using   std::string,
             std::string_view;
 
     inline auto is_all_ascii( const string_view& s )
-        -> bool
+        -> Truth
     {
         for( const char ch: s ) {
             if( not is( ascii::character, ch ) ) {

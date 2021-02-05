@@ -51,7 +51,7 @@ void cppmain()
         
     constexpr string_view byte_order_mark = "\uFEFF";
     string line;
-    bool is_first_line = true;
+    Truth is_first_line = true;
     while( getline( f, line ) ) {
         if( is_first_line and starts_with( byte_order_mark, line ) ) {
             line = line.substr( byte_order_mark.size() );

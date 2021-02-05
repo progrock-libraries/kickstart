@@ -22,7 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// [noreturn] specs commented out because with them Visual C++ 2019 issues “warning
+// C4702: unreachable code” sillywarnings on use of `hopefully( something ) or fail()`.
+
 #include <kickstart/core/language/stdlib-extensions/standard-exceptions.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
 #include <assert.h>
@@ -51,20 +55,20 @@ namespace kickstart::failure_handling::_definitions {
 
     [[noreturn]] inline void unreachable() { assert( false ); throw ~42; }
 
-    inline auto hopefully( const bool condition )
-        -> bool
+    inline constexpr auto hopefully( const Truth condition )
+        -> Truth
     { return condition; }
 
     template< class X >
-    [[noreturn]]
+    //[[noreturn]]
     inline auto fail_( const string& s )
-        -> bool
+        -> Truth
     { throw X( s ); }
 
     template< class X >
-    [[noreturn]]
+    //[[noreturn]]
     inline auto fail_( const Funcname& funcname, const string& s = "" )
-        -> bool
+        -> Truth
     {
         auto message = string( funcname.value );
         if( s.length() > 0 ) {
@@ -73,17 +77,17 @@ namespace kickstart::failure_handling::_definitions {
         } else {
             message += " failed";
         }
-        fail_<X>( message );
+        return fail_<X>( message );
     }
 
-    [[noreturn]]
+    //[[noreturn]]
     inline auto fail( const string& s )
-        -> bool
+        -> Truth
     { fail_<x::runtime_error>( s ); }
 
-    [[noreturn]]
+    //[[noreturn]]
     inline auto fail( const Funcname& funcname, const string& s = "" )
-        -> bool
+        -> Truth
     { fail_<x::runtime_error>( funcname, s ); }
 
     class Clean_app_exit_exception:
@@ -103,7 +107,7 @@ namespace kickstart::failure_handling::_definitions {
     };
 
     inline auto fail_app_with_message( const string& s )
-        -> bool
+        -> Truth
     { return fail_<Clean_app_exit_exception>( s ); }
 
     //----------------------------------------------------------- @exported:

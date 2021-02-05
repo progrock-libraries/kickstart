@@ -51,6 +51,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/Truth.hpp>
+
 #include <stdlib.h>     // ::system
 
 #ifdef _WIN32
@@ -58,11 +60,13 @@
 #endif
 
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
+    using kickstart::language::Truth;
+
     #if defined( _WIN32 )
         inline const auto& pause_command = "pause";
 
         inline auto is_console_owner()
-            -> bool
+            -> Truth
         {
             namespace winapi = kickstart::winapi;
             winapi::DWORD dummy;
@@ -73,7 +77,7 @@ namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
             "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy";
 
         inline auto is_console_owner()
-            -> bool
+            -> Truth
         { return true; }        // TODO: Maybe actually check this, if that's possible.
     #else
     #   error "This header is for Windows and Unix platforms only."

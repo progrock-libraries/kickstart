@@ -25,6 +25,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+// Can't use the `Truth` class here because it would be a circular include.
+// #include <kickstart/core/language/Truth.hpp>
+
 #define KS_ASSERT_UTF8_LITERALS()                                                   \
     static_assert(                                                                  \
         kickstart::core::utf8_is_the_execution_character_set(),                     \

@@ -24,6 +24,7 @@
 
 #include <kickstart/console/utf8/standard_streams/Interface.hpp>
 
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
@@ -38,7 +39,7 @@
 #include <string>       // std::wstring
 
 namespace kickstart::utf8_io::standard_streams::_definitions {
-    using namespace kickstart::language;        // Type_ etc.
+    using namespace kickstart::language;        // Truth, Type_ etc.
 
     using   std::queue,
             std::wstring;
@@ -59,7 +60,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
 
         struct Input_state
         {
-            bool            at_start_of_line    = true;
+            Truth            at_start_of_line    = true;
             queue<int>      bytes               = {};
         };
 
@@ -68,7 +69,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
             constexpr static int ctrl_z = 26;
 
             static auto is_surrogate( const wchar_t ) //code_point )
-                -> bool
+                -> Truth
             { return false; }       // TODO:
 
             static inline auto read_widechar( const winapi::HANDLE handle ) -> wint_t;
@@ -106,7 +107,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
             for( const int stream_id: {0, 1, 2} ) {
                 const auto handle = reinterpret_cast<winapi::HANDLE>( _get_osfhandle( stream_id ) );
                 winapi::DWORD dummy;
-                const bool is_console = !!winapi::GetConsoleMode( handle, &dummy );
+                const Truth is_console = !!winapi::GetConsoleMode( handle, &dummy );
                 if( is_console ) {
                     m_console.streams[stream_id] = c_streams[stream_id];
                     (stream_id == 0? m_console.input_handle : m_console.output_handle) = handle;
@@ -181,7 +182,7 @@ namespace kickstart::utf8_io::standard_streams::_definitions {
         auto& input = streams.m_input;
         while( input.bytes.empty() ) {
             const wint_t    code        = read_widechar( streams.m_console.input_handle );
-            const bool      soft_eof    = (input.at_start_of_line and code == ctrl_z);
+            const Truth      soft_eof    = (input.at_start_of_line and code == ctrl_z);
 
             if( code != WEOF ) {
                 input.at_start_of_line = false;

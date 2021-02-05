@@ -23,12 +23,14 @@
 // SOFTWARE.
 
 #include <kickstart/core/language/collection-util.hpp>      // int_size
+#include <kickstart/core/language/Truth.hpp>
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::language::_definitions {
     using namespace std::string_view_literals;  // ""sv
+    using   kickstart::language::Truth;
     using   std::string,
             std::string_view;
 
@@ -51,15 +53,15 @@ namespace kickstart::language::_definitions {
     { return n * " "sv; }
 
     inline auto starts_with( const string_view& substring, const string_view& s )
-        -> bool
+        -> Truth
     { return s.substr( 0, substring.size() ) == substring; }
 
     inline auto starts_with( const char ch, const string_view& s )
-        -> bool
+        -> Truth
     { return s.size() >= 1 and s.front() == ch; }
 
     inline auto ends_with( const string_view& substring, const string_view& s )
-        -> bool
+        -> Truth
     {
         const size_t nss = substring.size();
         const size_t ns = s.size();
@@ -67,7 +69,7 @@ namespace kickstart::language::_definitions {
     }
 
     inline auto ends_with( const char ch, const string_view& s )
-        -> bool
+        -> Truth
     { return s.size() >= 1 and s.back() == ch; }
 
 

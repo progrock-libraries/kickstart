@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
 #include <stdio.h>      // FILE*
@@ -31,7 +32,7 @@
 
 namespace kickstart::utf8_io::standard_streams {
     using   std::is_same_v;         // From <type_traits>.
-    using namespace language;       // `Size` etc.
+    using namespace language;       // Truth, Size etc.
 
     namespace _definitions {
         using std::tuple;               // From <tuple>;
@@ -65,7 +66,7 @@ namespace kickstart::utf8_io::standard_streams {
 
         template< class Impl >
         constexpr static auto is_implemented_by_()
-            -> bool
+            -> Truth
         {
             using _definitions::Signature_;
             return true
