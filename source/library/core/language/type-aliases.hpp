@@ -37,7 +37,6 @@ namespace kickstart::language::_definitions {
     using C_str                 = const char*;
     using Byte                  = unsigned char;
 
-
     using Int32                 = int32_t;
     using Unsigned_int32        = uint32_t;
     using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
@@ -53,7 +52,7 @@ namespace kickstart::language::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::Type_,
-        d::Size, d::Index, d::C_str, d::Byte,
+        d::Size, d::Index, d::Unsigned_size, d::Unsigned_index, d::C_str, d::Byte,
         d::Int32, d::Unsigned_int32, d::Number32,
         d::Int64, d::Unsigned_int64, d::Number64,
         d::Integer, d::Number;
