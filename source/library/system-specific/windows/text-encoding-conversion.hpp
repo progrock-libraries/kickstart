@@ -35,8 +35,9 @@
 
 namespace kickstart::system_specific::_definitions {
     namespace winapi = kickstart::winapi;
+    using namespace kickstart::core;                    // int_size
     using namespace kickstart::failure_handling;        // hopefully, fail
-    using namespace kickstart::language;                // Truth, int_size
+    using namespace kickstart::language;                // Truth
     using   std::string,
             std::string_view, std::wstring_view;
 

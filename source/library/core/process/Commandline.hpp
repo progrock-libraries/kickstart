@@ -40,6 +40,7 @@
 #include <vector>
 
 namespace kickstart::process::_definitions {
+    using namespace kickstart::core;                // Array_span_
     using namespace std::string_view_literals;
     namespace k = kickstart;
     namespace x = kickstart::language::x;

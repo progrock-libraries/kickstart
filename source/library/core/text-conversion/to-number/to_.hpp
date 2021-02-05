@@ -39,8 +39,9 @@
 #include <utility>
 
 namespace kickstart::text_conversion::_definitions {
+    using namespace kickstart::core;            // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;
-    using namespace kickstart::language;        // C_str, begin_ptr_of, end_ptr_of, lar...
+    using namespace kickstart::language;        // C_str, lar...
     using namespace exception;                  // Invalid_argument, Out_of_range, ...
     namespace ascii = kickstart::ascii;
     using   std::min, std::max,

@@ -27,7 +27,7 @@
 #include <kickstart/core/language/stdlib-includes/basics.hpp>    // ssize
 #include <kickstart/core/language/type-aliases.hpp>
 
-namespace kickstart::language::_definitions {
+namespace kickstart::core::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
     using namespace kickstart::text_conversion;     // ""s, operator<<
@@ -148,7 +148,7 @@ namespace kickstart::language::_definitions {
         d::begin_ptr_of, d::end_ptr_of,
         d::Array_span_, d::array_span_of;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::core::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }
+//namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::core           { using namespace _definitions::exported_names; }

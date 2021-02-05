@@ -31,7 +31,8 @@
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::language;    // Truth, begin_ptr_of, end_ptr_of, int_size, spaces
+    using namespace kickstart::core;        // begin_ptr_of, end_ptr_of, int_size
+    using namespace kickstart::language;    // Truth, spaces
     using namespace std::string_view_literals;  // ""sv
     using   std::string,
             std::string_view;
