@@ -26,7 +26,7 @@
 #   include <nosuch>
 #endif
 static_assert( sizeof( void* ) == 8 );  // 64-bit system
-#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 #include <kickstart/core/language/type-aliases.hpp>
 

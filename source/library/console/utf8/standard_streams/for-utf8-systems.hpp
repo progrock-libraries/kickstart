@@ -3,7 +3,7 @@
 #ifdef _WIN64
 #   error "This header is not for 64-bit Windows systems."
 #endif
-#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //

@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "all-except-streams.hpp"
-#include "faux_iostreams.hpp"
+#include <kickstart/all-except-streams.hpp>
+#include <kickstart/faux_iostreams.hpp>
 
 namespace kickstart::all {
     using namespace all_except_streams;
