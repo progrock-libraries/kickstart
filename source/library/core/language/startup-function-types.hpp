@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/collection-util.hpp>      // Array_span_
-#include <kickstart/core/language/type-aliases.hpp>         // Type_, C_str
+#include <kickstart/core/collection-util.hpp>           // Array_span_
+#include <kickstart/core/language/type-aliases.hpp>     // Type_, C_str
 
 #include <string>
 #include <vector>

@@ -24,9 +24,9 @@
 
 #include <kickstart/system-specific/Commandline_data.hpp>
 
+#include <kickstart/core/collection-util.hpp>                               // end_ptr_of
 #include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/language/collection-util.hpp>      // end_ptr_of
-#include <kickstart/core/language/type-aliases.hpp>         // Type_
+#include <kickstart/core/language/type-aliases.hpp>                         // Type_
 #include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 #include <kickstart/system-specific/windows/api/process-startup-info.hpp>
 

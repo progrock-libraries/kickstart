@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util.hpp>                   // begin_ptr_of, end_ptr_of
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/stdlib-extensions/limits.hpp>          // largest_exact_integer_of_
 #include <kickstart/core/text-encoding-ascii.hpp>
-#include <kickstart/core/language/collection-util.hpp>          // begin_ptr_of, end_ptr_of
 #include <kickstart/core/language/type-aliases.hpp>             // C_str
-#include <kickstart/core/language/stdlib-extensions/limits.hpp> // largest_exact_integer_of_
 #include <kickstart/core/text-conversion/to-text.hpp>
 #include <kickstart/core/text-conversion/to-number-exceptions.hpp>
 

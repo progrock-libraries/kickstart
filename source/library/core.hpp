@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util.hpp>       // ssize_
+#include <kickstart/core/stdlib-extensions.hpp>     // bits_per, ...
 #include <kickstart/core/text_conversion.hpp>
 #include <kickstart/core/text-encoding-ascii.hpp>
 #include <kickstart/core/text-encoding-utf8.hpp>    // Workarounds for Windows.

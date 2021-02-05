@@ -24,8 +24,8 @@
 
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
-#include "stdlib-includes/basics.hpp"               // ssize
-#include "type-aliases.hpp"
+#include <kickstart/core/language/stdlib-includes/basics.hpp>    // ssize
+#include <kickstart/core/language/type-aliases.hpp>
 
 namespace kickstart::language::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_

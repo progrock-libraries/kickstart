@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/stdlib-extensions/limits.hpp>     // bits_per_
+#include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
 
 #include <stddef.h>     // size_t, ptrdiff_t
 #include <stdint.h>     // int32_t, int64_t

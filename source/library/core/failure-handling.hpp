@@ -25,7 +25,7 @@
 // [noreturn] specs commented out because with them Visual C++ 2019 issues “warning
 // C4702: unreachable code” sillywarnings on use of `hopefully( something ) or fail()`.
 
-#include <kickstart/core/language/stdlib-extensions/standard-exceptions.hpp>
+#include <kickstart/core/stdlib-extensions/standard-exceptions.hpp>
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 

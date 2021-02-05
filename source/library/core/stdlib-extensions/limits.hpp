@@ -22,63 +22,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/collection-util.hpp>      // int_size
-#include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/stdlib-extensions/math.hpp>    // intpow_
 
-#include <string>
-#include <string_view>
+#include <climits>      // For completeness.
+#include <float.h>      // DBL_MANT_DIG
+#include <limits.h>     // CHAR_BIT
 
 namespace kickstart::language::_definitions {
-    using namespace std::string_view_literals;  // ""sv
-    using   kickstart::language::Truth;
-    using   std::string,
-            std::string_view;
+    using kickstart::math::intpow_;
 
-    inline auto repeated_times( const int n, const string_view& s )
-        -> string
-    {
-        string result;
-        for( int i = 1; i <= n; ++i ) {
-            result += s;
-        }
-        return result;
-    }
+    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
-    inline auto operator*( const int n, const string_view& s )
-    -> string
-    { return repeated_times( n, s ); }
+    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
+    template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;
 
-    inline auto spaces( const int n )
-        -> string
-    { return n * " "sv; }
-
-    inline auto starts_with( const string_view& substring, const string_view& s )
-        -> Truth
-    { return s.substr( 0, substring.size() ) == substring; }
-
-    inline auto starts_with( const char ch, const string_view& s )
-        -> Truth
-    { return s.size() >= 1 and s.front() == ch; }
-
-    inline auto ends_with( const string_view& substring, const string_view& s )
-        -> Truth
-    {
-        const size_t nss = substring.size();
-        const size_t ns = s.size();
-        return nss <= ns and s.substr( ns - nss ) == substring;
-    }
-
-    inline auto ends_with( const char ch, const string_view& s )
-        -> Truth
-    { return s.size() >= 1 and s.back() == ch; }
+    template< class Fp_type >
+    constexpr Fp_type largest_exact_integer_of_ =
+        intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) +
+        (intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::repeated_times, d::operator*,
-        d::spaces,
-        d::starts_with, d::ends_with;
+        d::bits_per_,
+        d::bits_per_mantissa_of_,
+        d::largest_exact_integer_of_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 

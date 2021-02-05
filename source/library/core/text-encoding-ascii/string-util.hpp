@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/collection-util.hpp>              // int_size
-#include <kickstart/core/language/stdlib-extensions/strings.hpp>    // spaces
+#include <kickstart/core/collection-util.hpp>               // int_size
+#include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/text-encoding-ascii/character-util.hpp>
 

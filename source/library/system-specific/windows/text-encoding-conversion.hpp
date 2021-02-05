@@ -22,9 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util.hpp>                           // int_size
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/language/collection-util.hpp>          // int_size
 #include <kickstart/core/language/Truth.hpp>
 
 #include <assert.h>         // assert
