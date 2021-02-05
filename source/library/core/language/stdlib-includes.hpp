@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,4 +24,4 @@
 
 // Iostreams intentionally not included by default, it's large.
 // It can be included via `<kickstart/with_iostreams.hpp>`.
-#include "stdlib-includes/basics.hpp"
+#include <kickstart/core/language/stdlib-includes/basics.hpp>

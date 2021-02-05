@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../language/type-aliases.hpp"      // C_str
+#include <kickstart/core/language/type-aliases.hpp>     // C_str
 
 #include <sstream>
 #include <string>
@@ -30,7 +30,7 @@
 #include <type_traits>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::language;    // C_str etc.
+    using namespace kickstart::language;                // C_str etc.
     using   std::ostringstream,
             std::string,
             std::string_view,
@@ -70,12 +70,13 @@ namespace kickstart::text_conversion::_definitions {
         struct Conversion_kind_none {};
 
         template< Conversion_kind_value kind > struct Conversion_kind_t_;
-        template<> struct Conversion_kind_t_<Conversion_kind_value::general>{ using T = Conversion_kind_general; };
-        template<> struct Conversion_kind_t_<Conversion_kind_value::to_bool>{ using T = Conversion_kind_to_bool; };
-        template<> struct Conversion_kind_t_<Conversion_kind_value::to_c_str>{ using T = Conversion_kind_to_c_str; };
-        template<> struct Conversion_kind_t_<Conversion_kind_value::to_string>{ using T = Conversion_kind_to_string; };
-        template<> struct Conversion_kind_t_<Conversion_kind_value::to_string_view>{ using T = Conversion_kind_to_string_view; };
-        template<> struct Conversion_kind_t_<Conversion_kind_value::none>{ using T = Conversion_kind_none; };
+        using Ckv = Conversion_kind_value;
+        template<> struct Conversion_kind_t_<Ckv::general>          { using T = Conversion_kind_general; };
+        template<> struct Conversion_kind_t_<Ckv::to_bool>          { using T = Conversion_kind_to_bool; };
+        template<> struct Conversion_kind_t_<Ckv::to_c_str>         { using T = Conversion_kind_to_c_str; };
+        template<> struct Conversion_kind_t_<Ckv::to_string>        { using T = Conversion_kind_to_string; };
+        template<> struct Conversion_kind_t_<Ckv::to_string_view>   { using T = Conversion_kind_to_string_view; };
+        template<> struct Conversion_kind_t_<Ckv::none>             { using T = Conversion_kind_none; };
 
         template< Conversion_kind_value kind >
         using Conversion_kind_ = typename Conversion_kind_t_<kind>::T;
@@ -135,6 +136,11 @@ namespace kickstart::text_conversion::_definitions {
         -> string&&
     { return move( s << value ); }
 
+    template< class... Args >
+    inline auto concatenated( const Args&... args )
+        -> string
+    { return (std::string() << ... << args); }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
@@ -143,7 +149,8 @@ namespace kickstart::text_conversion::_definitions {
         using namespace std::string_view_literals;
         using
             d::str,
-            d::operator<<;
+            d::operator<<,
+            d::concatenated;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
 

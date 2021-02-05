@@ -3,7 +3,7 @@
 #ifdef _WIN64
 #   error "This header is not for 64-bit Windows systems."
 #endif
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -25,8 +25,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Interface.hpp"
-#include "../../../core/language/type-aliases.hpp"
+#include <kickstart/console/utf8/standard_streams/Interface.hpp>
+
+#include <kickstart/core/language/type-aliases.hpp>
 
 namespace kickstart::utf8_io::standard_streams::_definitions  {
     using namespace language;       // `Size` etc.

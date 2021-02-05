@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,5 +22,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "to-number/to_.hpp"
-#include "to-number-exceptions.hpp"
+#include <stdio.h>
+
+namespace kickstart::text_conversion {
+
+    // The decimal separator character specified by the C library's current locale.
+    inline auto decimal_separator_character()
+        -> char
+    {
+        char buffer[16];        // "0.000000" = 8+1 chars.
+        sprintf( buffer, "%f", 0.0 );
+        return buffer[1];
+    }
+
+}  // namespace kickstart::text_conversion
+
+namespace kickstart::core       { using namespace text_conversion; }

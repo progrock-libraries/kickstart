@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,6 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "text_conversion/decimal_separator_character.hpp"
-#include "text_conversion/to-number.hpp"
-#include "text_conversion/to-text.hpp"
+#include <kickstart/core/text-conversion/decimal_separator_character.hpp>
+#include <kickstart/core/text-conversion/to-number.hpp>
+#include <kickstart/core/text-conversion/to-text.hpp>

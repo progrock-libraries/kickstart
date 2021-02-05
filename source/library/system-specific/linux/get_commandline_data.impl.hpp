@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 #ifndef __linux__
 #   error "This header is for Linux systems only."
 #   include <nosuch>
@@ -26,11 +26,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../Commandline_data.hpp"
+#include <kickstart/system-specific/Commandline_data.hpp>
 
-#include "../../core/failure-handling.hpp"
-#include "../../core/text_conversion/to-text/string-output-operator.hpp"
-#include "../../core/text-encoding-ascii/character-util.hpp"
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/core/text-encoding-ascii/character-util.hpp>
 
 #include <fstream>
 #include <string>
@@ -59,7 +59,7 @@ namespace kickstart::system_specific::_definitions {
         Commandline_data result;
         const auto npos = string_view::npos;
         for( const char ch: command_line ) {
-            if( "\\\'\";&|"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
+            if( "\\<>()&|,;\"\'"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
                 result.fulltext += '\\';
             }
             result.fulltext += (ch == '\0'? ' ' : ch);

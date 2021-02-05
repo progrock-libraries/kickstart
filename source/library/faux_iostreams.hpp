@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include "console/utf8/io.hpp"
-#include "core/text_conversion/to-text.hpp"
+#include "core/text-conversion/to-text.hpp"
 
 namespace kickstart::faux_iostreams::_definitions {
     using namespace kickstart::utf8_io;

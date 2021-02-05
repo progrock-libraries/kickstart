@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,13 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../failure-handling.hpp"
-#include "../../text-encoding-ascii.hpp"
-#include "../../language/collection-util.hpp"           // begin_ptr_of, end_ptr_of
-#include "../../language/type-aliases.hpp"              // C_str
-#include "../../language/stdlib-extensions/limits.hpp"  // largest_exact_integer_of_
-#include "../to-text.hpp"
-#include "../to-number-exceptions.hpp"
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/text-encoding-ascii.hpp>
+#include <kickstart/core/language/collection-util.hpp>          // begin_ptr_of, end_ptr_of
+#include <kickstart/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/core/language/stdlib-extensions/limits.hpp> // largest_exact_integer_of_
+#include <kickstart/core/text-conversion/to-text.hpp>
+#include <kickstart/core/text-conversion/to-number-exceptions.hpp>
 
 #include <string.h>                             // strerror
 #include <limits.h>                             // INT_MIN, INT_MAX

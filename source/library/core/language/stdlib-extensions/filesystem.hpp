@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -30,7 +30,7 @@
 #include <utility>
 
 namespace tag {
-    using From_stdlib = struct From_stdlib_tag*;
+    using From_stdlib = struct From_stdlib_struct*;
 }  // namespace tag
 
 namespace kickstart::language::fsx::_definitions {
@@ -42,7 +42,7 @@ namespace kickstart::language::fsx::_definitions {
     // Sabotage of Windows: this function may stop working in C++23 because
     // `std::filesystem::u8path` is deprecated in C++20. May be necessary to
     // re-implement using OS functionality and/or C++ version discrimination.
-    inline auto u8_path( const string_view& s )
+    inline auto u8_stdpath( const string_view& s )
         -> fs::path
     { return fs::u8path( s ); }
 
@@ -57,7 +57,7 @@ namespace kickstart::language::fsx::_definitions {
         Path() noexcept {}
 
         Path( const string_view& s ):
-            m_value( u8_path( s ) )
+            m_value( u8_stdpath( s ) )
         {}
 
         Path( Path&& other ) noexcept:
@@ -197,7 +197,7 @@ namespace kickstart::language::fsx::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::u8_path,
+        d::u8_stdpath,
         d::Path,
         d::swap,
         d::hash_value,

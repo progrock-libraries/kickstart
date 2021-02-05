@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,13 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../core/failure-handling.hpp"
-#include "../core/language/collection-util.hpp"             // Array_span_
-#include "../core/language/type-aliases.hpp"                // C_str
-#include "../core/text-encoding-ascii/character-util.hpp"
-#include "../system-specific/get_commandline_data.hpp"      // get_command_line_data
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/language/collection-util.hpp>             // Array_span_
+#include <kickstart/core/language/type-aliases.hpp>                // C_str
+#include <kickstart/core/text-encoding-ascii/character-util.hpp>
+#include <kickstart/system-specific/get_commandline_data.hpp>      // get_command_line_data
 #ifdef _WIN32
-#   include "../system-specific/windows/text-encoding-conversion.hpp"
+#   include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 #endif
 
 #include <assert.h>
@@ -110,39 +110,47 @@ namespace kickstart::process::_definitions {
             init_c_strings();
         }
 
-        Commandline( const int n_parts, const Type_<const C_str*> parts ):
+        Commandline(
+            const int                   n_parts,
+            const Type_<const C_str*>   parts,
+            const C_str                 fulltext_spec   = nullptr
+            ):
             Assert_good_enough_commandline_data( n_parts, parts ),
-            m_data{ "", vector<string>( parts, parts + n_parts ) }
+            m_data{ fulltext_spec? fulltext_spec : "", vector<string>( parts, parts + n_parts ) }
         {
-            #if defined( _WIN32 )
-                const char escape = '^';
-            #elif defined( __unix__ )
-                const char escape = '\\';
-            #else
-                const char escape = '\0';
-            #endif
+            init_c_strings();
+            if( not fulltext_spec ) {
+                #if defined( _WIN32 )
+                    const char escape = '^';
+                #elif defined( __unix__ )
+                    const char escape = '\\';
+                #else
+                    const char escape = '\0';
+                #endif
 
-            // Synthesize a (for Windows and Unix valid, if ugly) fulltext command line.
-            // TODO: Generalize and fix for Windows. Current code does not quote enough.
-            for( int i = 0; i < n_parts; ++i ) {
-                for( const char* p = parts[i]; *p; ++p ) {
-                    const char ch = *p;
-                    const auto npos = string_view::npos;
-                    if( "\'\";&|<>"sv.find( ch ) != npos or
-                        ch == escape or
-                        is( ascii::space, ch )
-                        ) {
-                        m_data.fulltext += escape;
+                // Synthesize a (for Windows and Unix valid, if ugly) fulltext command line.
+                // TODO: Generalize and fix for Windows. Current code may not not quote enough.
+                for( int i = 0; i < n_parts; ++i ) {
+                    for( const char* p = parts[i]; *p; ++p ) {
+                        const char ch = *p;
+                        const auto npos = string_view::npos;
+                        if( escape and (
+                            "<>()&|,;\"\'"sv.find( ch ) != npos or
+                            ch == escape or
+                            is( ascii::space, ch )
+                            ) ) {
+                            m_data.fulltext += escape;
+                        }
+                        m_data.fulltext += ch;
                     }
-                    m_data.fulltext += ch;
                 }
             }
-            init_c_strings();
         }
 
         static inline auto new_or_existing_singleton(
             const int                   n_parts,
-            const Type_<const C_str*>   parts
+            const Type_<const C_str*>   parts,
+            const C_str                 fulltext    = nullptr
             ) -> const Commandline&
         {
             static unique_ptr<Commandline> p_the_instance = nullptr;
@@ -152,7 +160,7 @@ namespace kickstart::process::_definitions {
                 or KS_FAIL( "Creation arguments specified for access of existing singleton." );
             if( not p_the_instance ) {
                 p_the_instance = unique_ptr<Commandline>(
-                    n_parts == 0? new Commandline() : new Commandline( n_parts, parts )
+                    n_parts == 0? new Commandline() : new Commandline( n_parts, parts, fulltext )
                     );
             }
             return *p_the_instance;
@@ -174,11 +182,12 @@ namespace kickstart::process::_definitions {
 
         static inline auto create_singleton(
             const int                   n_parts,
-            const Type_<const C_str*>   parts
+            const Type_<const C_str*>   parts,
+            const C_str                 fulltext_spec   = nullptr
             ) -> const Commandline&
         {
             assert( n_parts > 0 );
-            return new_or_existing_singleton( n_parts, parts );
+            return new_or_existing_singleton( n_parts, parts, fulltext_spec );
         }
 
         static inline auto singleton()

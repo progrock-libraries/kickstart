@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -23,15 +23,15 @@
 // SOFTWARE.
 
 #ifdef _WIN32
-#   include "../system-specific/windows/api/consoles.hpp"        // GetACP
+#   include <kickstart/system-specific/windows/api/consoles.hpp>        // GetACP
 #endif
 
-#include "../core/language/type-aliases.hpp"            // Type_, C_str
-#include "../core/language/startup-function-types.hpp"  // Simple_startup, Startup_with_args
-#include "../core/text-encoding-ascii/string-util.hpp"  // is_all_ascii
-#include "../core/failure-handling.hpp"                 // Clean_app_exception
-#include "../process/Commandline.hpp"
-#include "utf8/io.hpp"                                  // output_error_message
+#include <kickstart/console/utf8/io.hpp>                        // output_error_message
+#include <kickstart/core/language/type-aliases.hpp>             // Type_, C_str
+#include <kickstart/core/language/startup-function-types.hpp>   // Simple_startup, Startup_with_args
+#include <kickstart/core/text-encoding-ascii/string-util.hpp>   // is_all_ascii
+#include <kickstart/core/failure-handling.hpp>                  // Clean_app_exception
+#include <kickstart/process/Commandline.hpp>                    // Commandline
 
 #include <assert.h>         // assert
 #include <stdlib.h>         // EXIT_..., strtod

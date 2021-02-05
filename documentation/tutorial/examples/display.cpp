@@ -45,7 +45,7 @@ auto filename_from_commandline()
 void cppmain()
 {
     const string& filename = filename_from_commandline();
-    auto f = ifstream( fsx::u8_path( filename ) );  // Works for e.g. “π.txt” in Windows.
+    auto f = ifstream( fsx::u8_stdpath( filename ) );   // Works for e.g. “π.txt” in Windows.
     hopefully( not f.fail() )
         or fail_app_with_message( "Unable to open “"s << filename << "” for reading." );
         

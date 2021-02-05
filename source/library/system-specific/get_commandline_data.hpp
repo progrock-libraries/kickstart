@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "Commandline_data.hpp"
+#include <kickstart/system-specific/Commandline_data.hpp>
 
 namespace kickstart::system_specific {
     namespace _definitions {
@@ -35,9 +35,9 @@ namespace kickstart::system_specific {
 }  // namespace kickstart::system_specific
 
 #if defined( _WIN32 )
-#   include "windows/get_commandline_data.impl.hpp"
+#   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
 #elif defined( __linux__ )
-#   include "linux/get_commandline_data.impl.hpp"
+#   include <kickstart/system-specific/linux/get_commandline_data.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>
     namespace kickstart::system_specific::_definitions {

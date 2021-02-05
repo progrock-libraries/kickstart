@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "../../../assertion-headers/~assert-reasonable-compiler.hpp"
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include "../../language/collection-util.hpp"   // int_size
+#include <kickstart/core/language/collection-util.hpp>      // int_size
 
 #include <string>
 #include <string_view>
@@ -50,11 +50,6 @@ namespace kickstart::language::_definitions {
         -> string
     { return n * " "sv; }
 
-    template< class... Args >
-    inline auto concatenated( const Args&... args )
-        -> string
-    { return (std::string() << ... << args); }
-
     inline auto starts_with( const string_view& substring, const string_view& s )
         -> bool
     { return s.substr( 0, substring.size() ) == substring; }
@@ -81,7 +76,6 @@ namespace kickstart::language::_definitions {
     namespace exported_names { using
         d::repeated_times, d::operator*,
         d::spaces,
-        d::concatenated,
         d::starts_with, d::ends_with;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
