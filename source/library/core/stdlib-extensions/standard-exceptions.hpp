@@ -25,11 +25,13 @@
 #include    <stdexcept>
 #include    <system_error>
 
-namespace kickstart::language::x {
+namespace kickstart::std_x {
     using   std::invalid_argument,
             std::out_of_range,
             std::runtime_error,
             std::system_error;
 
     using Base = std::exception;
-}  // namespace kickstart::language::x
+}  // namespace kickstart::std_x
+
+namespace kickstart::core       { namespace std_x = kickstart::std_x; }

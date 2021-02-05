@@ -43,7 +43,7 @@ namespace kickstart::process::_definitions {
     using namespace kickstart::core;                // Array_span_
     using namespace std::string_view_literals;
     namespace k = kickstart;
-    namespace x = kickstart::language::x;
+    namespace std_x = kickstart::core::std_x;
     namespace ascii = kickstart::ascii;
     using   k::language::C_str,
             k::system_specific::Commandline_data,
@@ -68,7 +68,7 @@ namespace kickstart::process::_definitions {
         {
             for( int i = 0; i < n_parts; ++i ) {
                 hopefully( system_specific::is_valid_utf8( parts[i] ) )
-                    or KS_FAIL_( x::invalid_argument, "Invalid as UTF-8-encoded text." );
+                    or KS_FAIL_( std_x::invalid_argument, "Invalid as UTF-8-encoded text." );
             }
         }
         #endif
