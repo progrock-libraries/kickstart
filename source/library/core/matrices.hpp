@@ -22,11 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>       // ssize_
-#include <kickstart/core/failure-handling.hpp>      // hopefully, fail, ...
-#include <kickstart/core/language.hpp>              // Size etc.
-#include <kickstart/core/matrices.hpp>              // Matrix_ etc.
-#include <kickstart/core/process.hpp>               // process::Commandline
-#include <kickstart/core/stdlib-extensions.hpp>     // bits_per, ...
-#include <kickstart/core/text-conversion.hpp>
-#include <kickstart/core/text-encoding.hpp>
+#include <kickstart/core/matrices/Abstract_matrix_.hpp>
+#include <kickstart/core/matrices/Matrix_.hpp>
+#include <kickstart/core/matrices/vector-pool.hpp>

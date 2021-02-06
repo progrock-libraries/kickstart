@@ -96,7 +96,6 @@ namespace kickstart::matrices::_definitions {
             return the_pool;
         }
     };
-
     template< class Item >
     inline auto allocate_vector_( const int size )
         -> vector<Item>
@@ -107,5 +106,4 @@ namespace kickstart::matrices::_definitions {
     {
         Vector_pool_<Item>::singleton().deallocate( v );
     }
-
 }  // namespace kickstart::matrices::_definitions

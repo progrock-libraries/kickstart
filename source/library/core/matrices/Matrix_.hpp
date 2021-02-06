@@ -27,12 +27,19 @@
 #include <kickstart/core/matrices/Abstract_matrix_.hpp>
 #include <kickstart/core/matrices/vector-pool.hpp>
 
-#include <unordered_map>
-#include <vector>
+#include <assert.h>
+
+#include <algorithm>
+#include <initializer_list>
 #include <utility>
+#include <vector>
 
 namespace kickstart::matrices::_definitions {
     using kickstart::core::Truth;
+    using   std::copy,
+            std::initializer_list,
+            std::move,
+            std::vector;
 
     template< class Item_type_param >
     class Abstract_matrix_ref_;
@@ -45,14 +52,34 @@ namespace kickstart::matrices::_definitions {
 
     private:
         vector<Item>    m_items;
-        Size            m_size;
+        Two_d_size      m_size;
 
     public:
         ~Matrix_() { deallocate_vector( m_items ); }
 
-        Matrix_( const Size size = {} ):
+        Matrix_( const Two_d_size size = {} ):
             m_items( allocate_vector_<Item>( size.w*size.h ) ),
             m_size( size )
+        {}
+
+        Matrix_( const Two_d_size size, const initializer_list<initializer_list<Item>>& values ):
+            m_items( allocate_vector_<Item>( size.h * size.w ) ),
+            m_size( size )
+        {
+            const int first_row_size = int_size( *values.begin() );
+
+            assert( int_size( values ) == m_size.h );
+            assert( first_row_size == m_size.w );
+            Item* p_row = m_items.data();
+            for( const initializer_list<Item>& row: values ) {
+                assert( int_size( row ) == first_row_size );
+                copy( row.begin(), row.end(), p_row );
+                p_row += m_size.w;
+            }
+        }
+
+        Matrix_( const initializer_list<initializer_list<Item>>& values ):
+            Matrix_( Two_d_size{ int_size( values ), int_size( *values.begin() ) }, values )
         {}
 
         Matrix_( const Matrix_& other ):
@@ -75,11 +102,11 @@ namespace kickstart::matrices::_definitions {
         inline auto abstract_ref() -> Abstract_matrix_ref_<Item>;
         inline auto abstract_ref() const -> Abstract_matrix_ref_<const Item>;
 
-        auto size() const       -> Size { return m_size; }
-        auto width() const      -> int  { return m_size.w; }
-        auto height() const     -> int  { return m_size.h; }
+        auto size() const       -> Two_d_size   { return m_size; }
+        auto width() const      -> int          { return m_size.w; }
+        auto height() const     -> int          { return m_size.h; }
 
-        auto items_index_for( const Position& pos ) const
+        auto items_index_for( const Two_d_position& pos ) const
             -> int
         {
             const int w = m_size.w;
@@ -89,11 +116,11 @@ namespace kickstart::matrices::_definitions {
         auto items()        -> Item*        { return m_items.data(); }
         auto items() const  -> const Item*  { return m_items.data(); }
 
-        auto operator()( const Position& pos )
+        auto operator()( const Two_d_position& pos )
             -> Item&
         { return m_items[items_index_for( pos )]; }
 
-        auto operator()( const Position& pos ) const
+        auto operator()( const Two_d_position& pos ) const
             -> const Item&
         { return m_items[items_index_for( pos )]; }
     };
@@ -118,7 +145,7 @@ namespace kickstart::matrices::_definitions {
             return reinterpret_cast<Abstract_matrix_ref_<const Item>&>( *this );
         }
 
-        virtual auto size() const   -> Size         { return m_p_matrix->size(); }
+        virtual auto size() const   -> Two_d_size   { return m_p_matrix->size(); }
         virtual auto items()        -> Item*        { return m_p_matrix->items(); }
         virtual auto items() const  -> const Item*  { return m_p_matrix->items(); }
     };
@@ -126,17 +153,24 @@ namespace kickstart::matrices::_definitions {
     template< class Item_type_param >
     auto Matrix_<Item_type_param>::abstract_ref()
         -> Abstract_matrix_ref_<Item_type_param>
-    {
-        return Abstract_matrix_ref_<Item_type_param>( *this );
-    }
+    { return Abstract_matrix_ref_<Item_type_param>( *this ); }
 
     template< class Item_type_param >
     auto Matrix_<Item_type_param>::abstract_ref() const
         -> Abstract_matrix_ref_<const Item_type_param>
     {
-        return Abstract_matrix_ref_<const Item_type_param>(
-            static_cast<Matrix_<const Item>&>( *this )
-            );
+        auto& const_item_m = static_cast<Matrix_<const Item>&>( *this );
+        return Abstract_matrix_ref_<const Item_type_param>( const_item_m );
     }
 
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Abstract_matrix_ref_,
+        d::Matrix_;
+    }  // namespace exported names
 }  // namespace kickstart::matrices::_definitions
+
+namespace kickstart::matrices   { using namespace _definitions::exported_names;}
+namespace kickstart::core       { using namespace matrices; }
