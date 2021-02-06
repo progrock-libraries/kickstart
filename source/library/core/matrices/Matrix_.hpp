@@ -36,7 +36,7 @@
 
 namespace kickstart::matrices::_definitions {
     using kickstart::core::Truth;
-    using   std::copy,
+    using   std::copy, std::swap,
             std::initializer_list,
             std::move,
             std::vector;
@@ -60,6 +60,10 @@ namespace kickstart::matrices::_definitions {
         Matrix_( const two_d_grid::Size size = {} ):
             m_items( allocate_vector_<Item>( size.w*size.h ) ),
             m_size( size )
+        {}
+
+        Matrix_( const int width, const int height ):
+            Matrix_( two_d_grid::Size{ width, height } )
         {}
 
         Matrix_( const two_d_grid::Size size, const initializer_list<initializer_list<Item>>& values ):
@@ -166,6 +170,29 @@ namespace kickstart::matrices::_definitions {
         return Abstract_matrix_ref_<const Item_type_param>( const_item_m );
     }
 
+    template< class Item >
+    void swap_rows( const int i1, const int i2, Matrix_<Item>& m )
+    {
+        auto p1 = m.items() + m.items_index_for( 0, i1 );
+        auto p2 = m.items() + m.items_index_for( 0, i2 );
+
+        for( int y = 0, h = m.height(); y < h; ++y ) {
+            swap( *p1++, *p2++ );
+        }
+    }
+
+    template< class Item >
+    void swap_columns( const int i1, const int i2, Matrix_<Item>& m )
+    {
+        auto p1 = m.items() + m.items_index_for( i1, 0 );
+        auto p2 = m.items() + m.items_index_for( i2, 0 );
+
+        const two_d_grid::Size size = m.size();
+        for( int x = 0; x < size.w; ++x ) {
+            swap( *p1, *p2 );
+            p1 += size.w;  p2 += size.w;
+        }
+    }
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
