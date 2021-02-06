@@ -35,7 +35,7 @@ namespace tag {
     using From_stdlib = struct From_stdlib_struct*;
 }  // namespace tag
 
-namespace kickstart::language::fsx::_definitions {
+namespace kickstart::fsx::_definitions {
     namespace fs = std::filesystem;
     using   kickstart::language::Truth;
     using   std::string,
@@ -209,7 +209,7 @@ namespace kickstart::language::fsx::_definitions {
 
         using namespace fs;     // All the standard library's fs functions etc., e.g. current_path.
     }  // namespace exported names
-}  // namespace kickstart::language::fsx::_definitions
+}  // namespace kickstart::fsx::_definitions
 
-namespace kickstart::language::fsx  { using namespace _definitions::exported_names; }
-namespace kickstart::core           { namespace fsx = language::fsx; }
+namespace kickstart::fsx        { using namespace _definitions::exported_names; }
+namespace kickstart::core       { namespace fsx = kickstart::fsx; }

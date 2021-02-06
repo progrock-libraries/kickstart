@@ -209,3 +209,4 @@ namespace kickstart::process::_definitions {
 }  // namespace kickstart::process::_definitions
 
 namespace kickstart::process        { using namespace _definitions; }
+namespace kickstart::core           { namespace process = kickstart::process; }
