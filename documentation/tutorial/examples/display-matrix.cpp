@@ -1,8 +1,6 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-using M = kickstart::matrices::Matrix_<double>;
-
 auto main() -> int
 {
     const Matrix_<double> m =
@@ -17,7 +15,7 @@ auto main() -> int
     out << endl;
     for( int y = 0; y < m.height(); ++y ) {
         for( int x = 0; x < m.width(); ++x ) {
-            out << ascii::at_right_in( 4, str( m({ x, y }) ) );
+            out << ascii::at_right_in( 4, str( m( x, y ) ) );
         }
         out << endl;
     }

@@ -123,6 +123,14 @@ namespace kickstart::matrices::_definitions {
         auto operator()( const Two_d_position& pos ) const
             -> const Item&
         { return m_items[items_index_for( pos )]; }
+
+        auto operator()( const int x, const int y )
+            -> Item&
+        { return operator()( {x, y} ); }
+
+        auto operator()( const int x, const int y ) const
+            -> const Item&
+        { return operator()( {x, y} ); }
     };
 
     template< class Item_type_param >
