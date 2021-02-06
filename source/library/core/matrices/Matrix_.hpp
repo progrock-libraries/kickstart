@@ -173,6 +173,8 @@ namespace kickstart::matrices::_definitions {
     template< class Item >
     void swap_rows( const int i1, const int i2, Matrix_<Item>& m )
     {
+        if( i1 == i2 ) { return; }
+
         auto p1 = m.items() + m.items_index_for( 0, i1 );
         auto p2 = m.items() + m.items_index_for( 0, i2 );
 
@@ -184,12 +186,17 @@ namespace kickstart::matrices::_definitions {
     template< class Item >
     void swap_columns( const int i1, const int i2, Matrix_<Item>& m )
     {
+        if( i1 == i2 ) { return; }
+
+        const two_d_grid::Size size = m.size();
+        if( size.w == 0 ) { return; }
+
         auto p1 = m.items() + m.items_index_for( i1, 0 );
         auto p2 = m.items() + m.items_index_for( i2, 0 );
 
-        const two_d_grid::Size size = m.size();
-        for( int x = 0; x < size.w; ++x ) {
+        for( int count = 1; ; ++count ) {
             swap( *p1, *p2 );
+            if( count == size.w ) { break; }
             p1 += size.w;  p2 += size.w;
         }
     }
