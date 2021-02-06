@@ -30,7 +30,8 @@
 #include <utility>
 
 namespace kickstart::matrices::_definitions {
-    using kickstart::core::int_size;
+    namespace kc = kickstart::core;
+    using kc::Truth, kc::int_size;
     using   std::unordered_map,
             std::vector,
             std::swap;
@@ -56,7 +57,9 @@ namespace kickstart::matrices::_definitions {
     public:
         using Item = Item_type_param;
 
-        auto allocate( const int size )
+        void remove_all() { decltype( m_vectors )().swap( m_vectors ); }
+
+        auto allocate( const int size, const Truth zeroing = true )
             -> vector<Item>
         {
             if( size > m_max_vector_size ) {
@@ -70,6 +73,7 @@ namespace kickstart::matrices::_definitions {
                 vector<Item> result;
                 using std::swap;  swap( result, vectors.back() );
                 vectors.pop_back();
+                if( zeroing ) { for( Item& item: result ) { item = Item(); } }
                 return result;
             }
         }
