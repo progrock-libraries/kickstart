@@ -22,22 +22,68 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util.hpp>
 #include <kickstart/core/language/Truth.hpp>
 
 #include <unordered_map>
 #include <vector>
+#include <utility>
 
 namespace kickstart::matrices::_definitions {
+    using kickstart::core::int_size;
     using   std::unordered_map,
-            std::vector;
+            std::vector,
+            std::swap;
 
     template< class Item_type_param >
     class Vector_pool_
     {
-        Vector_pool_() {}
+    public:
+        using Item = Item_type_param;
+
+    private:
+        using Item_vector = vector<Item>;
+
+        unordered_map<int, vector<Item_vector>> m_vectors;
+        int                                     m_max_vector_size;
+        int                                     m_max_capacity;
+
+        Vector_pool_():
+            m_max_vector_size( 4*4 ),
+            m_max_capacity( 32 )
+        {}
 
     public:
         using Item = Item_type_param;
+
+        auto allocate( const int size )
+            -> vector<Item>
+        {
+            if( size > m_max_vector_size ) {
+                return vector<Item>( size );
+            }
+            vector<Item_vector>& vectors = m_vectors[size];
+            if( vectors.empty() ) {
+                vectors.reserve( m_max_capacity );
+                return vector<Item>( size );
+            } else {
+                vector<Item> result;
+                using std::swap;  swap( result, vectors.back() );
+                vectors.pop_back();
+                return result;
+            }
+        }
+
+        void deallocate( vector<Item>& v )
+        {
+            using std::swap;
+            const int size = int_size( v );
+            if( size <= m_max_vector_size ) {
+                vector<Item_vector>& vectors = m_vectors[size];
+                vectors.push_back( move( v ) );
+            }
+            vector<Item>().swap( v );
+        }
 
         static auto singleton()
             -> Vector_pool_&
@@ -47,5 +93,15 @@ namespace kickstart::matrices::_definitions {
         }
     };
 
+    template< class Item >
+    inline auto allocate_vector_( const int size )
+        -> vector<Item>
+    { return Vector_pool_<Item>::singleton().allocate( size ); }
+
+    template< class Item >
+    inline void deallocate_vector( vector<Item>& v )
+    {
+        Vector_pool_<Item>::singleton().deallocate( v );
+    }
 
 }  // namespace kickstart::matrices::_definitions
