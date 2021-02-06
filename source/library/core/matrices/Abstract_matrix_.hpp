@@ -27,8 +27,10 @@
 namespace kickstart::matrices::_definitions {
     using kickstart::core::Truth;
 
-    struct Two_d_size       { int w; int h; };
-    struct Two_d_position   { int x; int y; };
+    namespace two_d_grid {
+        struct Size         { int w; int h; };
+        struct Position     { int x; int y; };
+    }  // namespace two_d_grid
 
     template< class Item_type_param >
     class Abstract_matrix_
@@ -36,22 +38,22 @@ namespace kickstart::matrices::_definitions {
     public:
         using Item = Item_type_param;
 
-        virtual auto size() const   -> Two_d_size   = 0;
-        virtual auto items()        -> Item*        = 0;
-        virtual auto items() const  -> const Item*  = 0;
+        virtual auto size() const   -> two_d_grid::Size     = 0;
+        virtual auto items()        -> Item*                = 0;
+        virtual auto items() const  -> const Item*          = 0;
 
         virtual auto width() const  -> int  { return size().w; }
         virtual auto height() const -> int  { return size().h; }
 
-        auto items_index_for( const Two_d_position& pos ) const
+        auto items_index_for( const two_d_grid::Position& pos ) const
             -> int
         { return pos.y*width() + pos.x; }
 
-        auto operator()( const Two_d_position& pos )
+        auto operator()( const two_d_grid::Position& pos )
             -> Item&
         { return items()[items_index_for( pos )]; }
 
-        auto operator()( const Two_d_position& pos ) const
+        auto operator()( const two_d_grid::Position& pos ) const
             -> const Item&
         { return items()[items_index_for( pos )]; }
     };
@@ -67,6 +69,8 @@ namespace kickstart::matrices::_definitions {
     namespace exported_names { using
         d::Abstract_matrix_,
         d::pointer_to_row;
+
+        namespace two_d_grid = d::two_d_grid;
     }  // namespace exported names
 }  // namespace kickstart::matrices::_definitions
 

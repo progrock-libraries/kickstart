@@ -52,17 +52,17 @@ namespace kickstart::matrices::_definitions {
 
     private:
         vector<Item>    m_items;
-        Two_d_size      m_size;
+        two_d_grid::Size      m_size;
 
     public:
         ~Matrix_() { deallocate_vector( m_items ); }
 
-        Matrix_( const Two_d_size size = {} ):
+        Matrix_( const two_d_grid::Size size = {} ):
             m_items( allocate_vector_<Item>( size.w*size.h ) ),
             m_size( size )
         {}
 
-        Matrix_( const Two_d_size size, const initializer_list<initializer_list<Item>>& values ):
+        Matrix_( const two_d_grid::Size size, const initializer_list<initializer_list<Item>>& values ):
             m_items( allocate_vector_<Item>( size.h * size.w ) ),
             m_size( size )
         {
@@ -79,7 +79,7 @@ namespace kickstart::matrices::_definitions {
         }
 
         Matrix_( const initializer_list<initializer_list<Item>>& values ):
-            Matrix_( Two_d_size{ int_size( values ), int_size( *values.begin() ) }, values )
+            Matrix_( two_d_grid::Size{ int_size( values ), int_size( *values.begin() ) }, values )
         {}
 
         Matrix_( const Matrix_& other ):
@@ -102,11 +102,11 @@ namespace kickstart::matrices::_definitions {
         inline auto abstract_ref() -> Abstract_matrix_ref_<Item>;
         inline auto abstract_ref() const -> Abstract_matrix_ref_<const Item>;
 
-        auto size() const       -> Two_d_size   { return m_size; }
+        auto size() const       -> two_d_grid::Size   { return m_size; }
         auto width() const      -> int          { return m_size.w; }
         auto height() const     -> int          { return m_size.h; }
 
-        auto items_index_for( const Two_d_position& pos ) const
+        auto items_index_for( const two_d_grid::Position& pos ) const
             -> int
         {
             const int w = m_size.w;
@@ -116,21 +116,16 @@ namespace kickstart::matrices::_definitions {
         auto items()        -> Item*        { return m_items.data(); }
         auto items() const  -> const Item*  { return m_items.data(); }
 
-        auto operator()( const Two_d_position& pos )
+        auto operator()( const two_d_grid::Position& pos )
             -> Item&
         { return m_items[items_index_for( pos )]; }
 
-        auto operator()( const Two_d_position& pos ) const
+        auto operator()( const two_d_grid::Position& pos ) const
             -> const Item&
         { return m_items[items_index_for( pos )]; }
 
-        auto operator()( const int x, const int y )
-            -> Item&
-        { return operator()( {x, y} ); }
-
-        auto operator()( const int x, const int y ) const
-            -> const Item&
-        { return operator()( {x, y} ); }
+        auto operator()( const int x, const int y )         -> Item&        { return (*this)( {x, y} ); }
+        auto operator()( const int x, const int y ) const   -> const Item&  { return (*this)( {x, y} ); }
     };
 
     template< class Item_type_param >
@@ -153,7 +148,7 @@ namespace kickstart::matrices::_definitions {
             return reinterpret_cast<Abstract_matrix_ref_<const Item>&>( *this );
         }
 
-        virtual auto size() const   -> Two_d_size   { return m_p_matrix->size(); }
+        virtual auto size() const   -> two_d_grid::Size   { return m_p_matrix->size(); }
         virtual auto items()        -> Item*        { return m_p_matrix->items(); }
         virtual auto items() const  -> const Item*  { return m_p_matrix->items(); }
     };
