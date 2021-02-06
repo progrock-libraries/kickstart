@@ -78,6 +78,7 @@ namespace kickstart::matrices::_definitions {
 
             assert( int_size( values ) == m_size.h );
             assert( first_row_size == m_size.w );
+
             Item* p_row = m_items.data();
             for( const initializer_list<Item>& row: values ) {
                 assert( int_size( row ) == first_row_size );
@@ -107,19 +108,13 @@ namespace kickstart::matrices::_definitions {
             return reinterpret_cast<Matrix_<const Item>&>( *this );
         }
 
-        inline auto abstract_ref() -> Abstract_matrix_ref_<Item>;
-        inline auto abstract_ref() const -> Abstract_matrix_ref_<const Item>;
-
-        auto size() const       -> two_d_grid::Size   { return m_size; }
-        auto width() const      -> int          { return m_size.w; }
-        auto height() const     -> int          { return m_size.h; }
+        auto size() const       -> two_d_grid::Size { return m_size; }
+        auto width() const      -> int              { return m_size.w; }
+        auto height() const     -> int              { return m_size.h; }
 
         auto items_index_for( const two_d_grid::Position& pos ) const
             -> int
-        {
-            const int w = m_size.w;
-            return pos.y*w + pos.x;
-        }
+        { return pos.y*m_size.w + pos.x; }
 
         auto items()        -> Item*        { return m_items.data(); }
         auto items() const  -> const Item*  { return m_items.data(); }
@@ -132,47 +127,14 @@ namespace kickstart::matrices::_definitions {
             -> const Item&
         { return m_items[items_index_for( pos )]; }
 
-        auto operator()( const int x, const int y )         -> Item&        { return (*this)( {x, y} ); }
-        auto operator()( const int x, const int y ) const   -> const Item&  { return (*this)( {x, y} ); }
+        auto operator()( const int x, const int y )
+            -> Item&
+        { return (*this)( {x, y} ); }
+
+        auto operator()( const int x, const int y ) const
+            -> const Item&
+        { return (*this)( {x, y} ); }
     };
-
-    template< class Item_type_param >
-    class Abstract_matrix_ref_:
-        public Abstract_matrix_<Item_type_param>
-    {
-    public:
-        using Item = Item_type_param;
-
-    private:
-        Matrix_<Item_type_param>*   m_p_matrix;
-
-    public:
-        Abstract_matrix_ref_( Matrix_<Item>& m ):
-            m_p_matrix( &m )
-        {}
-
-        operator Abstract_matrix_ref_<const Item>& () const
-        {
-            return reinterpret_cast<Abstract_matrix_ref_<const Item>&>( *this );
-        }
-
-        virtual auto size() const   -> two_d_grid::Size   { return m_p_matrix->size(); }
-        virtual auto items()        -> Item*        { return m_p_matrix->items(); }
-        virtual auto items() const  -> const Item*  { return m_p_matrix->items(); }
-    };
-
-    template< class Item_type_param >
-    auto Matrix_<Item_type_param>::abstract_ref()
-        -> Abstract_matrix_ref_<Item_type_param>
-    { return Abstract_matrix_ref_<Item_type_param>( *this ); }
-
-    template< class Item_type_param >
-    auto Matrix_<Item_type_param>::abstract_ref() const
-        -> Abstract_matrix_ref_<const Item_type_param>
-    {
-        auto& const_item_m = static_cast<Matrix_<const Item>&>( *this );
-        return Abstract_matrix_ref_<const Item_type_param>( const_item_m );
-    }
 
     template< class Item >
     void swap_rows( const int i1, const int i2, Matrix_<Item>& m )
@@ -209,7 +171,9 @@ namespace kickstart::matrices::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::Abstract_matrix_ref_,
-        d::Matrix_;
+        d::Matrix_,
+        d::swap_rows,
+        d::swap_columns;
     }  // namespace exported names
 }  // namespace kickstart::matrices::_definitions
 

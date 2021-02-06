@@ -97,9 +97,9 @@ namespace kickstart::matrices::_definitions {
         }
     };
     template< class Item >
-    inline auto allocate_vector_( const int size )
+    inline auto allocate_vector_( const int size, const Truth zeroing = true )
         -> vector<Item>
-    { return Vector_pool_<Item>::singleton().allocate( size ); }
+    { return Vector_pool_<Item>::singleton().allocate( size, zeroing ); }
 
     template< class Item >
     inline void deallocate_vector( vector<Item>& v )
