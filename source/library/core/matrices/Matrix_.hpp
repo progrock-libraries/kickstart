@@ -66,6 +66,10 @@ namespace kickstart::matrices::_definitions {
             Matrix_( two_d_grid::Size{ width, height } )
         {}
 
+        Matrix_( const int size ):
+            Matrix_( two_d_grid::Size{ size, size} )
+        {}
+
         Matrix_( const two_d_grid::Size size, const initializer_list<initializer_list<Item>>& values ):
             m_items( allocate_vector_<Item>( size.h * size.w ) ),
             m_size( size )
@@ -175,8 +179,8 @@ namespace kickstart::matrices::_definitions {
     {
         if( i1 == i2 ) { return; }
 
-        auto p1 = m.items() + m.items_index_for( 0, i1 );
-        auto p2 = m.items() + m.items_index_for( 0, i2 );
+        auto p1 = m.items() + m.items_index_for({ 0, i1 });
+        auto p2 = m.items() + m.items_index_for({ 0, i2 });
 
         for( int y = 0, h = m.height(); y < h; ++y ) {
             swap( *p1++, *p2++ );
@@ -191,8 +195,8 @@ namespace kickstart::matrices::_definitions {
         const two_d_grid::Size size = m.size();
         if( size.w == 0 ) { return; }
 
-        auto p1 = m.items() + m.items_index_for( i1, 0 );
-        auto p2 = m.items() + m.items_index_for( i2, 0 );
+        auto p1 = m.items() + m.items_index_for({ i1, 0 });
+        auto p2 = m.items() + m.items_index_for({ i2, 0 });
 
         for( int count = 1; ; ++count ) {
             swap( *p1, *p2 );
