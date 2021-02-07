@@ -7,7 +7,7 @@ using   std::random_device, std::mt19937, std::uniform_int_distribution;
 auto main() -> int
 {
     const int size = 10;
-    Matrix_<double> m( size );
+    auto m = Matrix_<int>( size );
 
     // Every row and every column systematically filled with unique values.
     for( int y = 0; y < size; ++y ) { for( int x = 0; x < size; ++x ) {
@@ -24,9 +24,6 @@ auto main() -> int
         }
     }
     
-    out << "Matrix size: " << m.width() << "×" << m.height() << "." << endl;
-    out << "Values: " << endl;
-    out << endl;
     for( int y = 0; y < m.height(); ++y ) {
         for( int x = 0; x < m.width(); ++x ) {
             out << ascii::at_right_in( 4, str( m( x, y ) ) );

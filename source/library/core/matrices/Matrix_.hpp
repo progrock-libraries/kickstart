@@ -162,7 +162,7 @@ namespace kickstart::matrices::_definitions {
 
         for( int count = 1; ; ++count ) {
             swap( *p1, *p2 );
-            if( count == size.w ) { break; }
+            if( count == size.h ) { break; }
             p1 += size.w;  p2 += size.w;
         }
     }
