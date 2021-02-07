@@ -144,7 +144,7 @@ namespace kickstart::matrices::_definitions {
         auto p1 = m.items() + m.items_index_for({ 0, i1 });
         auto p2 = m.items() + m.items_index_for({ 0, i2 });
 
-        for( int y = 0, h = m.height(); y < h; ++y ) {
+        for( int x = 0, w = m.width(); x < w; ++x ) {
             swap( *p1++, *p2++ );
         }
     }
