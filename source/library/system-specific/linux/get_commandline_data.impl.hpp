@@ -32,6 +32,8 @@
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/text-encoding/ascii/character-util.hpp>
 
+#include <string.h>         // strlen
+
 #include <fstream>
 #include <string>
 #include <string_view>
