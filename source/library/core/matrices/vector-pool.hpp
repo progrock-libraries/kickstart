@@ -55,8 +55,6 @@ namespace kickstart::matrices::_definitions {
         {}
 
     public:
-        using Item = Item_type_param;
-
         void remove_all() { decltype( m_vectors )().swap( m_vectors ); }
 
         auto allocate( const int size, const Truth zeroing = true )

@@ -83,12 +83,12 @@ namespace kickstart::failure_handling::_definitions {
     //[[noreturn]]
     inline auto fail( const string& s )
         -> Truth
-    { fail_<std_x::runtime_error>( s ); }
+    { return fail_<std_x::runtime_error>( s ); }
 
     //[[noreturn]]
     inline auto fail( const Funcname& funcname, const string& s = "" )
         -> Truth
-    { fail_<std_x::runtime_error>( funcname, s ); }
+    { return fail_<std_x::runtime_error>( funcname, s ); }
 
     class Clean_app_exit_exception:
         public std_x::Base
