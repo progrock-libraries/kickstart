@@ -45,7 +45,7 @@ namespace kickstart::stdlib {
         template< class T >
         auto ssize( const T& c ) -> ptrdiff_t { return static_cast<ptrdiff_t>( size( c ) ); }
     #endif
-    using   std::getline, std::string;                                  // From <string>.
+    using   std::string;                                                // From <string>.
     using   std::string_view;                                           // From <string_view>.
     using   std::vector;                                                // From <vector>.
 
