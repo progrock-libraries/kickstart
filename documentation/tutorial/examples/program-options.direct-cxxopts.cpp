@@ -8,7 +8,7 @@ const auto& cmd =  process::the_commandline();
 auto make_options_spec()
     -> cxxopts::Options
 {
-    cxxopts::Options result( "test", "A brief description" );
+    cxxopts::Options result( "cxxopts-test", "A cxxopts command line options example." );
     result.add_options()
         ( "b, bar",     "Param bar",        cxxopts::value<string>() )
         ( "d, debug",   "Enable debugging", cxxopts::value<bool>()->default_value( "false" ) )
