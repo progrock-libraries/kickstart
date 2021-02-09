@@ -59,9 +59,12 @@ namespace kickstart::fsx::_definitions {
 
         Path() noexcept {}
 
-        Path( const string_view& s ):
-            m_value( u8_stdpath( s ) )
-        {}
+        Path( const string_view& s ): m_value( u8_stdpath( s ) ) {}
+
+        #ifdef __cpp_lib_char8_t
+            using std::u8string_view;
+            Path( const u8string_view& s ): m_value( s ) {}
+        #endif
 
         Path( Path&& other ) noexcept:
             m_value( move( other.m_value ) )
