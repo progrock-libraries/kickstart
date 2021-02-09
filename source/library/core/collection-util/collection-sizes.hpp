@@ -22,6 +22,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util/Array_span_.hpp>
-#include <kickstart/core/collection-util/collection-pointers.hpp>
-#include <kickstart/core/collection-util/collection-sizes.hpp>
+#include <kickstart/core/language/stdlib-includes/basics.hpp>    // size
+
+namespace kickstart::core::collection_util::_definitions {
+    using std::size;
+
+    template< class Result, class Collection >
+    inline auto size_( const Collection& c )
+        -> Result
+    { return static_cast<Result>( size( c ) ); }
+
+    template< class Collection >
+    inline auto int_size( const Collection& c )
+        -> int
+    { return size_<int>( c ); }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::size_,
+        d::int_size;
+    }  // namespace exported names
+}  // namespace kickstart::core::collection_util::_definitions
+
+namespace kickstart::core::collection_util  { using namespace _definitions::exported_names; }
+namespace kickstart::core                   { using namespace collection_util; }
