@@ -1,5 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#ifndef _WIN64
+#   error "This header is for 64-bit Windows systems only."
+#   include <nosuch>
+#endif
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -22,27 +26,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Commandline_data.hpp>
+#include <kickstart/core/failure-handling.hpp>
+#include <string>
 
-namespace kickstart::system_specific {
-    namespace _definitions {
-        inline auto get_commandline_data() -> Commandline_data;
-    }  // namespace _definitions
+namespace kickstart::system_specific::_definitions {
+    using namespace kickstart::failure_handling;
+    using std::string;
 
-    inline auto get_commandline_data()
-        -> Commandline_data
-    { return _definitions::get_commandline_data(); }
-}  // namespace kickstart::system_specific
-
-#if defined( _WIN64 )
-#   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
-#elif defined( __linux__ )
-#   include <kickstart/system-specific/unix/linux/get_commandline_data.impl.hpp>
-#else
-#   include <kickstart/core/failure-handling.hpp>
-    namespace kickstart::system_specific::_definitions {
-        inline auto get_commandline_data()
-            -> Commandline_data
-        { KS_FAIL( "This platform is not supported." );  }
-    }  // namespace kickstart::system_specific::_definitions
-#endif
+    inline auto get_path_of_executable()
+        -> string
+    {
+        KS_FAIL( "This platform is not supported." );
+        unreachable();
+    }
+}  // namespace kickstart::system_specific::_definitions

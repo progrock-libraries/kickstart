@@ -22,27 +22,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Commandline_data.hpp>
+#include <string>
 
 namespace kickstart::system_specific {
     namespace _definitions {
-        inline auto get_commandline_data() -> Commandline_data;
+        using std::string;
+        inline auto get_path_of_executable() -> string;
     }  // namespace _definitions
 
-    inline auto get_commandline_data()
-        -> Commandline_data
-    { return _definitions::get_commandline_data(); }
+    using _definitions::get_path_of_executable;
 }  // namespace kickstart::system_specific
 
+
 #if defined( _WIN64 )
-#   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
-#elif defined( __linux__ )
-#   include <kickstart/system-specific/unix/linux/get_commandline_data.impl.hpp>
+#   include <kickstart/system-specific/windows/get_path_of_executable.impl.hpp>
+#elif defined( x__linux__ )
+#   include <kickstart/system-specific/unix/linux/get_path_of_executable.impl.hpp>
 #else
-#   include <kickstart/core/failure-handling.hpp>
+#   include <kickstart/core/failure-handling.hpp>      // KS_FAIL
     namespace kickstart::system_specific::_definitions {
-        inline auto get_commandline_data()
-            -> Commandline_data
-        { KS_FAIL( "This platform is not supported." );  }
+        using std::string;
+
+        inline auto get_path_of_executable()
+            -> string
+        {
+            KS_FAIL( "This platform is not supported." );
+            unreachable();
+        }
     }  // namespace kickstart::system_specific::_definitions
 #endif

@@ -24,6 +24,7 @@
 
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/Truth.hpp>
+#include <kickstart/system-specific/get_path_of_executable.hpp>
 
 #include <stddef.h>         // size_t
 
@@ -212,25 +213,23 @@ namespace kickstart::fsx::_definitions {
 
     inline auto fspath_of_executable()
         -> fs::path
-    {
-        KS_FAIL( "Not implemented yet." );
-    }
+    { return path_from_u8( kickstart::system_specific::get_path_of_executable() ); }
 
     inline auto path_of_executable()
         -> Path
-    { return Path( tag::From_fspath(), fspath_of_executable() ); }
+    { return Path( kickstart::system_specific::get_path_of_executable() ); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::fspath_from_u8, d::path_from_u8,
+        d::fspath_of_executable, d::path_of_executable,
         d::Path,
         d::swap,
         d::hash_value,
         d::compare,
         d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=;
-
         using namespace fs;     // All the standard library's fs functions etc., e.g. current_path.
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions

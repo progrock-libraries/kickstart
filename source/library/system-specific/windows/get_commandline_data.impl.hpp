@@ -1,5 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#ifndef _WIN64
+#   error "This header is for 64-bit Windows systems only."
+#   include <nosuch>
+#endif
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -27,8 +31,8 @@
 #include <kickstart/core/collection-util.hpp>                               // end_ptr_of
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>                         // Type_
+#include <kickstart/system-specific/windows/api/process-info.hpp>
 #include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
-#include <kickstart/system-specific/windows/api/process-startup-info.hpp>
 
 #include <assert.h>
 
