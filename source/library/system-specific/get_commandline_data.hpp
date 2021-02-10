@@ -37,7 +37,7 @@ namespace kickstart::system_specific {
 #if defined( _WIN32 )
 #   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
 #elif defined( __linux__ )
-#   include <kickstart/system-specific/linux/get_commandline_data.impl.hpp>
+#   include <kickstart/system-specific/unix/linux/get_commandline_data.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>
     namespace kickstart::system_specific::_definitions {
