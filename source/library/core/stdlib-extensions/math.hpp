@@ -25,7 +25,7 @@
 #include <kickstart/core/language/Truth.hpp>
 
 #include <cmath>        // Special functions, for completeness.
-#include <math.h>       // DBL_MANT_DIG
+#include <math.h>       // 
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
@@ -49,12 +49,12 @@ namespace kickstart::math::_definitions {
 
     namespace impl
     {
-        template< class Fp_type >
-        constexpr inline auto intpow_( const Fp_type base, const int exponent )
-            -> Fp_type
+        template< class Number_type >
+        constexpr inline auto intpow_( const Number_type base, const int exponent )
+            -> Number_type
         {
-            Fp_type result = 1;
-            Fp_type weight = base;
+            Number_type result = 1;
+            Number_type weight = base;
             for( int n = exponent; n != 0; weight *= weight ) {
                 if( is_odd( n ) ) {
                     result *= weight;
@@ -67,27 +67,34 @@ namespace kickstart::math::_definitions {
 
     // Essentially this is Horner's rule adapted to calculating a power, so that the
     // number of floating point multiplications is at worst O(log2(n)).
-    template< class Fp_type = double>
-    constexpr inline auto intpow_( const Fp_type base, const int exponent )
-        -> Fp_type
+    template< class Number_type = double>
+    constexpr inline auto intpow( const Number_type base, const int exponent )
+        -> Number_type
     {
         return (0?0
-            : exponent == 0?        1.0
-            : exponent < 0?         1.0/impl::intpow_<Fp_type>( base, -exponent )
-            :                       impl::intpow_<Fp_type>( base, exponent )
+            : exponent > 0?     impl::intpow_<Number_type>( base, exponent )
+            : exponent == 0?    1.0
+            :                   1.0/impl::intpow_<Number_type>( base, -exponent )
             );
     }
 
-    constexpr inline auto intpow( const double base, const int exponent )
-        -> double
-    { return intpow_<double>( base, exponent ); }
-        
+    template< class Number_type = double>
+    constexpr inline auto squared( const Number_type x ) 
+        -> Number_type
+    { return x*x; }
+
+    template< class Number_type = double>
+    constexpr inline auto cubed( const Number_type x ) 
+        -> Number_type
+    { return x*x*x; }
+
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::is_even, d::is_odd,
         d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi, d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2,
-        d::intpow_, d::intpow;
+        d::intpow, d::squared, d::cubed;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 

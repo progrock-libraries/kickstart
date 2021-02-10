@@ -29,7 +29,7 @@
 #include <limits.h>     // CHAR_BIT
 
 namespace kickstart::limits::_definitions {
-    using kickstart::math::intpow_;
+    using kickstart::math::intpow;
 
     template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
@@ -40,8 +40,8 @@ namespace kickstart::limits::_definitions {
 
     template< class Fp_type >
     constexpr Fp_type largest_exact_integer_of_ =
-        intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) +
-        (intpow_<Fp_type>( 2, bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
+        intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) +
+        (intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
 
 
     //----------------------------------------------------------- @exported:
