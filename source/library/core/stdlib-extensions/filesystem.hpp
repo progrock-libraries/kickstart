@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/Truth.hpp>
 
 #include <stddef.h>         // size_t
@@ -32,7 +33,7 @@
 #include <utility>
 
 namespace tag {
-    using From_stdlib = struct From_stdlib_struct*;
+    using From_fspath = struct From_fspath_struct*;
 }  // namespace tag
 
 namespace kickstart::fsx::_definitions {
@@ -45,6 +46,8 @@ namespace kickstart::fsx::_definitions {
     class Path;
     inline auto fspath_from_u8( const string_view& s ) -> fs::path;
     inline auto path_from_u8( const string_view& s ) -> Path;
+    inline auto fspath_of_executable() -> fs::path;
+    inline auto path_of_executable() -> Path;
 
     class Path
     {
@@ -67,13 +70,13 @@ namespace kickstart::fsx::_definitions {
             m_value( move( other.m_value ) )
         {}
 
-        Path( tag::From_stdlib, fs::path p ) noexcept:
+        Path( tag::From_fspath, fs::path p ) noexcept:
             m_value( move( p ) )
         {}
 
         static auto from_fspath( fs::path p )
             -> Path
-        { return Path( tag::From_stdlib(), move( p ) ); }
+        { return Path( tag::From_fspath(), move( p ) ); }
 
         auto fspath() -> fs::path& { return m_value; }
         auto fspath() const -> const fs::path& { return m_value; }
@@ -206,6 +209,16 @@ namespace kickstart::fsx::_definitions {
     inline auto path_from_u8( const string_view& s )
         -> Path
     { return Path( s ); }
+
+    inline auto fspath_of_executable()
+        -> fs::path
+    {
+        KS_FAIL( "Not implemented yet." );
+    }
+
+    inline auto path_of_executable()
+        -> Path
+    { return Path( tag::From_fspath(), fspath_of_executable() ); }
 
 
     //----------------------------------------------------------- @exported:
