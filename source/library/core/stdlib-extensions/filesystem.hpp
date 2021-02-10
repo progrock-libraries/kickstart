@@ -42,12 +42,9 @@ namespace kickstart::fsx::_definitions {
             std::string_view,
             std::move;
 
-    // Sabotage of Windows: this function may stop working in C++23 because
-    // `std::filesystem::u8path` is deprecated in C++20. May be necessary to
-    // re-implement using OS functionality and/or C++ version discrimination.
-    inline auto u8_stdpath( const string_view& s )
-        -> fs::path
-    { return fs::u8path( s ); }
+    class Path;
+    inline auto fspath_from_u8( const string_view& s ) -> fs::path;
+    inline auto path_from_u8( const string_view& s ) -> Path;
 
     class Path
     {
@@ -59,7 +56,7 @@ namespace kickstart::fsx::_definitions {
 
         Path() noexcept {}
 
-        Path( const string_view& s ): m_value( u8_stdpath( s ) ) {}
+        Path( const string_view& s ): m_value( fspath_from_u8( s ) ) {}
 
         #ifdef __cpp_lib_char8_t
             using std::u8string_view;
@@ -74,16 +71,16 @@ namespace kickstart::fsx::_definitions {
             m_value( move( p ) )
         {}
 
-        static auto from_stdlib_path( fs::path p )
+        static auto from_fspath( fs::path p )
             -> Path
         { return Path( tag::From_stdlib(), move( p ) ); }
 
-        auto stdlib_path() -> fs::path& { return m_value; }
-        auto stdlib_path() const -> const fs::path& { return m_value; }
+        auto fspath() -> fs::path& { return m_value; }
+        auto fspath() const -> const fs::path& { return m_value; }
 
 
-        auto operator- () const -> const fs::path& { return stdlib_path(); }    // Workaround for g++.
-        operator const fs::path& () const { return stdlib_path(); }             // Should work for std.
+        auto operator-() const -> const fs::path& { return fspath(); }      // Workaround for g++.
+        operator const fs::path& () const { return fspath(); }              // Should work for std.
 
 
         //--------------------------- Modifiers:
@@ -124,14 +121,14 @@ namespace kickstart::fsx::_definitions {
         auto has_filename_mainpart() const      -> Truth    { return m_value.has_stem(); }
         auto has_filename_extension() const     -> Truth    { return m_value.has_extension(); }
 
-        auto root_name() const                  -> Path     { return from_stdlib_path( m_value.root_name() ); }
-        auto root_directory() const             -> Path     { return from_stdlib_path( m_value.root_directory() ); }
-        auto root_path() const                  -> Path     { return from_stdlib_path( m_value.root_path() ); }
-        auto relative_path() const              -> Path     { return from_stdlib_path( m_value.relative_path() ); }
-        auto parent_path() const                -> Path     { return from_stdlib_path( m_value.parent_path() ); }
-        auto filename() const                   -> Path     { return from_stdlib_path( m_value.filename() ); }
-        auto filename_mainpart() const          -> Path     { return from_stdlib_path( m_value.stem() ); }
-        auto filename_extension() const         -> Path     { return from_stdlib_path( m_value.extension() ); }
+        auto root_name() const                  -> Path     { return from_fspath( m_value.root_name() ); }
+        auto root_directory() const             -> Path     { return from_fspath( m_value.root_directory() ); }
+        auto root_path() const                  -> Path     { return from_fspath( m_value.root_path() ); }
+        auto relative_path() const              -> Path     { return from_fspath( m_value.relative_path() ); }
+        auto parent_path() const                -> Path     { return from_fspath( m_value.parent_path() ); }
+        auto filename() const                   -> Path     { return from_fspath( m_value.filename() ); }
+        auto filename_mainpart() const          -> Path     { return from_fspath( m_value.stem() ); }
+        auto filename_extension() const         -> Path     { return from_fspath( m_value.extension() ); }
 
         auto is_absolute() const                -> Truth    { return m_value.is_absolute(); }
         auto is_relative() const                -> Truth    { return m_value.is_relative(); }
@@ -159,21 +156,21 @@ namespace kickstart::fsx::_definitions {
         friend
         auto operator/( const Path& lhs, const Path& rhs )
             -> Path
-        { return from_stdlib_path( lhs.m_value / rhs.m_value ); }
+        { return from_fspath( lhs.m_value / rhs.m_value ); }
     };
 
     inline void swap( Path& a, Path& b ) noexcept
     {
-        swap( a.stdlib_path(), b.stdlib_path() );
+        swap( a.fspath(), b.fspath() );
     }
 
     inline auto hash_value( const Path& path ) noexcept
         -> size_t
-    { return fs::hash_value( path.stdlib_path() ); }
+    { return fs::hash_value( path.fspath() ); }
 
     inline auto compare( const Path& a, const Path& b )
         -> int
-    { return a.stdlib_path().compare( b.stdlib_path() ); }
+    { return a.fspath().compare( b.fspath() ); }
 
     inline auto operator<( const Path& lhs, const Path& rhs ) noexcept
         -> auto
@@ -199,11 +196,22 @@ namespace kickstart::fsx::_definitions {
         -> auto
     { return compare( lhs, rhs ) != 0; }
 
+    // Sabotage of Windows: this function may stop working in C++23 because
+    // `std::filesystem::u8path` is deprecated in C++20. May be necessary to
+    // re-implement using OS functionality and/or C++ version discrimination.
+    inline auto fspath_from_u8( const string_view& s )
+        -> fs::path
+    { return fs::u8path( s ); }
+
+    inline auto path_from_u8( const string_view& s )
+        -> Path
+    { return Path( s ); }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::u8_stdpath,
+        d::fspath_from_u8, d::path_from_u8,
         d::Path,
         d::swap,
         d::hash_value,
