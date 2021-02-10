@@ -49,6 +49,8 @@ namespace kickstart::math::_definitions {
 
     namespace impl
     {
+        // Essentially this is Horner's rule adapted to calculating a power, so that the
+        // number of floating point multiplications is at worst O(log₂n).
         template< class Number_type >
         constexpr inline auto intpow_( const Number_type base, const int exponent )
             -> Number_type
@@ -65,8 +67,6 @@ namespace kickstart::math::_definitions {
         }
     }  // namespace impl
 
-    // Essentially this is Horner's rule adapted to calculating a power, so that the
-    // number of floating point multiplications is at worst O(log2(n)).
     template< class Number_type = double>
     constexpr inline auto intpow( const Number_type base, const int exponent )
         -> Number_type
