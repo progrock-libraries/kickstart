@@ -26,6 +26,6 @@
 #include <kickstart/faux_iostreams.hpp>
 
 namespace kickstart::all {
-    using namespace all_except_streams;
+    using namespace all_except_streams;     // Just for exposition, it's already done.
     using namespace faux_iostreams;
 }

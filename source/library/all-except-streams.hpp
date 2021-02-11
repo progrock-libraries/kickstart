@@ -34,3 +34,7 @@ namespace kickstart::all_except_streams {
     namespace portable_dingbats = kickstart::portable_dingbats;
     namespace process = kickstart::process;
 }
+
+namespace kickstart::all {
+    using namespace all_except_streams;
+}  // namespace kickstart::all
