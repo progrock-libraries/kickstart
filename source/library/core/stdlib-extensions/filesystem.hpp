@@ -47,10 +47,16 @@ namespace kickstart::fsx::_definitions {
     class Path;
     inline auto fspath_from_u8( const string_view& s ) -> fs::path;
     inline auto path_from_u8( const string_view& s ) -> Path;
+
     inline auto fspath_of_executable() -> fs::path;
     inline auto path_of_executable() -> Path;
+
     inline auto fspath_of_exe_directory() -> fs::path;
     inline auto path_of_exe_directory() -> Path;
+
+    // Like `absolute` except instead of the current directory the exe directory is used.
+    inline auto fs_fullpath_of( const fs::path& ) -> fs::path;
+    inline auto fullpath_of( const Path& ) -> Path;
 
     class Path
     {
@@ -124,8 +130,8 @@ namespace kickstart::fsx::_definitions {
         auto has_relative_path() const          -> Truth    { return m_value.has_relative_path(); }
         auto has_parent_path() const            -> Truth    { return m_value.has_parent_path(); }
         auto has_filename() const               -> Truth    { return m_value.has_filename(); }
-        auto has_filename_mainpart() const      -> Truth    { return m_value.has_stem(); }
-        auto has_filename_extension() const     -> Truth    { return m_value.has_extension(); }
+        auto has_filename_mainpart() const      -> Truth    { return m_value.has_stem(); }                      // ¤
+        auto has_filename_extension() const     -> Truth    { return m_value.has_extension(); }                 // ¤
 
         auto root_name() const                  -> Path     { return from_fspath( m_value.root_name() ); }
         auto root_directory() const             -> Path     { return from_fspath( m_value.root_directory() ); }
@@ -133,13 +139,13 @@ namespace kickstart::fsx::_definitions {
         auto relative_path() const              -> Path     { return from_fspath( m_value.relative_path() ); }
         auto parent_path() const                -> Path     { return from_fspath( m_value.parent_path() ); }
         auto filename() const                   -> Path     { return from_fspath( m_value.filename() ); }
-        auto filename_mainpart() const          -> Path     { return from_fspath( m_value.stem() ); }
-        auto filename_extension() const         -> Path     { return from_fspath( m_value.extension() ); }
+        auto filename_mainpart() const          -> Path     { return from_fspath( m_value.stem() ); }           // ¤
+        auto filename_extension() const         -> Path     { return from_fspath( m_value.extension() ); }      // ¤
 
         auto is_absolute() const                -> Truth    { return m_value.is_absolute(); }
         auto is_relative() const                -> Truth    { return m_value.is_relative(); }
 
-        auto is_empty() const noexcept
+        auto is_empty() const noexcept                                                                          // ¤
             -> Truth
         { return m_value.empty(); }
 
@@ -211,7 +217,7 @@ namespace kickstart::fsx::_definitions {
 
     inline auto path_from_u8( const string_view& s )
         -> Path
-    { return Path( s ); }
+    { return Path::from_fspath( fspath_from_u8( s ) ); }
 
     inline auto fspath_of_executable()
         -> fs::path
@@ -219,7 +225,7 @@ namespace kickstart::fsx::_definitions {
 
     inline auto path_of_executable()
         -> Path
-    { return Path( kickstart::system_specific::get_path_of_executable() ); }
+    { return Path::from_fspath( fspath_of_executable() ); }
 
     inline auto fspath_of_exe_directory()
         -> fs::path
@@ -227,7 +233,16 @@ namespace kickstart::fsx::_definitions {
 
     inline auto path_of_exe_directory()
         -> Path
-    { return path_of_executable().parent_path(); }
+    { return Path::from_fspath( fspath_of_exe_directory() ); }
+
+    // Like `absolute` except instead of the current directory the executable's directory is used.
+    inline auto fs_fullpath_of( const fs::path& p )
+        -> fs::path
+    { return (p.is_relative()? (fspath_of_executable() / p) : fs::absolute( p )); }
+
+    inline auto fullpath_of( const Path& p )
+        -> Path
+    { return Path::from_fspath( fs_fullpath_of( p ) ); }
 
 
     //----------------------------------------------------------- @exported:
@@ -241,7 +256,6 @@ namespace kickstart::fsx::_definitions {
         d::hash_value,
         d::compare,
         d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=;
-        using namespace fs;     // All the standard library's fs functions etc., e.g. current_path.
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions
 
