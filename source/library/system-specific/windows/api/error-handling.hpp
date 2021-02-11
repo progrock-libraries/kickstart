@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "~header-boilerplate-stuff.hpp"
+#include <kickstart/system-specific/windows/api/~header-boilerplate-stuff.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdint.h>     // int32_t, uint32_t
+#include <kickstart/system-specific/windows/api/types.hpp>
+#include "memory.hpp"           // LocalFree
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -39,28 +40,20 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::BOOL, ::DWORD, ::HANDLE, HMODULE, ::UINT;
-        using   ::MAX_PATH;
+        using   ::GetLastError, ::SetLastError;
     #else
-        using BOOL      = int32_t;      // Or just `int`, which is 32-bit in Windows.
-        using DWORD     = uint32_t;
-        using HANDLE    = void*;
-        using HMODULE   = struct Module_handle_t*;
-        using UINT      = uint32_t;
+        using namespace kickstart::winapi;
 
-        const int MAX_PATH  = 260;
+        extern "C" auto __stdcall GetLastError() -> DWORD;
+        extern "C" void  __stdcall SetLastError( DWORD dwErrCode );
     #endif
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::BOOL,
-        d::DWORD,
-        d::HANDLE,
-        d::UINT,
-        d::MAX_PATH;
+        d::GetLastError,
+        d::SetLastError;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 
-namespace kickstart::winapi     { using namespace _definitions::exported_names; }
+namespace kickstart::winapi { using namespace _definitions::exported_names; }

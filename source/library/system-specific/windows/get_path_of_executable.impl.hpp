@@ -26,17 +26,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util/collection-sizes.hpp>              // int_size
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/system-specific/windows/api/error-handling.hpp>         // GetLastError, SetLasError
+#include <kickstart/system-specific/windows/api/process-info.hpp>           // GetModuleFileName
+#include <kickstart/system-specific/windows/text-encoding-conversion.hpp>   // to_utf8
+
 #include <string>
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
-    using std::string;
+    using namespace kickstart::text_conversion;     // operator<<
+    using namespace kickstart::core::collection_util;
+    namespace winapi = kickstart::winapi;
+
+    using   std::string, std::wstring;
 
     inline auto get_path_of_executable()
         -> string
     {
-        KS_FAIL( "This platform is not supported." );
-        unreachable();
+        auto path = wstring( winapi::MAX_PATH, '\0' );
+        winapi::SetLastError( 0 );
+        const int n_chars = winapi::GetModuleFileNameW( {}, path.data(), int_size( path ) );
+        const unsigned error_code = winapi::GetLastError();
+        hopefully( error_code == 0 )
+            or KS_FAIL( ""s << "Winapi GetModuleFileName failed with error code " << error_code << "." );
+        path.resize( n_chars );
+        return to_utf8( path );
     }
 }  // namespace kickstart::system_specific::_definitions

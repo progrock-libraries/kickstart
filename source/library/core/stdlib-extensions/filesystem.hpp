@@ -49,6 +49,8 @@ namespace kickstart::fsx::_definitions {
     inline auto path_from_u8( const string_view& s ) -> Path;
     inline auto fspath_of_executable() -> fs::path;
     inline auto path_of_executable() -> Path;
+    inline auto fspath_of_exe_directory() -> fs::path;
+    inline auto path_of_exe_directory() -> Path;
 
     class Path
     {
@@ -219,12 +221,21 @@ namespace kickstart::fsx::_definitions {
         -> Path
     { return Path( kickstart::system_specific::get_path_of_executable() ); }
 
+    inline auto fspath_of_exe_directory()
+        -> fs::path
+    { return fspath_of_executable().parent_path(); }
+
+    inline auto path_of_exe_directory()
+        -> Path
+    { return path_of_executable().parent_path(); }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::fspath_from_u8, d::path_from_u8,
         d::fspath_of_executable, d::path_of_executable,
+        d::fspath_of_exe_directory, d::path_of_exe_directory,
         d::Path,
         d::swap,
         d::hash_value,

@@ -45,7 +45,8 @@ namespace kickstart::winapi::_definitions {
     
     #ifdef MessageBox       // <windows.h> has been included
         using   ::GetCommandLineW,
-                ::CommandLineToArgvW;
+                ::CommandLineToArgvW,
+                ::GetModuleFileNameW;
     #else
         using namespace kickstart::winapi;
 
@@ -56,13 +57,20 @@ namespace kickstart::winapi::_definitions {
             const wchar_t*      lpCmdLine,
             int*                pNumArgs
             ) -> wchar_t**;
+
+        extern "C" auto __stdcall GetModuleFileNameW(
+            HMODULE     hModule,
+            wchar_t*    lpFilename,
+            DWORD       nSize
+            ) -> DWORD;
 #endif
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::GetCommandLineW,
-        d::CommandLineToArgvW;
+        d::CommandLineToArgvW,
+        d::GetModuleFileNameW;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 
