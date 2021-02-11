@@ -32,6 +32,7 @@
 //
 // In particular, with a Windows console window set to UTF-8 codepage 65001, input of
 // non-ASCII characters just produces nullbytes down at the Windows API level.
+//
 namespace kickstart::iostreams {
     using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
     using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
