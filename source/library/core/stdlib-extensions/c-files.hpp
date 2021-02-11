@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include 
+//#include <kickstart/>
+#include <stdio.h>
+
 namespace kickstart::stdlib_extensions::files::_definitions {
 }  // namespace kickstart::stdlib_extensions::files::_definitions
