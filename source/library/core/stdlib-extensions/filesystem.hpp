@@ -54,7 +54,7 @@ namespace kickstart::fsx::_definitions {
     inline auto fspath_of_exe_directory() -> fs::path;
     inline auto path_of_exe_directory() -> Path;
 
-    // Like `absolute` except instead of the current directory the exe directory is used.
+    // Like `absolute` except that relative paths are considered as relative to the exe directory.
     inline auto fs_fullpath_of( const fs::path& ) -> fs::path;
     inline auto fullpath_of( const Path& ) -> Path;
 
