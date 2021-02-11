@@ -26,20 +26,3 @@
 #include <kickstart/core/language/stdlib-includes/iostreams/formatting.hpp>
 #include <kickstart/core/language/stdlib-includes/iostreams/string-streams.hpp>
 #include <kickstart/core/language/stdlib-includes/iostreams/tty-streams.hpp>
-
-#if 0
-#include <iomanip>
-#include <iostream>
-#include <fstream>
-#include <sstream>
-
-namespace kickstart::iostreams {
-    using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
-    using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
-    using   std::fixed, std::scientific, std::hexfloat, std::defaultfloat;      // From <iostream>.
-    using   std::left, std::right, std::internal;                               // From <iostream>.
-    using   std::setw, std::setprecision, std::setfill, std::quoted;            // From <iomanip>.
-    using   std::ifstream, std::ofstream;                                       // From <fstream>.
-    using   std::istringstream, std::ostringstream;                             // From <sstream>.
-}  // namespace kickstart::iostreams
-#endif
