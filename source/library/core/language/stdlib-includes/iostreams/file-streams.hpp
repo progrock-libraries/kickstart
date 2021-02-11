@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
+//#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,12 +24,16 @@
 
 #include <filesystem>
 #include <fstream>
+#include <ios>                  // For exposition, also included by e.g. <fstream>.
+#include <istream>              // For exposition, also included by e.g. <fstream>.
+#include <ostream>              // For exposition, also included by e.g. <fstream>.
 
 namespace kickstart::stdlib::iostreams {
-    using   std::endl, std::flush,                          // From <fstream>.
-            std::ios_base,
-            std::istream, std::ostream,
-            std::ifstream, std::ofstream;
+    namespace fs = std::filesystem;                         // From <filesystem>.
 
-    namespace fs = std::filesystem;
+    using   std::fstream, std::ifstream, std::ofstream,     // From <fstream>.
+            std::ios_base,                                  // From <ios>.
+            std::iostream, std::istream,                    // From <istream>.
+            std::endl, std::flush,                          // From <ostream>.
+            std::ostream, std::endl;                        // From <ostream>.
 }  // namespace kickstart::stdlib::iostreams

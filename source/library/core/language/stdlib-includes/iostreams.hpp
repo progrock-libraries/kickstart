@@ -22,17 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/stdlib-includes/iostreams/file-streams.hpp>
+#include <kickstart/core/language/stdlib-includes/iostreams/formatting.hpp>
+#include <kickstart/core/language/stdlib-includes/iostreams/string-streams.hpp>
+#include <kickstart/core/language/stdlib-includes/iostreams/tty-streams.hpp>
+
+#if 0
 #include <iomanip>
 #include <iostream>
 #include <fstream>
 #include <sstream>
 
-// Iostreams i/o of ASCII text is portable by default, but while UTF-8 works in Unix it
-// won't work by default in Windows.
-//
-// In particular, with a Windows console window set to UTF-8 codepage 65001, input of
-// non-ASCII characters just produces nullbytes down at the Windows API level.
-//
 namespace kickstart::iostreams {
     using   std::cin, std::cout, std::cerr, std::clog, std::endl, std::flush;   // From <iostream>.
     using   std::boolalpha, std::hex, std::dec, std::oct;                       // From <iostream>
@@ -42,3 +42,4 @@ namespace kickstart::iostreams {
     using   std::ifstream, std::ofstream;                                       // From <fstream>.
     using   std::istringstream, std::ostringstream;                             // From <sstream>.
 }  // namespace kickstart::iostreams
+#endif

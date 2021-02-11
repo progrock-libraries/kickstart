@@ -28,5 +28,5 @@
 // An example convenience namespace. Will probably never be used, but hey.
 namespace kickstart::with_iostreams {
     using namespace all_except_streams;
-    using namespace iostreams;
+    using namespace stdlib::iostreams;
 }

@@ -26,8 +26,17 @@
 #include <istream>          // Was not formally included by <iostream> prior to C++11.
 #include <ostream>          // Was not formally included by <iostream> prior to C++11.
 
+// Note:
+//
+// Iostreams i/o of ASCII text is portable by default, but while UTF-8 works in Unix it
+// won't work by default in Windows.
+//
+// In particular, as of early 2021, with a Windows console window set to UTF-8 codepage
+// 65001, stream input of non-ASCII characters just produces nullbytes at the Windows
+// API level. And this is so also with Microsoft Terminal.
+//
 namespace kickstart::stdlib::iostreams {
     using   std::cin, std::cout, std::cerr, std::clog,      // From <iostream>.
-            std::istream,                                   // From <istream>.
-            std::ostream;                                   // From <ostream>.
+            std::istream, std::ws,                          // From <istream>.
+            std::ostream, std::endl;                        // From <ostream>.
 }  // namespace kickstart::stdlib::iostreams
