@@ -31,6 +31,7 @@ namespace kickstart::system_specific::_definitions {
 
     class Console
     {
+    protected:
         Console() {}
 
     public:
@@ -54,7 +55,7 @@ namespace kickstart::system_specific::_definitions {
 
 namespace kickstart::system_specific    { using namespace _definitions::exported_names; }
 
-#if defined( x_WIN64 )
+#if defined( _WIN64 )
 #   include <kickstart/system-specific/windows/Console.impl.hpp>
 #elif defined( x__linux__ )
 #   include <kickstart/system-specific/unix/linux/Console.impl.hpp>

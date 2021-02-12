@@ -26,25 +26,129 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/Console.hpp>
+#include <kickstart/system-specific/windows/api/consoles.hpp>
+#include <kickstart/system-specific/windows/api/text-encoding.hpp>
+
+#include <optional>
+#include <queue>
+#include <utility>
 
 namespace kickstart::system_specific::_definitions {
+    using namespace kickstart::failure_handling;    // hopefully etc.
+    using namespace kickstart::language;            // Truth etc.
+    using   std::optional,
+            std::queue,
+            std::move;
+
+    inline auto read_widechar( const winapi::HANDLE h )
+        -> wint_t
+    {
+        for( const int dummy : {1, 2} ) {
+            (void) dummy;
+            wchar_t ch = 0;
+            winapi::DWORD n_chars_read = 0;
+            winapi::ReadConsoleW( h, &ch, 1, &n_chars_read, nullptr );
+            if( n_chars_read == 0 ) {
+                return WEOF;
+            } else if( ch == L'\n' ) {
+                continue;
+            } else if( ch == L'\r' ) {
+                return L'\n';
+            }
+            return ch;
+        }
+        return WEOF;
+    }
+
     class Windows_console:
         public Console
     {
-        Windows_console() {}
+        friend auto Console::instance() -> Console&;
+        constexpr static int ctrl_z = 26;
+
+        struct Input_state
+        {
+            Truth           at_start_of_line    = true;
+            queue<int>      bytes               = {};
+        };
+
+        Input_state         m_input_state;
+        winapi::HANDLE      m_input_handle      = {};
+        winapi::HANDLE      m_output_handle     = {};
+
+        static auto is_surrogate( const wchar_t )
+            -> Truth
+        { return false; }       // TODO:
+
+        inline auto read_byte()
+            -> int
+        {
+            while( m_input_state.bytes.empty() ) {
+                const wint_t    code        = read_widechar( m_input_handle );
+                const Truth     soft_eof    = (m_input_state.at_start_of_line and code == ctrl_z);
+
+                if( code != WEOF ) {
+                    m_input_state.at_start_of_line = false;
+                }
+
+                // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
+                // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
+                if( soft_eof or code == WEOF ) {
+                    m_input_state.bytes.push( EOF );
+                } else if( not is_surrogate( code ) ) {
+                    char buffer[32];        // Max UTF-8 length is 4, this is more than enough.
+
+                    const winapi::DWORD     flags           = 0;
+                    const wchar_t           code_as_wchar   = code;
+                    const int               n_bytes         = winapi::WideCharToMultiByte(
+                        winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
+                    );
+
+                    for( int i = 0; i < n_bytes; ++i ) {
+                        m_input_state.bytes.push( buffer[i] );
+                    }
+                }
+            }
+
+            const int result = m_input_state.bytes.front();
+            m_input_state.bytes.pop();
+            return result;
+        }
+            
+        inline auto any_input()
+            -> optional<string>
+        {
+            string  line;
+            int     code;
+
+            while( (code = read_byte()) != EOF and code != '\n' ) {
+                line += char( code );
+            }
+            //hopefully( not ::ferror( f ) )
+            //    or KS_FAIL( "::fgetc failed" );
+            if( code == EOF and line.empty() ) {
+                return {};
+            }
+            return line;
+        }
 
     public:
         auto input()
-            -> string
-            override
+            -> string override
         {
-            return "";
+            optional<string> result = any_input();
+            hopefully( result.has_value() )
+                or KS_FAIL_( End_of_file_exception, "At end of file." );
+            return move( result.value() );
         }
 
         void output( const string_view& )
             override
         {
+            // TODO:
         }
     };
 

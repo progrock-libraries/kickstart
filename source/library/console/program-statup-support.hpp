@@ -44,7 +44,8 @@
 #include <vector>
 
 namespace kickstart::console_startup::_definitions {
-    namespace process = kickstart::process;
+    namespace process   = kickstart::process;
+    namespace std_x     = kickstart::std_x;
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;
     using namespace std::string_literals;
@@ -106,7 +107,7 @@ namespace kickstart::console_startup::_definitions {
             return EXIT_SUCCESS;
         } catch( const Clean_app_exit_exception& x ) {
             output_error_message( ""s + x.what() + "\n" );
-        } catch( const exception& x ) {
+        } catch( const std_x::Base& x ) {
             output_error_message( "!"s + x.what() + "\n" );
         }
         return EXIT_FAILURE;

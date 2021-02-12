@@ -27,6 +27,7 @@
 
 namespace kickstart::std_x {
     using   std::invalid_argument,
+            std::logic_error,
             std::out_of_range,
             std::runtime_error,
             std::system_error;

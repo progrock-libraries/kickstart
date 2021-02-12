@@ -48,6 +48,7 @@ namespace kickstart::failure_handling::_definitions {
     using   std::string,
             std::string_view;
 
+    // For named parameter:
     struct Funcname
     {
         string_view     value;
@@ -90,6 +91,10 @@ namespace kickstart::failure_handling::_definitions {
         -> Truth
     { return fail_<std_x::runtime_error>( funcname, s ); }
 
+    struct End_of_file_exception:
+        std_x::runtime_error
+    { using runtime_error::runtime_error; };
+
     class Clean_app_exit_exception:
         public std_x::Base
     {
@@ -110,17 +115,20 @@ namespace kickstart::failure_handling::_definitions {
         -> Truth
     { return fail_<Clean_app_exit_exception>( s ); }
 
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        std::exception, std::logic_error, std::range_error, std::runtime_error,
         d::Funcname,
         d::unreachable,
         d::hopefully,
         d::fail_,
         d::fail,
+        d::End_of_file_exception,
         d::Clean_app_exit_exception,
         d::fail_app_with_message;
+
+        using namespace std_x;
     }  // namespace exported names
 }  // namespace kickstart::failure_handling::_definitions
 

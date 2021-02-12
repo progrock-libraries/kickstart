@@ -46,10 +46,6 @@ namespace kickstart::utf8_io::_definitions {
 
     using C_file_ptr = FILE*;
 
-    struct End_of_file_error:
-        runtime_error
-    { using runtime_error::runtime_error; };
-
     inline void flush( const C_file_ptr f = stdout )
     {
         assert( f != stdin );
@@ -110,7 +106,7 @@ namespace kickstart::utf8_io::_definitions {
     {
         optional<string> input = any_input_from( f );
         hopefully( input.has_value() )
-            or KS_FAIL_( End_of_file_error, "At end of file." );
+            or KS_FAIL_( End_of_file_exception, "At end of file." );
         return move( input.value() );
     }
 
@@ -132,7 +128,7 @@ namespace kickstart::utf8_io::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::End_of_file_error,
+        d::End_of_file_exception,
         d::flush,
         d::output_to,
         d::output,
