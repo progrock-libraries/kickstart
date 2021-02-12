@@ -34,10 +34,10 @@ namespace kickstart::system_specific::_definitions {
         Console() {}
 
     public:
-        static auto instance() -> Console&;
+        static inline auto instance() -> Console&;
 
-        virtual auto input() -> string = 0;
-        virtual void output( const string_view& ) = 0;
+        virtual inline auto input() -> string = 0;
+        virtual inline void output( const string_view& ) = 0;
     };
 
     inline auto the_console()
@@ -60,14 +60,14 @@ namespace kickstart::system_specific    { using namespace _definitions::exported
 #   include <kickstart/system-specific/unix/linux/Console.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>
-namespace kickstart::system_specific::_definitions {
-    using kickstart::failure_handling::unreachable;
+    namespace kickstart::system_specific::_definitions {
+        using kickstart::failure_handling::unreachable;
 
-    inline auto Console::instance()
-        -> Console&
-    {
-        KS_FAIL( "This platform is not supported." );
-        unreachable();
-    }
-}  // namespace kickstart::system_specific::_definitions
+        inline auto Console::instance()
+            -> Console&
+        {
+            KS_FAIL( "This platform is not supported." );
+            unreachable();
+        }
+    }  // namespace kickstart::system_specific::_definitions
 #endif
