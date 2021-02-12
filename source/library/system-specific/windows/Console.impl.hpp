@@ -1,5 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#ifndef _WIN64
+#   error "This header is for 64-bit Windows systems only."
+#   include <nosuch>
+#endif
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
@@ -22,52 +26,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <string>
-#include <string_view>
+#include <kickstart/system-specific/Console.hpp>
 
 namespace kickstart::system_specific::_definitions {
-    using   std::string,
-            std::string_view;
-
-    class Console
+    class Windows_console:
+        public Console
     {
-        Console() {}
+        Windows_console() {}
 
     public:
-        static inline auto instance() -> Console&;
+        auto input()
+            -> string
+            override
+        {
+            return "";
+        }
 
-        virtual auto input() -> string = 0;
-        virtual void output( const string_view& ) = 0;
+        void output( const string_view& )
+            override
+        {
+        }
     };
 
-    inline auto the_console()
+    inline auto Console::instance()
         -> Console&
-    { return Console::instance(); }
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::Console;
-    }  // namespace exported_names
+    {
+        static Windows_console the_instance;
+        return the_instance;
+    }
 }  // namespace kickstart::system_specific::_definitions
-
-namespace kickstart::system_specific    { using namespace _definitions::exported_names; }
-
-#if defined( x_WIN64 )
-#   include <kickstart/system-specific/windows/Console.impl.hpp>
-#elif defined( x__linux__ )
-#   include <kickstart/system-specific/unix/linux/Console.impl.hpp>
-#else
-#   include <kickstart/core/failure-handling.hpp>
-    namespace kickstart::system_specific::_definitions {
-        using kickstart::failure_handling::unreachable;
-
-        inline auto Console::instance()
-            -> Console&
-        {
-            KS_FAIL( "This platform is not supported." );
-            unreachable();
-        }
-    }  // namespace kickstart::system_specific::_definitions
-#endif
