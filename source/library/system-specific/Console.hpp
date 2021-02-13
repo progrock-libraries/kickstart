@@ -38,11 +38,14 @@ namespace kickstart::system_specific::_definitions {
 
     class Console
     {
+        virtual auto read_byte() -> int = 0;
+        virtual void write_bytes( const string_view& s ) = 0;
+
     protected:
         Console() {}
 
-        virtual auto read_byte() -> int = 0;
-        virtual void write_bytes( const string_view& s ) = 0;
+    public:
+        static inline auto instance() -> Console&;
 
         auto any_input()
             -> optional<string>
@@ -59,9 +62,6 @@ namespace kickstart::system_specific::_definitions {
             }
             return line;
         }
-
-    public:
-        static inline auto instance() -> Console&;
 
         auto input() -> string
         {

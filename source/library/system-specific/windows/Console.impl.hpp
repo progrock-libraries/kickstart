@@ -131,11 +131,6 @@ namespace kickstart::system_specific::_definitions {
         winapi::HANDLE      m_input_handle      = {};
         winapi::HANDLE      m_output_handle     = {};
 
-        Windows_console():
-            m_input_handle( open_console_input() ),
-            m_output_handle( open_console_output() )
-        {}
-
         auto read_byte() -> int override
         {
             while( m_input_state.bytes.empty() ) {
@@ -177,6 +172,11 @@ namespace kickstart::system_specific::_definitions {
             hopefully( n_written == n )
                 or KS_FAIL( "Failed to write to console." );
         }
+
+        Windows_console():
+            m_input_handle( open_console_input() ),
+            m_output_handle( open_console_output() )
+        {}
     };
 
     inline auto Console::instance()
