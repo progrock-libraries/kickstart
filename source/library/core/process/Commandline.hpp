@@ -86,11 +86,11 @@ namespace kickstart::process::_definitions {
         { assert_good_enough_commandline_data( n_parts, parts ); }
     };
 
-    class Commandline:
+    class Commandline_impl:
         private Assert_good_enough_commandline_data
     {
-        using Self = Commandline;
-        Commandline( const Self& ) = delete;
+        using Self = Commandline_impl;
+        Commandline_impl( const Self& ) = delete;
         auto operator=( const Self& ) -> Self& = delete;
 
         Commandline_data        m_data;
@@ -105,16 +105,16 @@ namespace kickstart::process::_definitions {
             }
         }
 
-        Commandline():
+        Commandline_impl():
             m_data( get_commandline_data() )
         {
             init_c_strings();
         }
 
-        Commandline(
+        Commandline_impl(
             const int                   n_parts,
             const Type_<const C_str*>   parts,
-            const C_str                 fulltext_spec   = nullptr
+            const C_str                 fulltext_spec   // = nullptr
             ):
             Assert_good_enough_commandline_data( n_parts, parts ),
             m_data{ fulltext_spec? fulltext_spec : "", vector<string>( parts, parts + n_parts ) }
@@ -152,16 +152,16 @@ namespace kickstart::process::_definitions {
             const int                   n_parts,
             const Type_<const C_str*>   parts,
             const C_str                 fulltext    = nullptr
-            ) -> const Commandline&
+            ) -> const Commandline_impl&
         {
-            static unique_ptr<Commandline> p_the_instance = nullptr;
+            static unique_ptr<Commandline_impl> p_the_instance = nullptr;
 
             // TODO: correctness: add mutex; speed: fast path optimization for already existing.
             hopefully( n_parts == 0 or not p_the_instance )
                 or KS_FAIL( "Creation arguments specified for access of existing singleton." );
             if( not p_the_instance ) {
-                p_the_instance = unique_ptr<Commandline>(
-                    n_parts == 0? new Commandline() : new Commandline( n_parts, parts, fulltext )
+                p_the_instance = unique_ptr<Commandline_impl>(
+                    n_parts == 0? new Commandline_impl() : new Commandline_impl( n_parts, parts, fulltext )
                     );
             }
             return *p_the_instance;
@@ -179,24 +179,59 @@ namespace kickstart::process::_definitions {
             -> Array_span_<const C_str>
         { return {begin_ptr_of( m_c_strings ), end_ptr_of( m_c_strings )}; }
 
-        operator const string& () const { return fulltext(); }
-
-        static inline auto create_singleton(
+        static inline void create_singleton(
             const int                   n_parts,
             const Type_<const C_str*>   parts,
             const C_str                 fulltext_spec   = nullptr
-            ) -> const Commandline&
+            )
         {
             assert( n_parts > 0 );
-            return new_or_existing_singleton( n_parts, parts, fulltext_spec );
+            new_or_existing_singleton( n_parts, parts, fulltext_spec );
         }
 
         static inline auto singleton()
-            -> const Commandline&
-        { return new_or_existing_singleton( 0, nullptr ); }
+            -> const Commandline_impl&
+        { return new_or_existing_singleton( 0, nullptr, nullptr ); }
     };
 
-    inline auto the_commandline() -> const Commandline& { return Commandline::singleton(); }
+    class Commandline
+    {
+        using Self = Commandline_impl;
+
+        Commandline() {}
+        Commandline( const Self& ) = delete;
+        auto operator=( const Self& ) -> Self& = delete;
+
+        static auto impl()
+            -> const Commandline_impl&
+        { return Commandline_impl::singleton(); }
+
+    public:
+        auto fulltext() const   -> const string&                { return impl().fulltext(); }
+        auto verb() const       -> const string&                { return impl().verb(); }
+        auto args() const       -> Array_span_<const string>    { return impl().args(); }
+        auto c_strings() const  -> Array_span_<const C_str>     { return impl().c_strings(); }
+
+        operator const string& () const { return fulltext(); }
+
+        static inline void create_singleton(
+            const int                   n_parts,
+            const Type_<const C_str*>   parts,
+            const C_str                 fulltext_spec   = nullptr
+            )
+        { Commandline_impl::create_singleton( n_parts, parts, fulltext_spec ); }
+
+        static inline auto singleton()
+            -> const Commandline&
+        {
+            static Commandline the_instance;
+            return the_instance;
+        }
+    };
+
+    inline auto the_commandline()
+        -> const Commandline&
+    { return Commandline::singleton(); }
 
 
     //----------------------------------------------------------- @exported:
