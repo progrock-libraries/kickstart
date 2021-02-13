@@ -74,8 +74,9 @@ namespace kickstart::system_specific::_definitions {
         void output( const string_view& s )
         {
             assert( s.size() <= size_t( INT_MAX ) );
-            const int n = int_size( s );
-            if( n == 0 ) { return; }
+            if( s.size() == 0 ) {
+                return;
+            }
             write_bytes( s );
         }
 
