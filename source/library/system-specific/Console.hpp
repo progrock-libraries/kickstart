@@ -38,14 +38,23 @@ namespace kickstart::system_specific::_definitions {
 
     class Console
     {
-        virtual auto read_byte() -> int = 0;
         virtual void write_bytes( const string_view& s ) = 0;
+        virtual auto read_byte() -> int = 0;
 
     protected:
         Console() {}
 
     public:
         static inline auto instance() -> Console&;
+
+        void output( const string_view& s )
+        {
+            assert( s.size() <= size_t( INT_MAX ) );
+            if( s.size() == 0 ) {
+                return;
+            }
+            write_bytes( s );
+        }
 
         auto any_input()
             -> optional<string>
@@ -69,15 +78,6 @@ namespace kickstart::system_specific::_definitions {
             hopefully( result.has_value() )
                 or KS_FAIL_( End_of_file_exception, "At end of file." );
             return move( result.value() );
-        }
-
-        void output( const string_view& s )
-        {
-            assert( s.size() <= size_t( INT_MAX ) );
-            if( s.size() == 0 ) {
-                return;
-            }
-            write_bytes( s );
         }
 
         auto input( const string_view& prompt )
