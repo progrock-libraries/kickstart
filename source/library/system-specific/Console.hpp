@@ -39,6 +39,13 @@ namespace kickstart::system_specific::_definitions {
 
         virtual auto input() -> string = 0;
         virtual void output( const string_view& ) = 0;
+
+        auto input( const string_view& prompt )
+            -> string
+        {
+            output( prompt );
+            return input();
+        }
     };
 
     inline auto the_console()
@@ -49,7 +56,8 @@ namespace kickstart::system_specific::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Console;
+        d::Console,
+        d::the_console;
     }  // namespace exported_names
 }  // namespace kickstart::system_specific::_definitions
 

@@ -61,6 +61,7 @@ namespace kickstart::system_specific::_definitions {
             );
         hopefully( h != invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for input." );
+        return h;
     }
 
     inline auto open_console_output()
@@ -73,6 +74,7 @@ namespace kickstart::system_specific::_definitions {
             );
         hopefully( h != invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for output." );
+        return h;
     }
 
     inline auto read_widechar( const winapi::HANDLE h )
