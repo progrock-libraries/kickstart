@@ -103,10 +103,11 @@ namespace kickstart::system_specific::_definitions {
 
 namespace kickstart::system_specific    { using namespace _definitions::exported_names; }
 
-#if defined( _WIN64 )
+#include <kickstart/system-specific/os-detection.hpp>
+#if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/Console.impl.hpp>
-#elif defined( x__linux__ )
-#   include <kickstart/system-specific/unix/linux/Console.impl.hpp>
+#elif defined( KS_OS_IS_UNIX)
+#   include <kickstart/system-specific/unix/Console.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>
     namespace kickstart::system_specific::_definitions {
