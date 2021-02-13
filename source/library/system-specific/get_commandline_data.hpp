@@ -34,9 +34,10 @@ namespace kickstart::system_specific {
     { return _definitions::get_commandline_data(); }
 }  // namespace kickstart::system_specific
 
-#if defined( _WIN64 )
+#include <kickstart/system-specific/os-detection.hpp>
+#if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
-#elif defined( __linux__ )
+#elif defined( KS_OS_IS_LINUX )
 #   include <kickstart/system-specific/unix/linux/get_commandline_data.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>

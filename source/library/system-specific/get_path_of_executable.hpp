@@ -33,8 +33,8 @@ namespace kickstart::system_specific {
     using _definitions::get_path_of_executable;
 }  // namespace kickstart::system_specific
 
-
-#if defined( _WIN64 )
+#include <kickstart/system-specific/os-detection.hpp>
+#if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/get_path_of_executable.impl.hpp>
 #elif defined( x__linux__ )
 #   include <kickstart/system-specific/unix/linux/get_path_of_executable.impl.hpp>
