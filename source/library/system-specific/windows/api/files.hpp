@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "~header-boilerplate-stuff.hpp"
+#include <kickstart/system-specific/windows/api/~header-boilerplate-stuff.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdint.h>     // int32_t, uint32_t, uintptr_t
+#include <kickstart/system-specific/windows/api/types.hpp>  // Supplies CloseHandle
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
@@ -39,33 +39,42 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::BOOL, ::DWORD, ::HANDLE, HMODULE, ::UINT;
+        using   ::CreateFileW;
 
-        const int       max_path                = MAX_PATH;
-        const HANDLE    invalid_handle_value    = INVALID_HANDLE_VALUE;
-
-        using   ::CloseHandle;
+        const DWORD generic_read            = GENERIC_READ;
+        const DWORD generic_write           = GENERIC_WRITE;
+        const DWORD file_share_read         = FILE_SHARE_READ;
+        const DWORD file_share_write        = FILE_SHARE_WRITE;
+        const DWORD open_existing           = OPEN_EXISTING;
     #else
-        using BOOL      = int32_t;      // Or just `int`, which is 32-bit in Windows.
-        using DWORD     = uint32_t;
-        using HANDLE    = void*;
-        using HMODULE   = struct Module_handle_t*;
-        using UINT      = uint32_t;
+        using namespace kickstart::winapi;
 
-        const int       max_path                = 260;
-        const HANDLE    invalid_handle_value    = HANDLE( uintptr_t( -1 ) );
+        const DWORD generic_read            = 0x80000000;
+        const DWORD generic_write           = 0x40000000;
+        const DWORD file_share_read         = 1;
+        const DWORD file_share_write        = 2;
+        const DWORD open_existing           = 3;
 
-        extern "C" auto __stdcall CloseHandle( HANDLE hObject ) -> BOOL;
+        extern "C" auto __stdcall CreateFileW(
+            C_wstr                  lpFileName,
+            DWORD                   dwDesiredAccess,
+            DWORD                   dwShareMode,
+            void*                   lpSecurityAttributes,
+            DWORD                   dwCreationDisposition,
+            DWORD                   dwFlagsAndAttributes,
+            HANDLE                  hTemplateFile
+            ) -> HANDLE;
     #endif
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::BOOL, d::DWORD, d::HANDLE, d::UINT,
-        d::max_path, d::invalid_handle_value,
-        d::CloseHandle;
+        d::generic_read, d::generic_write,
+        d::file_share_read, d::file_share_write,
+        d::open_existing,
+        d::CreateFileW;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 
-namespace kickstart::winapi     { using namespace _definitions::exported_names; }
+namespace kickstart::winapi { using namespace _definitions::exported_names; }

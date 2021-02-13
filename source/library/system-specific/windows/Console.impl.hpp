@@ -31,6 +31,7 @@
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/Console.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
+#include <kickstart/system-specific/windows/api/files.hpp>          // CreateFile
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 
 #include <assert.h>         // assert
@@ -49,6 +50,30 @@ namespace kickstart::system_specific::_definitions {
             std::queue,
             std::wstring,
             std::move;
+
+    inline auto open_console_input()
+        -> winapi::HANDLE
+    {
+        using namespace winapi;
+        const DWORD flags = 0;      // They're ignored.
+        const HANDLE h = CreateFileW(
+            L"conin$", generic_read, file_share_read, nullptr, open_existing, flags, {}
+            );
+        hopefully( h != invalid_handle_value )
+            or KS_FAIL( "Windows’ CreateFileW failed to open console for input." );
+    }
+
+    inline auto open_console_output()
+        -> winapi::HANDLE
+    {
+        using namespace winapi;
+        const DWORD flags = 0;      // They're ignored.
+        const HANDLE h = CreateFileW(
+            L"conout$", generic_write, file_share_write, nullptr, open_existing, flags, {}
+            );
+        hopefully( h != invalid_handle_value )
+            or KS_FAIL( "Windows’ CreateFileW failed to open console for output." );
+    }
 
     inline auto read_widechar( const winapi::HANDLE h )
         -> wint_t
@@ -89,6 +114,10 @@ namespace kickstart::system_specific::_definitions {
         return (int( n_chars_written ) < ws_len? 0 : n);
     }
     
+    inline auto is_surrogate( const wchar_t )
+        -> Truth
+    { return false; }       // TODO:
+
     class Windows_console:
         public Console
     {
@@ -105,9 +134,10 @@ namespace kickstart::system_specific::_definitions {
         winapi::HANDLE      m_input_handle      = {};
         winapi::HANDLE      m_output_handle     = {};
 
-        static auto is_surrogate( const wchar_t )
-            -> Truth
-        { return false; }       // TODO:
+        Windows_console(): // TODO:
+            m_input_handle( open_console_input() ),
+            m_output_handle( open_console_output() )
+        {}
 
         inline auto read_byte()
             -> int
@@ -153,18 +183,12 @@ namespace kickstart::system_specific::_definitions {
             while( (code = read_byte()) != EOF and code != '\n' ) {
                 line += char( code );
             }
-            //hopefully( not ::ferror( f ) )
-            //    or KS_FAIL( "::fgetc failed" );
+
             if( code == EOF and line.empty() ) {
                 return {};
             }
             return line;
         }
-
-        Windows_console(): // TODO:
-            m_input_handle(),
-            m_output_handle()
-        {}
 
     public:
         auto input()

@@ -46,7 +46,7 @@ namespace kickstart::system_specific::_definitions {
     inline auto get_path_of_executable()
         -> string
     {
-        auto path = wstring( winapi::MAX_PATH, '\0' );
+        auto path = wstring( winapi::max_path, '\0' );
         winapi::SetLastError( 0 );
         const int n_chars = winapi::GetModuleFileNameW( {}, path.data(), int_size( path ) );
         const unsigned error_code = winapi::GetLastError();
