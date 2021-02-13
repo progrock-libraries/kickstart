@@ -26,10 +26,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>       // int_size, begin_ptr_of
-#include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/Console.hpp>
+
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
 #include <kickstart/system-specific/windows/api/files.hpp>          // CreateFile
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
@@ -37,17 +36,13 @@
 #include <assert.h>         // assert
 #include <limits.h>         // INT_MAX
 
-#include <optional>
 #include <queue>
 #include <string>
 #include <utility>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::failure_handling;        // hopefully etc.
     using namespace kickstart::language;                // Truth etc.
-    using namespace kickstart::core::collection_util;   // int_size, begin_ptr_of
-    using   std::optional,
-            std::queue,
+    using   std::queue,
             std::wstring,
             std::move;
 
@@ -136,13 +131,12 @@ namespace kickstart::system_specific::_definitions {
         winapi::HANDLE      m_input_handle      = {};
         winapi::HANDLE      m_output_handle     = {};
 
-        Windows_console(): // TODO:
+        Windows_console():
             m_input_handle( open_console_input() ),
             m_output_handle( open_console_output() )
         {}
 
-        inline auto read_byte()
-            -> int
+        auto read_byte() -> int override
         {
             while( m_input_state.bytes.empty() ) {
                 const wint_t    code        = read_widechar( m_input_handle );
@@ -175,41 +169,11 @@ namespace kickstart::system_specific::_definitions {
             m_input_state.bytes.pop();
             return result;
         }
-            
-        inline auto any_input()
-            -> optional<string>
+
+        void write_bytes( const string_view& s ) override
         {
-            string  line;
-            int     code;
-
-            while( (code = read_byte()) != EOF and code != '\n' ) {
-                line += char( code );
-            }
-
-            if( code == EOF and line.empty() ) {
-                return {};
-            }
-            return line;
-        }
-
-    public:
-        auto input()
-            -> string override
-        {
-            optional<string> result = any_input();
-            hopefully( result.has_value() )
-                or KS_FAIL_( End_of_file_exception, "At end of file." );
-            return move( result.value() );
-        }
-
-        void output( const string_view& s )
-            override
-        {
-            assert( s.size() <= size_t( INT_MAX ) );
             const int n = int_size( s );
-            if( n == 0 ) { return; }
             const int n_written = write( m_output_handle, begin_ptr_of( s ), n );
-
             hopefully( n_written == n )
                 or KS_FAIL( "Failed to write to console." );
         }

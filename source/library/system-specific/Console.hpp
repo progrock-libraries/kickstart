@@ -22,11 +22,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util.hpp>       // int_size, begin_ptr_of
+#include <kickstart/core/failure-handling.hpp>
+
+#include <optional>
 #include <string>
 #include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using   std::string,
+    using namespace kickstart::failure_handling;        // hopefully etc.
+    using namespace kickstart::core::collection_util;   // int_size, begin_ptr_of
+    using   std::optional,
+            std::string,
             std::string_view;
 
     class Console
@@ -34,11 +41,43 @@ namespace kickstart::system_specific::_definitions {
     protected:
         Console() {}
 
+        virtual auto read_byte() -> int = 0;
+        virtual void write_bytes( const string_view& s ) = 0;
+
+        auto any_input()
+            -> optional<string>
+        {
+            string  line;
+            int     code;
+
+            while( (code = read_byte()) != EOF and code != '\n' ) {
+                line += char( code );
+            }
+
+            if( code == EOF and line.empty() ) {
+                return {};
+            }
+            return line;
+        }
+
     public:
         static inline auto instance() -> Console&;
 
-        virtual auto input() -> string = 0;
-        virtual void output( const string_view& ) = 0;
+        auto input() -> string
+        {
+            optional<string> result = any_input();
+            hopefully( result.has_value() )
+                or KS_FAIL_( End_of_file_exception, "At end of file." );
+            return move( result.value() );
+        }
+
+        void output( const string_view& s )
+        {
+            assert( s.size() <= size_t( INT_MAX ) );
+            const int n = int_size( s );
+            if( n == 0 ) { return; }
+            write_bytes( s );
+        }
 
         auto input( const string_view& prompt )
             -> string
