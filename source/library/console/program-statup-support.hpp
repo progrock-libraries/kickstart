@@ -71,6 +71,8 @@ namespace kickstart::console_startup::_definitions {
 
         if( override_os_cmdline or not is_windows ) {
             process::Commandline::create_singleton( n_cmd_parts, cmd_parts );
+        } else {
+            process::Commandline::singleton();  // Ensure singleton creation anyway.
         }
         do_things();
     }
