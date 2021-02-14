@@ -3,7 +3,7 @@
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-const auto& cmd =  process::the_commandline();
+const auto& cmd = process::the_commandline();
  
 auto make_options_spec()
     -> cxxopts::Options
