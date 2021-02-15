@@ -2,7 +2,7 @@
 
 When the author explored double-clicking of modern g++-produced executables in the Nautilus file explorer in Gnome in Ubuntu, it turned out that “run a modern executable” functionality was not present by default (!), and *creating that functionality* involved some installations (which may or may not have been necessary) plus adding a file “[/usr/local/share/applications/run-in-terminal.desktop](examples/run-in-terminal/ubuntu/run-in-terminal.desktop)” that specified an “Open with” item that invoked a file “[/usr/local/bin/run-in-terminal.sh](examples/run-in-terminal/ubuntu/run-in-terminal.sh)” that, due to apparent bugs in `gnome-terminal`, dynamically created a “/tmp/” shell script to run the program, which script it in turn passed as “`--`”-command to `gnome-terminal`&hellip;
 
-*File ([/usr/local/share/applications/run-in-terminal.desktop](examples/run-in-terminal/ubuntu/run-in-terminal.desktop)):*
+*File ([/usr/local/share/applications/run-in-terminal.desktop](examples/io/run-in-terminal/ubuntu/run-in-terminal.desktop)):*
 ~~~desktop
 [Desktop Entry]
 Encoding=UTF-8
@@ -16,7 +16,7 @@ StartupNotify=true
 MimeType=application/x-sharedlib;application/x-executable;
 ~~~
 
-*File ([/usr/local/bin/run-in-terminal.sh](examples/run-in-terminal/ubuntu/run-in-terminal.sh)):*
+*File ([/usr/local/bin/run-in-terminal.sh](examples/io/run-in-terminal/ubuntu/run-in-terminal.sh)):*
 ~~~sh
 #!/bin/bash
 TMPFILE=`mktemp /tmp/run-in-terminal.XXX`

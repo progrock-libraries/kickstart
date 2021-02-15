@@ -23,10 +23,10 @@
 // SOFTWARE.
 
 
-#include <kickstart/console/utf8/standard_streams.hpp>  // standard_streams::*
 #include <kickstart/core/failure-handling.hpp>          // hopefully, fail
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>     // Size etc.
+#include <kickstart/core/utf8-io/standard_streams.hpp>  // standard_streams::*
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 

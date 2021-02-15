@@ -30,3 +30,4 @@
 #include <kickstart/core/stdlib-extensions.hpp>     // bits_per, ...
 #include <kickstart/core/text-conversion.hpp>
 #include <kickstart/core/text-encoding.hpp>
+#include <kickstart/core/utf8-io.hpp>

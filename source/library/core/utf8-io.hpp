@@ -24,5 +24,5 @@
 
 #include <kickstart/core/text-encoding/utf8/execution-character-set-checking.hpp>
 
-#include <kickstart/console/utf8/io.hpp>
-#include <kickstart/console/utf8/standard_streams.hpp>
+#include <kickstart/core/utf8-io/io.hpp>
+#include <kickstart/core/utf8-io/standard_streams.hpp>

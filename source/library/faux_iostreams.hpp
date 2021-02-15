@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/console/utf8/io.hpp>
+#include <kickstart/core/utf8-io/io.hpp>
 #include <kickstart/core/text-conversion/to-text.hpp>
 
 namespace kickstart::faux_iostreams::_definitions {

@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/console/utf8/standard_streams/Interface.hpp>
+#include <kickstart/core/utf8-io/standard_streams/Interface.hpp>
 
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>

@@ -2,7 +2,7 @@
 
 Here’s an attempt to input international text using the C++ standard library directly:
 
-*File ([personalized-kickstart-greeting.stdlib.cpp](examples/personalized-kickstart-greeting.stdlib.cpp)):*
+*File ([io/personalized-kickstart-greeting.stdlib.cpp](examples/io/personalized-kickstart-greeting.stdlib.cpp)):*
 ~~~cpp
 #include <iostream>
 #include <string>

@@ -2,7 +2,7 @@
 
 Using the C++ standard library directly to output some international text:
 
-*File ([bhs.stdlib.cpp](examples/bhs.stdlib.cpp)):*
+*File ([io/bhs.stdlib.cpp](examples/io/bhs.stdlib.cpp)):*
 ~~~cpp
 #include <iostream>
 using namespace std;
@@ -27,16 +27,16 @@ This is so also with the other common Windows compilers. The Windows C++ standar
 
 When you work in a Windows command interpreter, as opposed to running your program from an IDE or by double-clicking the executable, then you can use the `chcp` command to tell the console to expect UTF-8 encoding:
 
-> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples]  
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
 > \> ***cl bhs.stdlib.cpp /Fe"bhs-stdlib"***  
 > bhs.stdlib.cpp  
 >  
-> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples]  
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
 > \> ***chcp & bhs-stdlib***  
 > Active code page: 850  
 > Dear world, Bj├©rn H├Ñvard S├ªther says hello!
 > 
-> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples]  
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
 > \> ***chcp 65001 & bhs-stdlib***  
 > Active code page: 65001  
 > Dear world, Bjørn Håvard Sæther says hello!

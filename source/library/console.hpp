@@ -25,4 +25,3 @@
 #include <kickstart/console/ansi_escape_seq.hpp>
 #include <kickstart/console/portable_dingbats.hpp>
 #include <kickstart/console/program-statup-support.hpp> // with_exceptions_displayed
-#include <kickstart/console/utf8.hpp>
