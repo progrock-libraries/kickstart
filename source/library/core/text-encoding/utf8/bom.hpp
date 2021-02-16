@@ -28,12 +28,20 @@
 // Can't use the `Truth` class here because it would be a circular include.
 // #include <kickstart/core/language/Truth.hpp>
 
-namespace kickstart::utf8 {
+#include <string_view>
 
-    constexpr auto& bom = "\uFEFF";
-}  // namespace kickstart::utf8
+namespace kickstart::utf8::_definitions {
+    using   std::string_view;
 
-namespace kickstart::core
-{
-    using kickstart::utf8::bom;
-}
+    constexpr auto& bom     = "\uFEFF";
+    constexpr auto  bom_sv  = string_view( bom );
+
+    namespace d = _definitions;
+    namespace exports{ using
+        d::bom,
+        d::bom_sv;
+    }  // namespace exports
+}  // namespace kickstart::utf8::_definitions
+
+namespace kickstart::utf8       { using namespace _definitions::exports; }
+namespace kickstart::core       { using namespace kickstart::utf8; }

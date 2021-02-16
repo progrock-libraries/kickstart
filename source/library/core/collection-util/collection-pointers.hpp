@@ -24,7 +24,7 @@
 
 #include <kickstart/core/language/type-aliases.hpp>     // Size
 
-namespace kickstart::core::collection_util::_definitions {
+namespace kickstart::collection_util::_definitions {
     using kickstart::language::Size;
 
     template< class Array >        // TODO: enable_if random access
@@ -54,7 +54,7 @@ namespace kickstart::core::collection_util::_definitions {
         d::begin_ptr_of,
         d::end_ptr_of;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_util::_definitions
+}  // namespace kickstart::collection_util::_definitions
 
-namespace kickstart::core::collection_util  { using namespace _definitions::exported_names; }
-namespace kickstart::core                   { using namespace collection_util; }
+namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+namespace kickstart::core               { using namespace collection_util; }

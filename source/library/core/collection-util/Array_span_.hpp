@@ -32,8 +32,9 @@ namespace kickstart::core::collection_util::_definitions {
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
     using namespace kickstart::text_conversion;     // ""s, operator<<
 
-    namespace kc = kickstart::core;
-    using kc::begin_ptr_of, kc::end_ptr_of, kc::Size;
+    namespace kc = kickstart::collection_util;
+    using kc::begin_ptr_of, kc::end_ptr_of;
+    using kickstart::language::Size;
 
     using std::out_of_range;
 

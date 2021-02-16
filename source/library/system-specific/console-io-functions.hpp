@@ -22,12 +22,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/text-encoding/utf8/bom.hpp>                    // bom
+
 #include <stdio.h>
 
 #include <string>
 #include <string_view>
 
 namespace kickstart::system_specific::_definitions {
+    using namespace kickstart::failure_handling;
+    using namespace kickstart::collection_util;
+    using namespace kickstart::language;            // Size, Index
     using   std::string,
             std::string_view;
 
@@ -36,22 +43,47 @@ namespace kickstart::system_specific::_definitions {
     inline auto is_console( const C_file f ) -> bool;
     inline void raw_output_to_console( const C_file, const string_view& );
     inline auto raw_input_from_console( const C_file ) -> string;
-}  // namespace kickstart::system_specific::_definitions
 
-namespace kickstart::system_specific {
-    using   std::string,
-        std::string_view;
+    inline void clib_output_to_console( const C_file f, const string_view& s )
+    {
+        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
+        hopefully( n_bytes_written == s.size() )
+            or KS_FAIL( "::fwrite failed" );
+    }
 
-    using C_file = FILE*;
+    inline auto clib_input_from_console( const C_file f )
+        -> string
+    {
+        string  line;
+        int     code;
 
-    using _definitions::is_console;
+        while( (code = fgetc( f )) != EOF and code != '\n' ) {
+            line += char( code );
+        }
+
+        hopefully( not( line.empty() and code == EOF ) )
+            or KS_FAIL( "fgetc() failed" );
+        return line;
+    }
 
     inline void output_to_console( const C_file f, const string_view& s )
     {
         #ifdef KS_CHECK_CONSOLE_PLEASE
             assert( is_console( f ) );
         #endif
-        _definitions::raw_output_to_console( f, s );
+
+        const auto npos = string_view::npos;
+        const auto n = s.size();
+        size_t i = 0;
+        for( ;; ) {
+            const size_t i_end = s.find( utf8::bom_sv, i );
+            if( i_end == npos ) { break; }
+            raw_output_to_console( f, string_view( s.data() + i, i_end - i ) );
+            i = i_end + 1;
+        }
+        if( i < n ) {
+            raw_output_to_console( f, string_view( s.data() + i, n - i ) );
+        }
     }
 
     inline auto input_from_console( const C_file f )
@@ -60,9 +92,19 @@ namespace kickstart::system_specific {
         #ifdef KS_CHECK_CONSOLE_PLEASE
             assert( is_console( f ) );
         #endif
-        return _definitions::raw_input_from_console( f );
+        return raw_input_from_console( f );
     }
-}  // namespace kickstart::system_specific
+
+    namespace d = _definitions;
+    namespace exports { using
+        d::is_console,
+        d::output_to_console,
+        d::input_from_console;
+    }  // namespace exports
+}  // namespace kickstart::system_specific::_definitions
+
+namespace kickstart::system_specific    { using namespace _definitions::exports; }
+
 
 #include <kickstart/system-specific/os-detection.hpp>
 #if defined( xKS_OS_IS_WIN64 )
@@ -70,11 +112,20 @@ namespace kickstart::system_specific {
 #else
 #   include <kickstart/core/failure-handling.hpp>      // KS_FAIL
     namespace kickstart::system_specific::_definitions {
+        using namespace kickstart::failure_handling;
+        using namespace kickstart::collection_util;
+
         inline auto is_console( const C_file )
             -> bool
         { return false; }
 
-        inline void raw_output_to_console( const C_file, const string_view& ) {}
-        inline auto raw_input_from_console( const C_file ) -> string { return ""; }
+        inline void raw_output_to_console( const C_file f, const string_view& s )
+        {
+            clib_output_to_console( f, s );
+        }
+
+        inline auto raw_input_from_console( const C_file f )
+            -> string
+        { return clib_input_from_console( f ); }
     }  // namespace kickstart::system_specific::_definitions
 #endif

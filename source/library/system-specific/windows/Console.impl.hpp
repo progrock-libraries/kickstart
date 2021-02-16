@@ -42,6 +42,7 @@
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::language;                // Truth etc.
+    using namespace kickstart::collection_util;         // begin_ptr_of
     using   std::queue,
             std::wstring,
             std::move;
