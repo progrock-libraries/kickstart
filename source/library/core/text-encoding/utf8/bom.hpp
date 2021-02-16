@@ -28,24 +28,12 @@
 // Can't use the `Truth` class here because it would be a circular include.
 // #include <kickstart/core/language/Truth.hpp>
 
-#define KS_ASSERT_UTF8_LITERALS()                                                   \
-    static_assert(                                                                  \
-        kickstart::core::utf8_is_the_execution_character_set(),                     \
-        "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."  \
-        )
-
 namespace kickstart::utf8 {
 
-    constexpr inline auto utf8_is_the_execution_character_set()
-        -> bool
-    {
-        constexpr auto& slashed_o = "ø";
-        return (sizeof( slashed_o ) == 3 and slashed_o[0] == '\xC3' and slashed_o[1] == '\xB8');
-    }
-
+    constexpr auto& bom = "\uFEFF";
 }  // namespace kickstart::utf8
 
 namespace kickstart::core
 {
-    using kickstart::utf8::utf8_is_the_execution_character_set;
+    using kickstart::utf8::bom;
 }
