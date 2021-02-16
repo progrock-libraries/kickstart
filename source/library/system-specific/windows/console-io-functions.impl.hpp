@@ -26,26 +26,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Console.interface.hpp>
+#include <kickstart/system-specific/console-io-functions.interface.hpp>
 
+#include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
+#include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
-#include <kickstart/system-specific/windows/api/files.hpp>          // CreateFile
+#include <kickstart/system-specific/windows/api/files.hpp>              // CreateFile
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 
-#include <assert.h>         // assert
-#include <limits.h>         // INT_MAX
+#include <stdio.h>
 
-#include <queue>
 #include <string>
-#include <utility>
+#include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::language;                // Truth etc.
-    using namespace kickstart::collection_util;         // begin_ptr_of
-    using   std::queue,
-            std::wstring,
-            std::move;
+    using namespace kickstart::failure_handling;
+    using namespace kickstart::collection_util;
+    using namespace kickstart::language;            // Size, Index
+    using   std::string,
+            std::string_view;
+
+    using C_file = FILE*;
 
     inline auto open_console_input()
         -> winapi::HANDLE
@@ -54,7 +56,7 @@ namespace kickstart::system_specific::_definitions {
         const DWORD flags = 0;      // They're ignored.
         const HANDLE h = CreateFileW(
             L"conin$", generic_read, file_share_read, nullptr, open_existing, flags, {}
-            );
+        );
         hopefully( h != invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for input." );
         return h;
@@ -67,7 +69,7 @@ namespace kickstart::system_specific::_definitions {
         const DWORD flags = 0;      // They're ignored.
         const HANDLE h = CreateFileW(
             L"conout$", generic_write, file_share_write, nullptr, open_existing, flags, {}
-            );
+        );
         hopefully( h != invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for output." );
         return h;
@@ -103,7 +105,7 @@ namespace kickstart::system_specific::_definitions {
         const int flags = 0;
         const int ws_len = winapi::MultiByteToWideChar(
             winapi::cp_utf8, flags, buffer, n, ws.data(), n
-            );
+        );
         assert( ws_len > 0 );
         winapi::DWORD n_chars_written;
         winapi::WriteConsoleW( h, ws.data(), ws_len, &n_chars_written, nullptr );
@@ -111,79 +113,13 @@ namespace kickstart::system_specific::_definitions {
         // Reporting the actual count of UTF-8 bytes written is costly, so fake it:
         return (int( n_chars_written ) < ws_len? 0 : n);
     }
-    
+
     inline auto is_surrogate( const wchar_t )
         -> Truth
     { return false; }       // TODO:
 
-    class Windows_console:
-        public Console
-    {
-        friend auto Console::instance() -> Console&;
-        constexpr static int ctrl_z = 26;
+    inline auto is_console( const C_file f ) -> bool;
+    inline void raw_output_to_console( const C_file, const string_view& );
+    inline auto raw_input_from_console( const C_file ) -> string;
 
-        struct Input_state
-        {
-            Truth           at_start_of_line    = true;
-            queue<int>      bytes               = {};
-        };
-
-        Input_state         m_input_state;
-        winapi::HANDLE      m_input_handle      = {};
-        winapi::HANDLE      m_output_handle     = {};
-
-        void write_bytes( const string_view& s ) override
-        {
-            const int n = int_size( s );
-            const int n_written = write( m_output_handle, begin_ptr_of( s ), n );
-            hopefully( n_written == n )
-                or KS_FAIL( "Failed to write to console." );
-        }
-
-        auto read_byte() -> int override
-        {
-            while( m_input_state.bytes.empty() ) {
-                const wint_t    code        = read_widechar( m_input_handle );
-                const Truth     soft_eof    = (m_input_state.at_start_of_line and code == ctrl_z);
-
-                if( code != WEOF ) {
-                    m_input_state.at_start_of_line = false;
-                }
-
-                // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
-                // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
-                if( soft_eof or code == WEOF ) {
-                    m_input_state.bytes.push( EOF );
-                } else if( not is_surrogate( code ) ) {
-                    char buffer[32];        // Max UTF-8 length is 4, this is more than enough.
-
-                    const winapi::DWORD     flags           = 0;
-                    const wchar_t           code_as_wchar   = code;
-                    const int               n_bytes         = winapi::WideCharToMultiByte(
-                        winapi::cp_utf8, flags, &code_as_wchar, 1, buffer, sizeof( buffer ), nullptr, nullptr
-                    );
-
-                    for( int i = 0; i < n_bytes; ++i ) {
-                        m_input_state.bytes.push( buffer[i] );
-                    }
-                }
-            }
-
-            const int result = m_input_state.bytes.front();
-            m_input_state.bytes.pop();
-            return result;
-        }
-
-        Windows_console():
-            m_input_handle( open_console_input() ),
-            m_output_handle( open_console_output() )
-        {}
-    };
-
-    inline auto Console::instance()
-        -> Console&
-    {
-        static Windows_console the_instance;
-        return the_instance;
-    }
 }  // namespace kickstart::system_specific::_definitions

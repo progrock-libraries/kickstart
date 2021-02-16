@@ -1,6 +1,8 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
+#include <kickstart/system-specific/console-io-functions.hpp>
+using kickstart::system_specific::output_to_console;
 #include <fstream>
 using std::ifstream;
 
@@ -8,33 +10,16 @@ const auto& cmd = process::the_commandline();
 
 auto help_text()
     -> string
-{ return "Usage: "s << ::cmd.verb() << " [-file] FILEPATH"; }
+{ return "Usage: "s << ::cmd.verb() << " FILEPATH"; }
     
 auto filename_from_commandline()
     -> const string&
 {
-    const auto& args = ::cmd.args();
+    const auto& args = cmd.args();
     switch( args.size() ) {
         case 1: {
-            const string& arg = args.item( 0 );
-            if( arg == "-?" or arg == "--help" or arg == "/?" ) {
-                fail_app_with_message( help_text() );
-            }
-            if( starts_with( '-', arg ) ) {
-                fail_app_with_message( ""s
-                    << "Invalid option “" << arg << "”.\n"
-                    << help_text()
-                    );
-            }
-            return arg;
+            return args.item( 0 );
         }
-        case 2: {
-            if( args.item( 0 ) == "-file" ) {
-                return args.item( 1 );
-            }
-            fail_app_with_message( help_text() );
-        }
-        [[fallthrough]];    // To avoid a g++ sillywarning.
         default: {
             fail_app_with_message( help_text() );
         }
@@ -42,22 +27,27 @@ auto filename_from_commandline()
     unreachable();          // To avoid a Visual C++ sillywarning.
 }
 
+auto any_input_from( ifstream& f )
+    -> optional<string>
+{
+    string result;
+    if( not getline( f, result ) )
+    {
+        return {};
+    }
+    return result;
+}
+
 void cppmain()
 {
     const string& filename = filename_from_commandline();
-    auto f = ifstream( fsx::u8_stdpath( filename ) );   // Works for e.g. “π.txt” in Windows.
+    auto f = ifstream( fsx::fspath_from_u8( filename ) );   // Works for e.g. “π.txt” in Windows.
     hopefully( not f.fail() )
         or fail_app_with_message( "Unable to open “"s << filename << "” for reading." );
         
-    constexpr string_view byte_order_mark = "\uFEFF";
-    string line;
-    Truth is_first_line = true;
-    while( getline( f, line ) ) {
-        if( is_first_line and starts_with( byte_order_mark, line ) ) {
-            line = line.substr( byte_order_mark.size() );
-        }
-        out << line << endl;
-        is_first_line = false;
+    while( auto line = any_input_from( f ) ) {
+        //out << line.value() << endl;
+        output_to_console( stdout, line.value() + "\n" );
     }
     hopefully( f.eof() )
         or fail_app_with_message( "Reading from “"s << filename << "” failed." );

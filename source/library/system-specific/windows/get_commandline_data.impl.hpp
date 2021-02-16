@@ -26,7 +26,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Commandline_data.hpp>
+#include <kickstart/system-specific/get_commandline_data.interface.hpp>
 
 #include <kickstart/core/collection-util.hpp>                               // end_ptr_of
 #include <kickstart/core/failure-handling.hpp>

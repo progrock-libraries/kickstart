@@ -22,18 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Commandline_data.hpp>
-
-namespace kickstart::system_specific {
-    namespace _definitions {
-        inline auto get_commandline_data() -> Commandline_data;
-    }  // namespace _definitions
-
-    inline auto get_commandline_data()
-        -> Commandline_data
-    { return _definitions::get_commandline_data(); }
-}  // namespace kickstart::system_specific
-
 #include <kickstart/system-specific/os-detection.hpp>
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/get_commandline_data.impl.hpp>
@@ -47,3 +35,5 @@ namespace kickstart::system_specific {
         { KS_FAIL( "This platform is not supported." );  }
     }  // namespace kickstart::system_specific::_definitions
 #endif
+
+#include <kickstart/system-specific/get_commandline_data.interface.hpp>

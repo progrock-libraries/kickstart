@@ -22,17 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <string>
-
-namespace kickstart::system_specific {
-    namespace _definitions {
-        using std::string;
-        inline auto get_path_of_executable() -> string;
-    }  // namespace _definitions
-
-    using _definitions::get_path_of_executable;
-}  // namespace kickstart::system_specific
-
 #include <kickstart/system-specific/os-detection.hpp>
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/get_path_of_executable.impl.hpp>
@@ -51,3 +40,5 @@ namespace kickstart::system_specific {
         }
     }  // namespace kickstart::system_specific::_definitions
 #endif
+
+#include <kickstart/system-specific/get_path_of_executable.interface.hpp>

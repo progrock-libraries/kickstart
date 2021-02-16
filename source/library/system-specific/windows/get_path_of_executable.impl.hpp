@@ -26,6 +26,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/system-specific/get_path_of_executable.interface.hpp>
+
 #include <kickstart/core/collection-util/collection-sizes.hpp>              // int_size
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>

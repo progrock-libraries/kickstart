@@ -22,23 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/os-detection.hpp>
-#if defined( KS_OS_IS_WIN64 )
-#   include <kickstart/system-specific/windows/Console.impl.hpp>
-#elif defined( KS_OS_IS_UNIX)
-#   include <kickstart/system-specific/unix/Console.impl.hpp>
-#else
-#   include <kickstart/core/failure-handling.hpp>
-    namespace kickstart::system_specific::_definitions {
-        using kickstart::failure_handling::unreachable;
+#include <kickstart/system-specific/Commandline_data.hpp>
 
-        inline auto Console::instance()
-            -> Console&
-        {
-            KS_FAIL( "This platform is not supported." );
-            unreachable();
-        }
-    }  // namespace kickstart::system_specific::_definitions
-#endif
+namespace kickstart::system_specific {
+    namespace _definitions {
+        inline auto get_commandline_data() -> Commandline_data;
+    }  // namespace _definitions
 
-#include <kickstart/system-specific/Console.interface.hpp>
+    inline auto get_commandline_data()
+        -> Commandline_data
+    { return _definitions::get_commandline_data(); }
+}  // namespace kickstart::system_specific
