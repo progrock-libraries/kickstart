@@ -25,3 +25,4 @@
 #include <kickstart/core/collection-util/Array_span_.hpp>
 #include <kickstart/core/collection-util/collection-pointers.hpp>
 #include <kickstart/core/collection-util/collection-sizes.hpp>
+#include <kickstart/core/collection-util/Iteration_.hpp>

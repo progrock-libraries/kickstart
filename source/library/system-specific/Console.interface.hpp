@@ -31,7 +31,7 @@
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;        // hopefully etc.
-    using namespace kickstart::core::collection_util;   // int_size, begin_ptr_of
+    using namespace kickstart::collection_util;         // int_size, begin_ptr_of
     using   std::optional,
         std::string,
         std::string_view;

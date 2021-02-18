@@ -22,17 +22,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>           // int_size
+#include <kickstart/core/collection-util.hpp>           // int_size, tail_of
 #include <kickstart/core/language/Truth.hpp>
 
+#include <initializer_list>
+#include <iterator>
 #include <string>
 #include <string_view>
 #include <vector>
 
 namespace kickstart::language::_definitions {
     using namespace std::string_view_literals;  // ""sv
+    using namespace kickstart::collection_util;     // tail_of
     using   kickstart::language::Truth;
-    using   std::string,
+    using   std::initializer_list,
+            std::begin, std::end,
+            std::string,
             std::string_view,
             std::vector;
 
@@ -92,7 +97,7 @@ namespace kickstart::language::_definitions {
         }
     }
 
-    inline auto split( const string_view& s, const string_view& delimiter )
+    inline auto split_on( const string_view& delimiter, const string_view& s )
         -> vector<string_view>
     {
         vector<string_view> result;
@@ -100,13 +105,59 @@ namespace kickstart::language::_definitions {
         return result;
     }
 
+    template< class Iterator >
+    inline auto joined_on(
+        const string_view&      delimiter,
+        const Iterator          it_begin,
+        const Iterator          it_end
+        ) -> string
+    {
+        if( it_begin == it_end ) {
+            return "";
+        }
+        auto result = string( *it_begin );
+        for( const string_view& s: tail_of( it_begin, it_end ) ) {
+            result += delimiter;
+            result += s;
+        }
+        return result;
+    }
+
+    inline auto joined_on(
+        const string_view&              delimiter,
+        initializer_list<string_view>&  parts
+        ) -> string
+    { return joined_on( delimiter, begin( parts ), end( parts ) ); }
+
+    template< class Iterator >
+    inline auto joined(
+        const Iterator          it_begin,
+        const Iterator          it_end
+        ) -> string
+    {
+        if( it_begin == it_end ) {
+            return "";
+        }
+        auto result = string();
+        for( const string_view& s: all_of( it_begin, it_end ) ) {
+            result += s;
+        }
+        return result;
+    }
+
+    inline auto joined( initializer_list<string_view>&  parts )
+        -> string
+    { return joined( begin( parts ), end( parts ) ); }
+
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::repeated_times, d::operator*,
         d::spaces,
         d::starts_with, d::ends_with,
-        d::for_each_part_of, d::split;
+        d::for_each_part_of, d::split_on,
+        d::joined_on, d::joined;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 

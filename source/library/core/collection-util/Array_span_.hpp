@@ -27,7 +27,7 @@
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
-namespace kickstart::core::collection_util::_definitions {
+namespace kickstart::collection_util::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
     using namespace kickstart::text_conversion;     // ""s, operator<<
@@ -122,5 +122,5 @@ namespace kickstart::core::collection_util::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::core::collection_util::_definitions
 
-namespace kickstart::core::collection_util  { using namespace _definitions::exported_names; }
-namespace kickstart::core                   { using namespace collection_util; }
+namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+namespace kickstart::core               { using namespace collection_util; }

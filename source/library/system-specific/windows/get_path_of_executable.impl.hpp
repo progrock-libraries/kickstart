@@ -40,7 +40,7 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::text_conversion;     // operator<<
-    using namespace kickstart::core::collection_util;
+    using namespace kickstart::collection_util;
     namespace winapi = kickstart::winapi;
 
     using   std::string, std::wstring;

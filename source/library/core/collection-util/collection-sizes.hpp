@@ -24,7 +24,7 @@
 
 #include <kickstart/core/language/stdlib-includes/basics.hpp>    // size
 
-namespace kickstart::core::collection_util::_definitions {
+namespace kickstart::collection_util::_definitions {
     using std::size;
 
     template< class Result, class Collection >
@@ -46,5 +46,5 @@ namespace kickstart::core::collection_util::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::core::collection_util::_definitions
 
-namespace kickstart::core::collection_util  { using namespace _definitions::exported_names; }
-namespace kickstart::core                   { using namespace collection_util; }
+namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+namespace kickstart::core               { using namespace collection_util; }
