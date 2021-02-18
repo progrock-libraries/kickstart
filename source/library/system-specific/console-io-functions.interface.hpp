@@ -24,6 +24,7 @@
 
 #include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/stdlib-extensions/strings.hpp>                 // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>                    // bom
 
 #include <stdio.h>
@@ -50,18 +51,9 @@ namespace kickstart::system_specific::_definitions {
             assert( is_console( f ) );
         #endif
 
-        const auto npos = string_view::npos;
-        const auto n = s.size();
-        size_t i_begin = 0;
-        for( ;; ) {
-            const size_t i_end = s.find( utf8::bom_sv, i_begin );
-            if( i_end == npos ) { break; }
-            raw_output_to_console( f, string_view( s.data() + i_begin, i_end - i_begin ) );
-            i_begin = i_end + utf8::bom_sv.size();
-        }
-        if( i_begin < n ) {
-            raw_output_to_console( f, string_view( s.data() + i_begin, n - i_begin ) );
-        }
+        for_each_part_of( s, utf8::bom, [f]( const string_view& part ) {
+            raw_output_to_console( f, part );
+        } );
     }
 
     inline auto input_from_console( const C_file f )
