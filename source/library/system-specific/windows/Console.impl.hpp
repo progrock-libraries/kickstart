@@ -132,6 +132,7 @@ namespace kickstart::system_specific::_definitions {
         winapi::HANDLE      m_input_handle      = {};
         winapi::HANDLE      m_output_handle     = {};
 
+    public:
         void write_bytes( const string_view& s ) override
         {
             const int n = int_size( s );
@@ -168,7 +169,6 @@ namespace kickstart::system_specific::_definitions {
                     }
                 }
             }
-
             const int result = m_input_state.bytes.front();
             m_input_state.bytes.pop();
             return result;
@@ -178,12 +178,17 @@ namespace kickstart::system_specific::_definitions {
             m_input_handle( open_console_input() ),
             m_output_handle( open_console_output() )
         {}
+
+        static auto instance()
+            -> Windows_console&
+        {
+            static Windows_console the_instance;
+            return the_instance;
+        }
     };
 
     inline auto Console::instance()
         -> Console&
-    {
-        static Windows_console the_instance;
-        return the_instance;
-    }
+    { return Windows_console::instance(); }
+
 }  // namespace kickstart::system_specific::_definitions

@@ -22,19 +22,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>       // int_size, begin_ptr_of
+#include <kickstart/core/collection-util.hpp>           // int_size, begin_ptr_of
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/stdlib-extensions/strings.hpp> // for_each_part_of
+#include <kickstart/core/text-encoding/utf8/bom.hpp>    // bom
+
 
 #include <optional>
 #include <string>
 #include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::failure_handling;        // hopefully etc.
-    using namespace kickstart::collection_util;         // int_size, begin_ptr_of
+    using namespace kickstart::collection_util;     // int_size, begin_ptr_of
+    using namespace kickstart::failure_handling;    // hopefully etc.
+    using namespace kickstart::language;            // for_each_part_of
     using   std::optional,
-        std::string,
-        std::string_view;
+            std::string,
+            std::string_view;
 
     class Console
     {
@@ -53,7 +57,9 @@ namespace kickstart::system_specific::_definitions {
             if( s.size() == 0 ) {
                 return;
             }
-            write_bytes( s );
+            for_each_part_of( s, utf8::bom, [this]( const string_view& part ) {
+                write_bytes( part );
+            } );
         }
 
         auto any_input()
