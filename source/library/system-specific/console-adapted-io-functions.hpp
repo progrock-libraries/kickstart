@@ -24,7 +24,7 @@
 
 #include <kickstart/system-specific/os-detection.hpp>
 #if defined( xKS_OS_IS_WIN64 )
-#   include <kickstart/system-specific/windows/console-io-functions.impl.hpp>
+#   include <kickstart/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
@@ -35,7 +35,7 @@
     }  // namespace kickstart::system_specific::_definitions
 #else
     // TODO: define C_file in core and remove this include.
-    #include <kickstart/system-specific/console-io-functions.interface.hpp>
+    #include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
 
     namespace kickstart::system_specific::_definitions {
         inline auto is_console( const C_file ) -> bool { return false; }
@@ -44,4 +44,4 @@
     }  // namespace kickstart::system_specific::_definitions
 #endif
 
-#include <kickstart/system-specific/console-io-functions.interface.hpp>
+#include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>

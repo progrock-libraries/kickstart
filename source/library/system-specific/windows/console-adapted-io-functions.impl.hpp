@@ -1,4 +1,6 @@
-﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
+﻿//TODO:
+
+// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 #ifndef _WIN64
 #   error "This header is for 64-bit Windows systems only."
@@ -44,7 +46,7 @@ namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::collection_util;
     using namespace kickstart::language;            // Size, Index
-    using   std::string,
+    using   std::string, std::wstring,
             std::string_view;
 
     using C_file = FILE*;
@@ -52,25 +54,23 @@ namespace kickstart::system_specific::_definitions {
     inline auto open_console_input()
         -> winapi::HANDLE
     {
-        using namespace winapi;
-        const DWORD flags = 0;      // They're ignored.
-        const HANDLE h = CreateFileW(
-            L"conin$", generic_read, file_share_read, nullptr, open_existing, flags, {}
+        const winapi::DWORD flags = 0;      // They're ignored.
+        const winapi::HANDLE h = winapi::CreateFileW(
+            L"conin$", winapi::generic_read, winapi::file_share_read, nullptr, winapi::open_existing, flags, {}
         );
-        hopefully( h != invalid_handle_value )
+        hopefully( h != winapi::invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for input." );
         return h;
-    }
+        winapi::    }
 
     inline auto open_console_output()
         -> winapi::HANDLE
     {
-        using namespace winapi;
-        const DWORD flags = 0;      // They're ignored.
-        const HANDLE h = CreateFileW(
-            L"conout$", generic_write, file_share_write, nullptr, open_existing, flags, {}
+        const winapi::DWORD flags = 0;      // They're ignored.
+        const winapi::HANDLE h = winapi::CreateFileW(
+            L"conout$", winapi::generic_write, winapi::file_share_write, nullptr, winapi::open_existing, flags, {}
         );
-        hopefully( h != invalid_handle_value )
+        hopefully( h != winapi::invalid_handle_value )
             or KS_FAIL( "Windows’ CreateFileW failed to open console for output." );
         return h;
     }
