@@ -27,7 +27,6 @@
 #include <kickstart/core/stdlib-extensions/strings.hpp> // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>    // bom
 
-
 #include <optional>
 #include <string>
 #include <string_view>
@@ -54,9 +53,7 @@ namespace kickstart::system_specific::_definitions {
         void output( const string_view& s )
         {
             assert( s.size() <= size_t( INT_MAX ) );
-            if( s.size() == 0 ) {
-                return;
-            }
+            if( s.size() == 0 ) { return; }
             for_each_part_of( s, utf8::bom, [this]( const string_view& part ) {
                 write_bytes( part );
             } );
@@ -71,10 +68,7 @@ namespace kickstart::system_specific::_definitions {
             while( (code = read_byte()) != EOF and code != '\n' ) {
                 line += char( code );
             }
-
-            if( code == EOF and line.empty() ) {
-                return {};
-            }
+            if( code == EOF and line.empty() ) { return {}; }
             return line;
         }
 
@@ -82,7 +76,7 @@ namespace kickstart::system_specific::_definitions {
         {
             optional<string> result = any_input();
             hopefully( result.has_value() )
-                or KS_FAIL_( End_of_file_exception, "At end of file." );
+                or KS_FAIL_( End_of_file_exception, "Logical end of file encountered." );
             return move( result.value() );
         }
 
