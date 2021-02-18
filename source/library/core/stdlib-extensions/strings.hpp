@@ -27,12 +27,14 @@
 
 #include <string>
 #include <string_view>
+#include <vector>
 
 namespace kickstart::language::_definitions {
     using namespace std::string_view_literals;  // ""sv
     using   kickstart::language::Truth;
     using   std::string,
-            std::string_view;
+            std::string_view,
+            std::vector;
 
     inline auto repeated_times( const int n, const string_view& s )
         -> string
@@ -72,13 +74,39 @@ namespace kickstart::language::_definitions {
         -> Truth
     { return s.size() >= 1 and s.back() == ch; }
 
+    template< class Func >
+    inline auto for_each_part_of( const string_view& s, const string_view& delimiter, const Func& f )
+    {
+        const size_t    npos    = string_view::npos;
+        const size_t    n       = s.size();
+
+        size_t i_begin = 0;
+        for( ;; ) {
+            const size_t i_end = s.find( delimiter, i_begin );
+            if( i_end == npos ) { break; }
+            f( string_view( s.data() + i_begin, i_end - i_begin ) );
+            i_begin = i_end + delimiter.size();
+        }
+        if( i_begin < n ) {     // This is the main case, most common code path.
+            f( string_view( s.data() + i_begin, n - i_begin ) );
+        }
+    }
+
+    inline auto split( const string_view& s, const string_view& delimiter )
+        -> vector<string_view>
+    {
+        vector<string_view> result;
+        for_each_part_of( s, delimiter, [&]( const auto& part ) { result.push_back( part ); } );
+        return result;
+    }
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::repeated_times, d::operator*,
         d::spaces,
-        d::starts_with, d::ends_with;
+        d::starts_with, d::ends_with,
+        d::for_each_part_of, d::split;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
