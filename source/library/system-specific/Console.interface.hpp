@@ -68,7 +68,8 @@ namespace kickstart::system_specific::_definitions {
             while( (code = read_byte()) != EOF and code != '\n' ) {
                 line += char( code );
             }
-            if( code == EOF and line.empty() ) { return {}; }
+            const Truth eof = (line.empty() and code == EOF);
+            if( eof ) { return {}; }
             return line;
         }
 

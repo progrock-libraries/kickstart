@@ -82,7 +82,8 @@ namespace kickstart::system_specific::_definitions {
         while( (code = fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
-        hopefully( not( line.empty() and code == EOF ) )
+        const Truth eof = (line.empty() and code == EOF);
+        hopefully( not eof )
             or KS_FAIL_( End_of_file_exception, "Logical end-of-file encountered" );
         return line;
     }
