@@ -1,8 +1,9 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-#include <kickstart/system-specific/console-io-functions.hpp>
+#include <kickstart/system-specific/console-adapted-io-functions.hpp>
 using kickstart::system_specific::output_to_console;
+
 #include <fstream>
 using std::ifstream;
 

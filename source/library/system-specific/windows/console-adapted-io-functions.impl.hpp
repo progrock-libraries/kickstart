@@ -28,98 +28,33 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/console-io-functions.interface.hpp>
+#include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
 
-#include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
-#include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
-#include <kickstart/system-specific/windows/api/files.hpp>              // CreateFile
-#include <kickstart/system-specific/windows/api/text-encoding.hpp>
+#include <kickstart/system-specific/windows/Console.impl.hpp>
 
-#include <stdio.h>
-
-#include <string>
-#include <string_view>
+#include <stdio.h>      // Windows-specific function `_fileno`.
+#include <io.h>         // Windows-specific header, `_get_osfhandle`.
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::failure_handling;
-    using namespace kickstart::collection_util;
-    using namespace kickstart::language;            // Size, Index
-    using   std::string, std::wstring,
-            std::string_view;
 
-    using C_file = FILE*;
-
-    inline auto open_console_input()
-        -> winapi::HANDLE
-    {
-        const winapi::DWORD flags = 0;      // They're ignored.
-        const winapi::HANDLE h = winapi::CreateFileW(
-            L"conin$", winapi::generic_read, winapi::file_share_read, nullptr, winapi::open_existing, flags, {}
-        );
-        hopefully( h != winapi::invalid_handle_value )
-            or KS_FAIL( "Windows’ CreateFileW failed to open console for input." );
-        return h;
-        winapi::    }
-
-    inline auto open_console_output()
-        -> winapi::HANDLE
-    {
-        const winapi::DWORD flags = 0;      // They're ignored.
-        const winapi::HANDLE h = winapi::CreateFileW(
-            L"conout$", winapi::generic_write, winapi::file_share_write, nullptr, winapi::open_existing, flags, {}
-        );
-        hopefully( h != winapi::invalid_handle_value )
-            or KS_FAIL( "Windows’ CreateFileW failed to open console for output." );
-        return h;
-    }
-
-    inline auto read_widechar( const winapi::HANDLE h )
-        -> wint_t
-    {
-        for( const int dummy : {1, 2} ) {
-            (void) dummy;
-            wchar_t ch = 0;
-            winapi::DWORD n_chars_read = 0;
-            winapi::ReadConsoleW( h, &ch, 1, &n_chars_read, nullptr );
-            if( n_chars_read == 0 ) {
-                return WEOF;
-            } else if( ch == L'\n' ) {
-                continue;
-            } else if( ch == L'\r' ) {
-                return L'\n';
-            }
-            return ch;
-        }
-        return WEOF;
-    }
-
-    inline auto write( const winapi::HANDLE h, const Type_<const char*> buffer, const int n )
-        -> int
-    {
-        assert( n > 0 );
-        assert( n <= INT_MAX );
-
-        auto ws = wstring( n, L'\0' );
-        const int flags = 0;
-        const int ws_len = winapi::MultiByteToWideChar(
-            winapi::cp_utf8, flags, buffer, n, ws.data(), n
-        );
-        assert( ws_len > 0 );
-        winapi::DWORD n_chars_written;
-        winapi::WriteConsoleW( h, ws.data(), ws_len, &n_chars_written, nullptr );
-
-        // Reporting the actual count of UTF-8 bytes written is costly, so fake it:
-        return (int( n_chars_written ) < ws_len? 0 : n);
-    }
-
-    inline auto is_surrogate( const wchar_t )
+    inline auto is_console( const C_file f )
         -> Truth
-    { return false; }       // TODO:
+    {
+        const int num = _fileno( f );
+        // `_isatty` can produce false positives e.g. for a serial port, so:
+        const intptr_t handle = _get_osfhandle( num );
+        winapi::DWORD mode;
+        return !!winapi::GetConsoleMode( winapi::HANDLE( handle ), &mode );
+    }
 
-    inline auto is_console( const C_file f ) -> bool;
-    inline void raw_output_to_console( const C_file, const string_view& );
-    inline auto raw_input_from_console( const C_file ) -> string;
+    inline void raw_output_to_console( const C_file, const string_view& s )
+    {
+        Windows_console::instance().write_bytes( s );
+    }
+
+    inline auto raw_input_from_console( const C_file )
+        -> string
+    { return Windows_console::instance().input(); }
 
 }  // namespace kickstart::system_specific::_definitions

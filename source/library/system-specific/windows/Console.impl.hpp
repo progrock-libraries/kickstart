@@ -96,7 +96,7 @@ namespace kickstart::system_specific::_definitions {
     inline auto write( const winapi::HANDLE h, const Type_<const char*> buffer, const int n )
         -> int
     {
-        assert( n > 0 );
+        if( n == 0 ) { return 0; }
         assert( n <= INT_MAX );
 
         auto ws = wstring( n, L'\0' );

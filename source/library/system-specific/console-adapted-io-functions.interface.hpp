@@ -41,7 +41,7 @@ namespace kickstart::system_specific::_definitions {
 
     using C_file = FILE*;
 
-    inline auto is_console( const C_file f ) -> bool;
+    inline auto is_console( const C_file f ) -> Truth;
     inline void raw_output_to_console( const C_file, const string_view& );
     inline auto raw_input_from_console( const C_file ) -> string;
 

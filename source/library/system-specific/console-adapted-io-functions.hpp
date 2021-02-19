@@ -23,13 +23,13 @@
 // SOFTWARE.
 
 #include <kickstart/system-specific/os-detection.hpp>
-#if defined( xKS_OS_IS_WIN64 )
+#if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
     namespace kickstart::system_specific::_definitions {
-        inline auto is_console( const C_file f ) -> bool { return !!::isatty( fileno( f ) ); }
+        inline auto is_console( const C_file f ) -> Truth { return !!::isatty( fileno( f ) ); }
         inline void raw_output_to_console( const C_file f, const string_view& s ) { clib_output( f, s ); }
         inline auto raw_input_from_console( const C_file f ) -> string { return clib_input( f ); }
     }  // namespace kickstart::system_specific::_definitions
@@ -38,7 +38,7 @@
     #include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
 
     namespace kickstart::system_specific::_definitions {
-        inline auto is_console( const C_file ) -> bool { return false; }
+        inline auto is_console( const C_file ) -> Truth { return false; }
         inline void raw_output_to_console( const C_file f, const string_view& s ) { clib_output( f, s ); }
         inline auto raw_input_from_console( const C_file f ) -> string { return clib_input( f ); }
     }  // namespace kickstart::system_specific::_definitions
