@@ -26,6 +26,8 @@
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
+    // TODO: define C_file in core and remove this include.
+#   include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
     namespace kickstart::system_specific::_definitions {
