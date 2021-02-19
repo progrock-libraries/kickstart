@@ -62,6 +62,8 @@ namespace kickstart::c_files::_definitions {
         return line;
     }
 
+//    inline auto open_c_file( )
+
     namespace d = _definitions;
     namespace exports{ using
         d::C_file,
