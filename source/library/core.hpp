@@ -23,11 +23,11 @@
 // SOFTWARE.
 
 #include <kickstart/core/collection-util.hpp>       // ssize_
-#include <kickstart/core/failure-handling.hpp>      // hopefully, fail, ...
+#include <kickstart/core/failure-handling.hpp>      // hopefully, fail, …
 #include <kickstart/core/language.hpp>              // Size etc.
 #include <kickstart/core/matrices.hpp>              // Matrix_ etc.
 #include <kickstart/core/process.hpp>               // process::Commandline
-#include <kickstart/core/stdlib-extensions.hpp>     // bits_per, ...
+#include <kickstart/core/stdlib-extensions.hpp>     // bits_per, …
 #include <kickstart/core/text-conversion.hpp>
 #include <kickstart/core/text-encoding.hpp>
 #include <kickstart/core/utf8-io.hpp>
@@ -42,18 +42,18 @@ namespace kickstart::core {
     using namespace kickstart::             matrices;                   // <core/matrices.hpp>
     namespace process = kickstart::         process;                    // <core/process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
-        using namespace kickstart::             c_file_types;           //   <c-file-types.hpp>
-        using namespace kickstart::             c_files;                //   <c-files.hpp>
-        namespace fsx = kickstart::             fsx;                    //   <filesystem.hpp>
-        using namespace kickstart::             limits;                 //   <limits.hpp>
-        namespace math = kickstart::            math;                   //   <math.hpp>
-        namespace std_x = kickstart::           std_x;                  //   <standard-exceptions.hpp>
-        using namespace                         strings;                //   <strings.hpp>
+        using namespace kickstart::             c_file_types;           //   <… c-file-types.hpp>
+        using namespace kickstart::             c_files;                //   <… c-files.hpp>
+        namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
+        using namespace kickstart::             limits;                 //   <… limits.hpp>
+        namespace math = kickstart::            math;                   //   <… math.hpp>
+        namespace std_x = kickstart::           std_x;                  //   <… standard-exceptions.hpp>
+        using namespace                         strings;                //   <… strings.hpp>
     }
     using namespace kickstart::             text_conversion;            // <core/text-conversion.hpp>
-    inline namespace                        text_encoding {                        // <core/text-encoding.hpp>
-        namespace ascii = kickstart::           ascii;                  //   <ascii.hpp>
-        namespace utf8 = kickstart::            utf8;                   //   <utf8.hpp>
+    inline namespace                        text_encoding {             // <core/text-encoding.hpp>
+        namespace ascii = kickstart::           ascii;                  //   <… ascii.hpp>
+        namespace utf8 = kickstart::            utf8;                   //   <… utf8.hpp>
     }
     namespace utf8_io = kickstart::         utf8_io;                    // <core/utf8-io.hpp>
 }  // namespace kickstart::core
