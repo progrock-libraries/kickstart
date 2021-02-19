@@ -43,5 +43,4 @@ namespace kickstart::utf8::_definitions {
     }  // namespace exports
 }  // namespace kickstart::utf8::_definitions
 
-namespace kickstart::utf8       { using namespace _definitions::exports; }
-namespace kickstart::core       { using namespace kickstart::utf8; }
+namespace kickstart::utf8   { using namespace _definitions::exports; }

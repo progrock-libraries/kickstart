@@ -31,9 +31,10 @@
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::core;        // begin_ptr_of, end_ptr_of, int_size
-    using namespace kickstart::language;    // Truth, spaces
-    using namespace std::string_view_literals;  // ""sv
+    using namespace kickstart::collection_util;     // begin_ptr_of, end_ptr_of, int_size
+    using namespace kickstart::language;            // Truth
+    using namespace kickstart::strings;             // spaces
+    using namespace std::string_view_literals;      // ""sv
     using   std::string,
             std::string_view;
 
@@ -118,4 +119,3 @@ namespace kickstart::ascii::_definitions {
 }  // namespace kickstart::ascii::_definitions
 
 namespace kickstart::ascii  { using namespace _definitions::exported_names; }
-namespace kickstart::core   { namespace ascii = kickstart::ascii; }

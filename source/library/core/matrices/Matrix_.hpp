@@ -178,4 +178,3 @@ namespace kickstart::matrices::_definitions {
 }  // namespace kickstart::matrices::_definitions
 
 namespace kickstart::matrices   { using namespace _definitions::exported_names;}
-namespace kickstart::core       { using namespace matrices; }

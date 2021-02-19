@@ -30,7 +30,7 @@
 
 #define KS_ASSERT_UTF8_LITERALS()                                                   \
     static_assert(                                                                  \
-        kickstart::core::utf8_is_the_execution_character_set(),                     \
+        kickstart::utf8::utf8_is_the_execution_character_set(),                     \
         "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."  \
         )
 
@@ -44,8 +44,3 @@ namespace kickstart::utf8 {
     }
 
 }  // namespace kickstart::utf8
-
-namespace kickstart::core
-{
-    using kickstart::utf8::utf8_is_the_execution_character_set;
-}

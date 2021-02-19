@@ -67,4 +67,3 @@ namespace kickstart::text_conversion::_definitions {
 }  // namespace kickstart::text_conversion::_definitions
 
 namespace kickstart::text_conversion    { using namespace _definitions::exported_names; }
-namespace kickstart::core               { using namespace text_conversion; }

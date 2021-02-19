@@ -44,7 +44,7 @@
 
 namespace kickstart::failure_handling::_definitions {
     using namespace kickstart::language;
-    namespace std_x = kickstart::core::std_x;
+    namespace std_x = kickstart::std_x;
     using   std::string,
             std::string_view;
 
@@ -133,4 +133,3 @@ namespace kickstart::failure_handling::_definitions {
 }  // namespace kickstart::failure_handling::_definitions
 
 namespace kickstart::failure_handling   { using namespace _definitions::exported_names; }
-namespace kickstart::core               { using namespace failure_handling; }

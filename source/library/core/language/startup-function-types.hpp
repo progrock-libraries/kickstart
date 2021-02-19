@@ -29,7 +29,7 @@
 #include <vector>
 
 namespace kickstart::language::_definitions {
-    using   kickstart::core::Array_span_;
+    using   kickstart::collection_util::Array_span_;
     using   std::string,
             std::vector;
 
@@ -47,4 +47,3 @@ namespace kickstart::language::_definitions {
 }  // namespace kickstart::language::_definitions
 
 namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }

@@ -65,4 +65,3 @@ namespace kickstart::language::_definitions {
 }  // namespace kickstart::language::_definitions
 
 namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }

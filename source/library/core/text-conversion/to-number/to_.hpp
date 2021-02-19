@@ -24,14 +24,14 @@
 
 #include <kickstart/core/collection-util.hpp>                   // begin_ptr_of, end_ptr_of
 #include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/stdlib-extensions/limits.hpp>          // largest_exact_integer_of_
-#include <kickstart/core/text-encoding/ascii.hpp>
 #include <kickstart/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/core/stdlib-extensions/limits.hpp>          // largest_exact_integer_of_
 #include <kickstart/core/text-conversion/to-text.hpp>
 #include <kickstart/core/text-conversion/to-number-exceptions.hpp>
+#include <kickstart/core/text-encoding/ascii.hpp>
 
-#include <string.h>                             // strerror
-#include <limits.h>                             // INT_MIN, INT_MAX
+#include <string.h>         // strerror
+#include <limits.h>         // INT_MIN, INT_MAX
 
 #include <algorithm>        // std::min, std::max
 #include <string>
@@ -39,10 +39,11 @@
 #include <utility>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::core;            // begin_ptr_of, end_ptr_of
+    using namespace kickstart::collection_util;             // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;
-    using namespace kickstart::language;        // C_str, lar...
-    using namespace exception;                  // Invalid_argument, Out_of_range, ...
+    using namespace kickstart::language;                    // C_str
+    using namespace kickstart::limits;                      // largest_exact_integer_of_
+    using namespace kickstart::text_conversion::exception;  // Invalid_argument, Out_of_range, ...
     namespace ascii = kickstart::ascii;
     using   std::min, std::max,
             std::string,
@@ -196,4 +197,3 @@ namespace kickstart::text_conversion::_definitions {
 }  // namespace kickstart::text_conversion::_definitions
 
 namespace kickstart::text_conversion    { using namespace _definitions::exported_names; }
-namespace kickstart::core               { using namespace text_conversion; }

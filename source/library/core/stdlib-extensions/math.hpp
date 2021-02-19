@@ -99,4 +99,3 @@ namespace kickstart::math::_definitions {
 }  // namespace kickstart::math::_definitions
 
 namespace kickstart::math           { using namespace _definitions::exported_names; }
-namespace kickstart::core           { namespace math = kickstart::math; }

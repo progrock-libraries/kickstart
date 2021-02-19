@@ -40,22 +40,21 @@
 #include <vector>
 
 namespace kickstart::process::_definitions {
-    using namespace kickstart::core;                // Array_span_
+    using namespace kickstart::collection_util;     // Array_span_
+    using namespace kickstart::failure_handling;    // hopefully, fail
+    using namespace kickstart::language;            // Type_, C_str
     using namespace std::string_view_literals;
-    namespace k = kickstart;
-    namespace std_x = kickstart::core::std_x;
+
+    namespace std_x = kickstart::std_x;
     namespace ascii = kickstart::ascii;
-    using   k::language::C_str,
-            k::system_specific::Commandline_data,
-            k::system_specific::get_commandline_data;
+
+    using   kickstart::system_specific::Commandline_data,
+            kickstart::system_specific::get_commandline_data;
     using   std::unique_ptr,
             std::string,
             std::string_view,
             std::move,                  // From <utility>
             std::vector;
-
-    using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Array_span_, Type_, end_ptr_of
 
     inline void assert_good_enough_commandline_data(
         const int                   n_parts,
@@ -244,4 +243,3 @@ namespace kickstart::process::_definitions {
 }  // namespace kickstart::process::_definitions
 
 namespace kickstart::process        { using namespace _definitions; }
-namespace kickstart::core           { namespace process = kickstart::process; }

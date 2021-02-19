@@ -34,5 +34,3 @@ namespace kickstart::std_x {
 
     using Base = std::exception;
 }  // namespace kickstart::std_x
-
-namespace kickstart::core       { namespace std_x = kickstart::std_x; }

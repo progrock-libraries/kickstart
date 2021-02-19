@@ -260,4 +260,3 @@ namespace kickstart::fsx::_definitions {
 }  // namespace kickstart::fsx::_definitions
 
 namespace kickstart::fsx        { using namespace _definitions::exported_names; }
-namespace kickstart::core       { namespace fsx = kickstart::fsx; }

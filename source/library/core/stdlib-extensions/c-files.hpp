@@ -70,4 +70,3 @@ namespace kickstart::c_files::_definitions {
 }  // namespace kickstart::c_files::_definitions
 
 namespace kickstart::c_files        { using namespace _definitions::exports; }
-namespace kickstart::core           { using namespace c_files; }

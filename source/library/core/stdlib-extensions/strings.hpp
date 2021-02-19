@@ -31,7 +31,7 @@
 #include <string_view>
 #include <vector>
 
-namespace kickstart::language::_definitions {
+namespace kickstart::strings::_definitions {
     using namespace std::string_view_literals;  // ""sv
     using namespace kickstart::collection_util;     // tail_of
     using   kickstart::language::Truth;
@@ -159,7 +159,6 @@ namespace kickstart::language::_definitions {
         d::for_each_part_of, d::split_on,
         d::joined_on, d::joined;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::strings::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace language; }
+namespace kickstart::strings    { using namespace _definitions::exported_names; }

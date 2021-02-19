@@ -57,4 +57,3 @@ namespace kickstart::collection_util::_definitions {
 }  // namespace kickstart::collection_util::_definitions
 
 namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
-namespace kickstart::core               { using namespace collection_util; }

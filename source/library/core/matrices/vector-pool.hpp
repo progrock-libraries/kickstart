@@ -30,8 +30,9 @@
 #include <utility>
 
 namespace kickstart::matrices::_definitions {
-    namespace kc = kickstart::core;
-    using kc::Truth, kc::int_size;
+    namespace k = kickstart;
+    using   k::language::Truth,
+            k::collection_util::int_size;
     using   std::unordered_map,
             std::vector,
             std::swap;

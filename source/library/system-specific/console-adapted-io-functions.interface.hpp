@@ -37,7 +37,8 @@ namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::c_file_types;
     using namespace kickstart::collection_util;
-    using namespace kickstart::language;            // Size, Index, for_each_part
+    using namespace kickstart::language;            // Size, Index
+    using namespace kickstart::strings;             // for_each_part
     using   std::string,
             std::string_view;
 

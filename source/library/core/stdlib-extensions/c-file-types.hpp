@@ -35,4 +35,3 @@ namespace kickstart::c_file_types::_definitions {
 }  // namespace kickstart::c_file_types::_definitions
 
 namespace kickstart::c_file_types   { using namespace _definitions::exports; }
-namespace kickstart::core           { using namespace c_file_types; }

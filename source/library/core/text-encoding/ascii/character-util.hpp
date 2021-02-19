@@ -89,5 +89,3 @@ namespace kickstart::ascii {
     { return (is( lowercase, ch )? char( ch - 'a' + 'A' ) : ch); }
 
 }  // namespace kickstart::ascii
-
-namespace kickstart::core   { namespace ascii = kickstart::ascii; }

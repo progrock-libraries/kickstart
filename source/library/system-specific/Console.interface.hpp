@@ -24,6 +24,7 @@
 
 #include <kickstart/core/collection-util.hpp>           // int_size, begin_ptr_of
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/strings.hpp> // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>    // bom
 
@@ -34,7 +35,8 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::collection_util;     // int_size, begin_ptr_of
     using namespace kickstart::failure_handling;    // hopefully etc.
-    using namespace kickstart::language;            // for_each_part_of
+    using namespace kickstart::language;            // Truth
+    using namespace kickstart::strings;             // for_each_part_of
     using   std::optional,
             std::string,
             std::string_view;

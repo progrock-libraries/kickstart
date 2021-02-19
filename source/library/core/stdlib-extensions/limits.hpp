@@ -54,4 +54,3 @@ namespace kickstart::limits::_definitions {
 }  // namespace kickstart::limits::_definitions
 
 namespace kickstart::limits         { using namespace _definitions::exported_names; }
-namespace kickstart::core           { using namespace limits; }

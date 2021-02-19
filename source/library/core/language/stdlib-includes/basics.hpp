@@ -55,5 +55,3 @@ namespace kickstart::stdlib {
     using   std::optional;                                              // From <optional>.
     using   std::exchange, std::forward, std::move, std::pair;          // From <utility>.
 }  // namespace kickstart::stdlib
-
-namespace kickstart::core   { using namespace stdlib; }
