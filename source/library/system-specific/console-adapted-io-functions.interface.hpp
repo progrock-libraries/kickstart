@@ -24,6 +24,7 @@
 
 #include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/stdlib-extensions/c-file-types.hpp>            // C_file
 #include <kickstart/core/stdlib-extensions/strings.hpp>                 // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>                    // bom
 
@@ -34,12 +35,11 @@
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
+    using namespace kickstart::c_file_types;
     using namespace kickstart::collection_util;
     using namespace kickstart::language;            // Size, Index, for_each_part
     using   std::string,
             std::string_view;
-
-    using C_file = FILE*;
 
     inline auto is_console( const C_file f ) -> Truth;
     inline void raw_output_to_console( const C_file, const string_view& );
@@ -64,28 +64,6 @@ namespace kickstart::system_specific::_definitions {
         #endif
 
         return raw_input_from_console( f );
-    }
-
-    inline void clib_output( const C_file f, const string_view& s )
-    {
-        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
-        hopefully( n_bytes_written == s.size() )
-            or KS_FAIL( "::fwrite failed" );
-    }
-
-    inline auto clib_input( const C_file f )
-        -> string
-    {
-        string  line;
-        int     code;
-
-        while( (code = fgetc( f )) != EOF and code != '\n' ) {
-            line += char( code );
-        }
-        const Truth eof = (line.empty() and code == EOF);
-        hopefully( not eof )
-            or KS_FAIL_( End_of_file_exception, "Logical end-of-file encountered" );
-        return line;
     }
 
     namespace d = _definitions;

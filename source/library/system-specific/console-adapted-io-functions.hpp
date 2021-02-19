@@ -26,23 +26,52 @@
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
-    // TODO: define C_file in core and remove this include.
-#   include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files.hpp>
+#   include <kickstart/core/language/Truth.hpp>
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
+#   include <string>
+#   include <string_view>
     namespace kickstart::system_specific::_definitions {
-        inline auto is_console( const C_file f ) -> Truth { return !!::isatty( fileno( f ) ); }
-        inline void raw_output_to_console( const C_file f, const string_view& s ) { clib_output( f, s ); }
-        inline auto raw_input_from_console( const C_file f ) -> string { return clib_input( f ); }
+        using namespace c_files;
+        using namespace language;
+        using std::string, std::string_view;
+
+        inline auto is_console( const C_file f )
+            -> Truth
+        { return !!::isatty( fileno( f ) ); }
+
+        inline void raw_output_to_console( const C_file f, const string_view& s )
+        {
+            clib_output_to( f, s );
+        }
+
+        inline auto raw_input_from_console( const C_file f )
+            -> string
+        { return clib_input_from( f ); }
     }  // namespace kickstart::system_specific::_definitions
 #else
-    // TODO: define C_file in core and remove this include.
-    #include <kickstart/system-specific/console-adapted-io-functions.interface.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files.hpp>
+#   include <kickstart/core/language/Truth.hpp>
+#   include <string>
+#   include <string_view>
+namespace kickstart::system_specific::_definitions {
+        using namespace c_files;
+        using namespace language;
+        using std::string, std::string_view;
 
-    namespace kickstart::system_specific::_definitions {
-        inline auto is_console( const C_file ) -> Truth { return false; }
-        inline void raw_output_to_console( const C_file f, const string_view& s ) { clib_output( f, s ); }
-        inline auto raw_input_from_console( const C_file f ) -> string { return clib_input( f ); }
+        inline auto is_console( const C_file )
+            -> Truth
+        { return false; }
+
+        inline void raw_output_to_console( const C_file f, const string_view& s )
+        {
+            clib_output_to( f, s );
+        }
+
+        inline auto raw_input_from_console( const C_file f )
+            -> string
+        { return clib_input_from( f ); }
     }  // namespace kickstart::system_specific::_definitions
 #endif
 

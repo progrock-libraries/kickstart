@@ -22,8 +22,52 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//#include <kickstart/>
-#include <stdio.h>
+#include <kickstart/core/collection-util/collection-pointers.hpp>
+#include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/stdlib-extensions/c-file-types.hpp>
+#include <kickstart/core/language/Truth.hpp>
 
-namespace kickstart::stdlib_extensions::files::_definitions {
-}  // namespace kickstart::stdlib_extensions::files::_definitions
+#include <string>
+#include <string_view>
+
+namespace kickstart::c_files::_definitions {
+    using namespace c_file_types;
+    using namespace collection_util;
+    using namespace failure_handling;
+    using namespace language;           // Truth etc.
+
+    using   std::string,
+            std::string_view;
+
+    inline void clib_output_to( const C_file f, const string_view& s )
+    {
+        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
+        hopefully( n_bytes_written == s.size() )
+            or KS_FAIL( "::fwrite failed" );
+    }
+
+    inline auto clib_input_from( const C_file f )
+        -> string
+    {
+        string  line;
+        int     code;
+
+        while( (code = fgetc( f )) != EOF and code != '\n' ) {
+            line += char( code );
+        }
+        const Truth eof = (line.empty() and code == EOF);
+        // TODO: check ferror
+        hopefully( not eof )
+            or KS_FAIL_( End_of_file_exception, "Logical end-of-file encountered" );
+        return line;
+    }
+
+    namespace d = _definitions;
+    namespace exports{ using
+        d::C_file,
+        d::clib_output_to, d::clib_input_from;
+    }  // exports
+}  // namespace kickstart::c_files::_definitions
+
+namespace kickstart::c_files        { using namespace _definitions::exports; }
+namespace kickstart::core           { using namespace c_files; }
