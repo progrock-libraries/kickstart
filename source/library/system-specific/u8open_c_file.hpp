@@ -33,14 +33,14 @@
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
 
-        inline auto raw_open_c_file( const C_str utf8_path, const C_str mode )
+        inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
             -> C_file
         { return ::fopen( utf8_path, mode ); }
     }  // namespace kickstart::system_specific::_definitions
 #
 #elif defined( KS_OS_IS_WIN64 )
 #
-#   include <kickstart/system-specific/windows/open_c_file.impl.hpp>
+#   include <kickstart/system-specific/windows/u8open_c_file.impl.hpp>
 #
 #else
 #
@@ -50,7 +50,7 @@
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
 
-        inline auto raw_open_c_file( const C_str utf8_path, const C_str mode )
+        inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
             -> C_file
         {
             (void) utf8_path;  (void) mode;
@@ -61,4 +61,4 @@
 #
 #endif
 
-#include <kickstart/system-specific/open_c_file.interface.hpp>
+#include <kickstart/system-specific/u8open_c_file.interface.hpp>

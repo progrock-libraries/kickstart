@@ -26,7 +26,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/open_c_file.interface.hpp>
+#include <kickstart/system-specific/u8open_c_file.interface.hpp>
 
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
@@ -37,7 +37,7 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
 
-    inline auto raw_open_c_file( const C_str utf8_path, const C_str mode )
+    inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
         -> C_file
     {
         const wstring utf16_path = to_utf16( utf8_path );

@@ -33,16 +33,16 @@ namespace kickstart::system_specific::_definitions {
 
     using   std::optional;
 
-    inline auto raw_open_c_file( const C_str utf8_path, const C_str mode )
+    inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
         -> C_file;
 
-    inline auto open_c_file( const C_str utf8_path, const C_str mode )
+    inline auto u8open_c_file( const C_str utf8_path, const C_str mode )
         -> optional<C_file>
     {
-        const C_file f = raw_open_c_file( utf8_path, mode );
+        const C_file f = raw_u8open_c_file( utf8_path, mode );
         if( not f ) { return {}; }
         return f;
     }
 }  // namespace kickstart::system_specific::_definitions
 
-namespace kickstart::system_specific { using _definitions::open_c_file; }
+namespace kickstart::system_specific { using _definitions::u8open_c_file; }
