@@ -4,6 +4,9 @@ using namespace kickstart::all;
 #include <kickstart/system-specific/console-adapted-io-functions.hpp>
 using kickstart::system_specific::output_to_console;
 
+#include <kickstart/system-specific/open_c_file.hpp>
+using kickstart::system_specific::open_c_file;
+
 #include <fstream>
 using std::ifstream;
 
@@ -42,15 +45,15 @@ auto any_input_from( ifstream& f )
 void cppmain()
 {
     const string& filename = filename_from_commandline();
-    auto f = ifstream( fsx::fspath_from_u8( filename ) );   // Works for e.g. “π.txt” in Windows.
-    hopefully( not f.fail() )
+    const optional<C_file> of = open_c_file( filename.c_str(), "r" );   // Works for e.g. “π.txt” in Windows.
+    hopefully( of.has_value() )
         or fail_app_with_message( "Unable to open “"s << filename << "” for reading." );
+    const C_file f = of.value();
         
     while( auto line = any_input_from( f ) ) {
-        //out << line.value() << endl;
         output_to_console( stdout, line.value() + "\n" );
     }
-    hopefully( f.eof() )
+    hopefully( !!::feof( f ) )
         or fail_app_with_message( "Reading from “"s << filename << "” failed." );
 }
 

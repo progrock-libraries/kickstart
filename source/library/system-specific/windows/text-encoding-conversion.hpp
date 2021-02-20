@@ -42,38 +42,13 @@ namespace kickstart::system_specific::_definitions {
     using namespace kickstart::collection_util;         // int_size
     using namespace kickstart::failure_handling;        // hopefully, fail
     using namespace kickstart::language;                // Truth
-    using   std::string,
+    using   std::string, std::wstring,
             std::string_view, std::wstring_view;
-
-    inline auto to_utf8( const wstring_view& ws )
-        -> string
-    {
-        if( ws.empty() ) {
-            return "";
-        }
-        assert( ws.size() <= size_t( INT_MAX ) );
-
-        const winapi::DWORD flags = 0;
-        const int buffer_size = winapi::WideCharToMultiByte(
-            winapi::cp_utf8, flags, ws.data(), int_size( ws ), nullptr, 0, nullptr, nullptr
-            );
-        hopefully( buffer_size != 0 )
-            or KS_FAIL( "WideCharToMultiByte failed" );
-
-        auto result = string( buffer_size, '\0' );
-        const int string_size = winapi::WideCharToMultiByte(
-            winapi::cp_utf8, flags, ws.data(), int_size( ws ), result.data(), buffer_size, nullptr, nullptr
-            );
-        result.resize( string_size );       // Not clear if this is necessary.
-        return result;
-    }
 
     inline auto is_valid_utf8( const string_view& s )
         -> Truth
     {
-        if( s.empty() ) {
-            return true;
-        }
+        if( s.empty() ) { return true; }
 
         assert( s.size() <= size_t( INT_MAX ) );
 
@@ -84,12 +59,52 @@ namespace kickstart::system_specific::_definitions {
         return buffer_size > 0;
     }
 
+    inline auto to_utf8( const wstring_view& ws )
+        -> string
+    {
+        if( ws.empty() ) { return ""; }
+        assert( ws.size() <= size_t( INT_MAX ) );
+
+        const winapi::DWORD flags = 0;
+        const int buffer_size = winapi::WideCharToMultiByte(
+            winapi::cp_utf8, flags, ws.data(), int_size( ws ), nullptr, 0, nullptr, nullptr
+            );
+        hopefully( buffer_size != 0 )
+            or KS_FAIL( "Windows’ WideCharToMultiByte failed" );
+
+        auto result = string( buffer_size, '\0' );
+        const int string_size = winapi::WideCharToMultiByte(
+            winapi::cp_utf8, flags, ws.data(), int_size( ws ), result.data(), buffer_size, nullptr, nullptr
+            );
+        result.resize( string_size );       // Not clear if this is necessary.
+        return result;
+    }
+
+    inline auto to_utf16( const string_view& s )
+        -> wstring
+    {
+        if( s.empty() ) { return L""; }
+        assert( s.size() <= size_t( INT_MAX ) );
+
+        const winapi::DWORD flags = 0;
+        const int buffer_size = int_size( s );
+        auto result = wstring( buffer_size, '\0' );
+        const int string_size = winapi::MultiByteToWideChar(
+            winapi::cp_utf8, flags, s.data(), int_size( s ), result.data(), buffer_size
+            );
+        hopefully( string_size != 0 )
+            or KS_FAIL( "Windows’ MultiByteToWideChar failed" );
+        result.resize( string_size );       // Will generally be shorter than buffer size.
+        return result;
+    }
+
 
    //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::is_valid_utf8,
         d::to_utf8,
-        d::is_valid_utf8;
+        d::to_utf16;
     }  // namespace exported names
 }  // namespace kickstart::system_specific::_definitions
 
