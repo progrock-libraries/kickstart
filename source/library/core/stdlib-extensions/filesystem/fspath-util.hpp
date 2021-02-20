@@ -26,7 +26,7 @@
 //#include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/core/stdlib-extensions/strings.hpp>             // C_str_ref
 #include <kickstart/system-specific/get_path_of_executable.hpp>
-#include <kickstart/system-specific/u8open_c_file.hpp>
+#include <kickstart/system-specific/open-c-file.hpp>
 
 #include <filesystem>
 #include <optional>
@@ -85,6 +85,7 @@ namespace kickstart::fsx::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Explicit_fspath,
         d::fspath_from_u8,
         d::u8_from,
         d::fspath_of_executable,

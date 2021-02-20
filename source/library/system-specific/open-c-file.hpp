@@ -42,7 +42,7 @@
 #
 #elif defined( KS_OS_IS_WIN64 )
 #
-#   include <kickstart/system-specific/windows/u8open_c_file.impl.hpp>
+#   include <kickstart/system-specific/windows/open-c-file.impl.hpp>
 #
 #else
 #
@@ -65,4 +65,4 @@
 #
 #endif
 
-#include <kickstart/system-specific/u8open_c_file.interface.hpp>
+#include <kickstart/system-specific/open-c-file.interface.hpp>

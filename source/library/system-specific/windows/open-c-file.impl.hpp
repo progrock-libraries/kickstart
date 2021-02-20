@@ -26,7 +26,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/u8open_c_file.interface.hpp>
+#include <kickstart/system-specific/open-c-file.interface.hpp>
 
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
