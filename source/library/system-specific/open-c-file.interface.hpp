@@ -26,6 +26,7 @@
 #include <kickstart/core/stdlib-extensions/strings.hpp>         // C_str_ref
 #include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 
+#include <filesystem> 
 #include <optional>
 
 namespace kickstart::system_specific::_definitions {
@@ -33,9 +34,14 @@ namespace kickstart::system_specific::_definitions {
     using kickstart::language::C_str;
     using kickstart::strings::C_str_ref;
 
+    namespace fs = std::filesystem;
+
     using   std::optional;
 
     inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
+        -> C_file;
+
+    inline auto raw_open_c_file( const fs::path& path, const C_str mode )
         -> C_file;
 
     inline auto u8open_c_file( const C_str_ref utf8_path, const C_str_ref mode )
@@ -45,6 +51,20 @@ namespace kickstart::system_specific::_definitions {
         if( not f ) { return {}; }
         return f;
     }
+
+    inline auto open_c_file( const fs::path& path, const C_str_ref mode )
+        -> optional<C_file>
+    {
+        const C_file f = raw_open_c_file( path, mode.s() );
+        if( not f ) { return {}; }
+        return f;
+    }
+
+    namespace d = _definitions;
+    namespace exports { using
+        d::u8open_c_file,
+        d::open_c_file;
+    }  // namespace exports
 }  // namespace kickstart::system_specific::_definitions
 
-namespace kickstart::system_specific { using _definitions::u8open_c_file; }
+namespace kickstart::system_specific { using namespace _definitions::exports; }

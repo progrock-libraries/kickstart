@@ -44,4 +44,12 @@ namespace kickstart::system_specific::_definitions {
         const wstring utf16_mode = wstring( mode, mode + strlen( mode ) );
         return ::_wfopen( utf16_path.c_str(), utf16_mode.c_str() );
     }
+
+    inline auto raw_open_c_file( const fs::path& path, const C_str mode )
+        -> C_file
+    {
+        const wstring utf16_mode = wstring( mode, mode + strlen( mode ) );
+        return ::_wfopen( path.c_str(), utf16_mode.c_str() );
+    }
+
 }  // namespace kickstart::system_specific::_definitions

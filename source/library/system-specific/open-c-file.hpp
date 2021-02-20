@@ -28,16 +28,22 @@
 #   include <kickstart/core/failure-handling.hpp>
 #   include <kickstart/core/language/type-aliases.hpp>
 #   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
+#   include <filesystem>
 #   include <stdio.h>
 
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
+        namespace fs = std::filesystem;
         using kickstart::c_files::C_file;
 
         inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
             -> C_file
         { return ::fopen( utf8_path, mode ); }
+
+        inline auto raw_open_c_file( const fs::path& path, const C_str mode )
+            -> C_file
+        { return ::fopen( path.c_str(), mode ); }
     }  // namespace kickstart::system_specific::_definitions
 #
 #elif defined( KS_OS_IS_WIN64 )
@@ -49,9 +55,13 @@
 #   include <kickstart/core/failure-handling.hpp>
 #   include <kickstart/core/language/type-aliases.hpp>
 #   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
+#   include <filesystem>
+#   include <stdio.h>
+
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
+        namespace fs = std::filesystem;
         using kickstart::c_files::C_file;
 
         inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
@@ -61,6 +71,10 @@
             KS_FAIL( "This platform is not supported." );
             unreachable();
         }
+
+        inline auto raw_open_c_file( const fs::path& path, const C_str mode )
+            -> C_file
+        { return ::fopen( path.c_str(), mode ); }
     }  // namespace kickstart::system_specific::_definitions
 #
 #endif
