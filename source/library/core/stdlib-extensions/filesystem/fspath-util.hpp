@@ -71,7 +71,7 @@ namespace kickstart::fsx::_definitions {
 
     inline auto open_c_file( const fs::path& p, const C_str mode )
         -> optional<C_file>
-    { return ks::u8open_c_file( )}
+    { return ks::u8open_c_file( u8_from( p ).c_str(), mode ); }
 
 
     //----------------------------------------------------------- @exported:
