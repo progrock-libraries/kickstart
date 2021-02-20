@@ -24,7 +24,7 @@
 
 #include <kickstart/core/collection-util/collection-pointers.hpp>       // begin_ptr_of
 #include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/stdlib-extensions/c-file-types.hpp>            // C_file
+#include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp> // C_file
 #include <kickstart/core/stdlib-extensions/strings.hpp>                 // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>                    // bom
 
@@ -35,7 +35,7 @@
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
-    using namespace kickstart::c_file_types;
+    using namespace kickstart::c_files;
     using namespace kickstart::collection_util;
     using namespace kickstart::language;            // Size, Index
     using namespace kickstart::strings;             // for_each_part

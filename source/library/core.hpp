@@ -42,7 +42,6 @@ namespace kickstart::core {
     using namespace kickstart::             matrices;                   // <core/matrices.hpp>
     namespace process = kickstart::         process;                    // <core/process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
-        using namespace kickstart::             c_file_types;           //   <… c-file-types.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
         namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
         using namespace kickstart::             limits;                 //   <… limits.hpp>

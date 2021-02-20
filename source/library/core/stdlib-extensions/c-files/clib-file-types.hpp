@@ -22,12 +22,18 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Iostreams intentionally not included by default, it's large.
-// It can be included via `<kickstart/with_iostreams.hpp>`.
+//#include <kickstart/>
+#include <stdio.h>
 
-#include <kickstart/core/stdlib-extensions/c-files.hpp>
-#include <kickstart/core/stdlib-extensions/filesystem.hpp>
-#include <kickstart/core/stdlib-extensions/limits.hpp>
-#include <kickstart/core/stdlib-extensions/math.hpp>
-#include <kickstart/core/stdlib-extensions/standard-exceptions.hpp>
-#include <kickstart/core/stdlib-extensions/strings.hpp>
+namespace kickstart::c_files::_definitions {
+    using C_file            = ::FILE*;
+    using File_position     = ::fpos_t;
+
+    namespace d = _definitions;
+    namespace exports{ using
+        d::C_file,
+        d::File_position;
+    }  // exports
+}  // namespace kickstart::c_files::_definitions
+
+namespace kickstart::c_files    { using namespace _definitions::exports; }

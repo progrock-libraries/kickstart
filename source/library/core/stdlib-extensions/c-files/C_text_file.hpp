@@ -22,16 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//#include <kickstart/>
-#include <stdio.h>
-
-namespace kickstart::c_file_types::_definitions {
-    using C_file = FILE*;
+namespace kickstart::c_files::_definitions {
 
     namespace d = _definitions;
-    namespace exports{ using
-        d::C_file;
+    namespace exports{
     }  // exports
 }  // namespace kickstart::c_file_types::_definitions
 
-namespace kickstart::c_file_types   { using namespace _definitions::exports; }
+namespace kickstart::c_files    { using namespace _definitions::exports; }
