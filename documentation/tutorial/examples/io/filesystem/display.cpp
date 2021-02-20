@@ -4,9 +4,6 @@ using namespace kickstart::all;
 #include <kickstart/system-specific/console-adapted-io-functions.hpp>
 using kickstart::system_specific::output_to_console;
 
-#include <kickstart/system-specific/u8open_c_file.hpp>
-using kickstart::system_specific::u8open_c_file;
-
 #include <fstream>
 using std::ifstream;
 
@@ -31,23 +28,12 @@ auto filename_from_commandline()
     unreachable();          // To avoid a Visual C++ sillywarning.
 }
 
-auto any_input_from( ifstream& f )
-    -> optional<string>
-{
-    string result;
-    if( not getline( f, result ) )
-    {
-        return {};
-    }
-    return result;
-}
-
 void cppmain()
 {
     const string& filename = filename_from_commandline();
     
     // Works for e.g. “π.txt” in Windows.
-    const optional<C_file> of = u8open_c_file( filename.c_str(), "r" );
+    const optional<C_file> of = fsx::open_c_file( fsx::fspath_from_u8( filename ), "r" );
     hopefully( of.has_value() )
         or fail_app_with_message( "Unable to open “"s << filename << "” for reading." );
     const C_file f = of.value();

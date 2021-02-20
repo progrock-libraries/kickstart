@@ -22,24 +22,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/type-aliases.hpp>
+#include <kickstart/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/core/stdlib-extensions/strings.hpp>         // C_str_ref
 #include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 
 #include <optional>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::c_files;     // C_file
-    using namespace kickstart::language;    // C_str
+    using kickstart::c_files::C_file;
+    using kickstart::language::C_str;
+    using kickstart::strings::C_str_ref;
 
     using   std::optional;
 
     inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
         -> C_file;
 
-    inline auto u8open_c_file( const C_str utf8_path, const C_str mode )
+    inline auto u8open_c_file( const C_str_ref utf8_path, const C_str_ref mode )
         -> optional<C_file>
     {
-        const C_file f = raw_u8open_c_file( utf8_path, mode );
+        const C_file f = raw_u8open_c_file( utf8_path.s(), mode.s() );
         if( not f ) { return {}; }
         return f;
     }

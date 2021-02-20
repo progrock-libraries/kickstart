@@ -23,7 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/core/collection-util.hpp>           // int_size, tail_of
-#include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/language/Truth.hpp>            // Truth
+#include <kickstart/core/language/type-aliases.hpp>     // C_str
 
 #include <initializer_list>
 #include <iterator>
@@ -32,14 +33,28 @@
 #include <vector>
 
 namespace kickstart::strings::_definitions {
-    using namespace std::string_view_literals;  // ""sv
+    using namespace std::string_view_literals;      // ""sv
     using namespace kickstart::collection_util;     // tail_of
-    using   kickstart::language::Truth;
+    using namespace kickstart::language;            // Truth, C_str
     using   std::initializer_list,
             std::begin, std::end,
             std::string,
             std::string_view,
             std::vector;
+
+    class C_str_ref
+    {
+        C_str       m_s;
+        string      m_data;
+
+    public:
+        C_str_ref( const C_str s ): m_s( s ) {}
+        C_str_ref( const string_view& s ): m_data( string( s ) ) { m_s = m_data.c_str(); }
+        C_str_ref( const string& s ): m_s( s.c_str() ) {}
+
+        auto s() const -> C_str { return m_s; }
+        operator C_str () const { return m_s; }
+    };
 
     inline auto repeated_times( const int n, const string_view& s )
         -> string
@@ -153,6 +168,7 @@ namespace kickstart::strings::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::C_str_ref,
         d::repeated_times, d::operator*,
         d::spaces,
         d::starts_with, d::ends_with,

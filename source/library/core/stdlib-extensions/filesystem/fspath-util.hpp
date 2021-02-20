@@ -23,7 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/core/failure-handling.hpp>
-#include <kickstart/core/language/type-aliases.hpp>
+//#include <kickstart/core/language/type-aliases.hpp>
+#include <kickstart/core/stdlib-extensions/strings.hpp>             // C_str_ref
 #include <kickstart/system-specific/get_path_of_executable.hpp>
 #include <kickstart/system-specific/u8open_c_file.hpp>
 
@@ -33,13 +34,23 @@
 #include <string_view>
 
 namespace kickstart::fsx::_definitions {
-    using namespace kickstart::c_files;
-    using namespace kickstart::language;
     namespace fs = std::filesystem;
     namespace ks = kickstart::system_specific;
+
+    using   kickstart::c_files::C_file;
+    using   kickstart::strings::C_str_ref;
     using   std::optional,
             std::string,
             std::string_view;
+
+    struct Explicit_fspath
+    {
+        const fs::path&     ref;
+
+        Explicit_fspath( const fs::path& arg ):
+            ref( arg )
+        {}
+    };
 
     // Sabotage of Windows: this function may stop working in C++23 because
     // `std::filesystem::u8path` is deprecated in C++20. May be necessary to
@@ -69,9 +80,9 @@ namespace kickstart::fsx::_definitions {
         -> fs::path
     { return (p.is_relative()? (fspath_of_executable() / p) : fs::absolute( p )); }
 
-    inline auto open_c_file( const fs::path& p, const C_str mode )
+    inline auto open_c_file( const Explicit_fspath p, const C_str_ref mode )
         -> optional<C_file>
-    { return ks::u8open_c_file( u8_from( p ).c_str(), mode ); }
+    { return ks::u8open_c_file( u8_from( p.ref ), mode ); }
 
 
     //----------------------------------------------------------- @exported:
@@ -81,7 +92,8 @@ namespace kickstart::fsx::_definitions {
         d::u8_from,
         d::fspath_of_executable,
         d::fspath_of_exe_directory,
-        d::full_fspath_of;
+        d::full_fspath_of,
+        d::open_c_file;
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions
 

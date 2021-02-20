@@ -27,11 +27,13 @@
 #
 #   include <kickstart/core/failure-handling.hpp>
 #   include <kickstart/core/language/type-aliases.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #   include <stdio.h>
 
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
+        using kickstart::c_files::C_file;
 
         inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
             -> C_file
@@ -46,9 +48,11 @@
 #
 #   include <kickstart/core/failure-handling.hpp>
 #   include <kickstart/core/language/type-aliases.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;
         using namespace kickstart::language;
+        using kickstart::c_files::C_file;
 
         inline auto raw_u8open_c_file( const C_str utf8_path, const C_str mode )
             -> C_file
