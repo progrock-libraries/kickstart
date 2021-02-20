@@ -23,14 +23,23 @@
 // SOFTWARE.
 
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/system-specific/get_path_of_executable.hpp>
+#include <kickstart/system-specific/u8open_c_file.hpp>
 
 #include <filesystem>
+#include <optional>
+#include <string>
 #include <string_view>
 
 namespace kickstart::fsx::_definitions {
+    using namespace kickstart::c_files;
+    using namespace kickstart::language;
     namespace fs = std::filesystem;
-    using   std::string_view;
+    namespace ks = kickstart::system_specific;
+    using   std::optional,
+            std::string,
+            std::string_view;
 
     // Sabotage of Windows: this function may stop working in C++23 because
     // `std::filesystem::u8path` is deprecated in C++20. May be necessary to
@@ -39,24 +48,37 @@ namespace kickstart::fsx::_definitions {
         -> fs::path
     { return fs::u8path( s ); }
 
+    inline auto u8_from( const fs::path& p )
+        -> string
+    {
+        const auto s = p.u8string();            // In C++20 typed to sabotage Windows
+        return string( s.begin(), s.end() );    // ... incurring this inefficiency.
+    }
+
     inline auto fspath_of_executable()
         -> fs::path
-    { return fspath_from_u8( kickstart::system_specific::get_path_of_executable() ); }
+    { return fspath_from_u8( ks::get_path_of_executable() ); }
 
     inline auto fspath_of_exe_directory()
         -> fs::path
     { return fspath_of_executable().parent_path(); }
 
-    // Like `absolute` except instead of the current directory the executable's directory is used.
+    // Like `absolute` except instead of the current directory the executable's
+    // directory is used.
     inline auto full_fspath_of( const fs::path& p )
         -> fs::path
     { return (p.is_relative()? (fspath_of_executable() / p) : fs::absolute( p )); }
+
+    inline auto open_c_file( const fs::path& p, const C_str mode )
+        -> optional<C_file>
+    { return ks::u8open_c_file( )}
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::fspath_from_u8,
+        d::u8_from,
         d::fspath_of_executable,
         d::fspath_of_exe_directory,
         d::full_fspath_of;

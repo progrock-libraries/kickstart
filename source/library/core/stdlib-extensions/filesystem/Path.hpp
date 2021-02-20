@@ -138,10 +138,7 @@ namespace kickstart::fsx::_definitions {
 
         auto to_string() const 
             -> string
-        {
-            const auto s = m_value.u8string();      // In C++20 typed to sabotage Windows
-            return string( s.begin(), s.end() );    // ... incurring this inefficiency.
-        }
+        { return u8_from( m_value ); }
 
 
         //--------------------------- Iterators:
