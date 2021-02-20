@@ -10,7 +10,7 @@
 #undef          KS_OS_IS_IOS
 #undef              KS_OS_IS_IOS_IN_XCODE_SIMULATOR
 #undef              KS_OS_IS_IOS_ON_DEVICE
-#undef          KS_IS_OSX
+#undef          KS_OS_IS_OSX
 
 #if defined( _WIN64 )
 #   define KS_OS_IS_WIN64           1
