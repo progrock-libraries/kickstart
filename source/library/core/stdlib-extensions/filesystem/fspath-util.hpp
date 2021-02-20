@@ -45,11 +45,8 @@ namespace kickstart::fsx::_definitions {
 
     struct Explicit_fspath
     {
-        const fs::path&     ref;
-
-        Explicit_fspath( const fs::path& arg ):
-            ref( arg )
-        {}
+        const fs::path& ref;
+        Explicit_fspath( const fs::path& arg ): ref( arg ) {}
     };
 
     // Sabotage of Windows: this function may stop working in C++23 because
@@ -59,10 +56,10 @@ namespace kickstart::fsx::_definitions {
         -> fs::path
     { return fs::u8path( s ); }
 
-    inline auto u8_from( const fs::path& p )
+    inline auto u8_from( const Explicit_fspath p )
         -> string
     {
-        const auto s = p.u8string();            // In C++20 typed to sabotage Windows
+        const auto s = p.ref.u8string();        // In C++20 typed to sabotage Windows
         return string( s.begin(), s.end() );    // ... incurring this inefficiency.
     }
 
@@ -76,13 +73,13 @@ namespace kickstart::fsx::_definitions {
 
     // Like `absolute` except instead of the current directory the executable's
     // directory is used.
-    inline auto full_fspath_of( const fs::path& p )
+    inline auto full_fspath_of( const Explicit_fspath p )
         -> fs::path
-    { return (p.is_relative()? (fspath_of_executable() / p) : fs::absolute( p )); }
+    { return (p.ref.is_relative()? (fspath_of_executable() / p.ref) : fs::absolute( p.ref )); }
 
     inline auto open_c_file( const Explicit_fspath p, const C_str_ref mode )
         -> optional<C_file>
-    { return ks::u8open_c_file( u8_from( p.ref ), mode ); }
+    { return ks::u8open_c_file( u8_from( p ), mode ); }
 
 
     //----------------------------------------------------------- @exported:

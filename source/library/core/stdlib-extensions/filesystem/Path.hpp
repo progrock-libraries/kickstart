@@ -206,7 +206,7 @@ namespace kickstart::fsx::_definitions {
 
     inline auto full_path_of( const Path& p )
         -> Path
-    { return Path::from_fspath( full_fspath_of( p ) ); }
+    { return Path::from_fspath( full_fspath_of( p.fspath() ) ); }
 
 
     //----------------------------------------------------------- @exported:
