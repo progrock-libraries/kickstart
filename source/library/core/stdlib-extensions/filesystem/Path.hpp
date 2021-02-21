@@ -23,11 +23,13 @@
 // SOFTWARE.
 
 #include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/fspath-util.hpp>
 
 #include <stddef.h>         // size_t
 
 #include <string>
+#include <string_view>
 #include <utility>
 
 namespace tag {
@@ -35,15 +37,10 @@ namespace tag {
 }  // namespace tag
 
 namespace kickstart::fsx::_definitions {
-    using   kickstart::language::Truth;
+    using namespace kickstart::language;    // Truth, C_str
     using   std::string,
+            std::string_view,
             std::move;
-
-    class Path;
-    inline auto path_from_u8( const string_view& s ) -> Path;
-    inline auto path_of_executable() -> Path;
-    inline auto path_of_exe_directory() -> Path;
-    inline auto full_path_of( const Path& ) -> Path;
 
     class Path
     {
@@ -55,12 +52,18 @@ namespace kickstart::fsx::_definitions {
 
         Path() noexcept {}
 
+        Path( const C_str s ): m_value( fspath_from_u8( s ) ) {}
         Path( const string_view& s ): m_value( fspath_from_u8( s ) ) {}
+        Path( const string& s ): m_value( fspath_from_u8( s ) ) {}
 
         #ifdef __cpp_lib_char8_t
             using std::u8string_view;
             Path( const u8string_view& s ): m_value( s ) {}
         #endif
+
+        Path( const Path& other ):
+            m_value( other.m_value )
+        {}
 
         Path( Path&& other ) noexcept:
             m_value( move( other.m_value ) )
@@ -80,6 +83,10 @@ namespace kickstart::fsx::_definitions {
 
         auto operator-() const -> const fs::path& { return fspath(); }      // Workaround for g++.
         operator const fs::path& () const { return fspath(); }              // Should work for std.
+
+        auto to_string() const 
+            -> string
+        { return u8_from( m_value ); }
 
 
         //--------------------------- Modifiers:
@@ -135,10 +142,6 @@ namespace kickstart::fsx::_definitions {
         auto is_empty() const noexcept                                                                  // ¤
             -> Truth
         { return m_value.empty(); }
-
-        auto to_string() const 
-            -> string
-        { return u8_from( m_value ); }
 
 
         //--------------------------- Iterators:
@@ -204,19 +207,24 @@ namespace kickstart::fsx::_definitions {
         -> Path
     { return Path::from_fspath( fspath_of_exe_directory() ); }
 
-    inline auto full_path_of( const Path& p )
+    inline auto full_path_of_exe_relative( const Path& p )
         -> Path
-    { return Path::from_fspath( full_fspath_of( p.fspath() ) ); }
+    { return Path::from_fspath( full_fspath_of_exe_relative( p.fspath() ) ); }
+
+    inline auto open_c_file( const Path& p, const C_str_ref mode )
+        -> optional<C_file>
+    { return ks::open_c_file( p.fspath(), mode ); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Path,
         d::path_from_u8,
         d::path_of_executable,
         d::path_of_exe_directory,
-        d::full_path_of,
-        d::Path,
+        d::full_path_of_exe_relative,
+        d::open_c_file,
         d::swap,
         d::hash_value,
         d::compare,

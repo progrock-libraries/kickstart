@@ -111,7 +111,7 @@ namespace kickstart::failure_handling::_definitions {
         {}
     };
 
-    inline auto fail_app_with_message( const string& s )
+    inline auto fail_app( const string& s )
         -> Truth
     { return fail_<Clean_app_exit_exception>( s ); }
 
@@ -126,7 +126,7 @@ namespace kickstart::failure_handling::_definitions {
         d::fail,
         d::End_of_file_exception,
         d::Clean_app_exit_exception,
-        d::fail_app_with_message;
+        d::fail_app;
 
         using namespace std_x;
     }  // namespace exported names

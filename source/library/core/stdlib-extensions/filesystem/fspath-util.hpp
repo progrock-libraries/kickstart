@@ -73,7 +73,7 @@ namespace kickstart::fsx::_definitions {
 
     // Like `absolute` except instead of the current directory the executable's
     // directory is used.
-    inline auto full_fspath_of( const Explicit_fspath p )
+    inline auto full_fspath_of_exe_relative( const Explicit_fspath p )
         -> fs::path
     { return (p.ref.is_relative()? (fspath_of_executable() / p.ref) : fs::absolute( p.ref )); }
 
@@ -90,7 +90,7 @@ namespace kickstart::fsx::_definitions {
         d::u8_from,
         d::fspath_of_executable,
         d::fspath_of_exe_directory,
-        d::full_fspath_of,
+        d::full_fspath_of_exe_relative,
         d::open_c_file;
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions
