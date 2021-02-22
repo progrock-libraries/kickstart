@@ -64,12 +64,18 @@ namespace kickstart::fsx::_definitions {
     }
 
     inline auto fspath_of_executable()
-        -> fs::path
-    { return fspath_from_u8( ks::get_path_of_executable() ); }
+        -> const fs::path&
+    {
+        static const fs::path the_exe_path = fspath_from_u8( ks::get_path_of_executable() );
+        return the_exe_path;
+    }
 
     inline auto fspath_of_exe_directory()
-        -> fs::path
-    { return fspath_of_executable().parent_path(); }
+        -> const fs::path&
+    {
+        static const fs::path the_exedir_path = fspath_of_executable().parent_path();
+        return the_exedir_path;
+    }
 
     // Like `absolute` except instead of the current directory the executable's
     // directory is used.
