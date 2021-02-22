@@ -25,7 +25,7 @@
 #include <kickstart/system-specific/os-detection.hpp>
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/get_path_of_executable.impl.hpp>
-#elif defined( x__linux__ )
+#elif defined( KS_OS_IS_LINUX )
 #   include <kickstart/system-specific/unix/linux/get_path_of_executable.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>      // KS_FAIL

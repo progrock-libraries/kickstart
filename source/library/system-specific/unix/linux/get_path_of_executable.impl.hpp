@@ -26,52 +26,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/system-specific/Commandline_data.hpp>
-
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
-#include <kickstart/core/text-encoding/ascii/character-util.hpp>
 
-#include <string.h>         // strlen
-
-//TODO: Use C files.
-#include <fstream>
+#include <unistd.h>     // pathconf, readlink
+#include <assert.h>
 #include <string>
-#include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::text_conversion;     // "<<" string builder.
-    using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace std::string_view_literals;
+    using namespace kickstart::failure_handling;    // hopefully
+    using namespace kickstart::text_conversion;     // ""s, operator<< for strings.
 
-    using   std::ifstream,
-            std::string,
-            std::string_view;
+    using std::string;
 
-    inline auto get_commandline_data()
-        -> Commandline_data
+    // TODO: move to header of reusable support stuff.
+    inline auto general_maxpath()
+        -> long
     {
-        const auto& path = "/proc/self/cmdline";    // “self” provides getpid()
-        ifstream f( path );
-        hopefully( not f.fail() )
-            or KS_FAIL( ""s << "failed to open “" << path << "”" );
-        string command_line;
-        getline( f, command_line )
-            or KS_FAIL( ""s << "failed to read “" << path << "”" );
+        static const int the_value = ::pathconf( "/", _PC_PATH_MAX );
+        #ifdef PATH_MAX
+            return (the_value? the_value : PATH_MAX);
+        #else
+            assert( the_value > 0 );
+            return the_value;
+        #endif
+    }
 
-        Commandline_data result;
-        const auto npos = string_view::npos;
-        for( const char ch: command_line ) {
-            if( "\\<>()&|,;\"\'"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
-                result.fulltext += '\\';
-            }
-            result.fulltext += (ch == '\0'? ' ' : ch);
-        }
-        result.fulltext.pop_back();     // A final ASCII zero translated to space.
-
-        for( char const* p = command_line.data(); *p; p += strlen( p ) + 1 ) {
-            result.parts.push_back( string( p ) );
-        }
+    inline auto get_path_of_executable()
+        -> string
+    {
+        const auto& procpath = "/proc/self/exe";    // “self” provides getpid()
+        auto result = string( general_maxpath(), '\0' );
+        const int n_bytes = ::readlink( procpath, result.data(), result.size() );
+        hopefully( n_bytes >= 0 )
+            or KS_FAIL( ""s << "::readlink failed to read “" << procpath << "”." )
+        hopefully( n_bytes != 0 )
+            or KS_FAIL( ""s << "::readlink obtained 0 bytes." );
+        result.resize( n_bytes );
         return result;
     }
 }  // namespace kickstart::system_specific::_definitions
