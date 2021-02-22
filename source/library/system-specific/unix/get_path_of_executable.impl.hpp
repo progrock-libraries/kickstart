@@ -27,43 +27,68 @@
 // SOFTWARE.
 
 #include <kickstart/core/failure-handling.hpp>
+#include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
-#include <unistd.h>     // pathconf, readlink
+#include <unistd.h>         // getpid
+
 #include <assert.h>
+#include <stdio.h>          // fgets, popen, pclose
+
+#include <iterator>         // std::size
 #include <string>
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;    // hopefully
+    using namespace kickstart::language;            // C_str
     using namespace kickstart::text_conversion;     // ""s, operator<< for strings.
 
-    using std::string;
+    using   std::size,
+            std::string;
 
-    // TODO: move to header of reusable support stuff.
-    inline auto general_maxpath()
-        -> long
+    // TODO: move to header with reusable support stuff
+    // Source: <url: https://stackoverflow.com/a/478960>
+    auto output_of( const C_str cmd)
+        -> string
     {
-        static const int the_value = ::pathconf( "/", _PC_PATH_MAX );
-        #ifdef PATH_MAX
-            return (the_value? the_value : PATH_MAX);
-        #else
-            assert( the_value > 0 );
-            return the_value;
-        #endif
+        struct Pipe
+        {
+            FILE*   m_stream;
+            char    m_buffer[128];
+
+            ~Pipe() { ::pclose( m_stream ); }
+
+            Pipe( const C_str cmd ):
+                m_stream( ::popen( cmd, "r" ) )
+            {
+                hopefully( !!m_stream )
+                    or KS_FAIL( "Failed to create pipe with `popen()`." );
+            }
+
+            auto next_string()
+                -> C_str
+            { return ::fgets( m_buffer, size( m_buffer ), m_stream ); }
+        };
+
+        std::string result;
+        Pipe pipe( cmd );
+        while( const C_str s = pipe.next_string() ) {
+            result += s;
+        }
+        return result;
     }
 
-    // This should also work in Solaris, not just in Linux, but that's not tested.
     inline auto get_path_of_executable()
         -> string
     {
-        const auto& procpath = "/proc/self/exe";    // “self” provides getpid()
-        auto result = string( general_maxpath(), '\0' );
-        const int n_bytes = ::readlink( procpath, result.data(), result.size() );
-        hopefully( n_bytes >= 0 )
-            or KS_FAIL( ""s << "::readlink failed to read “" << procpath << "”." )
-        hopefully( n_bytes != 0 )
-            or KS_FAIL( ""s << "::readlink obtained 0 bytes." );
-        result.resize( n_bytes );
+        const pid_t self_pid = ::getpid();
+        const string command = ""s
+            << "lsof -p" << self_pid << " | "
+            << "awk '{if($4 == \"txt\") printf($9)}' "
+            << "2>/dev/null";
+        string result = output_of( command.c_str() );
+        hopefully( result.length() > 0 )
+            or KS_FAIL( "Zero length path from “" << command << "”." );
         return result;
     }
 }  // namespace kickstart::system_specific::_definitions
