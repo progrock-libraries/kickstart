@@ -83,6 +83,6 @@ namespace kickstart::c_files::_definitions {
     namespace exports{ using
         d::Wrapped_c_file;
     }  // exports
-}  // namespace kickstart::c_file_types::_definitions
+}  // namespace kickstart::c_files::_definitions
 
 namespace kickstart::c_files    { using namespace _definitions::exports; }

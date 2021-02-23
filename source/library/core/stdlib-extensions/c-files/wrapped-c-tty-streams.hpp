@@ -103,6 +103,6 @@ namespace kickstart::c_files::_definitions {
         d::C_tty_output_stream,
         d::the_c_tty_streams;
     }  // exports
-}  // namespace kickstart::c_file_types::_definitions
+}  // namespace kickstart::c_file::_definitions
 
 namespace kickstart::c_files    { using namespace _definitions::exports; }
