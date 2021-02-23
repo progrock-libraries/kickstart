@@ -31,11 +31,27 @@ namespace kickstart::c_files::_definitions {
     namespace ks = kickstart::system_specific;
 
     using   ks::is_console,
-            ks::output_to_console,
-            ks::input_from_console;
+            ks::input_from_console,
+            ks::output_to_console;
 
-    using Output_func   = void ( const C_file f, const string_view& s );
     using Input_func    = auto ( const C_file f ) -> string;
+    using Output_func   = void ( const C_file f, const string_view& s );
+
+    class C_tty_input_stream:
+        public Wrapped_c_file
+    {
+        Input_func*     m_input_from;
+
+    public:
+        C_tty_input_stream( const C_file f ):
+            Wrapped_c_file( f ),
+            m_input_from( is_console( f )? input_from_console : clib_input_from )
+        {}
+
+        auto input()
+            -> string
+        { return m_input_from( c_file() ); }
+    };
 
     class C_tty_output_stream:
         public Wrapped_c_file
@@ -59,26 +75,33 @@ namespace kickstart::c_files::_definitions {
         }
     };
 
-    class C_tty_input_stream:
-        public Wrapped_c_file
+    struct C_tty_streams
     {
-        Input_func*     m_input_from;
-
-    public:
-        C_tty_input_stream( const C_file f ):
-            Wrapped_c_file( f ),
-            m_input_from( is_console( f )? input_from_console : clib_input_from )
-        {}
-
-        auto input()
-            -> string
-        { return m_input_from( c_file() ); }
+        C_tty_input_stream&     in;
+        C_tty_output_stream&    out;
+        C_tty_output_stream&    err;
     };
+
+    auto the_c_tty_streams()
+        -> C_tty_streams&
+    {
+        static auto the_in_stream       = C_tty_input_stream( stdin );
+        static auto the_out_stream      = C_tty_output_stream( stdout );
+        static auto the_err_stream      = C_tty_output_stream( stderr );
+
+        static auto the_streams         = C_tty_streams
+        {
+            the_in_stream, the_out_stream, the_err_stream
+        };
+
+        return the_streams;
+    }
 
     namespace d = _definitions;
     namespace exports{ using
+        d::C_tty_input_stream,
         d::C_tty_output_stream,
-        d::C_tty_input_stream;
+        d::the_c_tty_streams;
     }  // exports
 }  // namespace kickstart::c_file_types::_definitions
 
