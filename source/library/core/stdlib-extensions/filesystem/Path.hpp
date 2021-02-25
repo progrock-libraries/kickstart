@@ -22,9 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/fspath-util.hpp>
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <stddef.h>         // size_t
 
@@ -37,7 +39,10 @@ namespace tag {
 }  // namespace tag
 
 namespace kickstart::fsx::_definitions {
-    using namespace kickstart::language;    // Truth, C_str
+    using namespace kickstart::language;            // Truth, C_str
+    using namespace kickstart::failure_handling;    // unreachable
+    using namespace kickstart::text_conversion;     // ""s, string operator<<
+
     using   std::string,
             std::string_view,
             std::move;
@@ -215,20 +220,31 @@ namespace kickstart::fsx::_definitions {
         -> optional<C_file>
     { return ks::open_c_file( p.fspath(), mode ); }
 
+    inline auto open_c_file_or_x( const Path& path, const C_str_ref mode )
+        -> C_file
+    {
+        if( optional<C_file> f = open_c_file( path, mode ) ) {
+            return f.value();
+        }
+        KS_FAIL( ""s << "Unable to open “" << path.to_string() << "” in mode “" << mode << "”." );
+        unreachable();
+    }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::Path,
+        d::swap,
+        d::hash_value,
+        d::compare,
+        d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=,
         d::path_from_u8,
         d::path_of_executable,
         d::path_of_exe_directory,
         d::path_of_exe_relative,
         d::open_c_file,
-        d::swap,
-        d::hash_value,
-        d::compare,
-        d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=;
+        d::open_c_file_or_x;
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions
 

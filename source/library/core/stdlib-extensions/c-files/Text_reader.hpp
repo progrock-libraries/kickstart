@@ -32,19 +32,9 @@ namespace kickstart::c_files::_definitions {
     class Text_reader:
         public Wrapped_c_file
     {
-        static auto open( const fsx::Path& path )
-            -> C_file
-        {
-            if( optional<C_file> f = fsx::open_c_file( path, "r" ) ) {
-                return f.value();
-            }
-            KS_FAIL( ""s << "Unable to open “" << path.to_string() << "” for reading." )
-            unreachable();
-        }
-
     public:
         explicit Text_reader( const fsx::Path& path ):
-            Wrapped_c_file( open( path ) )
+            Wrapped_c_file( open_c_file_or_x( path, "r" ) )
         {}
 
         auto input_or_eof()
