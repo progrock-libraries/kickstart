@@ -135,15 +135,15 @@ namespace kickstart::utf8_io::_definitions {
         auto ref() -> C_tty_output_stream& { return *this; }
     };
 
-    inline auto input_or_eof_from( const C_file f )
+    inline auto tty_stream_input_or_eof_from( const C_file f )
         -> optional<string>
     { return Temporary_c_tty_input_stream_wrapping( f ).input_or_eof(); }
 
-    inline auto input_from( const C_file f )
+    inline auto tty_stream_input_from( const C_file f )
         -> string
     { return Temporary_c_tty_input_stream_wrapping( f ).input(); }
 
-    inline void output_to( const C_file f, const string_view& s )
+    inline void tty_stream_output_to( const C_file f, const string_view& s )
     {
         Temporary_c_tty_output_stream_wrapping( f ).output( s );
     }
@@ -155,9 +155,9 @@ namespace kickstart::utf8_io::_definitions {
         d::the_c_tty_streams,
         d::Temporary_c_tty_output_stream_wrapping,
         d::Temporary_c_tty_input_stream_wrapping,
-        d::input_or_eof_from,
-        d::input_from,
-        d::output_to;
+        d::tty_stream_input_or_eof_from,
+        d::tty_stream_input_from,
+        d::tty_stream_output_to;
     }  // exports
 }  // namespace kickstart::utf8_io::_definitions
 
