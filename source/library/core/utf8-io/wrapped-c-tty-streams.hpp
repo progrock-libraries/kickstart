@@ -97,9 +97,9 @@ namespace kickstart::utf8_io::_definitions {
 
     struct C_tty_streams
     {
-        C_tty_input_stream&     in;
-        C_tty_output_stream&    out;
-        C_tty_output_stream&    err;
+        C_tty_input_stream&     std_in;
+        C_tty_output_stream&    std_out;
+        C_tty_output_stream&    std_err;
     };
 
     inline auto the_c_tty_streams()

@@ -47,20 +47,20 @@ namespace kickstart::utf8_io::_definitions {
 
     inline auto input_or_eof()
         -> optional<string>
-    { return the_c_tty_streams().in.input_or_eof(); }
+    { return the_c_tty_streams().std_in.input_or_eof(); }
 
     inline auto input()
         -> string
-    { return the_c_tty_streams().in.input(); }
+    { return the_c_tty_streams().std_in.input(); }
 
     inline void output( const string_view& s )
     {
-        the_c_tty_streams().out.output( s );
+        the_c_tty_streams().std_out.output( s );
     }
 
     inline void output_error_message( const string_view& s )
     {
-        auto& err_stream = the_c_tty_streams().err;
+        auto& err_stream = the_c_tty_streams().std_err;
         err_stream.output( s );
         err_stream.flush();
     }
