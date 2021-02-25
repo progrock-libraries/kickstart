@@ -95,15 +95,14 @@ namespace kickstart::failure_handling::_definitions {
         std_x::runtime_error
     { using runtime_error::runtime_error; };
 
-    class Clean_app_exit_exception:
-        public std_x::Base
+    class Clean_app_exit_exception
     {
         std_x::runtime_error    m_message;
 
     public:
         auto what() const
             noexcept
-            -> C_str override
+            -> C_str
         { return m_message.what(); }
 
         Clean_app_exit_exception( const string& s ):
