@@ -41,9 +41,9 @@ namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::utf8_io;
 
     using   std::runtime_error,
-        std::optional,
-        std::string,
-        std::string_view;
+            std::optional,
+            std::string,
+            std::string_view;
 
     inline auto input_or_eof()
         -> optional<string>
