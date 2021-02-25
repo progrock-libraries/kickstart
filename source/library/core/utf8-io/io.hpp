@@ -26,7 +26,7 @@
 #include <kickstart/core/failure-handling.hpp>          // hopefully, fail
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>     // Size etc.
-#include <kickstart/core/utf8-io/standard_streams.hpp>  // standard_streams::*
+#include <kickstart/core/utf8-io/wrapped-c-tty-streams.hpp>
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 
@@ -38,85 +38,32 @@
 namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Truth, Size etc.
+    using namespace kickstart::utf8_io;
 
     using   std::runtime_error,
-            std::optional,
-            std::string,
-            std::string_view;
+        std::optional,
+        std::string,
+        std::string_view;
 
-    using C_file_ptr = FILE*;
-
-    inline void flush( const C_file_ptr f = stdout )
-    {
-        assert( f != stdin );
-        hopefully( f != stdin )
-            or KS_FAIL_( logic_error,
-                "Flushing `stdin` (or any input stream) is Undefined Behavior."
-            );
-        ::fflush( f );
-    }
-
-    inline auto output_to( const C_file_ptr f, const string_view& s )
-        -> Truth
-    {
-        const Size n = s.length();
-        if( n <= 0 ) {
-            return true;
-        }
-
-        auto& utf8_fwrite = standard_streams::singleton().write_func_for( f );
-        const Size n_written = utf8_fwrite( &*s.begin(), n, f );
-        return n_written == n;
-    }
-
-    inline auto output( const string_view& s )
-        -> Truth
-    { return output_to( stdout, s ); }
-
-    inline auto output_error_message( const string_view& s )
-        -> Truth
-    {
-        const Truth success = output_to( stderr, s );
-        if( success ) {
-            flush( stderr );
-        }
-        return success;
-    }
-
-    inline auto any_input_from( const C_file_ptr f )
+    inline auto input_or_eof()
         -> optional<string>
-    {
-        auto& utf8_fgetc = standard_streams::singleton().read_byte_func_for( f );
-
-        string  line;
-        int     code;
-        while( (code = utf8_fgetc( f )) != EOF and code != '\n' ) {
-            line += char( code );
-        }
-        hopefully( not ::ferror( f ) )
-            or KS_FAIL( "::fgetc failed" );
-        if( code == EOF and line.empty() ) {
-            return {};
-        }
-        return line;
-    }
-
-    inline auto input_from( const C_file_ptr f )
-        -> string
-    {
-        optional<string> input = any_input_from( f );
-        hopefully( input.has_value() )
-            or KS_FAIL_( End_of_file_exception, "At end of file." );
-        return move( input.value() );
-    }
-
-    inline auto any_input()
-        -> optional<string>
-    { return any_input_from( stdin ); }
+    { return the_c_tty_streams().in.input_or_eof(); }
 
     inline auto input()
         -> string
-    { return input_from( stdin ); }
+    { return the_c_tty_streams().in.input(); }
+
+    inline void output( const string_view& s )
+    {
+        the_c_tty_streams().out.output( s );
+    }
+
+    inline void output_error_message( const string_view& s )
+    {
+        auto& err_stream = the_c_tty_streams().err;
+        err_stream.output( s );
+        err_stream.flush();
+    }
 
     inline auto input( const string_view& prompt )
         -> string
@@ -128,15 +75,11 @@ namespace kickstart::utf8_io::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::End_of_file_exception,
-        d::flush,
-        d::output_to,
+        d::End_of_file_exception,       // Re-exported here for convenience.
+        d::input_or_eof,
+        d::input,
         d::output,
-        d::output_error_message,
-        d::any_input_from,
-        d::input_from,
-        d::any_input,
-        d::input;
+        d::output_error_message;
     }  // namespace exported names
 }  // namespace kickstart::utf8_io::_definitions
 

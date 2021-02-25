@@ -41,19 +41,22 @@ namespace kickstart::c_files::_definitions {
         Wrapped_c_file( const Self& ) = delete;
         auto operator=( const Self& ) -> Self& = delete;
 
-        C_file          m_c_file;
+        C_file  m_c_file;
 
     protected:
-        ~Wrapped_c_file()
+        ~Wrapped_c_file() noexcept
         {
+            // The `m_c_file` can be set to 0 by the `release` method.
             if( m_c_file ) { ::fclose( m_c_file ); }
         }
 
-        Wrapped_c_file( const C_file f ):
+        Wrapped_c_file( const C_file f ) noexcept:
             m_c_file( f )
-        {}
+        {
+            assert( m_c_file != nullptr );
+        }
 
-        Wrapped_c_file( Self&& other ):
+        Wrapped_c_file( Self&& other ) noexcept:
             m_c_file( exchange( other.m_c_file, {} ) )
         {}
 
@@ -69,12 +72,16 @@ namespace kickstart::c_files::_definitions {
             return *this;
         }
 
-        auto c_file() const
+        auto c_file() const noexcept
             -> C_file
         { return m_c_file; }
 
+        auto release() noexcept
+            -> C_file
+        { return exchange( m_c_file, nullptr ); }
+
     public:
-        auto in_failstate() const
+        auto in_failstate() const noexcept
             -> Truth
         { return !!::ferror( c_file() ); }
     };

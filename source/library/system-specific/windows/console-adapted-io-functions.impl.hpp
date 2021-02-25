@@ -48,13 +48,13 @@ namespace kickstart::system_specific::_definitions {
         return !!winapi::GetConsoleMode( winapi::HANDLE( handle ), &mode );
     }
 
+    inline auto raw_input_or_eof_from_console( const C_file )
+        -> optional<string>
+    { return Windows_console::instance().input_or_eof(); }
+
     inline void raw_output_to_console( const C_file, const string_view& s )
     {
         Windows_console::instance().write_bytes( s );
     }
-
-    inline auto raw_input_from_console( const C_file )
-        -> string
-    { return Windows_console::instance().input(); }
 
 }  // namespace kickstart::system_specific::_definitions

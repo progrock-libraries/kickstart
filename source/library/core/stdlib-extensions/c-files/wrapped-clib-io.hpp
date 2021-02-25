@@ -27,6 +27,7 @@
 #include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #include <kickstart/core/language/Truth.hpp>
 
+#include <optional>
 #include <string>
 #include <string_view>
 
@@ -35,18 +36,12 @@ namespace kickstart::c_files::_definitions {
     using namespace failure_handling;
     using namespace language;           // Truth etc.
 
-    using   std::string,
+    using   std::optional,
+            std::string,
             std::string_view;
 
-    inline void clib_output_to( const C_file f, const string_view& s )
-    {
-        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
-        hopefully( n_bytes_written == s.size() )
-            or KS_FAIL( "::fwrite failed" );
-    }
-
-    inline auto clib_input_from( const C_file f )
-        -> string
+    inline auto clib_input_or_eof_from( const C_file f )
+        -> optional<string>
     {
         string  line;
         int     code;
@@ -56,16 +51,24 @@ namespace kickstart::c_files::_definitions {
         while( (code = fgetc( f )) != EOF and code != '\n' ) {
             line += char( code );
         }
+        // NO check of error here in order to allow a partial read to succeed.
         const Truth eof = (line.empty() and code == EOF);
-        hopefully( not eof )
-            or KS_FAIL_( End_of_file_exception, "Logical end-of-file encountered" );
+        if( eof ) { return {}; }
         return line;
+    }
+
+    inline void clib_output_to( const C_file f, const string_view& s )
+    {
+        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
+        hopefully( n_bytes_written == s.size() )
+            or KS_FAIL( "::fwrite failed" );
     }
 
     namespace d = _definitions;
     namespace exports{ using
         d::C_file,
-        d::clib_output_to, d::clib_input_from;
+        d::clib_input_or_eof_from,
+        d::clib_output_to;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 

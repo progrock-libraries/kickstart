@@ -37,7 +37,6 @@ namespace kickstart::faux_iostreams::_definitions {
         -> Faux_cout_stream
     {
         output( "\n" );
-        flush();
         return {};
     }
 

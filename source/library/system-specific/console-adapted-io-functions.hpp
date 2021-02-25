@@ -30,48 +30,50 @@
 #   include <kickstart/core/language/Truth.hpp>
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
+#   include <optional>
 #   include <string>
 #   include <string_view>
     namespace kickstart::system_specific::_definitions {
         using namespace c_files;
         using namespace language;
-        using std::string, std::string_view;
+        using std::optional, std::string, std::string_view;
 
         inline auto is_console( const C_file f )
             -> Truth
         { return !!::isatty( fileno( f ) ); }
 
+        inline auto raw_input_or_eof_from_console( const C_file f )
+            -> optional<string>
+        { return clib_input_or_eof_from( f ); }
+
         inline void raw_output_to_console( const C_file f, const string_view& s )
         {
             clib_output_to( f, s );
         }
-
-        inline auto raw_input_from_console( const C_file f )
-            -> string
-        { return clib_input_from( f ); }
     }  // namespace kickstart::system_specific::_definitions
 #else
 #   include <kickstart/core/stdlib-extensions/c-files.hpp>
 #   include <kickstart/core/language/Truth.hpp>
+#   include <optional>
 #   include <string>
 #   include <string_view>
-namespace kickstart::system_specific::_definitions {
+    namespace kickstart::system_specific::_definitions {
         using namespace c_files;
         using namespace language;
-        using std::string, std::string_view;
+        using std::optional, std::string, std::string_view;
 
         inline auto is_console( const C_file )
             -> Truth
         { return false; }
 
+        inline auto raw_input_or_eof_from_console( const C_file f )
+            -> optional<string>
+        { return clib_input_or_eof_from( f ); }
+
         inline void raw_output_to_console( const C_file f, const string_view& s )
         {
             clib_output_to( f, s );
         }
-
-        inline auto raw_input_from_console( const C_file f )
-            -> string
-        { return clib_input_from( f ); }
     }  // namespace kickstart::system_specific::_definitions
 #endif
 
