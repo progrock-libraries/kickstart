@@ -26,7 +26,7 @@
 #if defined( KS_OS_IS_WIN64 )
 #   include <kickstart/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
-#   include <kickstart/core/stdlib-extensions/c-files.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
 #   include <kickstart/core/language/Truth.hpp>
 #   include <unistd.h>      // isatty
 #   include <stdio.h>       // fileno
@@ -52,7 +52,7 @@
         }
     }  // namespace kickstart::system_specific::_definitions
 #else
-#   include <kickstart/core/stdlib-extensions/c-files.hpp>
+#   include <kickstart/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
 #   include <kickstart/core/language/Truth.hpp>
 #   include <optional>
 #   include <string>

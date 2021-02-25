@@ -30,6 +30,7 @@
 
 #include <stdio.h>          // stdin, stdout, stdcerr, ...
 
+#include <optional>
 #include <stdexcept>
 #include <optional>
 #include <string>
@@ -40,7 +41,8 @@ namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::language;            // Truth, Size etc.
     using namespace kickstart::utf8_io;
 
-    using   std::runtime_error,
+    using   std::optional,
+            std::runtime_error,
             std::optional,
             std::string,
             std::string_view;
@@ -56,6 +58,14 @@ namespace kickstart::utf8_io::_definitions {
     inline void output( const string_view& s )
     {
         the_c_tty_streams().std_out.output( s );
+    }
+
+    template< class String_value >
+    inline void output( const optional<String_value>& s )
+    {
+        if( s.has_value() ) {
+            output( string_view( s.value() ) );
+        }
     }
 
     inline void output_error_message( const string_view& s )

@@ -1,28 +1,16 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-auto& read_line = clib_input_or_eof_from;   // Like a functional `std::getline`.
-
 void cppmain()
 {
-    const auto open_for_reading = []( const fsx::Path& path )
-        -> C_file
-    {
-        if( const optional<C_file> of = fsx::open_c_file( path, "r" ) ) {
-            return of.value();
-        }
-        fail_app( "Unable to open “"s << path.to_string() << "” for reading." );
-        unreachable();
-    };
-
     const auto&     filename    = "π.txt";
-    const auto      path        = fsx::path_of_exe_directory() / filename;
-    const C_file    f           = open_for_reading( path );
-
-    while( const optional<string> line = read_line( f ) ) {
-        out << line.value() << "\n";
+    const fsx::Path path        = fsx::path_of_exe_relative( filename );
+    
+    auto reader = Text_reader( path );
+    while( const optional<string> line = reader.input_or_eof() ) {
+        out << line << "\n";
     }
-    hopefully( !!::feof( f ) )
+    hopefully( reader.has_passed_eof() )
         or fail_app( "Reading from “"s << filename << "” failed." );
 }
 

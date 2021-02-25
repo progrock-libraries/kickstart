@@ -207,9 +207,9 @@ namespace kickstart::fsx::_definitions {
         -> Path
     { return Path::from_fspath( fspath_of_exe_directory() ); }
 
-    inline auto full_path_of_exe_relative( const Path& p )
+    inline auto path_of_exe_relative( const Path& p )
         -> Path
-    { return Path::from_fspath( full_fspath_of_exe_relative( p.fspath() ) ); }
+    { return Path::from_fspath( fspath_of_exe_relative( p.fspath() ) ); }
 
     inline auto open_c_file( const Path& p, const C_str_ref mode )
         -> optional<C_file>
@@ -223,7 +223,7 @@ namespace kickstart::fsx::_definitions {
         d::path_from_u8,
         d::path_of_executable,
         d::path_of_exe_directory,
-        d::full_path_of_exe_relative,
+        d::path_of_exe_relative,
         d::open_c_file,
         d::swap,
         d::hash_value,

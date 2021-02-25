@@ -25,6 +25,7 @@
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>     // C_str
 
+#include <optional>
 #include <sstream>
 #include <string>
 #include <string_view>
@@ -32,7 +33,8 @@
 
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::language;                // Truth, C_str etc.
-    using   std::ostringstream,
+    using   std::optional,
+            std::ostringstream,
             std::string,
             std::string_view,
             std::is_convertible_v;
@@ -123,9 +125,14 @@ namespace kickstart::text_conversion::_definitions {
     }  // namespace impl
 
     template< class T >
-    inline auto str( T const& value )
+    inline auto str( const T& value )
         -> string
     { return string( impl::as_string_append_argument( value ) ); }
+
+    template< class T >
+    inline auto str( const optional<T>& o )
+        -> string
+    { return (o.has_value()? string( impl::as_string_append_argument( o.value() ) ) : ""); }
 
     template< class T >
     inline auto operator<<( string& s, T const& value )
