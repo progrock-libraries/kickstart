@@ -34,10 +34,6 @@
 #include <string_view>
 #include <utility>
 
-namespace tag {
-    using From_fspath = struct From_fspath_struct*;
-}  // namespace tag
-
 namespace kickstart::fsx::_definitions {
     using namespace kickstart::language;            // Truth, C_str
     using namespace kickstart::failure_handling;    // unreachable
@@ -66,6 +62,10 @@ namespace kickstart::fsx::_definitions {
             Path( const u8string_view& s ): m_value( s ) {}
         #endif
 
+        Path( fs::path p ) noexcept:
+            m_value( move( p ) )
+        {}
+
         Path( const Path& other ):
             m_value( other.m_value )
         {}
@@ -73,14 +73,6 @@ namespace kickstart::fsx::_definitions {
         Path( Path&& other ) noexcept:
             m_value( move( other.m_value ) )
         {}
-
-        Path( tag::From_fspath, fs::path p ) noexcept:
-            m_value( move( p ) )
-        {}
-
-        static auto from_fspath( fs::path p )
-            -> Path
-        { return Path( tag::From_fspath(), move( p ) ); }
 
         auto fspath() -> fs::path& { return m_value; }
         auto fspath() const -> const fs::path& { return m_value; }
@@ -132,14 +124,14 @@ namespace kickstart::fsx::_definitions {
         auto has_filename_mainpart() const  -> Truth    { return m_value.has_stem(); }                  // ¤
         auto has_filename_extension() const -> Truth    { return m_value.has_extension(); }             // ¤
 
-        auto root_name() const              -> Path     { return from_fspath( m_value.root_name() ); }
-        auto root_directory() const         -> Path     { return from_fspath( m_value.root_directory() ); }
-        auto root_path() const              -> Path     { return from_fspath( m_value.root_path() ); }
-        auto relative_path() const          -> Path     { return from_fspath( m_value.relative_path() ); }
-        auto parent_path() const            -> Path     { return from_fspath( m_value.parent_path() ); }
-        auto filename() const               -> Path     { return from_fspath( m_value.filename() ); }
-        auto filename_mainpart() const      -> Path     { return from_fspath( m_value.stem() ); }       // ¤
-        auto filename_extension() const     -> Path     { return from_fspath( m_value.extension() ); }  // ¤
+        auto root_name() const              -> Path     { return Path( m_value.root_name() ); }
+        auto root_directory() const         -> Path     { return Path( m_value.root_directory() ); }
+        auto root_path() const              -> Path     { return Path( m_value.root_path() ); }
+        auto relative_path() const          -> Path     { return Path( m_value.relative_path() ); }
+        auto parent_path() const            -> Path     { return Path( m_value.parent_path() ); }
+        auto filename() const               -> Path     { return Path( m_value.filename() ); }
+        auto filename_mainpart() const      -> Path     { return Path( m_value.stem() ); }              // ¤
+        auto filename_extension() const     -> Path     { return Path( m_value.extension() ); }         // ¤
 
         auto is_absolute() const            -> Truth    { return m_value.is_absolute(); }
         auto is_relative() const            -> Truth    { return m_value.is_relative(); }
@@ -160,7 +152,7 @@ namespace kickstart::fsx::_definitions {
         friend
         auto operator/( const Path& lhs, const Path& rhs )
             -> Path
-        { return from_fspath( lhs.m_value / rhs.m_value ); }
+        { return Path( lhs.m_value / rhs.m_value ); }
     };
 
     inline void swap( Path& a, Path& b ) noexcept
@@ -202,19 +194,19 @@ namespace kickstart::fsx::_definitions {
 
     inline auto path_from_u8( const string_view& s )
         -> Path
-    { return Path::from_fspath( fspath_from_u8( s ) ); }
+    { return Path( fspath_from_u8( s ) ); }
 
     inline auto path_of_executable()
         -> Path
-    { return Path::from_fspath( fspath_of_executable() ); }
+    { return Path( fspath_of_executable() ); }
 
     inline auto path_of_exe_directory()
         -> Path
-    { return Path::from_fspath( fspath_of_exe_directory() ); }
+    { return Path( fspath_of_exe_directory() ); }
 
     inline auto path_of_exe_relative( const Path& p )
         -> Path
-    { return Path::from_fspath( fspath_of_exe_relative( p.fspath() ) ); }
+    { return Path( fspath_of_exe_relative( p.fspath() ) ); }
 
     inline auto open_c_file( const Path& p, const C_str_ref mode )
         -> optional<C_file>
