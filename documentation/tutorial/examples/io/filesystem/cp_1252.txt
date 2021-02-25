@@ -1,0 +1,2 @@
+This is some text encoded with Windows ANSI Western (Windows codepage 1252).
+Did you know that blueberry jam in Norwegian is “blåbærsyltetøy”? Yes? No!?!
