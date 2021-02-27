@@ -55,14 +55,15 @@
 
 #include <stdlib.h>     // ::system
 
-#ifdef _WIN32
+#include <kickstart/system-specific/os-detection.hpp>
+#ifdef KS_OS_IS_WIN64
 #   include "system-specific/windows/api/consoles.hpp"          // GetConsoleProcessList
 #endif
 
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
     using kickstart::language::Truth;
 
-    #if defined( _WIN32 )
+    #if defined( KS_OS_IS_WIN64 )
         inline const auto& pause_command = "pause";
 
         inline auto is_console_owner()
@@ -72,7 +73,7 @@ namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
             winapi::DWORD dummy;
             return (winapi::GetConsoleProcessList( &dummy, 1 ) == 1);
         }
-    #elif defined( __unix__ )
+    #elif defined( KS_OS_IS_UNIX )
         inline const auto& pause_command =
             "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy";
 

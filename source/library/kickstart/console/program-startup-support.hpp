@@ -22,7 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifdef _WIN32
+#include <kickstart/system-specific/os-detection.hpp>
+#ifdef KS_OS_IS_WIN64
 #   include <kickstart/system-specific/windows/api/consoles.hpp>        // GetACP
 #endif
 
@@ -33,6 +34,7 @@
 #include <kickstart/core/text-encoding/ascii/string-util.hpp>   // is_all_ascii
 #include <kickstart/core/utf8-io/io.hpp>                        // output_error_message
 #include <kickstart/core/process/Commandline.hpp>               // Commandline
+#include <kickstart/system-specific/os-detection.hpp>
 
 #include <assert.h>         // assert
 #include <stdlib.h>         // EXIT_..., strtod
@@ -63,13 +65,13 @@ namespace kickstart::console_startup::_definitions {
         const Truth                         override_os_cmdline = false
         )
     {
-        #if defined( _WIN32 )
-            const Truth is_windows = true;
+        #if defined( KS_OS_IS_WIN64 )
+            const Truth is_win64 = true;
         #else
-            const Truth is_windows = false;
+            const Truth is_win64 = false;
         #endif
 
-        if( override_os_cmdline or not is_windows ) {
+        if( override_os_cmdline or not is_win64 ) {
             process::Commandline::create_singleton( n_cmd_parts, cmd_parts );
         } else {
             process::Commandline::singleton();  // Ensure singleton creation anyway.

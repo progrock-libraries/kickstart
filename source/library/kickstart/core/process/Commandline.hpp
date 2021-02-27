@@ -27,7 +27,9 @@
 #include <kickstart/core/language/type-aliases.hpp>                 // C_str
 #include <kickstart/core/text-encoding/ascii/character-util.hpp>
 #include <kickstart/system-specific/get_commandline_data.hpp>       // get_command_line_data
-#ifdef _WIN32
+#include <kickstart/system-specific/os-detection.hpp>
+
+#ifdef KS_OS_IS_WIN64
 #   include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 #endif
 
@@ -63,7 +65,7 @@ namespace kickstart::process::_definitions {
     {
         assert( n_parts > 0 );
         assert( parts != nullptr );
-        #ifdef _WIN32
+        #ifdef KS_OS_IS_WIN64
         {
             for( int i = 0; i < n_parts; ++i ) {
                 hopefully( system_specific::is_valid_utf8( parts[i] ) )
@@ -120,9 +122,9 @@ namespace kickstart::process::_definitions {
         {
             init_c_strings();
             if( not fulltext_spec ) {
-                #if defined( _WIN32 )
+                #if defined( KS_OS_IS_WIN64 )
                     const char escape = '^';
-                #elif defined( __unix__ )
+                #elif defined( KS_OS_IS_UNIX )
                     const char escape = '\\';
                 #else
                     const char escape = '\0';

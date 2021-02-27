@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#ifndef __unix__
+#ifndef KS_OS_IS_UNIX
 #   error "This header is for Unix systems only."
 #   include <nosuch>
 #endif

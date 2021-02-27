@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#ifndef _WIN64
+#ifndef KS_OS_IS_WIN64
 #   error "This header is for 64-bit Windows systems only."
 #   include <nosuch>
 #endif
