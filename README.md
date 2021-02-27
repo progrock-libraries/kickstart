@@ -4,7 +4,7 @@ Small exercises should be as simple in C++ as in Python.
 
 Well that's impossible but this **C++ 17 header library** can help.
 
-There’s a separate “Hello, world!”-document with [detailed installation instructions](source/examples/hello-world.md), and there’s also a Work In Progress&trade; [tutorial](documentation/tutorial/_.index.md).
+There’s a separate “Hello, world!”-document with [detailed installation instructions](source/examples/hello-world.md), and there’s also a Work In Progress&trade; [tutorial](documentation/tutorial/main.md).
 
 ## ***Example usage:***
 
