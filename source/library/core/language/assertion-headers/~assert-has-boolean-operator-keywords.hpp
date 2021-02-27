@@ -22,7 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if defined( _MSC_VER ) && !defined( KS_ASSUME_BOOLEAN_OPERATOR_NAMES_PLEASE )
+#if defined( __clang__ )
+# // Need to exclude clang explicitly because it pretends to be both Visual C++ and g++.
+#elif defined( _MSC_VER ) && !defined( KS_ASSUME_BOOLEAN_OPERATOR_NAMES_PLEASE )
 #   ifndef and
         static_assert( false,
             "Requires standard boolean keywords like `and`. For MSVC use e.g."
