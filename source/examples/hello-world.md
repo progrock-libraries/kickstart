@@ -21,15 +21,15 @@ A simple way to download is to **download** the library ZIP archive file from Gi
 
 ## 2. Make the compiler find `<kickstart/all.hpp>`.
 
-If you downloaded a ZIP and unzipped, then in the unzipped library the root of the header folder hierarchy is “kickstart-master/source/library”.
+If you downloaded a ZIP and unzipped, then in the unzipped library the root of the header folder hierarchy is “kickstart-master/source/library/kickstart”.
 
 At least, that’s how it appeared to me when I tested downloading and unzipping just now.
 
-I.e. there is a “kickstart-master/source/library/all.hpp” header, which is the one that you want the compiler to find as `<kickstart/all.hpp>`.
+I.e. there is a “kickstart-master/source/library/kickstart/all.hpp” header, which is the one that you want the compiler to find as `<kickstart/all.hpp>`.
 
 A simple way is to
 
-* **copy** the “kickstart-master/source/library” folder from the unzipped archive, to a folder that your compiler searches for headers, and **rename** the folder copy from “library” to “kickstart”.
+* **copy** the “kickstart-master/source/library/kickstart” folder from the unzipped archive, to a folder that your compiler searches for headers.
 
 For example, in Ubuntu it worked nicely to place the new “kickstart” folder in
 ~~~pre
@@ -50,7 +50,7 @@ H:\installed\mingw\nuwen\MinGW 9-2\include
 C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\VC\Tools\MSVC\14.27.29110\include
 ~~~
 
-Making the compiler find `<kickstart/all.hpp>` can also be done in more advanced ways. For example, in Windows I have a common “include” folder that I’ve configured both the MinGW g++ and Visual C++ compilers to search for headers, and in that common “include” folder I have a folder junction (a Windows thing sort of like a symbolic link) called “kickstart” that refers to my “kickstart-1/source/library” folder somewhere else on the disk. I use a junction out of old habit, and because unlike a symbolic link it can be created with the `mklink` command without setting up Windows developer mode or configuring user privileges.
+Making the compiler find `<kickstart/all.hpp>` can also be done in more advanced ways. For example, you can explicitly tell the compiler to look at the right place in the download file tree (e.g. g++/clang option `-I` or Visual C++ option `/I`) Or, fof example, in Windows I have a common “include” folder that I’ve configured both the MinGW g++ and Visual C++ compilers to search for headers, and in that common “include” folder I have a folder junction (a Windows thing sort of like a symbolic link) called “kickstart” that refers to my “kickstart-1/source/library/kickstart” folder somewhere else on the disk. I use a junction out of old habit, and because unlike a symbolic link it can be created with the `mklink` command without setting up Windows developer mode or configuring user privileges.
 
 ## 3. Test: compile and run the Kickstart “Hello, world!” example.
 
