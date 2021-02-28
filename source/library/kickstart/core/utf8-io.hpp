@@ -25,4 +25,5 @@
 #include <kickstart/core/text-encoding/utf8/execution-character-set-checking.hpp>
 
 #include <kickstart/core/utf8-io/io.hpp>
+#include <kickstart/core/utf8-io/temporary-c-tty-stream-wrappings.hpp>
 #include <kickstart/core/utf8-io/wrapped-c-tty-streams.hpp>

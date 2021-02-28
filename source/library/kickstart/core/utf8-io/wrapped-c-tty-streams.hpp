@@ -117,47 +117,11 @@ namespace kickstart::utf8_io::_definitions {
         return the_streams;
     }
 
-    class Temporary_c_tty_input_stream_wrapping:
-        public C_tty_input_stream
-    {
-    public:
-        ~Temporary_c_tty_input_stream_wrapping() { release(); }
-        Temporary_c_tty_input_stream_wrapping( const C_file f ): C_tty_input_stream( f ) {}
-        auto ref() -> C_tty_input_stream& { return *this; }
-    };
-
-    class Temporary_c_tty_output_stream_wrapping:
-        public C_tty_output_stream
-    {
-    public:
-        ~Temporary_c_tty_output_stream_wrapping() { release(); }
-        Temporary_c_tty_output_stream_wrapping( const C_file f ): C_tty_output_stream( f ) {}
-        auto ref() -> C_tty_output_stream& { return *this; }
-    };
-
-    inline auto tty_stream_input_or_eof_from( const C_file f )
-        -> optional<string>
-    { return Temporary_c_tty_input_stream_wrapping( f ).input_or_eof(); }
-
-    inline auto tty_stream_input_from( const C_file f )
-        -> string
-    { return Temporary_c_tty_input_stream_wrapping( f ).input(); }
-
-    inline void tty_stream_output_to( const C_file f, const string_view& s )
-    {
-        Temporary_c_tty_output_stream_wrapping( f ).output( s );
-    }
-
     namespace d = _definitions;
     namespace exports{ using
         d::C_tty_input_stream,
         d::C_tty_output_stream,
-        d::the_c_tty_streams,
-        d::Temporary_c_tty_output_stream_wrapping,
-        d::Temporary_c_tty_input_stream_wrapping,
-        d::tty_stream_input_or_eof_from,
-        d::tty_stream_input_from,
-        d::tty_stream_output_to;
+        d::the_c_tty_streams;
     }  // exports
 }  // namespace kickstart::utf8_io::_definitions
 
