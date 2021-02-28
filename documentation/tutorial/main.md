@@ -703,6 +703,6 @@ These functions work as follows:
 * In Linux the executable’s path is obtained by reading the “/proc/self/exe” symlink.
 * In Unix in general the executable’s path is obtained by scanning the `lsof` command’s output, for ease of implementation via an `awk` single-line script instead of C++ code.
 
-When the executable’s directory path has been determined the first time it’s cached, so subsequent use of that directory path should be super-fast.
+When the executable’s directory path has been determined the first time, it’s cached, so subsequent use of that directory path should be super-fast.
 
 Note: for Unix in general the `lsof` program, which lists open files by inspecting Unix-variant-specific kernel data, must be installed, but this is not necessary for Linux or Windows.
