@@ -159,7 +159,7 @@ Output:
 
 To people unfamiliar with Windows programming, functionality that just *outputs the specified text* may not seem so impressive, but code that directly uses `printf` or the `std::cout` stream in Windows will instead by default produce gobbledygook like [“Dear world, Bj├©rn H├Ñvard S├ªther says hello!”](details/output_of_international_text_in_Windows.md).
 
-Note: To display emojis like 😃 correctly in Windows you will generally have to use a terminal emulator like [**Microsoft Terminal**](https://github.com/microsoft/terminal). Windows console windows only support a very limited set of general symbols, essentially those from the original IBM PC’s character set, like <big>`☺`</big>. Kickstart defines [names for these symbols](../../source/library/console/portable_dingbats.hpp#L36) if you want to use them, e.g. `kickstart::portable_dingbats::smiley`.
+Note: To display emojis like 😃 correctly in Windows you will generally have to use a terminal emulator like [**Microsoft Terminal**](https://github.com/microsoft/terminal). Windows console windows only support a very limited set of general symbols, essentially those from the original IBM PC’s character set, like <big>`☺`</big>. Kickstart defines [names for these symbols](../../source/library/kickstart/console/portable_dingbats.hpp#L36) if you want to use them, e.g. `kickstart::portable_dingbats::smiley`.
 
 ### **3.2. Input text with non-English letters like Norwegian ÆØÅ.**
 
@@ -191,7 +191,7 @@ The above result was obtained in a classic Windows console, showing that Kicksta
 
 ---
 
-The code also shows that the `kickstart::all` namespace brings in some select often used identifiers from the standard library, here `string`. [The complete list](../../source/library/core/language/stdlib-includes/basics.hpp#L36) is very short: *`array`*, *`begin`*, *`end`*, *`size`*, *`ssize`*, *`string`*, *`string_view`*, *`vector`*, *`function`*, *`optional`*, *`exchange`*, *`forward`*, *`move`*, and *`pair`*. The `endl` identifier used above is however not the one from the standard library.
+The code also shows that the `kickstart::all` namespace brings in some select often used identifiers from the standard library, here `string`. [The complete list](../../source/library/kickstart/core/language/stdlib-includes/basics.hpp#L36) is very short: *`array`*, *`begin`*, *`end`*, *`size`*, *`ssize`*, *`string`*, *`string_view`*, *`vector`*, *`function`*, *`optional`*, *`exchange`*, *`forward`*, *`move`*, and *`pair`*. The `endl` identifier used above is however not the one from the standard library.
 
 ---
 
@@ -288,7 +288,7 @@ However, this is accomplished internally by trying to interpret the string as a 
 
 The Kickstart `out` stream is  a *very* shallow wrapper over a function called `output`. It just passes the `<<` arguments to that function. There is nothing like the standard library iostreams formatting, nothing like e.g. `std::setw`.
 
-Instead, where you want to e.g. place some ASCII output right-adjusted in a field *n* characters wide, you just use the [**`ascii::at_right_in`**](../../source/library/core/text-encoding-ascii/string-util.hpp#L81) function. The “ASCII” is not really a restriction to ASCII characters, but just that each `char` value in the string should produce one character cell in the console. However, with UTF-8 encoding all non-ASCII characters use two or more `char` values, so using only ASCII text (like numbers) is a way to get a perfect result. There’s also a corresponding `at_left_in` function, of course. These functions take the field width *n* as an `int` 1ˢᵗ parameter, and the something to be displayed as a `std::string_view` 2ⁿᵈ parameter.
+Instead, where you want to e.g. place some ASCII output right-adjusted in a field *n* characters wide, you just use the [**`ascii::at_right_in`**](../../source/library/kickstart/core/text-encoding-ascii/string-util.hpp#L81) function. The “ASCII” is not really a restriction to ASCII characters, but just that each `char` value in the string should produce one character cell in the console. However, with UTF-8 encoding all non-ASCII characters use two or more `char` values, so using only ASCII text (like numbers) is a way to get a perfect result. There’s also a corresponding `at_left_in` function, of course. These functions take the field width *n* as an `int` 1ˢᵗ parameter, and the something to be displayed as a `std::string_view` 2ⁿᵈ parameter.
 
  You can pass a `std::string` directly as argument to second parameter. And one way to get a string from e.g. an `int` value, is to use the Kickstart `str` function (or you could use e.g. `std::to_string`). It can go like this:
 
@@ -360,7 +360,7 @@ Result:
          3.14159e+12  3141592653589.7930          3.1416e+12
 ~~~
 
-Here [`math::pi`](https://github.com/alf-p-steinbach/kickstart/blob/4c82e9565471102008732a80ec93ba85f5ec5aee/source/library/core/language/stdlib-extensions/math.hpp#L42) is a constant defined by Kickstart. C++20 defines [`std::numbers::pi`](https://en.cppreference.com/w/cpp/numeric/constants), but for C++17 and earlier one had to make do with the Posix standard’s macro [`M_PI`](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/math.h.html). Usually one would just define the π constant in DIY fashion.
+Here [`math::pi`](https://github.com/alf-p-steinbach/kickstart/blob/4c82e9565471102008732a80ec93ba85f5ec5aee/source/library/kickstart/core/language/stdlib-extensions/math.hpp#L42) is a constant defined by Kickstart. C++20 defines [`std::numbers::pi`](https://en.cppreference.com/w/cpp/numeric/constants), but for C++17 and earlier one had to make do with the Posix standard’s macro [`M_PI`](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/math.h.html). Usually one would just define the π constant in DIY fashion.
 
 Note: `double` represents a limited number of digits of a value. When you try to present more digits you’ll generally get arbitrary nonsense. Thus, the last fixed point value `3141592653589.7930` is not entirely correct in the last digit; the mathematically correct rounded value would be `3141592653589.7932` (the digit sequence continues `3846`…).
 
@@ -539,9 +539,9 @@ auto main( int n_cmd_parts, char** cmd_parts )
 { return with_exceptions_displayed( cppmain, n_cmd_parts, cmd_parts ); }
 ~~~
 
-The [**`.c_strings()`**](../../source/library/core/process/Commandline.hpp#L178) member function of the Kickstart command line singleton produces an `Array_span_<const C_str>`. An [**`Array_span_`**](../../source/library/core/collection-util/Array_span_.hpp#L70)  is essentially a pair of pointers into an array, representing a contiguous part of that array, a “[span](https://en.cppreference.com/w/cpp/container/span)”. The array item type [**`C_str`**](../../source/library/core/language/type-aliases.hpp#L51) is just an alias for `const char*`, but the name implies a zero-terminated string.
+The [**`.c_strings()`**](../../source/library/kickstart/core/process/Commandline.hpp#L178) member function of the Kickstart command line singleton produces an `Array_span_<const C_str>`. An [**`Array_span_`**](../../source/library/kickstart/core/collection-util/Array_span_.hpp#L70)  is essentially a pair of pointers into an array, representing a contiguous part of that array, a “[span](https://en.cppreference.com/w/cpp/container/span)”. The array item type [**`C_str`**](../../source/library/kickstart/core/language/type-aliases.hpp#L51) is just an alias for `const char*`, but the name implies a zero-terminated string.
 
- [**`int_size`**](../../source/library/core/collection-util/collection-sizes.hpp#L36) is a general convenience function for collection classes, which avoids a `static_cast<int>` of the size, and [**`begin_ptr_of`**](../../source/library/core/collection-util/collection-pointers.hpp#L31) is likewise just a convenience function, that returns a pointer to the first item.
+ [**`int_size`**](../../source/library/kickstart/core/collection-util/collection-sizes.hpp#L36) is a general convenience function for collection classes, which avoids a `static_cast<int>` of the size, and [**`begin_ptr_of`**](../../source/library/kickstart/core/collection-util/collection-pointers.hpp#L31) is likewise just a convenience function, that returns a pointer to the first item.
 
 Subtlety: the global reference `cmd`, used above to access the command line singleton, is obtained before the singleton has been initialized with the arguments of `main`. That works *by design*, as convenience functionality. You can obtain a reference to the singleton at any time.
 
@@ -584,7 +584,7 @@ I.e. you need exception handling in order to use “cxxopts” and many other C+
 
 ### **5.1 Display lines from a text file.**
 
-Reading a text file line by line is simple with the [**`Text_reader`**](../../source/library/core/stdlib-extensions/c-files/Text_reader.hpp) class, which uses a C `FILE*` internally:
+Reading a text file line by line is simple with the [**`Text_reader`**](../../source/library/kickstart/core/stdlib-extensions/c-files/Text_reader.hpp) class, which uses a C `FILE*` internally:
 
 *File ([io/text-file/display.cpp](examples/io/text-file/display.cpp)):*
 ~~~cpp
@@ -632,7 +632,7 @@ The  ratio of the circumference of a circle to the diameter is approximately
 
 In the above code:
 
-* The `Text_reader` constructor accepts an UTF-8 encoded path string, or a `std::filesystem::path` (the formal argument type is a Kickstart [**`fsx::Path`**](../../source/library/core/stdlib-extensions/filesystem/Path.hpp)).
+* The `Text_reader` constructor accepts an UTF-8 encoded path string, or a `std::filesystem::path` (the formal argument type is a Kickstart [**`fsx::Path`**](../../source/library/kickstart/core/stdlib-extensions/filesystem/Path.hpp)).
 * The **`.input_or_eof()`** method returns as much of a line as it manages to read. If that turns out to be nothing then it returns an empty `optional`. An attempted read when the `FILE*` is in error mode throws an exception.
 * The **`.has_passed_eof()`** method just directly calls [`::feof`](https://en.cppreference.com/w/c/io/feof) on the underlying `FILE*` stream.
 
