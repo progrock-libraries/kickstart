@@ -27,8 +27,8 @@
 #include <kickstart/core/language/type-aliases.hpp>                 // C_str
 #include <kickstart/core/text-encoding/ascii/character-util.hpp>
 #include <kickstart/system-specific/get_commandline_data.hpp>       // get_command_line_data
-#include <kickstart/system-specific/os-detection.hpp>
 
+#include <kickstart/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
 #   include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 #endif

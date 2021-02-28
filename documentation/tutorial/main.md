@@ -31,7 +31,7 @@ Kickstart is intended to ease the way for beginners in C++, and can shorten exam
 
 All you need to do is download and copy (or link), so that the compiler finds the `<kickstart/`&hellip;`>` headers. There is no need to compile the library on its own. All the library code is in headers that you just `#include`.
 
-Installation is described in more detail in [a separate document](../../source/examples/hello-world.md).
+Installation is described in more detail in [a separate document](../installation/main.md).
 
 Then after installation, to use Kickstart you need to use a compiler option that specifies at least ***C++17***. Also, the Kickstart i/o functionality requires that C++ strings are UTF-8 encoded, which they’re not by default with the 2019 version of Microsoft’s Visual C++ compiler, and the Kickstart code uses the alternate keywords `and`, `or` and `not`, which again are a problem with Visual C++. Recommended options to guide the compilers:
 

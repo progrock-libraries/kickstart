@@ -10,7 +10,7 @@ To install the library,
 
 A simple way to download is to **download** the library ZIP archive file from Github,
 
-![Github download menu](@images/sshot-1.annotated.640.png)
+![Github download menu](images/sshot-1.annotated.640.png)
 
 … and **unzip** that file. Windows File Explorer treats zip files much like folders, and “unzipping” then means copying the contents out to some real folder. In Windows’ right click menu for a ZIP file there is also a choice to “extract”, and that also means unzip.
 
@@ -56,7 +56,7 @@ Making the compiler find `<kickstart/all.hpp>` can also be done in more advanced
 
 Here’s a Kickstart “Hello, world!” program that should now compile:
 
-[[*examples/hello-world.cpp*](hello-world.cpp)]:
+[[*hello-world.cpp*](hello-world.cpp)]:
 ~~~cpp
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
