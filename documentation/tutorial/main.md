@@ -220,9 +220,9 @@ For example, in a Windows console window, when you respond to this program’s p
 &hellip; by pressing **Ctrl** + **Z** and then Enter, you get
 
 > Hi, what’s your name? ***^Z***  
-> !input_from - At end of file.
+> !input - At end of file.
 
-Here `input_from` is the function that `input` calls and that detected EOF.
+Here `input` is the function that detected EOF, but (digression to prevent misunderstanding) as it happens that’s *not* the top level freestanding `input` function directly used above. Function names in Kickstart exceptions are not qualified; they’re just the names picked up via the standard [`__func__`](https://en.cppreference.com/w/c/language/function_definition#func) pseudo-macro. However, later versions of Kickstart may provide more rich exception origin information, in particular a qualified function name.
 
 `with_exceptions_displayed` does not propagate the exception (if any), but just returns standard `EXIT_FAILURE` if there was an exception, and otherwise it returns standard `EXIT_SUCCESS`.
 
