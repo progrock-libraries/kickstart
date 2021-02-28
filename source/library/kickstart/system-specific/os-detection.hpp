@@ -45,3 +45,11 @@
 #   undef   __unix__
 #   define  __unix__
 #endif
+
+namespace kickstart::system_specific {
+    #ifdef KS_OS_IS_WINDOWS
+        constexpr bool os_is_windows    = true;
+    #else
+        constexpr bool os_is_windows    = false;
+    #endif
+}  // namespace kickstart::system_specific
