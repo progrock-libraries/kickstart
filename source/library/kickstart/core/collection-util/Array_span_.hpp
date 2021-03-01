@@ -69,7 +69,7 @@ namespace kickstart::collection_util::_definitions {
         {}
 
         template< class Array >
-        Array_span_( Array& a ):
+        Array_span_( Array&& a ):
             m_p_first( begin_ptr_of( a ) ),
             m_p_beyond( end_ptr_of( a ) )
         {}

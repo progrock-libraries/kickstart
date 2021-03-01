@@ -22,10 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>                   // begin_ptr_of, end_ptr_of
+#include <kickstart/core/collection-util.hpp>                   // begin_ptr_of, end_ptr_of, Array_span_
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>             // C_str
 #include <kickstart/core/stdlib-extensions/limits.hpp>          // largest_exact_integer_of_
+#include <kickstart/core/stdlib-extensions/strings.hpp>         // split_on_whitespace
 #include <kickstart/core/text-conversion/to-text.hpp>
 #include <kickstart/core/text-conversion/to-number-exceptions.hpp>
 #include <kickstart/core/text-encoding/ascii.hpp>
@@ -45,7 +46,10 @@ namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::language;                    // C_str
     using namespace kickstart::limits;                      // largest_exact_integer_of_
     using namespace kickstart::text_conversion::exception;  // Invalid_argument, Out_of_range, ...
+
     namespace ascii = kickstart::ascii;
+
+    using   kickstart::strings::split_on_whitespace;
     using   std::min, std::max,
             std::string,
             std::string_view,
@@ -59,7 +63,7 @@ namespace kickstart::text_conversion::_definitions {
         ) -> Number;
 
     template< class Number >
-    auto to_vector_( const vector<string_view> strings )
+    auto to_vector_( const Array_span_<const string_view>& strings )
         -> vector<Number>
     {
         vector<Number> result;
@@ -69,6 +73,11 @@ namespace kickstart::text_conversion::_definitions {
         }
         return result;
     }
+
+    template< class Number >
+    auto parts_to_vector_( const string_view& s )
+        -> vector<Number>
+    { return to_vector_<Number>( split_on_whitespace( s ) ); }
 
     // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
     inline auto wrapped_strtod( const C_str spec ) noexcept
@@ -206,6 +215,7 @@ namespace kickstart::text_conversion::_definitions {
         using
             d::to_,
             d::to_vector_,
+            d::parts_to_vector_,
             d::to_double,
             d::to_int;
     }  // namespace exported names
