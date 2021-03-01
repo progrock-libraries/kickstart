@@ -22,35 +22,45 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/math/calculator-functionality.hpp>   // intpow_
+#include <kickstart/core/language/Truth.hpp>
 
-#include <climits>      // For completeness.
-#include <float.h>      // DBL_MANT_DIG
-#include <limits.h>     // CHAR_BIT
+#include <stddef.h>         // size_t
 
-namespace kickstart::limits::_definitions {
-    using kickstart::math::intpow;
-
-    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
-
-    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
-    template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
-    template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
-    template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;
-
-    template< class Fp_type >
-    constexpr Fp_type largest_exact_integer_of_ =
-        intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) +
-        (intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
+#include <numeric>          // accumulate
 
 
-    //----------------------------------------------------------- @exported:
+// Important to not introduce possible future name conflicts with <math.h>.
+namespace kickstart::math::_definitions {
+    using   std::accumulate;
+
+    template< class C >
+    struct Collection_traits_
+    {
+        using Item = typename C::value_type;
+    };
+
+    template< class Array_item, size_t n >
+    struct Collection_traits_<Array_item[n]>
+    {
+        using Item = Array_item;
+    };
+
+    template< class C >
+    using Item_type_of_ = typename Collection_traits_<C>::Item;
+
+    template< class Collection, class Number = Item_type_of_<Collection> >
+    inline auto sum_of( const Collection& numbers )
+        -> Number
+    {
+        Number result = 0;
+        for( const Number x : numbers ) { result += x; }
+        return result;
+    }
+
     namespace d = _definitions;
-    namespace exported_names { using
-        d::bits_per_,
-        d::bits_per_mantissa_of_,
-        d::largest_exact_integer_of_;
-    }  // namespace exported names
-}  // namespace kickstart::limits::_definitions
+    namespace exports{ using
+        d::sum_of;
+    }  // namespace exports
+}  // namespace kickstart::math::_definitions
 
-namespace kickstart::limits         { using namespace _definitions::exported_names; }
+namespace kickstart::math   { using namespace _definitions::exports; }
