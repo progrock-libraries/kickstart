@@ -62,7 +62,7 @@ namespace kickstart::system_specific::_definitions {
         Commandline_data result;
         const auto npos = string_view::npos;
         for( const char ch: command_line ) {
-            if( "\\<>()&|,;\"\'"sv.find( ch ) != npos or is( ascii::space, ch ) ) {
+            if( "\\<>()&|,;\"\'"sv.find( ch ) != npos or is( ascii::whitespace, ch ) ) {
                 result.fulltext += '\\';
             }
             result.fulltext += (ch == '\0'? ' ' : ch);

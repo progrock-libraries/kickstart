@@ -55,10 +55,10 @@ namespace kickstart::ascii::_definitions {
         const char* p_first     = begin_ptr_of( s );
         const char* p_beyond    = end_ptr_of( s );
 
-        while( p_first != p_beyond and is( ascii::space, *p_first ) ) {
+        while( p_first != p_beyond and is( ascii::whitespace, *p_first ) ) {
             ++p_first;
         }
-        while( p_beyond != p_first and is( ascii::space, *(p_beyond - 1) ) ) {
+        while( p_beyond != p_first and is( ascii::whitespace, *(p_beyond - 1) ) ) {
             --p_beyond;
         }
 

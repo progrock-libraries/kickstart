@@ -22,9 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/collection-util.hpp>           // int_size, tail_of
-#include <kickstart/core/language/Truth.hpp>            // Truth
-#include <kickstart/core/language/type-aliases.hpp>     // C_str
+#include <kickstart/core/collection-util.hpp>                       // ssize, tail_of
+#include <kickstart/core/language/Truth.hpp>                        // Truth
+#include <kickstart/core/language/type-aliases.hpp>                 // C_str
+#include <kickstart/core/text-encoding/ascii/character-util.hpp>    // ascii::whitespace
 
 #include <initializer_list>
 #include <iterator>
@@ -34,7 +35,7 @@
 
 namespace kickstart::strings::_definitions {
     using namespace std::string_view_literals;      // ""sv
-    using namespace kickstart::collection_util;     // tail_of
+    using namespace kickstart::collection_util;     // tail_of, ssize
     using namespace kickstart::language;            // Truth, C_str
     using   std::initializer_list,
             std::begin, std::end,
@@ -120,6 +121,28 @@ namespace kickstart::strings::_definitions {
         return result;
     }
 
+    inline auto split_on_whitespace( const string_view& s )
+        -> vector<string_view>
+    {
+        vector<string_view> result;
+        const Size n = ssize( s );
+        Size i_begin = 0;
+        Size i_end = 0;
+        for( ;; ) {
+            while( i_begin < n and is( ascii::whitespace, s[i_begin] ) ) {
+                ++i_begin;
+            }
+            if( i_begin == n ) { break; }
+            i_end = i_begin + 1;
+            while( i_end < n and not is( ascii::whitespace, s[i_end] ) ) {
+                ++i_end;
+            }
+            result.push_back( s.substr( i_begin, i_end - i_begin ) );
+            i_begin = i_end;
+        }
+        return result;
+    }
+
     template< class Iterator >
     inline auto joined_on(
         const string_view&      delimiter,
@@ -172,7 +195,9 @@ namespace kickstart::strings::_definitions {
         d::repeated_times, d::operator*,
         d::spaces,
         d::starts_with, d::ends_with,
-        d::for_each_part_of, d::split_on,
+        d::for_each_part_of,
+        d::split_on,
+        d::split_on_whitespace,
         d::joined_on, d::joined;
     }  // namespace exported names
 }  // namespace kickstart::strings::_definitions

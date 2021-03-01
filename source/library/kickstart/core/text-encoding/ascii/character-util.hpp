@@ -72,13 +72,13 @@ namespace kickstart::ascii {
     };
     constexpr Digit         digit       = {};
 
-    struct Space
+    struct Whitespace
     {
         static constexpr auto includes( const char ch )
             -> Truth
         { return (ch == ' ' or ch == '\f' or ch == '\n' or ch == '\r' or ch == '\t' or ch == '\v'); }
     };
-    constexpr Space         space       = {};
+    constexpr Whitespace    whitespace  = {};
 
     inline auto to_lower( const char ch )
         -> char

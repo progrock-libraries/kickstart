@@ -37,6 +37,7 @@
 #include <string>
 #include <string_view>
 #include <utility>
+#include <vector>
 
 namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::collection_util;             // begin_ptr_of, end_ptr_of
@@ -48,13 +49,26 @@ namespace kickstart::text_conversion::_definitions {
     using   std::min, std::max,
             std::string,
             std::string_view,
-            std::pair;
+            std::pair,
+            std::vector;
 
     template< class Number >
     auto to_(
         const string_view&          s,
         const Type_<const char**>   pp_beyond_spec = nullptr
         ) -> Number;
+
+    template< class Number >
+    auto to_vector_( const vector<string_view> strings )
+        -> vector<Number>
+    {
+        vector<Number> result;
+        result.reserve( strings.size() );
+        for( const string_view& s : strings ) {
+            result.push_back( to_<Number>( s ) );
+        }
+        return result;
+    }
 
     // As of 2020 not all compilers implement C++17 std::from_chars for type double, so using strtod.
     inline auto wrapped_strtod( const C_str spec ) noexcept
@@ -191,6 +205,7 @@ namespace kickstart::text_conversion::_definitions {
         namespace safe = d::safe;       // full_string_to_double, trimmed_string_to_double
         using
             d::to_,
+            d::to_vector_,
             d::to_double,
             d::to_int;
     }  // namespace exported names

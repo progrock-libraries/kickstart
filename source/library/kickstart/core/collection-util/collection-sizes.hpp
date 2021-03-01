@@ -22,10 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/stdlib-includes/basics.hpp>    // size
+#include <kickstart/core/language/stdlib-includes/basics.hpp>       // size, ssize
+#include <kickstart/core/language/type-aliases.hpp>                 // Size
 
 namespace kickstart::collection_util::_definitions {
-    using std::size;
+    namespace kl = kickstart::language;
+    namespace ks = kickstart::stdlib;
+    using   kl::Size, kl::Index;
+    using   ks::size, ks::ssize;
 
     template< class Result, class Collection >
     inline auto size_( const Collection& c )
@@ -41,6 +45,8 @@ namespace kickstart::collection_util::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Size, d::Index,
+        d::size, d::ssize,          // The standard library’s functions.
         d::size_,
         d::int_size;
     }  // namespace exported names
