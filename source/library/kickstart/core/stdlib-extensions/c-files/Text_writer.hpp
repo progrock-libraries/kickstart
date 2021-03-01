@@ -24,8 +24,10 @@
 
 #include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/Path.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/text-encoding/utf8/bom.hpp>
+#include <kickstart/core/stdlib-extensions/strings.hpp>     // starts_with
 
 namespace kickstart::tag {
     using Append_to = struct Struct_append_to*;
@@ -34,21 +36,24 @@ namespace kickstart::tag {
 
 namespace kickstart::c_files::_definitions {
     using namespace kickstart::text_conversion;     // ""s, string operator<<
+    using namespace kickstart::strings;             // starts_with
+    using kickstart::language::Truth;
 
     class Text_writer:
         public Wrapped_c_file
     {
+        Truth                       m_some_output_done;
+        utf8::Bom_policy::Enum      m_bom_policy;
+
         Text_writer(
             const fsx::Path&                path,
             const utf8::Bom_policy::Enum    bom_policy,
             const C_str                     mode
             ):
-            Wrapped_c_file( open_c_file_or_x( path, mode ) )
-        {
-            if( bom_policy == utf8::Bom_policy::with_bom ) {
-                clib_output_to( c_file(), utf8::bom_sv );
-            }
-        }
+            Wrapped_c_file( open_c_file_or_x( path, mode ) ),
+            m_some_output_done( false ),
+            m_bom_policy( bom_policy )
+        {}
 
     public:
         Text_writer(
@@ -68,7 +73,18 @@ namespace kickstart::c_files::_definitions {
 
         void output( const string_view& s )
         {
-            clib_output_to( c_file(), s );
+            if( s.length() > 0 ) {
+                if( not m_some_output_done ) {
+                    if( m_bom_policy == utf8::Bom_policy::with_bom and
+                        not starts_with( utf8::bom_sv, s )
+                        ) {
+                        clib_output_to( c_file(), utf8::bom_sv );
+                        m_some_output_done = true;
+                    }
+                }
+                clib_output_to( c_file(), s );
+                m_some_output_done = true;
+            }
         }
 
         void flush()
