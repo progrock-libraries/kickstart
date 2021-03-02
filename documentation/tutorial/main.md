@@ -864,7 +864,7 @@ Three examples where it can be practically necessary to save text output to a fi
 
 For such situations Kickstart provides **`Text_writer`**.
 
-Like `Text_reader` the `Text_writer` class is based intenally on a lean ’n mean C `FILE*`, and adds exception throwing on failures, plus some practically necessary automation. As you’ve seen `Text_reader` automatically collects input into right-sized line `string`s. And `Text_writer` automatically, by default, adhers to platform conventions regarding UTF-8 BOM, by default adding that encoding indicator at the start of a Windows file if it’s not already there in the text data:
+Like `Text_reader` the `Text_writer` class is based intenally on a lean ’n mean C `FILE*`, and adds exception throwing on failures, plus some practically necessary automation such as closing the file. As you’ve seen `Text_reader` also automatically collects input into right-sized line `string`s. And `Text_writer` also automatically, by default, adhers to platform conventions regarding UTF-8 BOM, by default adding that encoding indicator at the start of a Windows file if it’s not already there in the text data:
 
 *File ([io/create-a-file.cpp](examples/io/create-a-file.cpp)):*
 ~~~cpp
