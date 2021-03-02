@@ -14,9 +14,11 @@ Kickstart is intended to ease the way for beginners in C++, and can shorten exam
 - [**3. Text i/o.**](#3-text-io)
   - [**3.1. Output text with non-English letters like Norwegian ÆØÅ.**](#31-output-text-with-non-english-letters-like-norwegian-%C3%A6%C3%B8%C3%A5)
   - [**3.2. Input text with non-English letters like Norwegian ÆØÅ.**](#32-input-text-with-non-english-letters-like-norwegian-%C3%A6%C3%B8%C3%A5)
-  - [**3.3 Input numbers.**](#33-input-numbers)
-  - [**3.4 Display a table of numbers.**](#34-display-a-table-of-numbers)
-  - [**3.5 Format floating point values nicely.**](#35-format-floating-point-values-nicely)
+  - [**3.3. Display exception messages.**](#33-display-exception-messages)
+  - [**3.4 Input a number.**](#34-input-a-number)
+  - [**3.5 Input a sequence of numbers, any way you like.**](#35-input-a-sequence-of-numbers-any-way-you-like)
+  - [**3.6 Display a table of numbers.**](#36-display-a-table-of-numbers)
+  - [**3.7 Format floating point values nicely.**](#37-format-floating-point-values-nicely)
 - [**4. Command line arguments.**](#4-command-line-arguments)
   - [**4.1 Access the command line arguments.**](#41-access-the-command-line-arguments)
   - [**4.2 Use the `main` arguments as a default in non-Windows systems.**](#42-use-the-main-arguments-as-a-default-in-non-windows-systems)
@@ -159,7 +161,7 @@ Output:
 
 To people unfamiliar with Windows programming, functionality that just *outputs the specified text* may not seem so impressive, but code that directly uses `printf` or the `std::cout` stream in Windows will instead by default produce gobbledygook like [“Dear world, Bj├©rn H├Ñvard S├ªther says hello!”](details/output_of_international_text_in_Windows.md).
 
-Note: To display emojis like 😃 correctly in Windows you will generally have to use a terminal emulator like [**Microsoft Terminal**](https://github.com/microsoft/terminal). Windows console windows only support a very limited set of general symbols, essentially those from the original IBM PC’s character set, like <big>`☺`</big>. Kickstart defines [names for these symbols](../../source/library/kickstart/console/portable_dingbats.hpp#L36) if you want to use them, e.g. `kickstart::portable_dingbats::smiley`.
+Note: To display emojis like 😃 correctly in Windows you will generally have to use a terminal emulator like [**Microsoft Terminal**](https://github.com/microsoft/terminal). Kickstart defines [names for the original IBM PC symbols](../../source/library/kickstart/console/portable_dingbats.hpp#L36), if you want to use them. But the IBM PC symbols like <big>`☺`</big>, are not as nice as real color emoticons in e.g. Terminal.
 
 ### **3.2. Input text with non-English letters like Norwegian ÆØÅ.**
 
@@ -187,17 +189,22 @@ Typical result:
 > Hi, what’s your name? ***Bjørn Håvard Sæther***  
 > Welcome to the Kickstart experience, Bjørn Håvard Sæther!
 
+---
+
 The above result was obtained in a classic Windows console, showing that Kickstart input deals correctly with non-English characters in this environment, which is helpful because as of early 2021 [current Windows implementations of the C++ standard library fail to input non-ASCII characters](details/input_of_international_text_in_Windows.md) as UTF-8.
 
 ---
 
 The code also shows that the `kickstart::all` namespace brings in some select often used identifiers from the standard library, here `string`. [The complete list](../../source/library/kickstart/core/language/stdlib-includes/basics.hpp#L36) is very short: *`array`*, *`begin`*, *`end`*, *`size`*, *`ssize`*, *`string`*, *`string_view`*, *`vector`*, *`function`*, *`optional`*, *`exchange`*, *`forward`*, *`move`*, and *`pair`*. The `endl` identifier used above is however not the one from the standard library.
 
----
+### **3.3. Display exception messages.**
 
 When Kickstart’s `input()` detects End Of File&trade; — about the only way that input of a text line can fail — it throws an exception.
 
-To ensure that such exceptions are reported to you if they escape out of your main code, you can replace your `main` function with a function named e.g. `cppmain`, and provide a one-liner little micro-`main` that calls that function via Kickstart’s **`with_exceptions_displayed`**:
+To ensure that such exceptions are reported to you if they escape out of your main code, you can
+
+* replace your `main` function with a function named e.g. `cppmain`, and
+* provide a one-liner little micro-`main` that calls that function via Kickstart’s **`with_exceptions_displayed`**.
 
 *File ([io/personalized-kickstart-greeting.v2.with-exceptions-reported.cpp](examples/io/personalized-kickstart-greeting.v2.with-exceptions-reported.cpp)):*
 ~~~cpp
@@ -224,9 +231,9 @@ For example, in a Windows console window, when you respond to this program’s p
 
 Here `input` is the function that detected EOF, but (digression to prevent misunderstanding) as it happens that’s *not* the top level freestanding `input` function directly used above. Function names in Kickstart exceptions are not qualified; they’re just the names picked up via the standard [`__func__`](https://en.cppreference.com/w/c/language/function_definition#func) pseudo-macro. However, later versions of Kickstart may provide more rich exception origin information, in particular a qualified function name.
 
-`with_exceptions_displayed` does not propagate the exception (if any), but just returns standard `EXIT_FAILURE` if there was an exception, and otherwise it returns standard `EXIT_SUCCESS`.
+`with_exceptions_displayed` uses a [`catch(const std::exception&)`](https://en.cppreference.com/w/cpp/language/try_catch#Example) to catch the exception (if any), but it does not propagate the exception. It just presents the exception message and returns standard [`EXIT_FAILURE`](https://en.cppreference.com/w/cpp/utility/program/EXIT_status). Otherwise, with no exception, it returns standard [`EXIT_SUCCESS`](https://en.cppreference.com/w/cpp/utility/program/EXIT_status).
 
-### **3.3 Input numbers.**
+### **3.4 Input a number.**
 
 Unlike the standard library Kickstart has no dedicated number input operation. Instead you just input a line of text with `input()`, as usual. You can then attempt to convert that line to a number, e.g. with **`to_<int>`** or `to_<double>`:
 
@@ -258,6 +265,16 @@ Note: as of early 2021 `to_` only supports types `int` and `double`.
 
 ---
 
+Unlike e.g. `std::stoi`, Kickstart’s `to_<int>` will accept a specification like `1e6`, meaning one million:
+
+> Hi, what’s your name? ***Alf***  
+> And please, your age (in years)? ***1e6***  
+Welcome to the Kickstart experience, 1000000 years old Alf!
+
+However, this is accomplished internally by trying to interpret the string as a `double` value specification and checking whether that yields an exact integer. Therefore `to_<int>` may accept a smaller range of values than supported by `int`. In practice this can happen with a compiler and platform where both `int` and `double` are 64-bit, when the specified value is ≥ 2⁵³ (a rather large number!), but in Windows `int` is 32-bit so that range limit is hit first.
+
+---
+
 If the string argument is an invalid value specification for the result type, then `to_` throws an exception with exception text depending on the kind of spec error:
 
 > Hi, what’s your name? ***Alf***  
@@ -268,23 +285,103 @@ The exception text is always in English because it’s a message intended for pr
 
 Different types of exception are thrown for different conditions, so you can differentiate between different failures. E.g. for the purpose of providing explanatory messages to the user. See the Kickstart source code for details.
 
+### **3.5 Input a sequence of numbers, any way you like.**
+
+One way to input a sequence of numbers is to input one per line:
+
+*File ([io/sum.v1.cpp](examples/io/sum.v1.cpp)):*
+~~~cpp
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
+
+void cppmain()
+{
+    out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
+    out << "Enter one number per line. Just press return to calculate the sum." << endl;
+
+    vector<double> numbers;
+    out << endl;
+    for( ;; ) {
+        const string spec = input( "A number (or just return), please? " );
+        if( spec == "" ) {
+            break;
+        }
+        numbers.push_back( to_<double>( spec ) );
+    }
+    
+    out << endl;
+    for( const double& x: numbers ) {
+        out << (&x > &numbers.front()? " + " : "") << x;
+    }
+    out << " = " << math::sum_of( numbers ) << "." << endl;
+}
+
+auto main() -> int { return with_exceptions_displayed( cppmain ); }
+~~~
+
+Example run:
+
+> This will calculate the sum of numbers like 2.17 and 3.14.  
+> Enter one number per line. Just press return to calculate the sum.  
+> 
+> A number (or just return), please? ***1.2***  
+> A number (or just return), please? ***3.45***  
+> A number (or just return), please? ***6.789***  
+> A number (or just return), please?  
+> 
+> 1.2 + 3.45 + 6.789 = 11.439.
+
+Details. In this code **`math::sum_of`** is a Kickstart function corresponding roughly to [`std::accumulate`](https://en.cppreference.com/w/cpp/algorithm/accumulate), just way more convenient. And the perhaps mysterious-looking expression `&x > &numbers.front()` checks whether `x` is beyond the first item in the `vector`, in which case the code presents a “+” before it.
+
 ---
 
-Unlike e.g. `std::stoi`, Kickstart’s `to_<int>` will accept a specification like `1e6`, meaning one million:
+An alternative is to let the user type in a single line of numbers, separated by spaces:
 
-> Hi, what’s your name? ***Alf***  
-> And please, your age (in years)? ***1e6***  
-Welcome to the Kickstart experience, 1000000 years old Alf!
+*File ([io/sum.v2.cpp](examples/io/sum.v2.cpp)):*
+~~~cpp
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
 
-It will also accept an integer value specified with decimals if they’re all zero, e.g.
+void cppmain()
+{
+    out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
+    out << "Enter the numbers on one line, separated by spaces." << endl;
 
-> Hi, what’s your name? ***Alf***  
-> And please, your age (in years)? ***58.000***  
-> Welcome to the Kickstart experience, 58 years old Alf!
+    out << endl;
+    const string    spec    = input( "Numbers, please? " );
+    const auto      numbers = parts_to_vector_<double>( spec );
 
-However, this is accomplished internally by trying to interpret the string as a `double` value specification and checking whether that yields an exact integer. Therefore `to_<int>` may accept a smaller range of values than supported by `int`. In practice this can happen with a compiler and platform where both `int` and `double` are 64-bit, when the specified value is ≥ 2⁵³ (a rather large number!), but in Windows `int` is 32-bit so that range limit is hit first.
+    out << endl;
+    for( const double& x: numbers ) {
+        out << (&x > &numbers.front()? " + " : "") << x;
+    }
 
-### **3.4 Display a table of numbers.**
+    out << " = " << math::sum_of( numbers ) << "." << endl;
+}
+
+auto main() -> int { return with_exceptions_displayed( cppmain ); }
+~~~
+
+Example run:
+
+> This will calculate the sum of numbers like 2.17 and 3.14.  
+> Enter the numbers on one line, separated by spaces.  
+> 
+> Numbers, please? ***1.2&nbsp;&nbsp;3.45&nbsp;&nbsp;6.789***
+> 
+> 1.2 + 3.45 + 6.789 = 11.439.
+
+The [**`parts_to_vector_`**](../../source/library/kickstart/core/text-conversion/to-number/to_.hpp#77) function in the expression
+
+~~~
+parts_to_vector_<double>( spec );
+~~~
+
+… splits the `spec` string into whitespace-separated parts, where each part is then parsed as a `double` number specification, with that number appended to the result `vector`.
+
+Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic functions [**`to_vector_`**](../../source/library/kickstart/core/text-conversion/to-number/to_.hpp#66) and [**`split_on_whitespace`**](../../source/library/kickstart/core/stdlib-extensions/strings.hpp#125), which you can use instead.
+
+### **3.6 Display a table of numbers.**
 
 The Kickstart `out` stream is  a *very* shallow wrapper over a function called `output`. It just passes the `<<` arguments to that function. There is nothing like the standard library iostreams formatting, nothing like e.g. `std::setw`.
 
@@ -311,24 +408,24 @@ auto main() -> int
 
 Result:
 
-~~~txt
-   1   2   3   4   5   6   7   8   9  10  11  12
-   2   4   6   8  10  12  14  16  18  20  22  24
-   3   6   9  12  15  18  21  24  27  30  33  36
-   4   8  12  16  20  24  28  32  36  40  44  48
-   5  10  15  20  25  30  35  40  45  50  55  60
-   6  12  18  24  30  36  42  48  54  60  66  72
-   7  14  21  28  35  42  49  56  63  70  77  84
-   8  16  24  32  40  48  56  64  72  80  88  96
-   9  18  27  36  45  54  63  72  81  90  99 108
-  10  20  30  40  50  60  70  80  90 100 110 120
-  11  22  33  44  55  66  77  88  99 110 121 132
-  12  24  36  48  60  72  84  96 108 120 132 144
-  ~~~
+> ~~~txt
+>    1   2   3   4   5   6   7   8   9  10  11  12
+>    2   4   6   8  10  12  14  16  18  20  22  24
+>    3   6   9  12  15  18  21  24  27  30  33  36
+>    4   8  12  16  20  24  28  32  36  40  44  48
+>    5  10  15  20  25  30  35  40  45  50  55  60
+>    6  12  18  24  30  36  42  48  54  60  66  72
+>    7  14  21  28  35  42  49  56  63  70  77  84
+>    8  16  24  32  40  48  56  64  72  80  88  96
+>    9  18  27  36  45  54  63  72  81  90  99 108
+>   10  20  30  40  50  60  70  80  90 100 110 120
+>   11  22  33  44  55  66  77  88  99 110 121 132
+>   12  24  36  48  60  72  84  96 108 120 132 144
+>   ~~~
 
-Using a fixed width font preformatted text block for the above result display in order to get the console window text formatting correct.
+I’m using a fixed width font preformatted text block for the above result display in order to get the console window text formatting correct, if not exactly perfectly consistent.
 
-### **3.5 Format floating point values nicely.**
+### **3.7 Format floating point values nicely.**
 
 The `out <<` operation converts a floating point value to text via `str`. This default conversion is handy but gives you no control over the number of presented decimals. To control that you can use the **`to_fixed`** and **`to_scientific`** functions:
 
@@ -352,13 +449,13 @@ auto main() -> int
 
 Result:
 
-~~~txt
-             3.14159              3.1416          3.1416e+00
-             3141.59           3141.5927          3.1416e+03
-         3.14159e+06        3141592.6536          3.1416e+06
-         3.14159e+09     3141592653.5898          3.1416e+09
-         3.14159e+12  3141592653589.7930          3.1416e+12
-~~~
+> ~~~txt
+>              3.14159              3.1416          3.1416e+00
+>              3141.59           3141.5927          3.1416e+03
+>          3.14159e+06        3141592.6536          3.1416e+06
+>          3.14159e+09     3141592653.5898          3.1416e+09
+>          3.14159e+12  3141592653589.7930          3.1416e+12
+> ~~~
 
 Here [`math::pi`](https://github.com/alf-p-steinbach/kickstart/blob/4c82e9565471102008732a80ec93ba85f5ec5aee/source/library/kickstart/core/language/stdlib-extensions/math.hpp#L42) is a constant defined by Kickstart. C++20 defines [`std::numbers::pi`](https://en.cppreference.com/w/cpp/numeric/constants), but for C++17 and earlier one had to make do with the Posix standard’s macro [`M_PI`](https://pubs.opengroup.org/onlinepubs/9699919799/basedefs/math.h.html). Usually one would just define the π constant in DIY fashion.
 
@@ -551,17 +648,17 @@ Some results in a classic Windows console:
 
 > [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\process\command-line\]  
 > \> ***b***  
-
-~~~txt
-A cxxopts command line options example.
-Usage:
-  cxxopts-test [OPTION...]
-
-  -b, --bar arg  Param bar
-  -d, --debug    Enable debugging
-  -f, --foo arg  Param foo (default: 10)
-  -h, --help     Print usage
-~~~
+>
+> ~~~txt
+> A cxxopts command line options example.
+> Usage:
+>   cxxopts-test [OPTION...]
+> 
+>   -b, --bar arg  Param bar
+>   -d, --debug    Enable debugging
+>   -f, --foo arg  Param foo (default: 10)
+>   -h, --help     Print usage
+> ~~~
 > 
 > [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\process\command-line\]  
 > \> ***b --bar tender or --foo fighter or what?***  
@@ -613,22 +710,22 @@ Example usage and output in a classic Windows console window:
 
 > [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io\text-file]  
 > \> ***display π.txt***  
-
-~~~txt
-The  ratio of the circumference of a circle to the diameter is approximately
-
-3.1415926535 8979323846 2643383279 5028841971 6939937510
-  5820974944 5923078164 0628620899 8628034825 3421170679
-  8214808651 3282306647 0938446095 5058223172 5359408128
-  4811174502 8410270193 8521105559 6446229489 5493038196
-  4428810975 6659334461 2847564823 3786783165 2712019091
-  4564856692 3460348610 4543266482 1339360726 0249141273
-  7245870066 0631558817 4881520920 9628292540 9171536436
-  7892590360 0113305305 4882046652 1384146951 9415116094
-  33
-
-… and so on.
-~~~
+>
+> ~~~txt
+> The  ratio of the circumference of a circle to the diameter is approximately
+> 
+> 3.1415926535 8979323846 2643383279 5028841971 6939937510
+>   5820974944 5923078164 0628620899 8628034825 3421170679
+>   8214808651 3282306647 0938446095 5058223172 5359408128
+>   4811174502 8410270193 8521105559 6446229489 5493038196
+>   4428810975 6659334461 2847564823 3786783165 2712019091
+>   4564856692 3460348610 4543266482 1339360726 0249141273
+>   7245870066 0631558817 4881520920 9628292540 9171536436
+>   7892590360 0113305305 4882046652 1384146951 9415116094
+>   33
+> 
+> … and so on.
+> ~~~
 
 In the above code:
 

@@ -1,25 +1,21 @@
 ﻿#include <kickstart/all.hpp>
 using namespace kickstart::all;
 
-auto sum_of( const vector<double>& numbers )
-    -> double
-{
-    double result = 0;
-    for( const double x : numbers ) { result += x; }
-    return result;
-}
-
 void cppmain()
 {
-    out << "Will calculate the sum of two or more numbers like 2.17 and 3.14." << endl;
+    out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
+    out << "Enter the numbers on one line, separated by spaces." << endl;
 
-    const string    number_specs    = input( "Enter two or more numbers, please: " );
-    const auto      numbers         = parts_to_vector_<double>( number_specs );
+    out << endl;
+    const string    spec    = input( "Numbers, please? " );
+    const auto      numbers = parts_to_vector_<double>( spec );
 
+    out << endl;
     for( const double& x: numbers ) {
-        out << (&x != &numbers.front()? " + " : "") << x;
+        out << (&x > &numbers.front()? " + " : "") << x;
     }
-    out << " = " << sum_of( numbers ) << "." << endl;
+
+    out << " = " << math::sum_of( numbers ) << "." << endl;
 }
 
 auto main() -> int { return with_exceptions_displayed( cppmain ); }
