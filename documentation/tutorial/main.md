@@ -15,17 +15,17 @@ Kickstart is intended to ease the way for beginners in C++, and can shorten exam
   - [**3.1. Output text with non-English letters like Norwegian ÆØÅ.**](#31-output-text-with-non-english-letters-like-norwegian-%C3%A6%C3%B8%C3%A5)
   - [**3.2. Input text with non-English letters like Norwegian ÆØÅ.**](#32-input-text-with-non-english-letters-like-norwegian-%C3%A6%C3%B8%C3%A5)
   - [**3.3. Display exception messages.**](#33-display-exception-messages)
-  - [**3.4 Input a number.**](#34-input-a-number)
-  - [**3.5 Input a sequence of numbers, any way you like.**](#35-input-a-sequence-of-numbers-any-way-you-like)
-  - [**3.6 Display a table of numbers.**](#36-display-a-table-of-numbers)
-  - [**3.7 Format floating point values nicely.**](#37-format-floating-point-values-nicely)
+  - [**3.4. Input a number.**](#34-input-a-number)
+  - [**3.5. Input a sequence of numbers, any way you like.**](#35-input-a-sequence-of-numbers-any-way-you-like)
+  - [**3.6. Display a table of numbers.**](#36-display-a-table-of-numbers)
+  - [**3.7. Format floating point values nicely.**](#37-format-floating-point-values-nicely)
 - [**4. Command line arguments.**](#4-command-line-arguments)
-  - [**4.1 Access the command line arguments.**](#41-access-the-command-line-arguments)
-  - [**4.2 Use the `main` arguments as a default in non-Windows systems.**](#42-use-the-main-arguments-as-a-default-in-non-windows-systems)
-  - [**4.3 Parse command line options via a 3ʳᵈ party library.**](#43-parse-command-line-options-via-a-3%CA%B3%E1%B5%88-party-library)
+  - [**4.1. Access the command line arguments.**](#41-access-the-command-line-arguments)
+  - [**4.2. Use the `main` arguments as a default in non-Windows systems.**](#42-use-the-main-arguments-as-a-default-in-non-windows-systems)
+  - [**4.3. Parse command line options via a 3ʳᵈ party library.**](#43-parse-command-line-options-via-a-3%CA%B3%E1%B5%88-party-library)
 - [**5. Text files.**](#5-text-files)
-  - [**5.1 Display lines from a text file.**](#51-display-lines-from-a-text-file)
-  - [**5.2 Access a file in the executable’s directory.**](#52-access-a-file-in-the-executables-directory)
+  - [**5.1. Display lines from a text file.**](#51-display-lines-from-a-text-file)
+  - [**5.2. Access a file in the executable’s directory.**](#52-access-a-file-in-the-executables-directory)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
@@ -233,7 +233,7 @@ Here `input` is the function that detected EOF, but (digression to prevent misun
 
 `with_exceptions_displayed` uses a [`catch(const std::exception&)`](https://en.cppreference.com/w/cpp/language/try_catch#Example) to catch the exception (if any), but it does not propagate the exception. It just presents the exception message and returns standard [`EXIT_FAILURE`](https://en.cppreference.com/w/cpp/utility/program/EXIT_status). Otherwise, with no exception, it returns standard [`EXIT_SUCCESS`](https://en.cppreference.com/w/cpp/utility/program/EXIT_status).
 
-### **3.4 Input a number.**
+### **3.4. Input a number.**
 
 Unlike the standard library Kickstart has no dedicated number input operation. Instead you just input a line of text with `input()`, as usual. You can then attempt to convert that line to a number, e.g. with **`to_<int>`** or `to_<double>`:
 
@@ -285,7 +285,7 @@ The exception text is always in English because it’s a message intended for pr
 
 Different types of exception are thrown for different conditions, so you can differentiate between different failures. E.g. for the purpose of providing explanatory messages to the user. See the Kickstart source code for details.
 
-### **3.5 Input a sequence of numbers, any way you like.**
+### **3.5. Input a sequence of numbers, any way you like.**
 
 One way to input a sequence of numbers is to input one per line:
 
@@ -381,7 +381,7 @@ parts_to_vector_<double>( spec );
 
 Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic functions [**`to_vector_`**](../../source/library/kickstart/core/text-conversion/to-number/to_.hpp#66) and [**`split_on_whitespace`**](../../source/library/kickstart/core/stdlib-extensions/strings.hpp#125), which you can use instead.
 
-### **3.6 Display a table of numbers.**
+### **3.6. Display a table of numbers.**
 
 The Kickstart `out` stream is  a *very* shallow wrapper over a function called `output`. It just passes the `<<` arguments to that function. There is nothing like the standard library iostreams formatting, nothing like e.g. `std::setw`.
 
@@ -425,7 +425,7 @@ Result:
 
 I’m using a fixed width font preformatted text block for the above result display in order to get the console window text formatting correct, if not exactly perfectly consistent.
 
-### **3.7 Format floating point values nicely.**
+### **3.7. Format floating point values nicely.**
 
 The `out <<` operation converts a floating point value to text via `str`. This default conversion is handy but gives you no control over the number of presented decimals. To control that you can use the **`to_fixed`** and **`to_scientific`** functions:
 
@@ -463,7 +463,7 @@ Note: `double` represents a limited number of digits of a value. When you try to
 
 ## **4. Command line arguments.**
 
-### **4.1 Access the command line arguments.**
+### **4.1. Access the command line arguments.**
 The main Kickstart way to access command line arguments is via the **`process::the_commandline()`** function, which returns a reference to a static object:
 
 *File ([process/command-line/command-line-args.cpp](examples/process/command-line/command-line-args.cpp)):*
@@ -508,7 +508,7 @@ Except that
 In particular there’s as yet no implementation for the Mac. So what to do on the Mac?
 
 
-### **4.2 Use the `main` arguments as a default in non-Windows systems.**
+### **4.2. Use the `main` arguments as a default in non-Windows systems.**
 
 In Unix environments, which includes the Mac, as of 2021 the `main` arguments can in practice be relied on to be UTF-8 encoded.
 
@@ -563,7 +563,7 @@ Result in WSL Ubuntu, where now the passed arguments are used:
 > π?  
 
 
-### **4.3 Parse command line options via a 3ʳᵈ party library.**
+### **4.3. Parse command line options via a 3ʳᵈ party library.**
 
 In Unix environments command line options parsing is partially standardized, at first via Posix’ C [`getopt`](https://man7.org/linux/man-pages/man3/getopt.3.html) function, which supports single character options that start with a single dash “`-`”.  `getopt` was succeeded by `getopt_long` that supports “long” (i.e. named) options that start with two dashes “`--`”, and that in turn was succeeded by the [`popt`](https://linux.die.net/man/3/popt) library, which does not use global variables and is more flexible also in other ways. Options parsing based on this *de facto* standard for command line syntax is also available in other languages, e.g. [in Python](https://docs.python.org/3/library/getopt.html).
 
@@ -679,7 +679,7 @@ I.e. you need exception handling in order to use “cxxopts” and many other C+
 
 ## **5. Text files.**
 
-### **5.1 Display lines from a text file.**
+### **5.1. Display lines from a text file.**
 
 Reading a text file line by line is simple with the [**`Text_reader`**](../../source/library/kickstart/core/stdlib-extensions/c-files/Text_reader.hpp) class, which uses a C `FILE*` internally:
 
@@ -748,7 +748,7 @@ As of early 2021 the Windows implementations of the C++ standard library  do not
 
 *Fine detail 2*: since `fail_app` is called as second operand to the built-in `or` its argument expression will not be evaluated unless the call is actually made. That means that one can use quite costly argument creation. The expression will not be evaluated for normal case code execution, only when an exception is thrown.
 
-### **5.2 Access a file in the executable’s directory.**
+### **5.2. Access a file in the executable’s directory.**
 
 Files that are closely tied to or necessary for a program are most naturally placed in the same directory as the executable, or a sub-directory there.
 
