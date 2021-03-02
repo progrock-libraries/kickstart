@@ -863,7 +863,7 @@ Three examples where it can be practically necessary to save text output to a fi
 * The students’ favorite exercise of a program that maintains a music, movie or book collection data base.
 * General logging of exceptions.
 
-For such situations Kickstart provides **`Text_writer`**.
+For such situations Kickstart provides [**`Text_writer`**](../../source/library/kickstart/core/stdlib-extensions/c-files/Text_writer.hpp).
 
 Like `Text_reader` the `Text_writer` class is based intenally on a lean ’n mean C `FILE*`, and adds exception throwing on failures, plus some practically necessary automation such as closing the file. As you’ve seen `Text_reader` also automatically collects input into right-sized line `string`s. And `Text_writer` also automatically, by default, adhers to platform conventions regarding UTF-8 BOM, by default adding that encoding indicator at the start of a Windows file if it’s not already there in the text data:
 
