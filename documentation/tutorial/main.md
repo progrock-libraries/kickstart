@@ -355,7 +355,6 @@ void cppmain()
     for( const double& x: numbers ) {
         out << (&x > &numbers.front()? " + " : "") << x;
     }
-
     out << " = " << math::sum_of( numbers ) << "." << endl;
 }
 
@@ -412,7 +411,6 @@ void cppmain()
     for( const double& x: numbers ) {
         out << (&x > &numbers.front()? " + " : "") << x;
     }
-
     out << " = " << math::sum_of( numbers ) << "." << endl;
 }
 
