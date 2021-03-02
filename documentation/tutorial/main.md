@@ -384,7 +384,7 @@ Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic fu
 
 The above two ways can be combined for a better user experience, at the cost of more complex code:
 
-*File ([io/sum.v2.cpp](examples/io/sum.v2.cpp)):*
+*File ([io/sum.v3.cpp](examples/io/sum.v3.cpp)):*
 ~~~cpp
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
