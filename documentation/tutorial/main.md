@@ -335,7 +335,7 @@ Details. In this code **`math::sum_of`** is a Kickstart function corresponding r
 
 ---
 
-An alternative is to let the user type in a single line of numbers, separated by spaces:
+An alternative is to let the user type in a single line of numbers separated by spaces:
 
 *File ([io/sum.v2.cpp](examples/io/sum.v2.cpp)):*
 ~~~cpp
@@ -380,6 +380,58 @@ parts_to_vector_<double>( spec );
 … splits the `spec` string into whitespace-separated parts, where each part is then parsed as a `double` number specification, with that number appended to the result `vector`.
 
 Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic functions [**`to_vector_`**](../../source/library/kickstart/core/text-conversion/to-number/to_.hpp#66) and [**`split_on_whitespace`**](../../source/library/kickstart/core/stdlib-extensions/strings.hpp#125), which you can use instead.
+
+---
+
+The above two ways can be combined for a better user experience, at the cost of more complex code:
+
+*File ([io/sum.v2.cpp](examples/io/sum.v2.cpp)):*
+~~~cpp
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
+
+void cppmain()
+{
+    out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
+    out << "Enter one or more numbers per line. Just"
+           " press return to calculate the sum." << endl;
+
+    vector<double> numbers;
+    out << endl;
+    for( ;; ) {
+        const string spec = input( "Numbers (or just return), please? " );
+        if( spec == "" ) {
+            break;
+        }
+        for( const double x: parts_to_vector_<double>( spec ) ) {
+            numbers.push_back( x );
+        }
+    }
+
+    out << endl;
+    for( const double& x: numbers ) {
+        out << (&x > &numbers.front()? " + " : "") << x;
+    }
+
+    out << " = " << math::sum_of( numbers ) << "." << endl;
+}
+
+auto main() -> int { return with_exceptions_displayed( cppmain ); }
+~~~
+
+Example run:
+
+> This will calculate the sum of numbers like 2.17 and 3.14.  
+> Enter one or more numbers per line. Just press return to calculate the sum.  
+> 
+> Numbers (or just return), please? ***1.2***  
+> Numbers (or just return), please? ***3.45 6.789***  
+> Numbers (or just return), please?  
+> 
+> 1.2 + 3.45 + 6.789 = 11.439.
+
+
+
 
 ### **3.6. Display a table of numbers.**
 
