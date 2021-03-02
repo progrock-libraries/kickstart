@@ -22,31 +22,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/Truth.hpp>
-#include <kickstart/core/stdlib-extensions/type-traits.hpp>
+#include <iterator>         // begin
+#include <type_traits>
+#include <utility>
 
-#include <stddef.h>         // size_t
+namespace kickstart::type_traits::_definitions {
+    using   std::begin,                     // From <iterator>
+            std::remove_cv_t,               // From <type_traits>
+            std::remove_reference_t,        // -- " --
+            std::declval;                   // From <utility>
 
-#include <numeric>          // accumulate
-
-
-// Important to not introduce possible future name conflicts with <math.h>.
-namespace kickstart::math::_definitions {
-    using kickstart::type_traits::Item_type_of_;
-
-    template< class Collection, class Number = Item_type_of_<Collection> >
-    inline auto sum_of( const Collection& numbers )
-        -> Number
-    {
-        Number result = 0;
-        for( const Number x : numbers ) { result += x; }
-        return result;
-    }
+    template< class Collection >
+    using Item_type_of_ = remove_cv_t<remove_reference_t<
+        decltype( *begin( declval<Collection>() ) )
+        >>;
 
     namespace d = _definitions;
-    namespace exports{ using
-        d::sum_of;
-    }  // namespace exports
-}  // namespace kickstart::math::_definitions
+    namespace exported_names { using
+        d::Item_type_of_;
+    }  // namespace exported names
+}  // namespace kickstart::type_traits::_definitions 
 
-namespace kickstart::math   { using namespace _definitions::exports; }
+namespace kickstart::type_traits    { using namespace _definitions::exported_names; }

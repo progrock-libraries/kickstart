@@ -47,7 +47,8 @@ namespace kickstart::core {
         using namespace kickstart::             limits;                 //   <… limits.hpp>
         namespace math = kickstart::            math;                   //   <… math.hpp>
         namespace std_x = kickstart::           std_x;                  //   <… standard-exceptions.hpp>
-        using namespace                         strings;                //   <… strings.hpp>
+        using namespace kickstart::             strings;                //   <… strings.hpp>
+        using namespace kickstart::             type_traits;            //   <… type-traits.hpp>
     }
     using namespace kickstart::             text_conversion;            // <core/text-conversion.hpp>
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>

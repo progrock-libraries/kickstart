@@ -31,3 +31,4 @@
 #include <kickstart/core/stdlib-extensions/math.hpp>
 #include <kickstart/core/stdlib-extensions/standard-exceptions.hpp>
 #include <kickstart/core/stdlib-extensions/strings.hpp>
+#include <kickstart/core/stdlib-extensions/type-traits.hpp>
