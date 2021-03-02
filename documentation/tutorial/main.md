@@ -853,3 +853,41 @@ These functions work as follows:
 When the executable’s directory path has been determined the first time, it’s cached, so subsequent use of that directory path should be super-fast.
 
 Note: for Unix in general the `lsof` program, which lists open files by inspecting Unix-variant-specific kernel data, must be installed, but this is not necessary for Linux or Windows.
+
+### **5.3. Save text to a file.**
+
+Three examples where it can be practically necessary to save text output to a file:
+
+* Several thousand lines of output.
+* The favorite student’s exercise of a program that maintains a music, movie or book collection data base.
+* General logging of exceptions.
+
+For such situations Kickstart provides **`Text_writer`**.
+
+Like `Text_reader` the `Text_writer` class is based intenally on a lean ’n mean C `FILE*`, and adds exception throwing on failures, plus some practically necessary automation. As you’ve seen `Text_reader` automatically collects input into right-sized line `string`s. And `Text_writer` automatically, by default, adhers to platform conventions regarding UTF-8 BOM, by default adding that encoding indicator at the start of a Windows file if it’s not already there in the text data:
+
+*File ([io/create-a-file.cpp](examples/io/create-a-file.cpp)):*
+~~~cpp
+#include <kickstart/all.hpp>
+using namespace kickstart::all;
+
+const auto& text =
+    "Every international blueberry jam lover knows that\n"
+    "every 日本国 кошка loves …\n"
+    "\n"
+    "▷ Norwegian “blåbærsyltetøy”! ◁ 😋\n";
+
+void cppmain()
+{
+    const auto& cmd = process::the_commandline();
+    hopefully( cmd.args().size() == 1 )
+        or fail_app( ""s << "Usage: “" << cmd.verb() << " FILENAME”." );
+    const string_view& path = cmd.args().at( 0 );
+    Text_writer( path ).output( text );
+    out << "Saved some text in “" << path << "”." << endl;
+}
+
+auto main() -> int { return with_exceptions_displayed( cppmain ); }
+~~~
+
+
