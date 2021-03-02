@@ -26,6 +26,7 @@ Kickstart is intended to ease the way for beginners in C++, and can shorten exam
 - [**5. Text files.**](#5-text-files)
   - [**5.1. Display lines from a text file.**](#51-display-lines-from-a-text-file)
   - [**5.2. Access a file in the executable’s directory.**](#52-access-a-file-in-the-executables-directory)
+  - [**5.3. Save text to a file.**](#53-save-text-to-a-file)
 
 <!-- END doctoc generated TOC please keep comment here to allow auto update -->
 
