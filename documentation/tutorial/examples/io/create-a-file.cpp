@@ -17,4 +17,6 @@ void cppmain()
     out << "Saved some text in “" << path << "”." << endl;
 }
 
-auto main() -> int { return with_exceptions_displayed( cppmain ); }
+auto main( int n_cmd_parts, char** cmd_parts )
+    -> int
+{ return with_exceptions_displayed( cppmain, n_cmd_parts, cmd_parts ); }

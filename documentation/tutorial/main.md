@@ -887,7 +887,35 @@ void cppmain()
     out << "Saved some text in “" << path << "”." << endl;
 }
 
-auto main() -> int { return with_exceptions_displayed( cppmain ); }
+auto main( int n_cmd_parts, char** cmd_parts )
+    -> int
+{ return with_exceptions_displayed( cppmain, n_cmd_parts, cmd_parts ); }
 ~~~
 
+Example usage and output in the classic Cmd command interpreter in Windows Terminal:
 
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
+> \> ***create-a-file info.txt***  
+> Saved some text in “info.txt”.
+> 
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
+> \> ***chcp 65001***  
+> Active code page: 65001
+> 
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
+> \> ***powershell -c "type info.txt"***  
+> Every international blueberry jam lover knows that  
+> every 日本国 кошка loves …
+>
+> ▷ Norwegian “blåbærsyltetøy”! ◁ 😋
+
+I used Powershell to type the text file contents because, while the UTF-8 BOM at the start of the file helps Powershell and other modern Windows programs to understand that the file is UTF-8 encoded and not Windows ANSI, and can be *necessary* for that, the archaic code in Cmd dates back to a little before 1981 MS-DOS and doesn’t understand an UTF-8 BOM. The Cmd `type` command therefore just attempts to display it. In a classic Windows console window that yields one to three gobbledygook characters but in Windows Terminal it appears as a space (a very fine detail, but!):
+
+> [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
+> \> ***type info.txt***  
+> &nbsp;&nbsp;Every international blueberry jam lover knows that
+> every 日本国 кошка loves …
+> 
+> ▷ Norwegian “blåbærsyltetøy”! ◁ 😋
+
+Of course, in a Unix environment such as Linx or the Mac, the program does not produce a BOM.
