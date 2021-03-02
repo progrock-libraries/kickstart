@@ -859,7 +859,7 @@ Note: for Unix in general the `lsof` program, which lists open files by inspecti
 Three examples where it can be practically necessary to save text output to a file:
 
 * Several thousand lines of output.
-* The favorite student’s exercise of a program that maintains a music, movie or book collection data base.
+* The students’ favorite exercise of a program that maintains a music, movie or book collection data base.
 * General logging of exceptions.
 
 For such situations Kickstart provides **`Text_writer`**.
