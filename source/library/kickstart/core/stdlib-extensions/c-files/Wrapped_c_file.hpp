@@ -46,7 +46,7 @@ namespace kickstart::c_files::_definitions {
     protected:
         ~Wrapped_c_file() noexcept
         {
-            // The `m_c_file` can be set to 0 by the `release` method.
+            // The `m_c_file` can be set to 0 by the `release` method and by moving.
             if( m_c_file ) { ::fclose( m_c_file ); }
         }
 
