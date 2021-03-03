@@ -41,7 +41,7 @@ Then after installation, to use Kickstart you need to use a compiler option that
 | *Compiler:* | *Recommended core options:* |
 |:-|:-|
 | g++ | `-std=c++17` `-pedantic-errors` `-Wall` |
-| clang | `-std=c++17` `-pedantic-errors` `-Wall` <br>*In Windows add also* `-D` `_CRT_SECURE_NO_WARNINGS=1` `-D` `_STL_SECURE_NO_WARNINGS=1` |
+| clang | `-std=c++17` `-pedantic-errors` `-Wall` <br>*In Windows add also* `-D` `_CRT_SECURE_NO_WARNINGS=1` `-D` `_STL_SECURE_NO_WARNINGS=1`<br>*On the Mac add also* `-mmacosx-version-min=10.15` |
 | Visual&nbsp;C++ | `/nologo` `/utf-8` `/EHsc` `/GR` `/permissive-` `/FI"iso646.h"` `/std:c++17` `/Zc:__cplusplus` `/W4` `/wd4459` `/D` `_CRT_SECURE_NO_WARNINGS=1` `/D` `_STL_SECURE_NO_WARNINGS=1` |
 
 Happily, for Visual C++ options can be specified in environment variable `CL`, which is used automatically.
