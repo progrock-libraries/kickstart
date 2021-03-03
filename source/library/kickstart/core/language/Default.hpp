@@ -31,7 +31,7 @@
 
 namespace kickstart::language::_definitions {
 
-    struct Null
+    struct Default
     {
         template< class T > operator T() const { return {}; }
     };
@@ -40,7 +40,7 @@ namespace kickstart::language::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Null;
+        d::Default;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 

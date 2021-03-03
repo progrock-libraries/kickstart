@@ -2,6 +2,9 @@
 #pragma once
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
+/// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
+/// than `bool`.
+
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -22,9 +25,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/Default.hpp>                          // Default
-#include <kickstart/core/language/Limited_unsigned_int128.hpp>          // Limited_unsigned_int128
-#include <kickstart/core/language/startup-function-types.hpp>           // Simple_startup, Startup_with_args
-#include <kickstart/core/language/stdlib-includes-except-iostreams.hpp> // Safe-with-`using` stuff from std library.
-#include <kickstart/core/language/Truth.hpp>                            // Truth
-#include <kickstart/core/language/type-aliases.hpp>                     // Size, Index, C_str, Byte, Int, Float
+
+namespace kickstart::language::_definitions {
+}  // namespace kickstart::language::_definitions
+
+//Limited_unsigned_int128.hpp

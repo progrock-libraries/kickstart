@@ -28,13 +28,13 @@
 // Can't use the `Truth` class here because it would be a circular include.
 // #include <kickstart/core/language/Truth.hpp>
 
-#include <kickstart/core/language/Null.hpp>                 // Null
+#include <kickstart/core/language/Default.hpp>              // Default
 #include <kickstart/system-specific/os-detection.hpp>       // os_is_windows
 
 #include <string_view>
 
 namespace kickstart::utf8::_definitions {
-    using   kickstart::language::Null;
+    using   kickstart::language::Default;
     using   std::string_view;
 
     constexpr auto& bom     = "\uFEFF";
@@ -42,7 +42,7 @@ namespace kickstart::utf8::_definitions {
 
     struct Bom_policy{ enum Enum{ no_bom, with_bom }; };    // For files.
 
-    const auto system_default_bom_policy    = (0?Null()
+    const auto system_default_bom_policy    = (0?Default()
         : system_specific::os_is_windows?   Bom_policy::with_bom
         :                                   Bom_policy::no_bom
         );
