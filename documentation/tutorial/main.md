@@ -914,7 +914,7 @@ I used Powershell to type the text file contents because, while the UTF-8 BOM at
 
 > [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io]  
 > \> ***type info.txt***  
-> &nbsp;&nbsp;Every international blueberry jam lover knows that
+> &nbsp;&nbsp;Every international blueberry jam lover knows that  
 > every 日本国 кошка loves …
 > 
 > ▷ Norwegian “blåbærsyltetøy”! ◁ 😋
