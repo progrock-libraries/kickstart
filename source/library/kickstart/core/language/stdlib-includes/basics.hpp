@@ -49,7 +49,6 @@ namespace kickstart::stdlib {
     using   std::string_view;                                           // From <string_view>.
     using   std::vector;                                                // From <vector>.
 
-
     // Misc.
     using   std::function;                                              // From <functional>.
     using   std::optional;                                              // From <optional>.
