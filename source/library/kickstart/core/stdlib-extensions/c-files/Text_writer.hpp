@@ -31,7 +31,6 @@
 
 namespace kickstart::tag {
     using Append_to = struct Struct_append_to*;
-    constexpr auto append_to = Append_to{};
 }  // namespace kickstart::tag
 
 namespace kickstart::c_files::_definitions {

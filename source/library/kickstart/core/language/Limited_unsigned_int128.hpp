@@ -33,10 +33,7 @@
 
 namespace kickstart::tag {
     using From_64bit = struct Struct_from_64bit*;
-    constexpr auto from_64bit = From_64bit();
-
     using Uninitialized = struct Struct_uninitialized*;
-    constexpr auto uninitialized = Uninitialized();
 }  // namespace kickstart::tag
 
 namespace kickstart::language::_definitions {
@@ -80,7 +77,7 @@ namespace kickstart::language::_definitions {
             const Truth carry = ((m_parts[1] & 1) != 0);
             m_parts[1] >>= 1;
             m_parts[0] >>= 1;
-            m_parts[0] |= (uint64_t( +carry ) << 31);
+            m_parts[0] |= (uint64_t( +carry ) << 63);
         }
 
         auto operator++() -> Self&
@@ -104,7 +101,7 @@ namespace kickstart::language::_definitions {
         friend
         auto operator+( const Self& a, const Self& b ) -> Self
         {
-            auto result = Self( tag::uninitialized );
+            auto result = Self( tag::Uninitialized() );
             result.m_parts[0] = a.m_parts[0] + b.m_parts[0];
             const Truth carry = (result.m_parts[0] < a.m_parts[0]);
             result.m_parts[1] = a.m_parts[1] + b.m_parts[1] + +carry;
@@ -138,7 +135,7 @@ namespace kickstart::language::_definitions {
             const Truth     mid_carry   = (mid < mid_1);
             const uint64_t  high        = one * parts_a[1] * parts_b[1];
 
-            auto result = Self( tag::uninitialized );
+            auto result = Self( tag::Uninitialized() );
             result.m_parts[0] = low + ((mid & 0xFFFFFFFF) << 32);
             const Truth part_0_carry = (result.m_parts[0] < low);
             result.m_parts[1] = (+part_0_carry) + (mid >> 32) + (uint64_t(+mid_carry) << 32) + high;
