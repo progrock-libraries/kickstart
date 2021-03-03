@@ -23,9 +23,6 @@
 // SOFTWARE.
 
 #include <kickstart/system-specific/os-detection.hpp>
-#ifdef KS_OS_IS_WIN64
-#   include <kickstart/system-specific/windows/api/consoles.hpp>        // GetACP
-#endif
 
 #include <kickstart/core/failure-handling.hpp>                  // Clean_app_exception
 #include <kickstart/core/language/Truth.hpp>
