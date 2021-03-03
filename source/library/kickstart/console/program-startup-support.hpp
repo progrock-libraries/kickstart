@@ -52,7 +52,8 @@ namespace kickstart::console_startup::_definitions {
     using namespace kickstart::language;
     using namespace std::string_literals;
 
-    using   kickstart::utf8_io::output_error_message;
+    using   kickstart::utf8_io::output_error_message,
+            kickstart::system_specific::os_is_win64;
     using   std::function,
             std::string,
             std::string_view,
@@ -65,13 +66,7 @@ namespace kickstart::console_startup::_definitions {
         const Truth                         override_os_cmdline = false
         )
     {
-        #if defined( KS_OS_IS_WIN64 )
-            const Truth is_win64 = true;
-        #else
-            const Truth is_win64 = false;
-        #endif
-
-        if( override_os_cmdline or not is_win64 ) {
+        if( override_os_cmdline or not os_is_win64 ) {
             process::Commandline::create_singleton( n_cmd_parts, cmd_parts );
         } else {
             process::Commandline::singleton();  // Ensure singleton creation anyway.

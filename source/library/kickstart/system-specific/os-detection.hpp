@@ -2,6 +2,8 @@
 #pragma once
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
+#include <kickstart/core/language/Truth.hpp>
+
 #undef      KS_OS_IS_WINDOWS
 #undef          KS_OS_IS_WIN64
 #undef          KS_OS_IS_WIN32
@@ -47,9 +49,23 @@
 #endif
 
 namespace kickstart::system_specific {
+    using kickstart::language::Truth;
+
     #ifdef KS_OS_IS_WINDOWS
-        constexpr bool os_is_windows    = true;
+        constexpr Truth os_is_windows    = true;
     #else
-        constexpr bool os_is_windows    = false;
+        constexpr Truth os_is_windows    = false;
+    #endif
+
+    #ifdef KS_OS_IS_WIN64
+        constexpr Truth os_is_win64    = true;
+    #else
+        constexpr Truth os_is_win64    = false;
+    #endif
+
+    #ifdef KS_OS_IS_WIN32
+        constexpr Truth os_is_win32    = true;
+    #else
+        constexpr Truth os_is_win32    = false;
     #endif
 }  // namespace kickstart::system_specific
