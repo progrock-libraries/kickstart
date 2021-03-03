@@ -127,8 +127,8 @@ namespace kickstart::language::_definitions {
         static
         auto mul64( const uint64_t a, const uint64_t b ) -> Self
         {
-            const array<uint32_t, 2>    parts_a = { a & 0xFFFFFFFF, a >> 32 };
-            const array<uint32_t, 2>    parts_b = { b & 0xFFFFFFFF, b >> 32 };
+            const array<uint32_t, 2>    parts_a = { uint32_t( a & 0xFFFFFFFF ), uint32_t( a >> 32 ) };
+            const array<uint32_t, 2>    parts_b = { uint32_t( b & 0xFFFFFFFF ), uint32_t( b >> 32 ) };
 
             constexpr auto one = uint64_t( 1 );
             const uint64_t  low         = one * parts_a[0] * parts_b[0];
