@@ -67,7 +67,7 @@ namespace kickstart::collection_util::_definitions {
     { return {it_begin, it_end}; }
 
     template< class Collection >
-    inline auto all_of( Collection& c )
+    inline auto all_of( Collection&& c )
         -> Iteration_<decltype( begin_of( c ) )>
     { return {c}; }
 
@@ -77,7 +77,7 @@ namespace kickstart::collection_util::_definitions {
     { return {it_begin, next( it_begin )}; }
 
     template< class Collection >
-    inline auto head_of( Collection& c )
+    inline auto head_of( Collection&& c )
         -> Iteration_<decltype( begin_of( c ) )>
     { return {begin_of( c ), next( begin_of( c ) )}; }
 
@@ -87,7 +87,7 @@ namespace kickstart::collection_util::_definitions {
     { return {next( it_begin ), it_end}; }
 
     template< class Collection >
-    inline auto tail_of( Collection& c )
+    inline auto tail_of( Collection&& c )
         -> Iteration_<decltype( begin_of( c ) )>
     { return {next( begin_of( c ) ), end_of( c )}; }
 
