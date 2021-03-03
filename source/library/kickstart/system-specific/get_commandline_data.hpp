@@ -29,6 +29,7 @@
 #   include <kickstart/system-specific/unix/linux/get_commandline_data.impl.hpp>
 #else
 #   include <kickstart/core/failure-handling.hpp>
+#   include <kickstart/system-specific/Commandline_data.hpp>
     namespace kickstart::system_specific::_definitions {
         inline auto get_commandline_data()
             -> Commandline_data
