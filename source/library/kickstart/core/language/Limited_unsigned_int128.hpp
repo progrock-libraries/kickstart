@@ -60,6 +60,29 @@ namespace kickstart::language::_definitions {
             m_parts{ value, 0 }
         {}
 
+        auto operator~() const -> Self
+        {
+            Self result = *this;
+            for( auto& part: result.m_parts ) { part = ~part; }
+            return result;
+        }
+
+        void shift_left()
+        {
+            const Truth carry = (int64_t( m_parts[0] ) < 0);
+            m_parts[0] <<= 1;
+            m_parts[1] <<= 1;
+            m_parts[1] |= +carry;
+        }
+
+        void shift_right()
+        {
+            const Truth carry = ((m_parts[1] & 1) != 0);
+            m_parts[1] >>= 1;
+            m_parts[0] >>= 1;
+            m_parts[0] |= (uint64_t( +carry ) << 31);
+        }
+
         auto operator++() -> Self&
         {
             ++m_parts[0];
@@ -71,18 +94,11 @@ namespace kickstart::language::_definitions {
 
         auto operator--() -> Self&
         {
-            --m_parts[0];
             if( m_parts[0] == 0 ) {
-                --m_parts[0];  --m_parts[1];
+                --m_parts[1];
             }
+            --m_parts[0];
             return *this;
-        }
-
-        auto operator~() const -> Self
-        {
-            Self result = *this;
-            for( auto& part: result.m_parts ) { part = ~part; }
-            return result;
         }
 
         friend
@@ -130,13 +146,19 @@ namespace kickstart::language::_definitions {
         }
 
         friend
-        auto operator*( const Self& a, const uint64_t b ) -> Self
+        auto operator*( const uint64_t a, const Self& b ) -> Self
         {
-            (void) a; (void) b;
+            Self result = mul64( b.m_parts[0], a );
+            result.m_parts[1] += b.m_parts[1]*a;
+            return result;
+        }
+
+        friend
+        auto operator/( const Self& a, const uint64_t b ) -> Self
+        {
+            (void) a;  (void) b;
             return {};
         }
     };
 
 }  // namespace kickstart::language::_definitions
-
-//Limited_unsigned_int128.hpp
