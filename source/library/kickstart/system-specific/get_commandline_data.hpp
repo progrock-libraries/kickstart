@@ -31,9 +31,14 @@
 #   include <kickstart/core/failure-handling.hpp>
 #   include <kickstart/system-specific/Commandline_data.hpp>
     namespace kickstart::system_specific::_definitions {
+        using kickstart::failure_handling::unreachable;
+
         inline auto get_commandline_data()
             -> Commandline_data
-        { KS_FAIL( "This platform is not supported." );  }
+        {
+            KS_FAIL( "This platform is not supported." );
+            unreachable();
+        }
     }  // namespace kickstart::system_specific::_definitions
 #endif
 
