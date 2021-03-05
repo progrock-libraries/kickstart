@@ -22,15 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/Tag_.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/Path.hpp>
-#include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/stdlib-extensions/strings.hpp>     // starts_with
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/text-encoding/utf8/bom.hpp>
-#include <kickstart/core/stdlib-extensions/strings.hpp>     // starts_with
 
 namespace kickstart::tag {
-    using Append_to = struct Struct_append_to*;
+    using kickstart::language::Tag_;
+    using Append_to = Tag_<struct Struct_append_to>;
 }  // namespace kickstart::tag
 
 namespace kickstart::c_files::_definitions {
