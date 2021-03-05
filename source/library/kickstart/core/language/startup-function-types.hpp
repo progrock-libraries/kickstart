@@ -26,12 +26,10 @@
 #include <kickstart/core/language/type-aliases.hpp>     // Type_, C_str
 
 #include <string>
-#include <vector>
 
 namespace kickstart::language::_definitions {
     using   kickstart::collection_util::Array_span_;
-    using   std::string,
-            std::vector;
+    using   std::string;
 
     using Cmdline_args          = Array_span_<const string>;
     using Simple_startup        = void();

@@ -22,43 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/bits_per_.hpp>        // bits_per_
-
-#include <stddef.h>     // size_t, ptrdiff_t
-#include <stdint.h>     // int32_t, int64_t
+#include <limits.h>     // CHAR_BIT
 
 namespace kickstart::language::_definitions {
-    template< class T > using Type_ = T;
 
-    using Size                  = ptrdiff_t;
-    using Index                 = ptrdiff_t;
-    using Unsigned_size         = size_t;
-    using Unsigned_index        = size_t;
-    using Byte                  = unsigned char;
-
-    using Int32                 = int32_t;
-    using Unsigned_int32        = uint32_t;
-    using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
-    using Int64                 = int64_t;
-    using Unsigned_int64        = uint64_t;
-    using Number64              = double;       static_assert( bits_per_<Number64> >= 64, "!" );
-
-    using Integer   = Int64;
-    using Number    = Number64;
-
-    using C_str                 = const char*;
-    using C_wstr                = const wchar_t*;
+    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Type_,
-        d::Size, d::Index, d::Unsigned_size, d::Unsigned_index, d::Byte,
-        d::Int32, d::Unsigned_int32, d::Number32,
-        d::Int64, d::Unsigned_int64, d::Number64,
-        d::Integer, d::Number,
-        d::C_str, d::C_wstr;
+        d::bits_per_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 

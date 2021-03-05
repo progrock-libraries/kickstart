@@ -22,16 +22,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/math/calculator-functionality.hpp>   // intpow_
+#include <kickstart/core/language/intpow.hpp>           // intpow_
+#include <kickstart/core/language/bits_per_.hpp>        // bits_per_
 
-#include <climits>      // For completeness.
 #include <float.h>      // DBL_MANT_DIG
-#include <limits.h>     // CHAR_BIT
 
 namespace kickstart::limits::_definitions {
-    using kickstart::math::intpow;
-
-    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
+    namespace kl = kickstart::language;
+    using   kl::bits_per_,
+            kl::intpow;
 
     template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
     template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;

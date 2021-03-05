@@ -30,6 +30,7 @@
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
+#include <kickstart/core/stdlib-extensions/math/integer-operations.hpp>
 
 #include <stdint.h>         // Unit
 
@@ -44,9 +45,10 @@ namespace kickstart::tag {
 }  // namespace kickstart::tag
 
 namespace kickstart::language::_definitions {
+    using namespace kickstart::math;        // xxx_is_set_in, multiply_by_parts
     using namespace kickstart::strings;
+
     using   kickstart::limits::bits_per_;
-    using namespace kickstart::math;        // is_xxx_set_in
     using   std::array,
             std::bitset,
             std::make_signed_t,
@@ -55,8 +57,9 @@ namespace kickstart::language::_definitions {
     class Large_uint
     {
     public:
-        using Unit = uint8_t;
-        using Parts = array<Unit, 2>;           // 0 => lsp, 1 => msp.
+        using Unit      = uint8_t;
+        using Half_unit = void;
+        using Parts     = array<Unit, 2>;       // 0 => lsp, 1 => msp.
         static constexpr int n_bits = 2*bits_per_<Unit>;
 
     private:
@@ -171,29 +174,6 @@ namespace kickstart::language::_definitions {
             m_parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
         }
 
-        static
-        auto mul_units( const Unit a, const Unit b )
-            -> Self
-        {
-            //const array<uint32_t, 2>    parts_a = { uint32_t( a & 0xFFFFFFFF ), uint32_t( a >> 32 ) };
-            //const array<uint32_t, 2>    parts_b = { uint32_t( b & 0xFFFFFFFF ), uint32_t( b >> 32 ) };
-
-            //constexpr auto one = Unit( 1 );
-            //const Unit  low         = one * parts_a[0] * parts_b[0];
-            //const Unit  mid_1       = one * parts_a[0] * parts_b[1];
-            //const Unit  mid_2       = one * parts_a[1] * parts_b[0];
-            //const Unit  mid         = mid_1 + mid_2;
-            //const Truth     mid_carry   = (mid < mid_1);
-            //const Unit  high        = one * parts_a[1] * parts_b[1];
-
-            //auto result = Self( tag::Uninitialized() );
-            //result.m_parts[0] = low + ((mid & 0xFFFFFFFF) << 32);
-            //const Truth part_0_carry = (result.m_parts[0] < low);
-            //result.m_parts[1] = (+part_0_carry) + (mid >> 32) + (Unit(+mid_carry) << 32) + high;
-            //return result;
-            return Self( tag::From_parts(), Unit( a*b % 256 ), Unit( a*b / 256 ) );
-        }
-
         struct Divmod_result;
         inline auto divmod_unit( const Unit b ) const
             -> Divmod_result;
@@ -226,28 +206,35 @@ namespace kickstart::language::_definitions {
         const int n_divisor_digits = bits_per_<Unit> - n_shifts;
         Divmod_result result = {*this, 0};
         Truth carry = false;
-        for( int i = 0; i < n_q_digits; ++i ) {
-            result.quotient.shift_left();
+        for( int i = 0;; ) {
             if( carry or divisor <= result.remainder.m_parts[1] ) {
                 result.remainder.m_parts[1] -= divisor;
                 result.quotient.m_parts[0] |= 1;
             }
+
+            ++i;
+            if( i == n_q_digits ) {
+                break;
+            }
+
+            result.quotient.shift_left();
             carry = msb_is_set_in( result.remainder.parts()[1] );
             result.remainder.shift_left();
         }
         assert( result.remainder.m_parts[0] == 0 );
-        result.remainder.m_parts[1] >>= n_q_digits;
         swap( result.remainder.m_parts[0], result.remainder.m_parts[1] );
+        result.remainder.m_parts[0] >>= n_shifts;
         return result;
     }
 
     inline auto operator*( const Large_uint::Unit a, const Large_uint& b )
         -> Large_uint
     {
-        const Large_uint lsp_product = Large_uint::mul_units( a, b.parts()[0] );
+        Large_uint::Unit parts_product[2];
+        multiply_by_parts<Large_uint::Half_unit>( a, b.parts()[0], parts_product );
         return Large_uint( tag::From_parts(),
-            lsp_product.parts()[0],
-            lsp_product.parts()[1] + a*b.parts()[1]
+            parts_product[0],
+            parts_product[1] + a*b.parts()[1]
         );
     }
 
