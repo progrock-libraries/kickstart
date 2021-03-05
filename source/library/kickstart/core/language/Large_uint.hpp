@@ -67,7 +67,7 @@ namespace kickstart::language::_definitions {
     {
     public:
         using Unit = uint8_t;
-        using Parts = array<Unit, 2>;           // // 0 => lsp, 1 => msp.
+        using Parts = array<Unit, 2>;           // 0 => lsp, 1 => msp.
         static constexpr int n_bits = 2*bits_per_<Unit>;
 
     private:
@@ -76,20 +76,10 @@ namespace kickstart::language::_definitions {
         Parts   m_parts;
 
     public:
-        Large_uint():
-            m_parts()
-        {}
-
-        Large_uint( tag::Uninitialized )
-        {}
-
-        Large_uint( const Unit value ):
-            m_parts{ value, 0 }
-        {}
-
-        Large_uint( tag::From_parts, const Unit lsp, const Unit msp ):
-            m_parts{ lsp, msp }
-        {}
+        Large_uint(): m_parts() {}
+        Large_uint( tag::Uninitialized ) {}
+        Large_uint( const Unit value ): m_parts{ value, 0 } {}
+        Large_uint( tag::From_parts, const Unit lsp, const Unit msp ): m_parts{ lsp, msp } {}
 
         auto parts() const
             -> const Parts&
@@ -114,7 +104,8 @@ namespace kickstart::language::_definitions {
             -> Truth
         { return m_parts[1] == 0; }
 
-        auto operator~() const -> Self
+        auto operator~() const
+            -> Self
         {
             Self result = *this;
             for( auto& part: result.m_parts ) { part = ~part; }
@@ -137,12 +128,12 @@ namespace kickstart::language::_definitions {
             --m_parts[0];
         }
 
-        auto operator+() const -> Self
-        {
-            return *this;
-        }
+        auto operator+() const
+            -> Self
+        { return *this; }
 
-        auto operator-() const -> Self
+        auto operator-() const
+            -> Self
         {
             Self result = ~*this;
             ++result;
@@ -157,7 +148,8 @@ namespace kickstart::language::_definitions {
         }
 
         friend
-        auto operator+( const Self& a, const Self& b ) -> Self
+        auto operator+( const Self& a, const Self& b )
+            -> Self
         {
             Self result = a;
             result += b;
@@ -170,10 +162,9 @@ namespace kickstart::language::_definitions {
         }
 
         friend
-        auto operator-( const Self& a, const Self& b ) -> Self
-        {
-            return a + -b;
-        }
+        auto operator-( const Self& a, const Self& b )
+            -> Self
+        { return a + -b; }
 
         void shift_left()
         {
@@ -192,7 +183,8 @@ namespace kickstart::language::_definitions {
         }
 
         static
-        auto mul_units( const Unit a, const Unit b ) -> Self
+        auto mul_units( const Unit a, const Unit b )
+            -> Self
         {
             //const array<uint32_t, 2>    parts_a = { uint32_t( a & 0xFFFFFFFF ), uint32_t( a >> 32 ) };
             //const array<uint32_t, 2>    parts_b = { uint32_t( b & 0xFFFFFFFF ), uint32_t( b >> 32 ) };
@@ -214,7 +206,8 @@ namespace kickstart::language::_definitions {
         }
 
         struct Divmod_result;
-        inline auto divmod_unit( const Unit b ) const -> Divmod_result;
+        inline auto divmod_unit( const Unit b ) const
+            -> Divmod_result;
     };
 
     struct Large_uint::Divmod_result
@@ -242,19 +235,14 @@ namespace kickstart::language::_definitions {
 
         const int n_q_digits = 1 + n_shifts + bits_per_<Unit>;
         const int n_divisor_digits = bits_per_<Unit> - n_shifts;
-        out << "n_shifts=" << n_shifts << ", n_q_digits = " << n_q_digits << endl;
         Divmod_result result = {*this, 0};
         Truth carry = false;
         for( int i = 0; i < n_q_digits; ++i ) {
             result.quotient.shift_left();
-            out << +carry << " " << spaces( i ) << result.remainder.to_bitset().to_string().substr( 0, 2*bits_per_<Unit> - i );
             if( carry or divisor <= result.remainder.m_parts[1] ) {
                 result.remainder.m_parts[1] -= divisor;
                 result.quotient.m_parts[0] |= 1;
             }
-            out << "  " << result.quotient.to_bitset().to_string() << endl;
-            out << "  " << spaces( i ) << bitset<bits_per_<Unit>>( divisor ).to_string().substr( 0, n_divisor_digits ) << endl;
-            out << endl;
             carry = msb_is_set_in( result.remainder.parts()[1] );
             result.remainder.shift_left();
         }
