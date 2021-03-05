@@ -35,7 +35,6 @@
 
 #include <array>
 #include <bitset>
-#include <type_traits>
 #include <utility>          // swap
 
 namespace kickstart::tag {
@@ -47,21 +46,11 @@ namespace kickstart::tag {
 namespace kickstart::language::_definitions {
     using namespace kickstart::strings;
     using   kickstart::limits::bits_per_;
+    using namespace kickstart::math;        // is_xxx_set_in
     using   std::array,
             std::bitset,
             std::make_signed_t,
             std::swap;
-
-    template< class Unsigned >
-    inline auto msb_is_set_in( const Unsigned value )
-        -> Truth
-    { return make_signed_t<Unsigned>( value ) < 0; }
-
-    template< class Unsigned >
-    inline auto lsb_is_set_in( const Unsigned value )
-        -> Truth
-    { return !!(value & 1); }
-
 
     class Large_uint
     {
@@ -273,7 +262,6 @@ namespace kickstart::language::_definitions {
     inline auto compare( const Large_uint::Unit a, const Large_uint::Unit b )
         -> int
     { return (a < b? -1 : a == b? 0 : +1); }
-
 
     inline auto compare( const Large_uint& a, const Large_uint& b )
         -> int

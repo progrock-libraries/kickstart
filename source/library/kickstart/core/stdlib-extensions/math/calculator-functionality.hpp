@@ -23,6 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/stdlib-extensions/math/integer-operations.hpp> // is_odd
 
 #include <cmath>        // Special functions, for completeness.
 #include <math.h>       // 
@@ -30,12 +31,6 @@
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
     using kickstart::language::Truth;
-
-    template< class Int = int >
-    inline constexpr auto is_even( const Int x ) -> Truth { return x % 2 == 0; }
-
-    template< class Int = int >
-    inline constexpr auto is_odd( const Int x ) -> Truth { return x % 2 == 1; }
 
     constexpr double e                  = 2.71828182845904523536;
     constexpr double log2e              = 1.44269504088896340736;
