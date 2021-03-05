@@ -63,10 +63,7 @@ namespace kickstart::language::_definitions {
     { return !!(value & 1); }
 
 
-    class Limited_unsigned_int;
-    struct Divmod_result;
-
-    class Limited_unsigned_int
+    class Large_uint
     {
     public:
         using Unit = uint8_t;
@@ -74,24 +71,23 @@ namespace kickstart::language::_definitions {
         static constexpr int n_bits = 2*bits_per_<Unit>;
 
     private:
-        using Self = Limited_unsigned_int;
-        friend auto divmod( const Self& a, const Unit b ) -> Divmod_result;
+        using Self = Large_uint;
 
         Parts   m_parts;
 
     public:
-        Limited_unsigned_int():
+        Large_uint():
             m_parts()
         {}
 
-        Limited_unsigned_int( tag::Uninitialized )
+        Large_uint( tag::Uninitialized )
         {}
 
-        Limited_unsigned_int( const Unit value ):
+        Large_uint( const Unit value ):
             m_parts{ value, 0 }
         {}
 
-        Limited_unsigned_int( tag::From_parts, const Unit lsp, const Unit msp ):
+        Large_uint( tag::From_parts, const Unit lsp, const Unit msp ):
             m_parts{ lsp, msp }
         {}
 
@@ -217,63 +213,25 @@ namespace kickstart::language::_definitions {
             return Self( tag::From_parts(), Unit( a*b % 256 ), Unit( a*b / 256 ) );
         }
 
-        friend
-        auto operator*( const Unit a, const Self& b ) -> Self
-        {
-            Self result = mul_units( b.m_parts[0], a );
-            result.m_parts[1] += b.m_parts[1]*a;
-            return result;
-        }
-
-        friend
-        auto operator/( const Self& a, const Unit b ) -> Self
-        {
-            #ifndef KS_TEST_DIVISION_PLEASE
-                if( a.m_parts[1] == 0 ) {
-                    return a.m_parts[0]/b;
-                }
-            #endif
-
-            Unit divisor = b;
-            int n_shifts = 0;
-            while( not msb_is_set_in( divisor ) ) {
-                divisor <<= 1;
-                ++n_shifts;
-            }
-
-            const int n_q_digits = n_shifts + 64;
-            Self dividend   = a;
-            Self result     = 0;
-            for( int i = 0; i < n_q_digits; ++i ) {
-                result.shift_left();
-                if( divisor <= dividend.m_parts[1] ) {
-                    dividend.m_parts[1] -= divisor;
-                    result.m_parts[0] |= 1;
-                }
-                dividend.shift_left();
-            }
-            return result;
-        }
+        struct Divmod_result;
+        inline auto divmod_unit( const Unit b ) const -> Divmod_result;
     };
 
-    using Luint = Limited_unsigned_int;
-    struct Divmod_result
+    struct Large_uint::Divmod_result
     {
-        Luint   remainder;
-        Luint   quotient;
+        Large_uint   remainder;
+        Large_uint   quotient;
     };
 
-    inline auto divmod( const Luint& a, const Luint::Unit b )
+    inline auto Large_uint::divmod_unit( const Large_uint::Unit b ) const
         -> Divmod_result
     {
         using namespace faux_iostreams;
         #ifndef KS_TEST_DIVISION_PLEASE
-            if( a.m_parts[1] == 0 ) {
-                return {Luint::Unit( a.m_parts[0]%b ), Luint::Unit( a.m_parts[0]/b )};
+            if( m_parts[1] == 0 ) {
+                return {Unit( m_parts[0]%b ), Unit( m_parts[0]/b )};
             }
         #endif
-
-        using Unit = Luint::Unit;
 
         Unit divisor = b;
         int n_shifts = 0;
@@ -285,7 +243,7 @@ namespace kickstart::language::_definitions {
         const int n_q_digits = 1 + n_shifts + bits_per_<Unit>;
         const int n_divisor_digits = bits_per_<Unit> - n_shifts;
         out << "n_shifts=" << n_shifts << ", n_q_digits = " << n_q_digits << endl;
-        Divmod_result result = {a, 0};
+        Divmod_result result = {*this, 0};
         Truth carry = false;
         for( int i = 0; i < n_q_digits; ++i ) {
             result.quotient.shift_left();
@@ -306,12 +264,30 @@ namespace kickstart::language::_definitions {
         return result;
     }
 
-    inline auto compare( const Luint::Unit a, const Luint::Unit b )
+    inline auto operator*( const Large_uint::Unit a, const Large_uint& b )
+        -> Large_uint
+    {
+        const Large_uint lsp_product = Large_uint::mul_units( a, b.parts()[0] );
+        return Large_uint( tag::From_parts(),
+            lsp_product.parts()[0],
+            lsp_product.parts()[1] + a*b.parts()[1]
+        );
+    }
+
+    inline auto operator/( const Large_uint& a, const Large_uint::Unit b )
+        -> Large_uint
+    { return a.divmod_unit( b ).quotient; }
+
+    inline auto operator%( const Large_uint& a, const Large_uint::Unit b )
+        -> Large_uint
+    { return a.divmod_unit( b ).remainder; }
+
+    inline auto compare( const Large_uint::Unit a, const Large_uint::Unit b )
         -> int
     { return (a < b? -1 : a == b? 0 : +1); }
 
 
-    inline auto compare( const Luint& a, const Luint& b )
+    inline auto compare( const Large_uint& a, const Large_uint& b )
         -> int
     {
         if( const int r = compare( a.parts()[1], b.parts()[1] ) ) {
@@ -320,27 +296,27 @@ namespace kickstart::language::_definitions {
         return compare( a.parts()[0], b.parts()[0] );
     }
 
-    inline auto operator<( const Luint& a, const Luint& b )
+    inline auto operator<( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) < 0); }
 
-    inline auto operator<=( const Luint& a, const Luint& b )
+    inline auto operator<=( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) <= 0); }
 
-    inline auto operator==( const Luint& a, const Luint& b )
+    inline auto operator==( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) == 0); }
 
-    inline auto operator>=( const Luint& a, const Luint& b )
+    inline auto operator>=( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) >= 0); }
 
-    inline auto operator>( const Luint& a, const Luint& b )
+    inline auto operator>( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) > 0); }
 
-    inline auto operator!=( const Luint& a, const Luint& b )
+    inline auto operator!=( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) != 0); }
 
