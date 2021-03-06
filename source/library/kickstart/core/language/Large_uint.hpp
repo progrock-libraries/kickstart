@@ -22,10 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if 1
-#   include <kickstart/faux_iostreams.hpp>
-#endif
-
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
@@ -193,7 +189,6 @@ namespace kickstart::language::_definitions {
     inline auto Large_uint::divmod_unit( const Large_uint::Unit b ) const
         -> Divmod_result
     {
-        using namespace faux_iostreams;
         #ifndef KS_TEST_DIVISION_PLEASE
             if( m_parts[1] == 0 ) {
                 return {Unit( m_parts[0]%b ), Unit( m_parts[0]/b )};
