@@ -60,8 +60,8 @@ namespace kickstart::language::_definitions {
     class Large_uint
     {
     public:
-        using Unit      = uint8_t;
-        using Half_unit = void;
+        using Half_unit = uint32_t;
+        using Unit      = uint64_t;
         using Parts     = array<Unit, 2>;       // 0 => lsp, 1 => msp.
         static constexpr int n_bits = 2*bits_per_<Unit>;
 

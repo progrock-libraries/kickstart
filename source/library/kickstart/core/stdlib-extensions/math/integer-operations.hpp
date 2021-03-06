@@ -98,9 +98,9 @@ namespace kickstart::math::_definitions {
 
             p_result_items[0] = low + ((mid & half_mask) << half_shift);
             const Truth part_0_carry = (p_result_items[0] < low);
-            p_result_items[1] = 0
-                + (+part_0_carry)
-                + (mid >> half_shift) + (Unit(+mid_carry) << half_shift)
+            p_result_items[1] = Unit()
+                + Unit( +part_0_carry )
+                + (mid >> half_shift) + (Unit( +mid_carry ) << half_shift)
                 + high;
         }
     }
