@@ -38,8 +38,15 @@ namespace kickstart::math::_definitions {
     namespace kl = kickstart::language;
 
     using   kl::lx::bits_per_, kl::Truth, kl::Type_;
-    using   std::make_signed_t, std::is_unsigned_v,
+    using   std::is_integral_v, std::is_unsigned_v, std::make_signed_t,
             std::enable_if_t;
+
+    template< class Int,
+        class = enable_if_t<is_integral_v<Int>>
+        >
+    inline auto compare( const Int a, const Int b )
+        -> int
+    { return (a < b? -1 : a == b? 0 : +1); }
 
     template< class Int >
     inline constexpr auto is_even( const Int x ) -> Truth { return x % 2 == 0; }
@@ -102,6 +109,7 @@ namespace kickstart::math::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::compare,
         d::is_even, d::is_odd,
         d::sign_of,
         d::msb_is_set_in, d::lsb_is_set_in,

@@ -36,6 +36,8 @@
 
 #include <array>
 #include <bitset>
+#include <string>
+#include <type_traits>
 #include <utility>          // swap
 
 namespace kickstart::tag {
@@ -51,6 +53,7 @@ namespace kickstart::language::_definitions {
     using   kickstart::limits::bits_per_;
     using   std::array,
             std::bitset,
+            std::string,
             std::make_signed_t,
             std::swap;
 
@@ -246,17 +249,18 @@ namespace kickstart::language::_definitions {
         -> Large_uint
     { return a.divmod_unit( b ).remainder; }
 
-    inline auto compare( const Large_uint::Unit a, const Large_uint::Unit b )
-        -> int
-    { return (a < b? -1 : a == b? 0 : +1); }
-
     inline auto compare( const Large_uint& a, const Large_uint& b )
         -> int
     {
-        if( const int r = compare( a.parts()[1], b.parts()[1] ) ) {
+        using Unit = Large_uint::Unit;
+        static const auto compare_units = []( const Unit a, const Unit b )
+            -> int
+        { return (a < b? -1 : a == b? 0 : +1); };
+
+        if( const int r = compare_units( a.parts()[1], b.parts()[1] ) ) {
             return r;
         }
-        return compare( a.parts()[0], b.parts()[0] );
+        return compare_units( a.parts()[0], b.parts()[0] );
     }
 
     inline auto operator<( const Large_uint& a, const Large_uint& b )
@@ -282,5 +286,21 @@ namespace kickstart::language::_definitions {
     inline auto operator!=( const Large_uint& a, const Large_uint& b )
         -> Truth
     { return (compare( a, b ) != 0); }
+
+    inline auto str( const Large_uint& v )
+        -> string
+    {
+        if( v == 0 ) { return "0"; }
+
+        string digits;
+        Large_uint a = v;
+        while( a != 0 ) {
+            const auto r = a.divmod_unit( 10 );
+            digits += "0123456789"[r.remainder.modulo_unit()];
+            a = r.quotient;
+        }
+        reverse( begin( digits ), end( digits ) );
+        return digits;
+    }
 
 }  // namespace kickstart::language::_definitions
