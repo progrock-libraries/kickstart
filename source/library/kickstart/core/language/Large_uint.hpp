@@ -102,8 +102,10 @@ namespace kickstart::language::_definitions {
         auto operator~() const
             -> Self
         {
-            Self result = *this;
-            for( auto& part: result.m_parts ) { part = ~part; }
+            auto result = Self( tag::Uninitialized() );
+            for( int i = 0; i < 2; ++i ) {
+                result.m_parts[i] = ~m_parts[i];
+            }
             return result;
         }
 
@@ -206,7 +208,6 @@ namespace kickstart::language::_definitions {
         }
 
         const int n_q_digits = 1 + n_shifts + bits_per_<Unit>;
-        const int n_divisor_digits = bits_per_<Unit> - n_shifts;
         Divmod_result result = {*this, 0};
         Truth carry = false;
         for( int i = 0;; ) {
