@@ -33,7 +33,6 @@
 #include <array>
 #include <bitset>
 #include <string>
-#include <type_traits>
 #include <utility>          // swap
 
 namespace kickstart::tag {
@@ -50,7 +49,6 @@ namespace kickstart::language::_definitions {
     using   std::array,
             std::bitset,
             std::string,
-            std::make_signed_t,
             std::swap;
 
     class Large_uint
