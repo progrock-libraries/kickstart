@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/intpow.hpp>           // intpow
+#include <kickstart/core/language/lx/intpow.hpp>        // intpow
 #include <kickstart/core/language/Truth.hpp>            // Truth
 
 #include <math.h>       // The header this one mainly extends.
@@ -30,7 +30,7 @@
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
     namespace kl = kickstart::language;
-    using   kl::intpow,
+    using   kl::lx::intpow,
             kl::Truth;
 
     constexpr double e                  = 2.71828182845904523536;

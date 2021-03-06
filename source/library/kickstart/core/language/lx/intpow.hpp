@@ -22,18 +22,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <limits.h>     // CHAR_BIT
+#include <kickstart/core/language/Truth.hpp>
 
-namespace kickstart::language::_definitions {
+// Important to not introduce possible future name conflicts with <math.h>, hence
+// the “lx” (short for “language extension”) namespace.
+namespace kickstart::language::lx::_definitions {
+    namespace impl
+    {
+        // Essentially this is Horner's rule adapted to calculating a power, so that the
+        // number of floating point multiplications is at worst O(log₂n).
+        template< class Number_type >
+        constexpr inline auto intpow_( const Number_type base, const int exponent )
+            -> Number_type
+        {
+            Number_type result = 1;
+            Number_type weight = base;
+            for( int n = exponent; n != 0; weight *= weight ) {
+                if( n % 2 != 0 ) {
+                    result *= weight;
+                }
+                n /= 2;
+            }
+            return result;
+        }
+    }  // namespace impl
 
-    template< class T > constexpr int bits_per_ = sizeof( T )*CHAR_BIT;
+    template< class Number_type >
+    constexpr inline auto intpow( const Number_type base, const int exponent )
+        -> Number_type
+    {
+        return (0?0
+            : exponent > 0?     impl::intpow_<Number_type>( base, exponent )
+            : exponent == 0?    1.0
+            :                   1.0/impl::intpow_<Number_type>( base, -exponent )
+            );
+    }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::bits_per_;
+        d::intpow;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::language::lx::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::language::lx  { using namespace _definitions::exported_names; }

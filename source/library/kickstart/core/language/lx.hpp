@@ -22,33 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/lx/intpow.hpp>        // lx::intpow_
-#include <kickstart/core/language/lx/bits_per_.hpp>     // bits_per_
-
-#include <float.h>      // DBL_MANT_DIG
-
-namespace kickstart::limits::_definitions {
-    namespace kl = kickstart::language;
-    namespace lx = kl::lx;
-
-    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
-    template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
-    template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
-    template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;
-
-    template< class Fp_type >
-    constexpr Fp_type largest_exact_integer_of_ =
-        lx::intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) +
-        (lx::intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::lx::bits_per_,
-        d::bits_per_mantissa_of_,
-        d::largest_exact_integer_of_;
-    }  // namespace exported names
-}  // namespace kickstart::limits::_definitions
-
-namespace kickstart::limits         { using namespace _definitions::exported_names; }
+#include <kickstart/core/language/lx/bits_per_.hpp>
+#include <kickstart/core/language/lx/intpow.hpp>

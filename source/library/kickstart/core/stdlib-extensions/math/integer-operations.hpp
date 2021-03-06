@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/bits_per_.hpp>                // bits_per_
+#include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
 #include <kickstart/core/language/type-aliases.hpp>             // Type_
 
@@ -37,7 +37,7 @@
 namespace kickstart::math::_definitions {
     namespace kl = kickstart::language;
 
-    using   kl::bits_per_, kl::Truth, kl::Type_;
+    using   kl::lx::bits_per_, kl::Truth, kl::Type_;
     using   std::make_signed_t, std::is_unsigned_v,
             std::enable_if_t;
 
