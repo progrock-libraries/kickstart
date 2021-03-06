@@ -28,6 +28,8 @@
 #include <stdint.h>     // int32_t, int64_t
 
 namespace kickstart::language::_definitions {
+    using lx::bits_per_;
+
     template< class T > using Type_ = T;
 
     using Size                  = ptrdiff_t;
@@ -38,10 +40,10 @@ namespace kickstart::language::_definitions {
 
     using Int32                 = int32_t;
     using Unsigned_int32        = uint32_t;
-    using Number32              = float;        static_assert( lx::bits_per_<Number32> >= 32, "!" );
+    using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
     using Int64                 = int64_t;
     using Unsigned_int64        = uint64_t;
-    using Number64              = double;       static_assert( lx::bits_per_<Number64> >= 64, "!" );
+    using Number64              = double;       static_assert( bits_per_<Number64> >= 64, "!" );
 
     using Integer   = Int64;
     using Number    = Number64;
