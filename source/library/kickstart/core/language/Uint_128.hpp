@@ -51,7 +51,7 @@ namespace kickstart::language::_definitions {
             std::string,
             std::swap;
 
-    class Large_uint
+    class Uint_128
     {
     public:
         using Half_unit = uint32_t;
@@ -60,17 +60,17 @@ namespace kickstart::language::_definitions {
         static constexpr int n_bits = 2*bits_per_<Unit>;
 
     private:
-        using Self = Large_uint;
+        using Self = Uint_128;
 
         Parts   m_parts;
 
     public:
-        Large_uint(): m_parts() {}
-        Large_uint( tag::Uninitialized ) {}
-        Large_uint( const Unit value ): m_parts{ value, 0 } {}
-        Large_uint( tag::From_parts, const Unit lsp, const Unit msp ): m_parts{ lsp, msp } {}
+        Uint_128(): m_parts() {}
+        Uint_128( tag::Uninitialized ) {}
+        Uint_128( const Unit value ): m_parts{ value, 0 } {}
+        Uint_128( tag::From_parts, const Unit lsp, const Unit msp ): m_parts{ lsp, msp } {}
 
-        Large_uint( const Self& ) = default;
+        Uint_128( const Self& ) = default;
         auto operator=( const Self& ) -> Self& = default;
 
         inline auto parts() const -> const Parts&;
@@ -92,33 +92,33 @@ namespace kickstart::language::_definitions {
         inline auto divmod_unit( const Unit b ) const -> Divmod_result;
     };
 
-    inline auto operator+( const Large_uint& ) -> Large_uint;
-    inline auto operator-( const Large_uint& ) -> Large_uint;
+    inline auto operator+( const Uint_128& ) -> Uint_128;
+    inline auto operator-( const Uint_128& ) -> Uint_128;
 
-    inline auto operator+( const Large_uint& a, const Large_uint& b ) -> Large_uint;
-    inline auto operator-( const Large_uint& a, const Large_uint& b ) -> Large_uint;
-    inline auto operator*( const Large_uint::Unit a, const Large_uint& b ) -> Large_uint;
-    inline auto operator/( const Large_uint& a, const Large_uint::Unit b ) -> Large_uint;
-    inline auto operator%( const Large_uint& a, const Large_uint::Unit b ) -> Large_uint;
+    inline auto operator+( const Uint_128& a, const Uint_128& b ) -> Uint_128;
+    inline auto operator-( const Uint_128& a, const Uint_128& b ) -> Uint_128;
+    inline auto operator*( const Uint_128::Unit a, const Uint_128& b ) -> Uint_128;
+    inline auto operator/( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
+    inline auto operator%( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
 
-    inline auto compare( const Large_uint& a, const Large_uint& b ) -> int;
-    inline auto operator<( const Large_uint& a, const Large_uint& b ) -> Truth;
-    inline auto operator<=( const Large_uint& a, const Large_uint& b ) -> Truth;
-    inline auto operator==( const Large_uint& a, const Large_uint& b ) -> Truth;
-    inline auto operator>=( const Large_uint& a, const Large_uint& b ) -> Truth;
-    inline auto operator>( const Large_uint& a, const Large_uint& b ) -> Truth;
-    inline auto operator!=( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto compare( const Uint_128& a, const Uint_128& b ) -> int;
+    inline auto operator<( const Uint_128& a, const Uint_128& b ) -> Truth;
+    inline auto operator<=( const Uint_128& a, const Uint_128& b ) -> Truth;
+    inline auto operator==( const Uint_128& a, const Uint_128& b ) -> Truth;
+    inline auto operator>=( const Uint_128& a, const Uint_128& b ) -> Truth;
+    inline auto operator>( const Uint_128& a, const Uint_128& b ) -> Truth;
+    inline auto operator!=( const Uint_128& a, const Uint_128& b ) -> Truth;
 
-    inline auto str( const Large_uint& v ) -> string;
+    inline auto str( const Uint_128& v ) -> string;
 
 
     //--------------------------------------------------------------------------------------------------
 
-    inline auto Large_uint::parts() const
+    inline auto Uint_128::parts() const
         -> const Parts&
     { return m_parts; }
 
-    inline auto Large_uint::to_bitset() const
+    inline auto Uint_128::to_bitset() const
         -> bitset<n_bits>
     {
         auto bits = bitset<n_bits>( m_parts[0] );
@@ -129,15 +129,15 @@ namespace kickstart::language::_definitions {
         return bits;
     }
 
-    inline auto Large_uint::modulo_unit() const
+    inline auto Uint_128::modulo_unit() const
         -> Unit
     { return m_parts[0]; }
 
-    inline auto Large_uint::is_in_unit_range() const
+    inline auto Uint_128::is_in_unit_range() const
         -> Truth
     { return m_parts[1] == 0; }
 
-    inline auto Large_uint::operator~() const
+    inline auto Uint_128::operator~() const
         -> Self
     {
         auto result = Self( tag::Uninitialized() );
@@ -147,7 +147,7 @@ namespace kickstart::language::_definitions {
         return result;
     }
 
-    inline void Large_uint::operator++()
+    inline void Uint_128::operator++()
     {
         ++m_parts[0];
         if( m_parts[0] == 0 ) {
@@ -155,7 +155,7 @@ namespace kickstart::language::_definitions {
         }
     }
 
-    inline void Large_uint::operator--()
+    inline void Uint_128::operator--()
     {
         if( m_parts[0] == 0 ) {
             --m_parts[1];
@@ -163,19 +163,19 @@ namespace kickstart::language::_definitions {
         --m_parts[0];
     }
 
-    inline void Large_uint::operator+=( const Self& other )
+    inline void Uint_128::operator+=( const Self& other )
     {
         m_parts[0] += other.m_parts[0];
         const Truth carry = (m_parts[0] < other.m_parts[0]);
         m_parts[1] += Unit( other.m_parts[1] + +carry );
     }
 
-    inline void Large_uint::operator-=( const Self& other )
+    inline void Uint_128::operator-=( const Self& other )
     {
         *this += -other;
     }
 
-    inline void Large_uint::shift_left()
+    inline void Uint_128::shift_left()
     {
         const Truth carry = msb_is_set_in( m_parts[0] );
         m_parts[0] <<= 1;
@@ -183,7 +183,7 @@ namespace kickstart::language::_definitions {
         m_parts[1] |= +carry;
     }
 
-    inline void Large_uint::shift_right()
+    inline void Uint_128::shift_right()
     {
         const Truth carry = lsb_is_set_in( m_parts[1] );
         m_parts[1] >>= 1;
@@ -191,13 +191,13 @@ namespace kickstart::language::_definitions {
         m_parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
     }
 
-    struct Large_uint::Divmod_result
+    struct Uint_128::Divmod_result
     {
-        Large_uint   remainder;
-        Large_uint   quotient;
+        Uint_128   remainder;
+        Uint_128   quotient;
     };
 
-    inline auto Large_uint::divmod_unit( const Large_uint::Unit b ) const
+    inline auto Uint_128::divmod_unit( const Uint_128::Unit b ) const
         -> Divmod_result
     {
         #ifndef KS_TEST_DIVISION_PLEASE
@@ -237,53 +237,53 @@ namespace kickstart::language::_definitions {
         return result;
     }
 
-    inline auto operator+( const Large_uint& value )
-        -> Large_uint
+    inline auto operator+( const Uint_128& value )
+        -> Uint_128
     { return value; }
 
-    inline auto operator-( const Large_uint& value )
-        -> Large_uint
+    inline auto operator-( const Uint_128& value )
+        -> Uint_128
     {
-        Large_uint result = ~value;
+        Uint_128 result = ~value;
         ++result;
         return result;
     }
 
-    inline auto operator+( const Large_uint& a, const Large_uint& b )
-        -> Large_uint
+    inline auto operator+( const Uint_128& a, const Uint_128& b )
+        -> Uint_128
     {
-        Large_uint result = a;
+        Uint_128 result = a;
         result += b;
         return result;
     }
 
-    inline auto operator-( const Large_uint& a, const Large_uint& b )
-        -> Large_uint
+    inline auto operator-( const Uint_128& a, const Uint_128& b )
+        -> Uint_128
     { return a + -b; }
 
-    inline auto operator*( const Large_uint::Unit a, const Large_uint& b )
-        -> Large_uint
+    inline auto operator*( const Uint_128::Unit a, const Uint_128& b )
+        -> Uint_128
     {
-        Large_uint::Unit parts_product[2];
-        multiply_by_parts<Large_uint::Half_unit>( a, b.parts()[0], parts_product );
-        return Large_uint( tag::From_parts(),
+        Uint_128::Unit parts_product[2];
+        multiply_by_parts<Uint_128::Half_unit>( a, b.parts()[0], parts_product );
+        return Uint_128( tag::From_parts(),
             parts_product[0],
             parts_product[1] + a*b.parts()[1]
         );
     }
 
-    inline auto operator/( const Large_uint& a, const Large_uint::Unit b )
-        -> Large_uint
+    inline auto operator/( const Uint_128& a, const Uint_128::Unit b )
+        -> Uint_128
     { return a.divmod_unit( b ).quotient; }
 
-    inline auto operator%( const Large_uint& a, const Large_uint::Unit b )
-        -> Large_uint
+    inline auto operator%( const Uint_128& a, const Uint_128::Unit b )
+        -> Uint_128
     { return a.divmod_unit( b ).remainder; }
 
-    inline auto compare( const Large_uint& a, const Large_uint& b )
+    inline auto compare( const Uint_128& a, const Uint_128& b )
         -> int
     {
-        using Unit = Large_uint::Unit;
+        using Unit = Uint_128::Unit;
         static const auto compare_units = []( const Unit a, const Unit b )
             -> int
         { return (a < b? -1 : a == b? 0 : +1); };
@@ -294,37 +294,37 @@ namespace kickstart::language::_definitions {
         return compare_units( a.parts()[0], b.parts()[0] );
     }
 
-    inline auto operator<( const Large_uint& a, const Large_uint& b )
+    inline auto operator<( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) < 0); }
 
-    inline auto operator<=( const Large_uint& a, const Large_uint& b )
+    inline auto operator<=( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) <= 0); }
 
-    inline auto operator==( const Large_uint& a, const Large_uint& b )
+    inline auto operator==( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) == 0); }
 
-    inline auto operator>=( const Large_uint& a, const Large_uint& b )
+    inline auto operator>=( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) >= 0); }
 
-    inline auto operator>( const Large_uint& a, const Large_uint& b )
+    inline auto operator>( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) > 0); }
 
-    inline auto operator!=( const Large_uint& a, const Large_uint& b )
+    inline auto operator!=( const Uint_128& a, const Uint_128& b )
         -> Truth
     { return (compare( a, b ) != 0); }
 
-    inline auto str( const Large_uint& v )
+    inline auto str( const Uint_128& v )
         -> string
     {
         if( v == 0 ) { return "0"; }
 
         string digits;
-        Large_uint a = v;
+        Uint_128 a = v;
         while( a != 0 ) {
             const auto r = a.divmod_unit( 10 );
             digits += "0123456789"[r.remainder.modulo_unit()];
