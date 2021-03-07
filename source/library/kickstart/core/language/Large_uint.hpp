@@ -70,113 +70,126 @@ namespace kickstart::language::_definitions {
         Large_uint( const Unit value ): m_parts{ value, 0 } {}
         Large_uint( tag::From_parts, const Unit lsp, const Unit msp ): m_parts{ lsp, msp } {}
 
-        auto parts() const
-            -> const Parts&
-        { return m_parts; }
+        Large_uint( const Self& ) = default;
+        auto operator=( const Self& ) -> Self& = default;
 
-        auto to_bitset() const
-            -> bitset<n_bits>
-        {
-            auto bits = bitset<n_bits>( m_parts[0] );
-            for( int i = 0; i < bits_per_<Unit>; ++i ) {
-                const int bit = (m_parts[1] >> i) & 1;
-                bits.set( i + bits_per_<Unit>, !!bit );
-            }
-            return bits;
-        }
+        inline auto parts() const -> const Parts&;
+        inline auto to_bitset() const -> bitset<n_bits>;
+        inline auto modulo_unit() const -> Unit;
+        inline auto is_in_unit_range() const -> Truth;
+        inline auto operator~() const -> Self;
 
-        auto modulo_unit() const
-            -> Unit
-        { return m_parts[0]; }
+        inline void operator++();
+        inline void operator--();
 
-        auto is_in_unit_range() const
-            -> Truth
-        { return m_parts[1] == 0; }
+        inline void operator+=( const Self& other );
+        inline void operator-=( const Self& other );
 
-        auto operator~() const
-            -> Self
-        {
-            auto result = Self( tag::Uninitialized() );
-            for( int i = 0; i < 2; ++i ) {
-                result.m_parts[i] = ~m_parts[i];
-            }
-            return result;
-        }
-
-        void operator++()
-        {
-            ++m_parts[0];
-            if( m_parts[0] == 0 ) {
-                ++m_parts[1];
-            }
-        }
-
-        void operator--()
-        {
-            if( m_parts[0] == 0 ) {
-                --m_parts[1];
-            }
-            --m_parts[0];
-        }
-
-        auto operator+() const
-            -> Self
-        { return *this; }
-
-        auto operator-() const
-            -> Self
-        {
-            Self result = ~*this;
-            ++result;
-            return result;
-        }
-
-        void operator+=( const Self& other )
-        {
-            m_parts[0] += other.m_parts[0];
-            const Truth carry = (m_parts[0] < other.m_parts[0]);
-            m_parts[1] += Unit( other.m_parts[1] + +carry );
-        }
-
-        friend
-        auto operator+( const Self& a, const Self& b )
-            -> Self
-        {
-            Self result = a;
-            result += b;
-            return result;
-        }
-
-        void operator-=( const Self& other )
-        {
-            *this += -other;
-        }
-
-        friend
-        auto operator-( const Self& a, const Self& b )
-            -> Self
-        { return a + -b; }
-
-        void shift_left()
-        {
-            const Truth carry = msb_is_set_in( m_parts[0] );
-            m_parts[0] <<= 1;
-            m_parts[1] <<= 1;
-            m_parts[1] |= +carry;
-        }
-
-        void shift_right()
-        {
-            const Truth carry = lsb_is_set_in( m_parts[1] );
-            m_parts[1] >>= 1;
-            m_parts[0] >>= 1;
-            m_parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
-        }
+        inline void shift_left();
+        inline void shift_right();
 
         struct Divmod_result;
-        inline auto divmod_unit( const Unit b ) const
-            -> Divmod_result;
+        inline auto divmod_unit( const Unit b ) const -> Divmod_result;
     };
+
+    inline auto operator+( const Large_uint& ) -> Large_uint;
+    inline auto operator-( const Large_uint& ) -> Large_uint;
+
+    inline auto operator+( const Large_uint& a, const Large_uint& b ) -> Large_uint;
+    inline auto operator-( const Large_uint& a, const Large_uint& b ) -> Large_uint;
+    inline auto operator*( const Large_uint::Unit a, const Large_uint& b ) -> Large_uint;
+    inline auto operator/( const Large_uint& a, const Large_uint::Unit b ) -> Large_uint;
+    inline auto operator%( const Large_uint& a, const Large_uint::Unit b ) -> Large_uint;
+
+    inline auto compare( const Large_uint& a, const Large_uint& b ) -> int;
+    inline auto operator<( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto operator<=( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto operator==( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto operator>=( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto operator>( const Large_uint& a, const Large_uint& b ) -> Truth;
+    inline auto operator!=( const Large_uint& a, const Large_uint& b ) -> Truth;
+
+    inline auto str( const Large_uint& v ) -> string;
+
+
+    //--------------------------------------------------------------------------------------------------
+
+    inline auto Large_uint::parts() const
+        -> const Parts&
+    { return m_parts; }
+
+    inline auto Large_uint::to_bitset() const
+        -> bitset<n_bits>
+    {
+        auto bits = bitset<n_bits>( m_parts[0] );
+        for( int i = 0; i < bits_per_<Unit>; ++i ) {
+            const int bit = (m_parts[1] >> i) & 1;
+            bits.set( i + bits_per_<Unit>, !!bit );
+        }
+        return bits;
+    }
+
+    inline auto Large_uint::modulo_unit() const
+        -> Unit
+    { return m_parts[0]; }
+
+    inline auto Large_uint::is_in_unit_range() const
+        -> Truth
+    { return m_parts[1] == 0; }
+
+    inline auto Large_uint::operator~() const
+        -> Self
+    {
+        auto result = Self( tag::Uninitialized() );
+        for( int i = 0; i < 2; ++i ) {
+            result.m_parts[i] = ~m_parts[i];
+        }
+        return result;
+    }
+
+    inline void Large_uint::operator++()
+    {
+        ++m_parts[0];
+        if( m_parts[0] == 0 ) {
+            ++m_parts[1];
+        }
+    }
+
+    inline void Large_uint::operator--()
+    {
+        if( m_parts[0] == 0 ) {
+            --m_parts[1];
+        }
+        --m_parts[0];
+    }
+
+    inline void Large_uint::operator+=( const Self& other )
+    {
+        m_parts[0] += other.m_parts[0];
+        const Truth carry = (m_parts[0] < other.m_parts[0]);
+        m_parts[1] += Unit( other.m_parts[1] + +carry );
+    }
+
+    inline void Large_uint::operator-=( const Self& other )
+    {
+        *this += -other;
+    }
+
+    inline void Large_uint::shift_left()
+    {
+        const Truth carry = msb_is_set_in( m_parts[0] );
+        m_parts[0] <<= 1;
+        m_parts[1] <<= 1;
+        m_parts[1] |= +carry;
+    }
+
+    inline void Large_uint::shift_right()
+    {
+        const Truth carry = lsb_is_set_in( m_parts[1] );
+        m_parts[1] >>= 1;
+        m_parts[0] >>= 1;
+        m_parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
+    }
 
     struct Large_uint::Divmod_result
     {
@@ -223,6 +236,30 @@ namespace kickstart::language::_definitions {
         result.remainder.m_parts[0] >>= n_shifts;
         return result;
     }
+
+    inline auto operator+( const Large_uint& value )
+        -> Large_uint
+    { return value; }
+
+    inline auto operator-( const Large_uint& value )
+        -> Large_uint
+    {
+        Large_uint result = ~value;
+        ++result;
+        return result;
+    }
+
+    inline auto operator+( const Large_uint& a, const Large_uint& b )
+        -> Large_uint
+    {
+        Large_uint result = a;
+        result += b;
+        return result;
+    }
+
+    inline auto operator-( const Large_uint& a, const Large_uint& b )
+        -> Large_uint
+    { return a + -b; }
 
     inline auto operator*( const Large_uint::Unit a, const Large_uint& b )
         -> Large_uint
