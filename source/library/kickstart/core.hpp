@@ -25,6 +25,7 @@
 #include <kickstart/core/collection-util.hpp>       // ssize_
 #include <kickstart/core/failure-handling.hpp>      // hopefully, fail, …
 #include <kickstart/core/language.hpp>              // Size etc.
+#include <kickstart/core/large-integers.hpp>        // Uint_128
 #include <kickstart/core/matrices.hpp>              // Matrix_ etc.
 #include <kickstart/core/process.hpp>               // process::Commandline
 #include <kickstart/core/stdlib-extensions.hpp>     // bits_per, …
@@ -36,6 +37,7 @@ namespace kickstart::core {
     using namespace kickstart::             collection_util;            // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     using namespace kickstart::             language;                   // <core/language.hpp>
+    using namespace kickstart::             large_integers;             // <core/large-integers.hpp>
     inline namespace                        language_support {
         using namespace kickstart::             stdlib;                 //   <stdlib-includes/basics.hpp>
     }

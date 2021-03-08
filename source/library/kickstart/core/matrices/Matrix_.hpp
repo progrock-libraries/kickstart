@@ -35,7 +35,7 @@
 #include <vector>
 
 namespace kickstart::matrices::_definitions {
-    using kickstart::core::Truth;
+    using kickstart::language::Truth;
     using   std::copy, std::swap,
             std::initializer_list,
             std::move,

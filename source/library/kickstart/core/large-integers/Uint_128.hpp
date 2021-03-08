@@ -24,9 +24,10 @@
 
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/language/lx/bit-checking.hpp>
+#include <kickstart/core/large-integers/large-integer-support.hpp>
 #include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
-#include <kickstart/core/stdlib-extensions/math/integer-operations.hpp>
 
 #include <stdint.h>         // Unit
 
@@ -41,10 +42,12 @@ namespace kickstart::tag {
     using Uninitialized     = Tag_<struct Struct_uninitialized>;
 }  // namespace kickstart::tag
 
-namespace kickstart::language::_definitions {
-    using namespace kickstart::math;        // xxx_is_set_in, multiply_by_parts
+namespace kickstart::large_integers::_definitions {
     using namespace kickstart::strings;
+    
+    namespace klx = kickstart::language::lx;
 
+    using   klx::lsb_is_set_in, klx::msb_is_set_in;
     using   kickstart::limits::bits_per_;
     using   std::array,
             std::bitset,
@@ -334,4 +337,4 @@ namespace kickstart::language::_definitions {
         return digits;
     }
 
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::large_integers::_definitions

@@ -25,7 +25,7 @@
 #include <kickstart/core/language/Truth.hpp>
 
 namespace kickstart::matrices::_definitions {
-    using kickstart::core::Truth;
+    using kickstart::language::Truth;
 
     namespace two_d_grid {
         struct Size         { int w; int h; };

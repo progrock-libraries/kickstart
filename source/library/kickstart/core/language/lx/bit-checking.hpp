@@ -22,49 +22,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
-#include <kickstart/core/language/type-aliases.hpp>             // Type_
-
-#include <assert.h>         // assert
-#include <stdlib.h>         // abs, div
 
 #include <type_traits>      // make_signed_t
-#include <utility>
 
-
-// Important to not introduce possible future name conflicts with <math.h>.
-namespace kickstart::math::_definitions {
-    namespace kl = kickstart::language;
-
-    using   kl::lx::bits_per_, kl::Truth, kl::Type_;
-    using   std::is_integral_v, std::is_unsigned_v, std::make_signed_t,
-            std::enable_if_t;
-
-    template< class Int,
-        class = enable_if_t<is_integral_v<Int>>
-        >
-    inline auto compare( const Int a, const Int b )
-        -> int
-    { return (a < b? -1 : a == b? 0 : +1); }
+namespace kickstart::language::lx::_definitions {
+    using   std::make_signed_t;
 
     template< class Int >
-    inline constexpr auto is_even( const Int x ) -> Truth { return x % 2 == 0; }
+    constexpr inline auto msb_is_set_in( const Int value )
+        -> Truth
+    { return make_signed_t<Int>( value ) < 0; }
 
     template< class Int >
-    inline constexpr auto is_odd( const Int x ) -> Truth { return x % 2 == 1; }
-
-    template< class Int >
-    inline constexpr auto sign_of( const Int x ) -> int { return (x > 0) - (x < 0); }
+    constexpr inline auto lsb_is_set_in( const Int value )
+        -> Truth
+    { return !!(value & 1); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::compare,
-        d::is_even, d::is_odd,
-        d::sign_of;
+        d::msb_is_set_in,
+        d::lsb_is_set_in;
     }  // namespace exported names
-}  // namespace kickstart::math::_definitions
+}  // namespace kickstart::language::lx::_definitions
 
-namespace kickstart::math   { using namespace _definitions::exported_names; }
+namespace kickstart::language::lx   { using namespace _definitions::exported_names; }
