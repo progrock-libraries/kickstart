@@ -26,32 +26,29 @@
 #include <kickstart/core/language/Truth.hpp>                    // Truth
 #include <kickstart/core/language/type-aliases.hpp>             // Type_
 
-#include <assert.h>         // assert
-#include <stdlib.h>         // abs, div
-
-#include <utility>          // enable_if_t
-
-
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
 
     using   kl::lx::bits_per_,
             kl::Truth,
             kl::Type_;
-    using   std::is_integral_v, std::is_unsigned_v,
-            std::enable_if_t;
+    using   std::is_unsigned_v;
 
-    // Little endian result. Units must be/behave as unsigned integers.
-    template< class Half_unit, class Unit >
-    auto multiply_by_parts( const Unit a, const Unit b, const Type_<Unit*> p_result_items  )
+    template< class Uint_param >
+    struct Uint_double_of_
     {
-        static_assert( is_unsigned_v<Unit> );
-        assert( p_result_items );
+        static_assert( is_unsigned_v<Uint_param> );
+        using Unit = Uint_param;
+        Unit parts[2];          // Parts in little endian order.
+    };
 
+    template< class Half_unit, class Unit >
+    auto multiply_by_parts( const Unit a, const Unit b )
+        -> Uint_double_of_<Unit>
+    {
         if constexpr( bits_per_<Unit> <= 32 ) {
             const int unit_radix = 1ULL << bits_per_<Unit>;
-            p_result_items[0] = Unit( 1ULL*a*b % unit_radix );
-            p_result_items[1] = Unit( 1ULL*a*b / unit_radix );
+            return { Unit( 1ULL*a*b % unit_radix ), Unit( 1ULL*a*b / unit_radix ) };
         } else {
             static_assert( is_unsigned_v<Half_unit> );
             static_assert( sizeof( Unit ) == 2*sizeof( Half_unit ) );
@@ -70,12 +67,14 @@ namespace kickstart::large_integers::_definitions {
             const Truth mid_carry   = (mid < mid_1);
             const Unit  high        = one * parts_a[1] * parts_b[1];
 
-            p_result_items[0] = low + ((mid & half_mask) << half_shift);
-            const Truth part_0_carry = (p_result_items[0] < low);
-            p_result_items[1] = Unit()
+            Uint_double_of_<Unit> result;
+            result.parts[0] = low + ((mid & half_mask) << half_shift);
+            const Truth part_0_carry = (result.parts[0] < low);
+            result.parts[1] = Unit()
                 + Unit( +part_0_carry )
                 + (mid >> half_shift) + (Unit( +mid_carry ) << half_shift)
                 + high;
+            return result;
         }
     }
 
@@ -83,6 +82,7 @@ namespace kickstart::large_integers::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Uint_double_of_,
         d::multiply_by_parts;
     }  // namespace exported names
 }  // namespace kickstart::large_integers::_definitions

@@ -25,7 +25,7 @@
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/lx/bit-checking.hpp>
-#include <kickstart/core/large-integers/large-integer-support.hpp>
+#include <kickstart/core/large-integers/Uint_double_of_.hpp>
 #include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
 
@@ -33,6 +33,7 @@
 
 #include <array>
 #include <bitset>
+#include <optional>
 #include <string>
 #include <utility>          // swap
 
@@ -47,10 +48,12 @@ namespace kickstart::large_integers::_definitions {
     
     namespace klx = kickstart::language::lx;
 
+    using   kickstart::language::Truth;
     using   klx::lsb_is_set_in, klx::msb_is_set_in;
     using   kickstart::limits::bits_per_;
     using   std::array,
             std::bitset,
+            std::optional,
             std::string,
             std::swap;
 
@@ -100,6 +103,8 @@ namespace kickstart::large_integers::_definitions {
 
     inline auto operator+( const Uint_128& a, const Uint_128& b ) -> Uint_128;
     inline auto operator-( const Uint_128& a, const Uint_128& b ) -> Uint_128;
+
+    inline auto mul( const Uint_128::Unit a, const Uint_128& b ) -> optional<Uint_128>;
     inline auto operator*( const Uint_128::Unit a, const Uint_128& b ) -> Uint_128;
     inline auto operator/( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
     inline auto operator%( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
@@ -203,9 +208,11 @@ namespace kickstart::large_integers::_definitions {
     inline auto Uint_128::divmod_unit( const Uint_128::Unit b ) const
         -> Divmod_result
     {
+        if( b == 0 ) { return Divmod_result{ ~Uint_128(), ~Uint_128() }; }
+
         #ifndef KS_TEST_DIVISION_PLEASE
             if( m_parts[1] == 0 ) {
-                return {Unit( m_parts[0]%b ), Unit( m_parts[0]/b )};
+                return Divmod_result{ Unit( m_parts[0] % b ), Unit( m_parts[0] / b ) };
             }
         #endif
 
@@ -264,16 +271,25 @@ namespace kickstart::large_integers::_definitions {
         -> Uint_128
     { return a + -b; }
 
+    inline auto mul( const Uint_128::Unit a, const Uint_128& b )
+        -> optional<Uint_128>
+    {
+        using Unit          = Uint_128::Unit;
+        using Half_unit     = Uint_128::Half_unit;
+
+        const Uint_double_of_<Unit> lower = multiply_by_parts<Half_unit>( a, b.parts()[0] );
+        auto result = Uint_128( tag::From_parts(),
+            lower.parts[0],
+            lower.parts[1] + a*b.parts()[1]
+            );
+        const Truth overflow = (result.parts()[1] < lower.parts[1]);
+        if( overflow ) { return {}; }
+        return result;
+    }
+
     inline auto operator*( const Uint_128::Unit a, const Uint_128& b )
         -> Uint_128
-    {
-        Uint_128::Unit parts_product[2];
-        multiply_by_parts<Uint_128::Half_unit>( a, b.parts()[0], parts_product );
-        return Uint_128( tag::From_parts(),
-            parts_product[0],
-            parts_product[1] + a*b.parts()[1]
-        );
-    }
+    { return mul( a, b ).value_or( 0 ); }
 
     inline auto operator/( const Uint_128& a, const Uint_128::Unit b )
         -> Uint_128
