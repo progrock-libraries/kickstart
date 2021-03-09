@@ -90,6 +90,10 @@ namespace kickstart::ansi_escape_seq::_definitions {
         -> string_view
     { return impl::cached::clear_console_string(); }
 
+    inline auto set_console_title( const string_view& title )
+        -> string
+    { return ""s << escape << "]2;" << title << '\x07'; }
+
     inline auto color( const int n )
         -> string_view
     { return impl::cached::color_string( n ); }
@@ -151,6 +155,7 @@ namespace kickstart::ansi_escape_seq::_definitions {
         d::home,
         d::cursor_to,
         d::clear_console,
+        d::set_console_title,
         d::color;
     }  // namespace exported names
 }  // namespace kickstart::ansi_escape_seq::_definitions

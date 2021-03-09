@@ -55,6 +55,9 @@ namespace kickstart::winapi::_definitions {
         const DWORD enable_virtual_terminal_processing  = 0x0004;
         const DWORD enable_extended_flags               = 0x0080;
         //const DWORD enable_virtual_terminal_input       = 0x0200;
+        const DWORD std_input_handle                    = DWORD( -10 );
+        const DWORD std_output_handle                   = DWORD( -11 );
+        const DWORD std_error_handle                    = DWORD( -12 );
 
         extern "C" auto __stdcall GetConsoleMode( HANDLE  hConsoleHandle, DWORD* lpMode )
             -> BOOL;
@@ -91,11 +94,13 @@ namespace kickstart::winapi::_definitions {
     namespace exported_names { using
         d::enable_virtual_terminal_processing,
         d::enable_extended_flags,
+        d::std_input_handle, d::std_output_handle, d::std_error_handle,
         d::GetConsoleMode,
         d::SetConsoleMode,
         d::ReadConsoleW,
         d::WriteConsoleW,
-        d::GetConsoleProcessList;
+        d::GetConsoleProcessList,
+        d::GetStdHandle;
     }  // namespace exported names
 }  // namespace kickstart::winapi::_definitions
 

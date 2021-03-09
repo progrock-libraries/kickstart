@@ -29,7 +29,9 @@
 #include <kickstart/system-specific/Console.interface.hpp>
 
 #include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/system-specific/windows/api/consoles.hpp>
+#include <kickstart/system-specific/windows/api/error-handling.hpp>
 #include <kickstart/system-specific/windows/api/files.hpp>          // CreateFile
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 
@@ -43,6 +45,7 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::language;                // Truth etc.
     using namespace kickstart::collection_util;         // begin_ptr_of
+    using namespace kickstart::text_conversion;
     using   std::queue,
             std::wstring,
             std::move;
@@ -128,6 +131,7 @@ namespace kickstart::system_specific::_definitions {
             queue<int>      bytes               = {};
         };
 
+        winapi::DWORD       m_original_mode;
         Input_state         m_input_state;
         winapi::HANDLE      m_input_handle      = {};
         winapi::HANDLE      m_output_handle     = {};
@@ -174,10 +178,28 @@ namespace kickstart::system_specific::_definitions {
             return result;
         }
 
+        ~Windows_console()
+        {
+            if( m_original_mode != winapi::DWORD( -1 ) ) {
+                const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
+                winapi::SetConsoleMode( console_handle, m_original_mode );
+            }
+        }
+
         Windows_console():
             m_input_handle( open_console_input() ),
-            m_output_handle( open_console_output() )
-        {}
+            m_output_handle( open_console_output() ),
+            m_original_mode( winapi::DWORD( -1 ) )
+        {
+            const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
+            const Truth is_console = !!winapi::GetConsoleMode( console_handle, &m_original_mode );
+            if( is_console ) {
+                winapi::SetConsoleMode(
+                    console_handle,
+                    (m_original_mode | winapi::enable_virtual_terminal_processing) & ~winapi::enable_extended_flags
+                    );
+            }
+        }
 
         static auto instance()
             -> Windows_console&
