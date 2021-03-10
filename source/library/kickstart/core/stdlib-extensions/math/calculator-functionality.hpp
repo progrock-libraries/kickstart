@@ -24,6 +24,7 @@
 
 #include <kickstart/core/language/lx/intpow.hpp>        // intpow
 #include <kickstart/core/language/Truth.hpp>            // Truth
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>
 
 #include <math.h>       // The header this one mainly extends.
 
@@ -43,22 +44,12 @@ namespace kickstart::math::_definitions {
     constexpr double sqrt2              = 1.41421356237309504880;
     constexpr double inv_sqrt2          = 0.707106781186547524401;
 
-    template< class Number_type = double>
-    constexpr inline auto squared( const Number_type x ) 
-        -> Number_type
-    { return x*x; }
-
-    template< class Number_type = double>
-    constexpr inline auto cubed( const Number_type x ) 
-        -> Number_type
-    { return x*x*x; }
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi, d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2,
-        d::intpow, d::squared, d::cubed;
+        d::intpow;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 

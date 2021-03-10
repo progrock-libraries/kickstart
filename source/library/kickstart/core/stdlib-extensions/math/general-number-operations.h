@@ -22,7 +22,41 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/math/calculator-functionality.hpp>
-#include <kickstart/core/stdlib-extensions/math/collection-calculations.hpp>
-#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>
-#include <kickstart/core/stdlib-extensions/math/integer-operations.hpp>
+#include <kickstart/core/language/Truth.hpp>                    // Truth
+
+
+// Important to not introduce possible future name conflicts with <math.h>.
+namespace kickstart::math::_definitions {
+
+    template< class Number >
+    inline constexpr auto sign_of( const Number x )
+        -> int
+    { return (x > 0) - (x < 0); }
+
+    template< class Number >
+    inline constexpr auto abs( const Number v )
+        -> Number
+    { return (v < 0? -v : v); }
+
+    template< class Number_type >
+    inline constexpr auto squared( const Number_type x ) 
+        -> Number_type
+    { return x*x; }
+
+    template< class Number_type >
+    inline constexpr auto cubed( const Number_type x ) 
+        -> Number_type
+    { return x*x*x; }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::sign_of,
+        d::abs,
+        d::squared,
+        d::cubed;
+    }  // namespace exported names
+}  // namespace kickstart::math::_definitions
+
+namespace kickstart::math   { using namespace _definitions::exported_names; }

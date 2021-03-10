@@ -35,7 +35,7 @@ namespace kickstart::math::_definitions {
     using kickstart::type_traits::Item_type_of_;
 
     template< class Collection, class Number = Item_type_of_<Collection> >
-    inline auto sum_of( const Collection& numbers )
+    inline constexpr auto sum_of( const Collection& numbers )
         -> Number
     {
         Number result = 0;

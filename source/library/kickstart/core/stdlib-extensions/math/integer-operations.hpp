@@ -25,9 +25,9 @@
 #include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
 #include <kickstart/core/language/type-aliases.hpp>             // Type_
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>    // abs
 
 #include <assert.h>         // assert
-#include <stdlib.h>         // abs, div
 
 #include <type_traits>      // make_signed_t
 #include <utility>
@@ -44,7 +44,7 @@ namespace kickstart::math::_definitions {
     template< class Int,
         class = enable_if_t<is_integral_v<Int>>
         >
-    inline auto compare( const Int a, const Int b )
+    inline constexpr auto compare( const Int a, const Int b )
         -> int
     { return (a < b? -1 : a == b? 0 : +1); }
 
@@ -54,8 +54,18 @@ namespace kickstart::math::_definitions {
     template< class Int >
     inline constexpr auto is_odd( const Int x ) -> Truth { return x % 2 == 1; }
 
+    // E.g. if a taxi can take 3 passengers then you need 4 of them for 11 people, so
+    // div_up_positive( 11, 3 ) yields 4, while also div_up_positive( 12, 3 ) yields 4.
+    // For positive numbers, mathematically div_up_positive(a,b) = ceil(a/b).
     template< class Int >
-    inline constexpr auto sign_of( const Int x ) -> int { return (x > 0) - (x < 0); }
+    inline constexpr auto div_up_positive( const Int a, const Int b )
+        -> Int
+    { return (a + (b - 1))/b; }
+
+    template< class Int >
+    inline constexpr auto div_up( const Int a, const Int b )
+        -> Int
+    { return sign_of( a )*sign_of( b )*div_up_positive( abs( a ), abs( b ) ); }
 
 
     //----------------------------------------------------------- @exported:
@@ -63,7 +73,8 @@ namespace kickstart::math::_definitions {
     namespace exported_names { using
         d::compare,
         d::is_even, d::is_odd,
-        d::sign_of;
+        d::div_up_positive,
+        d::div_up;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 
