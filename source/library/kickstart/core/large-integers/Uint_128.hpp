@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>                // Truth
 #include <kickstart/core/language/type-aliases.hpp>         // C_str
@@ -36,6 +37,7 @@
 #include <array>
 #include <bitset>
 #include <optional>
+#include <stdexcept>        // runtime_error
 #include <string>
 #include <utility>          // swap
 
@@ -47,6 +49,7 @@ namespace kickstart::tag {
 
 namespace kickstart::large_integers::_definitions {
     using namespace kickstart::strings;
+    using namespace kickstart::text_conversion;     // string <<
     
     namespace kl = kickstart::language;
     namespace klx = kickstart::language::lx;
@@ -57,6 +60,7 @@ namespace kickstart::large_integers::_definitions {
     using   std::array,
             std::bitset,
             std::optional,
+            std::runtime_error,
             std::string,
             std::swap;
 
@@ -274,13 +278,13 @@ namespace kickstart::large_integers::_definitions {
         using Unit          = Uint_128::Unit;
         using Half_unit     = Uint_128::Half_unit;
 
-        const Uint_double_of_<Unit> lower = multiply_by_parts<Half_unit>( a, b.representation().parts[0] );
-        auto result = Uint_128( tag::From_parts(),
-            lower.parts[0],
-            lower.parts[1] + a*b.representation().parts[1]
-            );
-        const Truth overflow = (result.representation().parts[1] < lower.parts[1]);
-        if( overflow ) { return {}; }
+        const Uint_double_of_<Unit> low = multiply_by_parts<Half_unit>( a, b.representation().parts[0] );
+        const Uint_double_of_<Unit> high = multiply_by_parts<Half_unit>( a, b.representation().parts[1] );
+        const Truth intermediate_overflow = (high.parts[1] != 0);
+        if( intermediate_overflow ) { return {}; }
+        auto result = Uint_128( tag::From_parts(), low.parts[0], low.parts[1] + high.parts[0] );
+        const Truth final_overflow = (result.representation().parts[1] < low.parts[1]);
+        if( final_overflow ) { return {}; }
         return result;
     }
 
@@ -343,18 +347,35 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto operator""_u128( const C_str spec )
         -> Uint_128
     {
+        const char apostrophe = '\'';
+
+        // TODO: use common exception handling.
         Uint_128 result = 0;
         for( int i = 0; spec[i] != '\0'; ++i ) {
             const char ch = spec[i];
-            if( ch != 0 ) {
+            if( ch != apostrophe ) {
                 if( not( '0' <= ch and ch <= '9' ) ) {
-                    throw 777;
+                    throw runtime_error( "Invalid character ‘"s << ch << "’ in _u128 literal." );
                 }
-                result = 10*result;    // TODO: use *=.
-                result += (ch - '0');
+                optional<Uint_128> shifted = mul( 10, result );
+                if( shifted.has_value() ) {
+                    const Uint_128 new_result = shifted.value() + (ch - '0');
+                    if( new_result >= result ) {
+                        result = new_result;
+                        continue;
+                    }
+                }
+                throw runtime_error( "Uint_128 value range exceeded for _u128 literal." );
             }
         }
         return result;
     }
 
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Uint_128,
+        d::operator""_u128;
+    }  // namespace exported_names
 }  // namespace kickstart::large_integers::_definitions

@@ -96,6 +96,7 @@ namespace kickstart::large_integers::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::Uint_double_of_,
+        d::compare,
         d::multiply_by_parts;
     }  // namespace exported names
 }  // namespace kickstart::large_integers::_definitions
