@@ -24,9 +24,21 @@
 
 #include <kickstart/core/language/Truth.hpp>                    // Truth
 
+#include <type_traits>
+
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
+
+    using   std::is_arithmetic_v,
+            std::enable_if_t;
+
+    template< class Number,
+        class = enable_if_t<is_arithmetic_v<Number>>
+        >
+    inline constexpr auto compare( const Number a, const Number b )
+        -> int
+    { return (a < b? -1 : a == b? 0 : +1); }
 
     template< class Number >
     inline constexpr auto sign_of( const Number x )
@@ -52,6 +64,7 @@ namespace kickstart::math::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::compare,
         d::sign_of,
         d::abs,
         d::squared,

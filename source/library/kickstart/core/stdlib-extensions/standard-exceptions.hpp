@@ -25,7 +25,7 @@
 #include    <stdexcept>
 #include    <system_error>
 
-namespace kickstart::std_x {
+namespace kickstart::std_exception {
     using   std::invalid_argument,
             std::logic_error,
             std::out_of_range,
@@ -33,4 +33,4 @@ namespace kickstart::std_x {
             std::system_error;
 
     using Base = std::exception;
-}  // namespace kickstart::std_x
+}  // namespace kickstart::std_exception

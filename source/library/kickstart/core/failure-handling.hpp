@@ -44,7 +44,6 @@
 
 namespace kickstart::failure_handling::_definitions {
     using namespace kickstart::language;
-    namespace std_x = kickstart::std_x;
     using   std::string,
             std::string_view;
 
@@ -84,20 +83,20 @@ namespace kickstart::failure_handling::_definitions {
     //[[noreturn]]
     inline auto fail( const string& s )
         -> Truth
-    { return fail_<std_x::runtime_error>( s ); }
+    { return fail_<std_exception::runtime_error>( s ); }
 
     //[[noreturn]]
     inline auto fail( const Funcname& funcname, const string& s = "" )
         -> Truth
-    { return fail_<std_x::runtime_error>( funcname, s ); }
+    { return fail_<std_exception::runtime_error>( funcname, s ); }
 
     struct End_of_file_exception:
-        std_x::runtime_error
+        std_exception::runtime_error
     { using runtime_error::runtime_error; };
 
     class Clean_app_exit_exception
     {
-        std_x::runtime_error    m_message;
+        std_exception::runtime_error    m_message;
 
     public:
         auto what() const
@@ -132,7 +131,7 @@ namespace kickstart::failure_handling::_definitions {
         d::fail_app,
         d::fail_app_and_display;
 
-        using namespace std_x;
+        using namespace std_exception;
     }  // namespace exported names
 }  // namespace kickstart::failure_handling::_definitions
 

@@ -25,6 +25,7 @@
 #include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
 #include <kickstart/core/language/type-aliases.hpp>             // Type_
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>    // compare
 
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
@@ -32,6 +33,7 @@ namespace kickstart::large_integers::_definitions {
     using   kl::lx::bits_per_,
             kl::Truth,
             kl::Type_;
+    using   kickstart::math::compare;
     using   std::is_unsigned_v;
 
     template< class Uint_param >
@@ -39,11 +41,22 @@ namespace kickstart::large_integers::_definitions {
     {
         static_assert( is_unsigned_v<Uint_param> );
         using Unit = Uint_param;
+
         Unit parts[2];          // Parts in little endian order.
     };
 
+    template< class Unit >
+    inline constexpr auto compare( const Uint_double_of_<Unit>& a, const Uint_double_of_<Unit>& b )
+        -> int
+    {
+        if( const int r = compare( a.parts[1], b.parts[1] ) ) {
+            return r;
+        }
+        return compare( a.parts[0], b.parts[0] );
+    }
+
     template< class Half_unit, class Unit >
-    auto multiply_by_parts( const Unit a, const Unit b )
+    constexpr auto multiply_by_parts( const Unit a, const Unit b )
         -> Uint_double_of_<Unit>
     {
         if constexpr( bits_per_<Unit> <= 32 ) {
@@ -67,7 +80,7 @@ namespace kickstart::large_integers::_definitions {
             const Truth mid_carry   = (mid < mid_1);
             const Unit  high        = one * parts_a[1] * parts_b[1];
 
-            Uint_double_of_<Unit> result;
+            Uint_double_of_<Unit> result = {};  // Initialized to silence g++ compiler.
             result.parts[0] = low + ((mid & half_mask) << half_shift);
             const Truth part_0_carry = (result.parts[0] < low);
             result.parts[1] = Unit()
