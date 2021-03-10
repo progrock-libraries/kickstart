@@ -79,21 +79,17 @@ namespace kickstart::system_specific::_definitions {
     inline auto read_widechar( const winapi::HANDLE h )
         -> wint_t
     {
-        for( const int dummy : {1, 2} ) {
-            (void) dummy;
+        for( ;; ) {
             wchar_t ch = 0;
             winapi::DWORD n_chars_read = 0;
             winapi::ReadConsoleW( h, &ch, 1, &n_chars_read, nullptr );
             if( n_chars_read == 0 ) {
                 return WEOF;
-            } else if( ch == L'\n' ) {
-                continue;
             } else if( ch == L'\r' ) {
-                return L'\n';
+                continue;
             }
             return ch;
         }
-        return WEOF;
     }
 
     inline auto write( const winapi::HANDLE h, const Type_<const char*> buffer, const int n )
@@ -151,10 +147,6 @@ namespace kickstart::system_specific::_definitions {
                 const wint_t    code        = read_widechar( m_input_handle );
                 const Truth     soft_eof    = (m_input_state.at_start_of_line and code == ctrl_z);
 
-                if( code != WEOF ) {
-                    m_input_state.at_start_of_line = false;
-                }
-
                 // For now ignoring UTF-16 surrogate pair, treating all input as UCS-2.
                 // TODO: check if Windows can yield surrogate pair keyboard input, and possibly support.
                 if( soft_eof or code == WEOF ) {
@@ -172,6 +164,8 @@ namespace kickstart::system_specific::_definitions {
                         m_input_state.bytes.push( buffer[i] );
                     }
                 }
+
+                m_input_state.at_start_of_line = (code == '\n');
             }
             const int result = m_input_state.bytes.front();
             m_input_state.bytes.pop();
@@ -187,9 +181,9 @@ namespace kickstart::system_specific::_definitions {
         }
 
         Windows_console():
+            m_original_mode( winapi::DWORD( -1 ) ),
             m_input_handle( open_console_input() ),
-            m_output_handle( open_console_output() ),
-            m_original_mode( winapi::DWORD( -1 ) )
+            m_output_handle( open_console_output() )
         {
             const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
             const Truth is_console = !!winapi::GetConsoleMode( console_handle, &m_original_mode );
