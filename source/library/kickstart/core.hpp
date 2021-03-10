@@ -48,7 +48,7 @@ namespace kickstart::core {
         namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
         using namespace kickstart::             limits;                 //   <… limits.hpp>
         namespace math = kickstart::            math;                   //   <… math.hpp>
-        namespace std_exception = kickstart::           std_exception;                  //   <… standard-exceptions.hpp>
+        namespace std_exception = kickstart::std_exception;             //   <… standard-exceptions.hpp>
         using namespace kickstart::             strings;                //   <… strings.hpp>
         using namespace kickstart::             type_traits;            //   <… type-traits.hpp>
     }
