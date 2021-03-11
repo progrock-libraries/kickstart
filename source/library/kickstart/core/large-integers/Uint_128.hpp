@@ -39,6 +39,7 @@
 #include <optional>
 #include <stdexcept>        // runtime_error
 #include <string>
+#include <type_traits>
 #include <utility>          // swap
 
 namespace kickstart::tag {
@@ -62,6 +63,7 @@ namespace kickstart::large_integers::_definitions {
             std::optional,
             std::runtime_error,
             std::string,
+            std::is_integral_v,
             std::swap;
 
     class Uint_128
@@ -78,10 +80,25 @@ namespace kickstart::large_integers::_definitions {
         Parts   m_value;
 
     public:
-        constexpr Uint_128(): m_value() {}
         Uint_128( tag::Uninitialized ) {}
-        constexpr Uint_128( const Unit value ): m_value{ value, 0 } {}
-        constexpr Uint_128( tag::From_parts, const Unit lsp, const Unit msp ): m_value{ lsp, msp } {}
+
+        constexpr Uint_128(): m_value() {}
+
+        template< class Integer >
+        constexpr Uint_128( const Integer value ):
+            m_value{ Unit( value ), 0 }
+        {
+            static_assert( is_integral_v<Integer> );
+            if constexpr( sizeof( Integer ) > sizeof( Unit ) ) {
+                m_value.parts[1] = Unit( value >> bits_per_<Unit> );
+            } else if( value < 0 ) {
+                m_value.parts[1] = Unit( -1 );      // Sign extension.
+            }
+        }
+
+        constexpr Uint_128( tag::From_parts, const Unit lsp, const Unit msp = 0 ):
+            m_value{ lsp, msp }
+        {}
 
         constexpr Uint_128( const Self& ) = default;
         auto constexpr operator=( const Self& ) -> Self& = default;
