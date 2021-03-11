@@ -5,7 +5,6 @@ Kickstart is intended to ease the way for beginners in C++, and can shorten exam
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
 <!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
 
-
 - [**1. Installation & compiler requirements.**](#1-installation--compiler-requirements)
 - [**2. “Hello, world!” — or, keep that console window open, please.**](#2-hello-world--or-keep-that-console-window-open-please)
   - [**2.1. Use basic Kickstart output.**](#21-use-basic-kickstart-output)
@@ -919,4 +918,4 @@ I used Powershell to type the text file contents because, while the UTF-8 BOM at
 > 
 > ▷ Norwegian “blåbærsyltetøy”! ◁ 😋
 
-Of course, in a Unix environment such as Linx or the Mac, the program does not produce a BOM.
+Of course, in a Unix environment such as Linux or the Mac, the program does not produce a BOM.
