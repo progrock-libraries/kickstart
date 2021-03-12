@@ -38,8 +38,9 @@
 #include <bitset>
 #include <optional>
 #include <stdexcept>        // runtime_error
-#include <string>
-#include <type_traits>
+#include <string>           // string, char_traits
+#include <string_view>      // string_view
+#include <type_traits>      // is_integral_v
 #include <utility>          // swap
 
 namespace kickstart::tag {
@@ -62,7 +63,8 @@ namespace kickstart::large_integers::_definitions {
             std::bitset,
             std::optional,
             std::runtime_error,
-            std::string,
+            std::string, std::char_traits,
+            std::string_view,
             std::is_integral_v,
             std::swap;
 
@@ -80,10 +82,14 @@ namespace kickstart::large_integers::_definitions {
         Parts   m_value;
 
     public:
-        Uint_128( tag::Uninitialized ) {}
+        Uint_128( tag::Uninitialized )
+        {}
 
-        constexpr Uint_128(): m_value() {}
+        constexpr Uint_128():
+            m_value()
+        {}
 
+        // Yields `value` modulo 2^128.
         template< class Integer >
         constexpr Uint_128( const Integer value ):
             m_value{ Unit( value ), 0 }
@@ -118,8 +124,16 @@ namespace kickstart::large_integers::_definitions {
         inline constexpr void shift_left();
         inline constexpr void shift_right();
 
+        struct Result_kind{ enum Enum{ math_exact, wrapped }; };
+        inline constexpr auto add_unit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto multiply_by_unit( const Unit a ) -> Result_kind::Enum;
         struct Divmod_result;
         inline constexpr auto divmod_unit( const Unit b ) const -> Divmod_result;
+
+        inline constexpr auto add( const Self& a ) -> Result_kind::Enum;
+
+        //inline constexpr void operator*=( const Unit a );
+        //inline constexpr void operator/=( const Unit a );
     };
 
     inline constexpr auto operator+( const Uint_128& ) -> Uint_128;
@@ -128,7 +142,6 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto operator+( const Uint_128& a, const Uint_128& b ) -> Uint_128;
     inline constexpr auto operator-( const Uint_128& a, const Uint_128& b ) -> Uint_128;
 
-    inline constexpr auto mul( const Uint_128::Unit a, const Uint_128& b ) -> optional<Uint_128>;
     inline constexpr auto operator*( const Uint_128::Unit a, const Uint_128& b ) -> Uint_128;
     inline constexpr auto operator/( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
     inline constexpr auto operator%( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
@@ -217,6 +230,28 @@ namespace kickstart::large_integers::_definitions {
         m_value.parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
     }
 
+    inline constexpr auto Uint_128::add_unit( const Unit a )
+        -> Result_kind::Enum
+    {
+        using R = Result_kind;
+        m_value.parts[0] += a;
+        const Truth carry = (m_value.parts[0] < a);
+        m_value.parts[1] += +carry;
+        return (m_value.parts[1] == 0 and m_value.parts[0] < a? R::wrapped : R::math_exact);
+    }
+
+    inline constexpr auto Uint_128::multiply_by_unit( const Unit a )
+        -> Result_kind::Enum
+    {
+        const Parts lo  = Parts::product_of( a, m_value.parts[0] );
+        const Parts hi  = Parts::product_of( a, m_value.parts[1] );
+        const Truth intermediate_overflow = (hi.parts[1] != 0);
+        m_value = { lo.parts[0], lo.parts[1] + hi.parts[0] };
+        const Truth final_overflow = (m_value.parts[1] < lo.parts[1]);
+        using R = Result_kind;
+        return (intermediate_overflow or final_overflow? R::wrapped : R::math_exact);
+    }
+
     struct Uint_128::Divmod_result
     {
         Uint_128   remainder;
@@ -265,6 +300,14 @@ namespace kickstart::large_integers::_definitions {
         return result;
     }
 
+    inline constexpr auto Uint_128::add( const Self& other )
+        -> Result_kind::Enum
+    {
+        using R = Result_kind;
+        operator+=( other );
+        return (*this < other? R::wrapped : R::math_exact);
+    }
+
     inline constexpr auto operator+( const Uint_128& value )
         -> Uint_128
     { return value; }
@@ -289,24 +332,13 @@ namespace kickstart::large_integers::_definitions {
         -> Uint_128
     { return a + -b; }
 
-    inline constexpr auto mul( const Uint_128::Unit a, const Uint_128& b )
-        -> optional<Uint_128>
-    {
-        using Parts = Uint_128::Parts;
-
-        const Parts low     = Parts::product_of( a, b.representation().parts[0] );
-        const Parts high    = Parts::product_of( a, b.representation().parts[1] );
-        const Truth intermediate_overflow = (high.parts[1] != 0);
-        if( intermediate_overflow ) { return {}; }
-        auto result = Uint_128( tag::From_parts(), low.parts[0], low.parts[1] + high.parts[0] );
-        const Truth final_overflow = (result.representation().parts[1] < low.parts[1]);
-        if( final_overflow ) { return {}; }
-        return result;
-    }
-
     inline constexpr auto operator*( const Uint_128::Unit a, const Uint_128& b )
         -> Uint_128
-    { return mul( a, b ).value_or( 0 ); }
+    {
+        Uint_128 result = b;
+        result.multiply_by_unit( a );
+        return result;
+    }
 
     inline constexpr auto operator/( const Uint_128& a, const Uint_128::Unit b )
         -> Uint_128
@@ -360,38 +392,46 @@ namespace kickstart::large_integers::_definitions {
         return digits;
     }
 
-    inline constexpr auto operator""_u128( const C_str spec )
+    const char  apostrophe  = '\'';
+
+    inline constexpr auto to_uint_128( const string_view& spec )
         -> Uint_128
     {
-        const char apostrophe = '\'';
+        const auto ensure_is_valid = []( const char ch, const int index ) constexpr
+        {
+            const Truth is_valid = (('0' <= ch and ch <= '9') or (index > 0 and ch == apostrophe));
+            if( not is_valid ) {
+                throw runtime_error( "Invalid character ‘"s << ch << "’ in Uint_128 value spec." );
+            }
+        };
 
-        // TODO: use common exception handling.
+        using R = Uint_128::Result_kind;
         Uint_128 result = 0;
         for( int i = 0; spec[i] != '\0'; ++i ) {
             const char ch = spec[i];
+            ensure_is_valid( ch, i );
             if( ch != apostrophe ) {
-                if( not( '0' <= ch and ch <= '9' ) ) {
-                    throw runtime_error( "Invalid character ‘"s << ch << "’ in _u128 literal." );
+                // The representation unit is uint64_t.
+                const R::Enum r1 = result.multiply_by_unit( 10 );
+                const R::Enum r2 = result.add_unit( ch - '0' );
+                if( r1 == R::wrapped or r2 == R::wrapped ) {
+                    throw runtime_error( "Uint_128 value range exceeded for value spec."s );
                 }
-                optional<Uint_128> shifted = mul( 10, result );
-                if( shifted.has_value() ) {
-                    const Uint_128 new_result = shifted.value() + (ch - '0');
-                    if( new_result >= result ) {
-                        result = new_result;
-                        continue;
-                    }
-                }
-                throw runtime_error( "Uint_128 value range exceeded for _u128 literal." );
             }
         }
         return result;
     }
+
+    inline constexpr auto operator""_u128( const C_str spec )
+        -> Uint_128
+    { return to_uint_128( string_view( spec, char_traits<char>::length( spec ) ) ); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::Uint_128,
+        d::to_uint_128,
         d::operator""_u128;
     }  // namespace exported_names
 }  // namespace kickstart::large_integers::_definitions
