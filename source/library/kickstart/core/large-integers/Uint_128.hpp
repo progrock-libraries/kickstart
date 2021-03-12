@@ -110,8 +110,8 @@ namespace kickstart::large_integers::_definitions {
 
         inline constexpr auto representation() const -> const Parts&;
         inline auto to_bitset() const -> bitset<n_bits>;
-        inline constexpr auto modulo_unit() const -> Unit;
-        inline constexpr auto is_in_unit_range() const -> Truth;
+        inline constexpr auto modulo_64_bits() const -> Unit;
+        inline constexpr auto is_in_64_bit_range() const -> Truth;
         inline constexpr auto operator~() const -> Self;
 
         inline constexpr void operator++();
@@ -123,13 +123,18 @@ namespace kickstart::large_integers::_definitions {
         inline constexpr void shift_left();
         inline constexpr void shift_right();
 
-        struct Result_kind{ enum Enum{ math_exact, wrapped }; };
-        inline constexpr auto add_unit( const Unit a ) -> Result_kind::Enum;
-        inline constexpr auto multiply_by_unit( const Unit a ) -> Result_kind::Enum;
         struct Divmod_result;
-        inline constexpr auto divmod_unit( const Unit b ) const -> Divmod_result;
+        inline constexpr auto divmod_by_64_bit( const Unit b ) const -> Divmod_result;
+
+        struct Result_kind{ enum Enum{ math_exact, wrapped }; };
+        inline constexpr auto add_64_bit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto subtract_64_bit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto multiply_by_64_bit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto divide_by_64_bit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto mod_by_64_bit( const Unit a ) -> Result_kind::Enum;
 
         inline constexpr auto add( const Self& a ) -> Result_kind::Enum;
+        inline constexpr auto subtract( const Self& other ) -> Result_kind::Enum;
 
         //inline constexpr void operator*=( const Unit a );
         //inline constexpr void operator/=( const Unit a );
@@ -173,11 +178,11 @@ namespace kickstart::large_integers::_definitions {
         return bits;
     }
 
-    inline constexpr auto Uint_128::modulo_unit() const
+    inline constexpr auto Uint_128::modulo_64_bits() const
         -> Unit
     { return m_value.parts[0]; }
 
-    inline constexpr auto Uint_128::is_in_unit_range() const
+    inline constexpr auto Uint_128::is_in_64_bit_range() const
         -> Truth
     { return m_value.parts[1] == 0; }
 
@@ -229,35 +234,13 @@ namespace kickstart::large_integers::_definitions {
         m_value.parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
     }
 
-    inline constexpr auto Uint_128::add_unit( const Unit a )
-        -> Result_kind::Enum
-    {
-        using R = Result_kind;
-        m_value.parts[0] += a;
-        const Truth carry = (m_value.parts[0] < a);
-        m_value.parts[1] += +carry;
-        return (m_value.parts[1] == 0 and m_value.parts[0] < a? R::wrapped : R::math_exact);
-    }
-
-    inline constexpr auto Uint_128::multiply_by_unit( const Unit a )
-        -> Result_kind::Enum
-    {
-        const Parts lo  = Parts::product_of( a, m_value.parts[0] );
-        const Parts hi  = Parts::product_of( a, m_value.parts[1] );
-        const Truth intermediate_overflow = (hi.parts[1] != 0);
-        m_value = { lo.parts[0], lo.parts[1] + hi.parts[0] };
-        const Truth final_overflow = (m_value.parts[1] < lo.parts[1]);
-        using R = Result_kind;
-        return (intermediate_overflow or final_overflow? R::wrapped : R::math_exact);
-    }
-
     struct Uint_128::Divmod_result
     {
         Uint_128   remainder;
         Uint_128   quotient;
     };
 
-    inline constexpr auto Uint_128::divmod_unit( const Uint_128::Unit b ) const
+    inline constexpr auto Uint_128::divmod_by_64_bit( const Uint_128::Unit b ) const
         -> Divmod_result
     {
         if( b == 0 ) { return Divmod_result{ ~Uint_128(), ~Uint_128() }; }
@@ -299,12 +282,61 @@ namespace kickstart::large_integers::_definitions {
         return result;
     }
 
+    inline constexpr auto Uint_128::add_64_bit( const Unit a )
+        -> Result_kind::Enum
+    {
+        using R = Result_kind;
+        m_value.parts[0] += a;
+        const Truth carry = (m_value.parts[0] < a);
+        m_value.parts[1] += +carry;
+        return (m_value.parts[1] == 0 and m_value.parts[0] < a? R::wrapped : R::math_exact);
+    }
+
+    inline constexpr auto Uint_128::subtract_64_bit( const Unit a )
+        -> Result_kind::Enum
+    { return subtract( Self( a ) ); }
+
+    inline constexpr auto Uint_128::multiply_by_64_bit( const Unit a )
+        -> Result_kind::Enum
+    {
+        const Parts lo  = Parts::product_of( a, m_value.parts[0] );
+        const Parts hi  = Parts::product_of( a, m_value.parts[1] );
+        const Truth intermediate_overflow = (hi.parts[1] != 0);
+        m_value = { lo.parts[0], lo.parts[1] + hi.parts[0] };
+        const Truth final_overflow = (m_value.parts[1] < lo.parts[1]);
+        using R = Result_kind;
+        return (intermediate_overflow or final_overflow? R::wrapped : R::math_exact);
+    }
+
+    inline constexpr auto Uint_128::divide_by_64_bit( const Unit a )
+        -> Result_kind::Enum
+    {
+        *this = divmod_by_64_bit( a ).quotient;
+        return Result_kind::math_exact;
+    }
+
+    inline constexpr auto Uint_128::mod_by_64_bit( const Unit a )
+        -> Result_kind::Enum
+    {
+        *this = divmod_by_64_bit( a ).remainder;
+        return Result_kind::math_exact;
+    }
+
     inline constexpr auto Uint_128::add( const Self& other )
         -> Result_kind::Enum
     {
         using R = Result_kind;
         operator+=( other );
         return (*this < other? R::wrapped : R::math_exact);
+    }
+
+    inline constexpr auto Uint_128::subtract( const Self& other )
+        -> Result_kind::Enum
+    {
+        using R = Result_kind;
+        const Truth wrapping = (other > *this);
+        operator-=( other );
+        return (wrapping? R::wrapped : R::math_exact);
     }
 
     inline constexpr auto operator+( const Uint_128& value )
@@ -335,17 +367,17 @@ namespace kickstart::large_integers::_definitions {
         -> Uint_128
     {
         Uint_128 result = b;
-        result.multiply_by_unit( a );
+        result.multiply_by_64_bit( a );
         return result;
     }
 
     inline constexpr auto operator/( const Uint_128& a, const Uint_128::Unit b )
         -> Uint_128
-    { return a.divmod_unit( b ).quotient; }
+    { return a.divmod_by_64_bit( b ).quotient; }
 
     inline constexpr auto operator%( const Uint_128& a, const Uint_128::Unit b )
         -> Uint_128
-    { return a.divmod_unit( b ).remainder; }
+    { return a.divmod_by_64_bit( b ).remainder; }
 
     inline constexpr auto compare( const Uint_128& a, const Uint_128& b )
         -> int
@@ -383,8 +415,8 @@ namespace kickstart::large_integers::_definitions {
         string digits;
         Uint_128 a = v;
         while( a != 0 ) {
-            const auto r = a.divmod_unit( 10 );
-            digits += "0123456789"[r.remainder.modulo_unit()];
+            const auto r = a.divmod_by_64_bit( 10 );
+            digits += "0123456789"[r.remainder.modulo_64_bits()];
             a = r.quotient;
         }
         reverse( begin( digits ), end( digits ) );
@@ -410,9 +442,8 @@ namespace kickstart::large_integers::_definitions {
             const char ch = spec[i];
             ensure_is_valid( ch, i );
             if( ch != apostrophe ) {
-                // The representation unit is uint64_t.
-                const R::Enum r1 = result.multiply_by_unit( 10 );
-                const R::Enum r2 = result.add_unit( ch - '0' );
+                const R::Enum r1 = result.multiply_by_64_bit( 10 );
+                const R::Enum r2 = result.add_64_bit( ch - '0' );
                 if( r1 == R::wrapped or r2 == R::wrapped ) {
                     throw runtime_error( "Uint_128 value range exceeded for value spec."s );
                 }
