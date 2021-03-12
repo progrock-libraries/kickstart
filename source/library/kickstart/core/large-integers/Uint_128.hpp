@@ -292,11 +292,10 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto mul( const Uint_128::Unit a, const Uint_128& b )
         -> optional<Uint_128>
     {
-        using Unit          = Uint_128::Unit;
-        using Half_unit     = Uint_128::Half_unit;
+        using Parts = Uint_128::Parts;
 
-        const Uint_double_of_<Unit> low = multiply_by_parts<Half_unit>( a, b.representation().parts[0] );
-        const Uint_double_of_<Unit> high = multiply_by_parts<Half_unit>( a, b.representation().parts[1] );
+        const Parts low     = Parts::product_of( a, b.representation().parts[0] );
+        const Parts high    = Parts::product_of( a, b.representation().parts[1] );
         const Truth intermediate_overflow = (high.parts[1] != 0);
         if( intermediate_overflow ) { return {}; }
         auto result = Uint_128( tag::From_parts(), low.parts[0], low.parts[1] + high.parts[0] );

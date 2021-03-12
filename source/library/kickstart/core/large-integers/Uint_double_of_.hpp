@@ -24,7 +24,7 @@
 
 #include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
-#include <kickstart/core/language/type-aliases.hpp>             // Type_
+#include <kickstart/core/language/type-aliases.hpp>             // Type_, Uint_
 #include <kickstart/core/stdlib-extensions/math/general-number-operations.h>    // compare
 
 namespace kickstart::large_integers::_definitions {
@@ -32,7 +32,8 @@ namespace kickstart::large_integers::_definitions {
 
     using   kl::lx::bits_per_,
             kl::Truth,
-            kl::Type_;
+            kl::Type_,
+            kl::Uint_;
     using   kickstart::math::compare;
     using   std::is_unsigned_v;
 
@@ -43,61 +44,57 @@ namespace kickstart::large_integers::_definitions {
         using Unit = Uint_param;
 
         Unit parts[2];          // Parts in little endian order.
+
+        friend
+        constexpr auto compare( const Uint_double_of_& a, const Uint_double_of_& b )
+            -> int
+        {
+            if( const int r = compare( a.parts[1], b.parts[1] ) ) {
+                return r;
+            }
+            return compare( a.parts[0], b.parts[0] );
+        }
+
+        constexpr static auto product_of( const Unit a, const Unit b )
+            -> Uint_double_of_
+        {
+            if constexpr( bits_per_<Unit> <= 32 ) {
+                const int unit_radix = 1ULL << bits_per_<Unit>;
+                return { Unit( 1ULL*a*b % unit_radix ), Unit( 1ULL*a*b / unit_radix ) };
+            } else {
+                using Half_unit = Uint_<bits_per_<Unit>/2>;
+
+                const int half_shift = bits_per_<Half_unit>;
+                constexpr auto half_mask = Half_unit( -1 );
+
+                const Half_unit parts_a[2] = { Half_unit( a & half_mask ), Half_unit( a >> half_shift ) };
+                const Half_unit parts_b[2] = { Half_unit( b & half_mask ), Half_unit( b >> half_shift ) };
+
+                constexpr auto one = Unit( 1 );
+                const Unit  low         = one * parts_a[0] * parts_b[0];
+                const Unit  mid_1       = one * parts_a[0] * parts_b[1];
+                const Unit  mid_2       = one * parts_a[1] * parts_b[0];
+                const Unit  mid         = mid_1 + mid_2;
+                const Truth mid_carry   = (mid < mid_1);
+                const Unit  high        = one * parts_a[1] * parts_b[1];
+
+                Uint_double_of_<Unit> result = {};  // Initialized to silence g++ compiler.
+                result.parts[0] = low + ((mid & half_mask) << half_shift);
+                const Truth part_0_carry = (result.parts[0] < low);
+                result.parts[1] = Unit()
+                    + Unit( +part_0_carry )
+                    + (mid >> half_shift) + (Unit( +mid_carry ) << half_shift)
+                    + high;
+                return result;
+            }
+        }
     };
-
-    template< class Unit >
-    inline constexpr auto compare( const Uint_double_of_<Unit>& a, const Uint_double_of_<Unit>& b )
-        -> int
-    {
-        if( const int r = compare( a.parts[1], b.parts[1] ) ) {
-            return r;
-        }
-        return compare( a.parts[0], b.parts[0] );
-    }
-
-    template< class Half_unit, class Unit >
-    constexpr auto multiply_by_parts( const Unit a, const Unit b )
-        -> Uint_double_of_<Unit>
-    {
-        if constexpr( bits_per_<Unit> <= 32 ) {
-            const int unit_radix = 1ULL << bits_per_<Unit>;
-            return { Unit( 1ULL*a*b % unit_radix ), Unit( 1ULL*a*b / unit_radix ) };
-        } else {
-            static_assert( is_unsigned_v<Half_unit> );
-            static_assert( sizeof( Unit ) == 2*sizeof( Half_unit ) );
-
-            const int half_shift = bits_per_<Half_unit>;
-            constexpr auto half_mask = Half_unit( -1 );
-
-            const Half_unit parts_a[2] = { Half_unit( a & half_mask ), Half_unit( a >> half_shift ) };
-            const Half_unit parts_b[2] = { Half_unit( b & half_mask ), Half_unit( b >> half_shift ) };
-
-            constexpr auto one = Unit( 1 );
-            const Unit  low         = one * parts_a[0] * parts_b[0];
-            const Unit  mid_1       = one * parts_a[0] * parts_b[1];
-            const Unit  mid_2       = one * parts_a[1] * parts_b[0];
-            const Unit  mid         = mid_1 + mid_2;
-            const Truth mid_carry   = (mid < mid_1);
-            const Unit  high        = one * parts_a[1] * parts_b[1];
-
-            Uint_double_of_<Unit> result = {};  // Initialized to silence g++ compiler.
-            result.parts[0] = low + ((mid & half_mask) << half_shift);
-            const Truth part_0_carry = (result.parts[0] < low);
-            result.parts[1] = Unit()
-                + Unit( +part_0_carry )
-                + (mid >> half_shift) + (Unit( +mid_carry ) << half_shift)
-                + high;
-            return result;
-        }
-    }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Uint_double_of_,
-        d::compare,
-        d::multiply_by_parts;
+        d::Uint_double_of_;
     }  // namespace exported names
 }  // namespace kickstart::large_integers::_definitions
 

@@ -40,16 +40,35 @@ namespace kickstart::language::_definitions {
 
     using Int32                 = int32_t;
     using Unsigned_int32        = uint32_t;
-    using Number32              = float;        static_assert( bits_per_<Number32> >= 32, "!" );
+    using Number32              = float;
     using Int64                 = int64_t;
     using Unsigned_int64        = uint64_t;
-    using Number64              = double;       static_assert( bits_per_<Number64> >= 64, "!" );
+    using Number64              = double;
+
+    static_assert( bits_per_<Number32> >= 32 );
+    static_assert( bits_per_<Number64> >= 64 );
 
     using Integer   = Int64;
     using Number    = Number64;
 
     using C_str                 = const char*;
     using C_wstr                = const wchar_t*;
+
+    template< int n_bits > struct Int_t_;
+    template< int n_bits > using Int_ = typename Int_t_<n_bits>::T;
+
+    template< int n_bits > struct Uint_t_;
+    template< int n_bits > using Uint_ = typename Uint_t_<n_bits>::T;
+
+    template<> struct Int_t_< 8> { using T =  int8_t; };
+    template<> struct Int_t_<16> { using T = int16_t; };
+    template<> struct Int_t_<32> { using T = int32_t; };
+    template<> struct Int_t_<64> { using T = int64_t; };
+
+    template<> struct Uint_t_< 8> { using T =  uint8_t; };
+    template<> struct Uint_t_<16> { using T = uint16_t; };
+    template<> struct Uint_t_<32> { using T = uint32_t; };
+    template<> struct Uint_t_<64> { using T = uint64_t; };
 
 
     //----------------------------------------------------------- @exported:
@@ -60,7 +79,8 @@ namespace kickstart::language::_definitions {
         d::Int32, d::Unsigned_int32, d::Number32,
         d::Int64, d::Unsigned_int64, d::Number64,
         d::Integer, d::Number,
-        d::C_str, d::C_wstr;
+        d::C_str, d::C_wstr,
+        d::Int_, d::Uint_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
