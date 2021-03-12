@@ -71,7 +71,6 @@ namespace kickstart::large_integers::_definitions {
     class Uint_128
     {
     public:
-        using Half_unit = uint32_t;
         using Unit      = uint64_t;
         using Parts     = Uint_double_of_<Unit>;
         static constexpr int n_bits = 2*bits_per_<Unit>;
