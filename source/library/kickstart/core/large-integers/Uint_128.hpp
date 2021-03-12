@@ -38,7 +38,7 @@
 #include <bitset>
 #include <optional>
 #include <stdexcept>        // runtime_error
-#include <string>           // string, char_traits
+#include <string>           // string
 #include <string_view>      // string_view
 #include <type_traits>      // is_integral_v
 #include <utility>          // swap
@@ -63,7 +63,7 @@ namespace kickstart::large_integers::_definitions {
             std::bitset,
             std::optional,
             std::runtime_error,
-            std::string, std::char_traits,
+            std::string,
             std::string_view,
             std::is_integral_v,
             std::swap;
@@ -424,7 +424,7 @@ namespace kickstart::large_integers::_definitions {
 
     inline constexpr auto operator""_u128( const C_str spec )
         -> Uint_128
-    { return to_uint_128( string_view( spec, char_traits<char>::length( spec ) ) ); }
+    { return to_uint_128( string_view( spec ) ); }
 
 
     //----------------------------------------------------------- @exported:
