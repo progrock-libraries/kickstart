@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/collection-util/collection-sizes.hpp>  // int_size
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>                // Truth
@@ -58,6 +59,7 @@ namespace kickstart::large_integers::_definitions {
 
     using   kl::C_str, kl::Truth;
     using   klx::lsb_is_set_in, klx::msb_is_set_in;
+    using   kickstart::collection_util::int_size;
     using   kickstart::limits::bits_per_;
     using   std::array,
             std::bitset,
@@ -438,7 +440,7 @@ namespace kickstart::large_integers::_definitions {
 
         using R = Uint_128::Result_kind;
         Uint_128 result = 0;
-        for( int i = 0; spec[i] != '\0'; ++i ) {
+        for( int i = 0; i < int_size( spec ); ++i ) {
             const char ch = spec[i];
             ensure_is_valid( ch, i );
             if( ch != apostrophe ) {

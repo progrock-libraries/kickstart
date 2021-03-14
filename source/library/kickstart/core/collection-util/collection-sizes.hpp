@@ -32,12 +32,12 @@ namespace kickstart::collection_util::_definitions {
     using   ks::size, ks::ssize;
 
     template< class Result, class Collection >
-    inline auto size_( const Collection& c )
+    inline constexpr auto size_( const Collection& c )
         -> Result
     { return static_cast<Result>( size( c ) ); }
 
     template< class Collection >
-    inline auto int_size( const Collection& c )
+    inline constexpr auto int_size( const Collection& c )
         -> int
     { return size_<int>( c ); }
 
