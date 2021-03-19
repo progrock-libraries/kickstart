@@ -45,7 +45,7 @@ namespace kickstart::utf8_io::_definitions {
 
     inline auto tty_stream_input_or_eof_from( const C_file f )
         -> optional<string>
-    { return Temporary_c_tty_input_stream_wrapping( f ).input_or_eof(); }
+    { return Temporary_c_tty_input_stream_wrapping( f ).input_or_none(); }
 
     inline auto tty_stream_input_from( const C_file f )
         -> string

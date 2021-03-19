@@ -196,17 +196,17 @@ namespace kickstart::fsx::_definitions {
         -> Path
     { return Path( fspath_from_u8( s ) ); }
 
-    inline auto path_of_executable()
+    inline auto exe_file_path()
         -> Path
-    { return Path( fspath_of_executable() ); }
+    { return Path( exe_file_fspath() ); }
 
-    inline auto path_of_exe_directory()
+    inline auto exe_directory_path()
         -> Path
-    { return Path( fspath_of_exe_directory() ); }
+    { return Path( exe_directory_fspath() ); }
 
-    inline auto path_of_exe_relative( const Path& p )
+    inline auto exe_relative_path( const Path& p )
         -> Path
-    { return Path( fspath_of_exe_relative( p.fspath() ) ); }
+    { return Path( exe_relative_fspath( p.fspath() ) ); }
 
     inline auto open_c_file( const Path& p, const C_str_ref mode )
         -> optional<C_file>
@@ -232,9 +232,9 @@ namespace kickstart::fsx::_definitions {
         d::compare,
         d::operator<, d::operator<=, d::operator==, d::operator>=, d::operator>, d::operator!=,
         d::path_from_u8,
-        d::path_of_executable,
-        d::path_of_exe_directory,
-        d::path_of_exe_relative,
+        d::exe_file_path,
+        d::exe_directory_path,
+        d::exe_relative_path,
         d::open_c_file,
         d::open_c_file_or_x;
     }  // namespace exported names

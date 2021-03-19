@@ -50,7 +50,7 @@ namespace kickstart::system_specific::_definitions {
 
     inline auto raw_input_or_eof_from_console( const C_file )
         -> optional<string>
-    { return Windows_console::instance().input_or_eof(); }
+    { return Windows_console::instance().input_or_none(); }
 
     inline void raw_output_to_console( const C_file, const string_view& s )
     {

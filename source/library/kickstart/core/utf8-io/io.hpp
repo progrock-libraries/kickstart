@@ -47,9 +47,9 @@ namespace kickstart::utf8_io::_definitions {
             std::string,
             std::string_view;
 
-    inline auto input_or_eof()
+    inline auto input_or_none()
         -> optional<string>
-    { return the_c_tty_streams().std_in.input_or_eof(); }
+    { return the_c_tty_streams().std_in.input_or_none(); }
 
     inline auto input()
         -> string
@@ -86,7 +86,7 @@ namespace kickstart::utf8_io::_definitions {
     namespace d = _definitions;
     namespace exported_names { using
         d::End_of_file_exception,       // Re-exported here for convenience.
-        d::input_or_eof,
+        d::input_or_none,
         d::input,
         d::output,
         d::output_error_message;

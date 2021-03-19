@@ -743,7 +743,7 @@ void cppmain()
     const string_view filename = process::the_commandline().args().at( 0 );
     auto reader = Text_reader( filename );
 
-    while( const optional<string> line = reader.input_or_eof() ) {
+    while( const optional<string> line = reader.input_or_none() ) {
         out << line << "\n";
     }
 
@@ -780,7 +780,7 @@ Example usage and output in a classic Windows console window:
 In the above code:
 
 * The `Text_reader` constructor accepts an UTF-8 encoded path string, or a `std::filesystem::path` (the formal argument type is a Kickstart [**`fsx::Path`**](../../source/library/kickstart/core/stdlib-extensions/filesystem/Path.hpp)).
-* The **`.input_or_eof()`** method returns as much of a line as it manages to read. If that turns out to be nothing then it returns an empty `optional`. An attempted read when the `FILE*` is in error mode throws an exception.
+* The **`.input_or_none()`** method returns as much of a line as it manages to read. If that turns out to be nothing then it returns an empty `optional`. An attempted read when the `FILE*` is in error mode throws an exception.
 * The **`.has_passed_eof()`** method just directly calls [`::feof`](https://en.cppreference.com/w/c/io/feof) on the underlying `FILE*` stream.
 
 Also:
@@ -813,9 +813,9 @@ using namespace kickstart::all;
 
 void cppmain()
 {
-    const fsx::Path path = fsx::path_of_exe_relative( "poem.txt" );
+    const fsx::Path path = fsx::exe_relative_path( "poem.txt" );
     auto reader = Text_reader( path );
-    while( const auto line = reader.input_or_eof() ) { out << line << "\n"; }
+    while( const auto line = reader.input_or_none() ) { out << line << "\n"; }
 }
 
 auto main() -> int { return with_exceptions_displayed( cppmain ); }
@@ -842,7 +842,7 @@ Example usage and output in a classic Windows console window (the second invocat
 > Augustus de Morgan’s 1872 “Siphonaptera” poem:  
 > &nbsp;&nbsp;&nbsp;&nbsp;[…]
 
-In addition to **`fsx::path_of_exe_relative()`** there is **`fsx::path_of_exe_directory()`** and **`fsx::path_of_executable()`**, plus a ditto set of functions for `std::filesystem::path` results in case one desires direct use of the standard library’s representation.
+In addition to **`fsx::exe_relative_path()`** there is **`fsx::exe_directory_path()`** and **`fsx::exe_file_path()`**, plus a ditto set of functions for `std::filesystem::path` results in case one desires direct use of the standard library’s representation.
 
 These functions work as follows:
 

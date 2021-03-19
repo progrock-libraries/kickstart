@@ -61,7 +61,7 @@ namespace kickstart::system_specific::_definitions {
             } );
         }
 
-        auto input_or_eof()
+        auto input_or_none()
             -> optional<string>
         {
             string  line;
@@ -77,7 +77,7 @@ namespace kickstart::system_specific::_definitions {
 
         auto input() -> string
         {
-            optional<string> result = input_or_eof();
+            optional<string> result = input_or_none();
             hopefully( result.has_value() )
                 or KS_FAIL_( End_of_file_exception, "Logical end of file encountered." );
             return move( result.value() );

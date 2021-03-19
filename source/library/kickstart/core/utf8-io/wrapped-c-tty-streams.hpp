@@ -58,14 +58,14 @@ namespace kickstart::utf8_io::_definitions {
                 )
         {}
 
-        auto input_or_eof()
+        auto input_or_none()
             -> optional<string>
         { return m_input_or_eof_from( c_file() ); }
 
         auto input()
             -> string
         {
-            if( optional<string> result = input_or_eof() ) {
+            if( optional<string> result = input_or_none() ) {
                 return move( result.value() );
             }
             KS_FAIL_( End_of_file_exception, "Logical end of file encountered." );

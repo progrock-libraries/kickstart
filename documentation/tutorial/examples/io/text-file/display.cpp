@@ -6,7 +6,7 @@ void cppmain()
     const string_view filename = process::the_commandline().args().at( 0 );
     auto reader = Text_reader( filename );
 
-    while( const optional<string> line = reader.input_or_eof() ) {
+    while( const optional<string> line = reader.input_or_none() ) {
         out << line << "\n";
     }
 

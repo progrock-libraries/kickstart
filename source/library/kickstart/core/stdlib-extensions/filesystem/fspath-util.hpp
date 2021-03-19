@@ -63,25 +63,25 @@ namespace kickstart::fsx::_definitions {
         return string( s.begin(), s.end() );    // ... incurring this inefficiency.
     }
 
-    inline auto fspath_of_executable()
+    inline auto exe_file_fspath()
         -> const fs::path&
     {
         static const fs::path the_exe_path = fspath_from_u8( ks::get_path_of_executable() );
         return the_exe_path;
     }
 
-    inline auto fspath_of_exe_directory()
+    inline auto exe_directory_fspath()
         -> const fs::path&
     {
-        static const fs::path the_exedir_path = fspath_of_executable().parent_path();
+        static const fs::path the_exedir_path = exe_file_fspath().parent_path();
         return the_exedir_path;
     }
 
     // Like `absolute` except instead of the current directory the executable's
     // directory is used.
-    inline auto fspath_of_exe_relative( const Explicit_fspath p )
+    inline auto exe_relative_fspath( const Explicit_fspath p )
         -> fs::path
-    { return (p.ref.is_relative()? (fspath_of_exe_directory() / p.ref) : fs::absolute( p.ref )); }
+    { return (p.ref.is_relative()? (exe_directory_fspath() / p.ref) : fs::absolute( p.ref )); }
 
     inline auto open_c_file( const Explicit_fspath p, const C_str_ref mode )
         -> optional<C_file>
@@ -94,9 +94,9 @@ namespace kickstart::fsx::_definitions {
         d::Explicit_fspath,
         d::fspath_from_u8,
         d::u8_from,
-        d::fspath_of_executable,
-        d::fspath_of_exe_directory,
-        d::fspath_of_exe_relative,
+        d::exe_file_fspath,
+        d::exe_directory_fspath,
+        d::exe_relative_fspath,
         d::open_c_file;
     }  // namespace exported names
 }  // namespace kickstart::fsx::_definitions

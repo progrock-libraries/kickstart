@@ -37,14 +37,14 @@ namespace kickstart::c_files::_definitions {
             Wrapped_c_file( open_c_file_or_x( path, "r" ) )
         {}
 
-        auto input_or_eof()
+        auto input_or_none()
             -> optional<string>
         { return clib_input_or_eof_from( c_file() ); }
 
         auto input()
             -> string
         {
-            if( optional<string> s = input_or_eof() ) {
+            if( optional<string> s = input_or_none() ) {
                 return move( s.value() );
             }
             KS_FAIL_( End_of_file_exception, "End of file" );
