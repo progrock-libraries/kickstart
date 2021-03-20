@@ -33,7 +33,7 @@
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
 
 #include <assert.h>         // assert
-#include <stdint.h>         // Unit
+#include <stdint.h>         // Part
 
 #include <algorithm>        // min
 #include <array>
@@ -75,9 +75,9 @@ namespace kickstart::large_integers::_definitions {
     class Uint_128
     {
     public:
-        using Unit      = uint64_t;
-        using Parts     = Uint_double_of_<Unit>;
-        static constexpr int n_bits = 2*bits_per_<Unit>;
+        using Part      = uint64_t;
+        using Parts     = Uint_double_of_<Part>;
+        static constexpr int n_bits = 2*bits_per_<Part>;
 
     private:
         using Self = Uint_128;
@@ -85,23 +85,20 @@ namespace kickstart::large_integers::_definitions {
         Parts   m_value;
 
     public:
-        Uint_128( tag::Uninitialized )
-        {}
+        Uint_128( tag::Uninitialized ) {}
 
-        constexpr Uint_128():
-            m_value()
-        {}
+        constexpr Uint_128(): m_value() {}
 
         // Yields `value` modulo 2^128.
         template< class Integer >
         constexpr Uint_128( const Integer value ):
-            m_value{ Unit( value ), 0 }
+            m_value{ Part( value ), 0 }
         {
             static_assert( is_integral_v<Integer> );
-            if constexpr( sizeof( Integer ) > sizeof( Unit ) ) {
-                m_value.parts[1] = Unit( value >> bits_per_<Unit> );
+            if constexpr( sizeof( Integer ) > sizeof( Part ) ) {
+                m_value.parts[1] = Part( value >> bits_per_<Part> );
             } else if( value < 0 ) {
-                m_value.parts[1] = Unit( -1 );      // Sign extension.
+                m_value.parts[1] = Part( -1 );      // Sign extension.
             }
         }
 
@@ -112,13 +109,13 @@ namespace kickstart::large_integers::_definitions {
             const int n = min<int>( n_bits, set_size );
             for( int i_bit = 0; i_bit < n ; ++i_bit ) {
                 if( bits[i_bit] ) {
-                    const int i_part = i_bit / bits_per_<Unit>;
-                    m_value.parts[i_part] |= (1ULL << (i_bit % bits_per_<Unit>));
+                    const int i_part = i_bit / bits_per_<Part>;
+                    m_value.parts[i_part] |= (1ULL << (i_bit % bits_per_<Part>));
                 }
             }
         }
 
-        constexpr Uint_128( tag::From_parts, const Unit lsp, const Unit msp = 0 ):
+        constexpr Uint_128( tag::From_parts, const Part lsp, const Part msp = 0 ):
             m_value{ lsp, msp }
         {}
 
@@ -127,7 +124,7 @@ namespace kickstart::large_integers::_definitions {
 
         inline constexpr auto representation() const -> const Parts&;
         inline auto to_bitset() const -> bitset<n_bits>;
-        inline constexpr auto modulo_64_bits() const -> Unit;
+        inline constexpr auto modulo_64_bits() const -> Part;
         inline constexpr auto is_in_64_bit_range() const -> Truth;
         inline constexpr auto operator~() const -> Self;
 
@@ -141,20 +138,20 @@ namespace kickstart::large_integers::_definitions {
         inline constexpr void shift_right();
 
         struct Divmod_result;
-        inline constexpr auto divmod_by_64_bit( const Unit b ) const -> Divmod_result;
+        inline constexpr auto divmod_by_64_bit( const Part b ) const -> Divmod_result;
 
         struct Result_kind{ enum Enum{ math_exact, wrapped }; };
-        inline constexpr auto add_64_bit( const Unit a ) -> Result_kind::Enum;
-        inline constexpr auto subtract_64_bit( const Unit a ) -> Result_kind::Enum;
-        inline constexpr auto multiply_by_64_bit( const Unit a ) -> Result_kind::Enum;
-        inline constexpr auto divide_by_64_bit( const Unit a ) -> Result_kind::Enum;
-        inline constexpr auto mod_by_64_bit( const Unit a ) -> Result_kind::Enum;
+        inline constexpr auto add_64_bit( const Part a ) -> Result_kind::Enum;
+        inline constexpr auto subtract_64_bit( const Part a ) -> Result_kind::Enum;
+        inline constexpr auto multiply_by_64_bit( const Part a ) -> Result_kind::Enum;
+        inline constexpr auto divide_by_64_bit( const Part a ) -> Result_kind::Enum;
+        inline constexpr auto mod_by_64_bit( const Part a ) -> Result_kind::Enum;
 
         inline constexpr auto add( const Self& a ) -> Result_kind::Enum;
         inline constexpr auto subtract( const Self& other ) -> Result_kind::Enum;
 
-        //inline constexpr void operator*=( const Unit a );
-        //inline constexpr void operator/=( const Unit a );
+        //inline constexpr void operator*=( const Part a );
+        //inline constexpr void operator/=( const Part a );
     };
 
     inline constexpr auto operator+( const Uint_128& ) -> Uint_128;
@@ -163,9 +160,9 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto operator+( const Uint_128& a, const Uint_128& b ) -> Uint_128;
     inline constexpr auto operator-( const Uint_128& a, const Uint_128& b ) -> Uint_128;
 
-    inline constexpr auto operator*( const Uint_128::Unit a, const Uint_128& b ) -> Uint_128;
-    inline constexpr auto operator/( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
-    inline constexpr auto operator%( const Uint_128& a, const Uint_128::Unit b ) -> Uint_128;
+    inline constexpr auto operator*( const Uint_128::Part a, const Uint_128& b ) -> Uint_128;
+    inline constexpr auto operator/( const Uint_128& a, const Uint_128::Part b ) -> Uint_128;
+    inline constexpr auto operator%( const Uint_128& a, const Uint_128::Part b ) -> Uint_128;
 
     inline constexpr auto compare( const Uint_128& a, const Uint_128& b ) -> int;
     inline constexpr auto operator<( const Uint_128& a, const Uint_128& b ) -> Truth;
@@ -188,11 +185,11 @@ namespace kickstart::large_integers::_definitions {
         -> bitset<n_bits>
     {
         using B = bitset<n_bits>;
-        return (B( m_value.parts[1] ) << bits_per_<Unit>) | B( m_value.parts[0] );
+        return (B( m_value.parts[1] ) << bits_per_<Part>) | B( m_value.parts[0] );
     }
 
     inline constexpr auto Uint_128::modulo_64_bits() const
-        -> Unit
+        -> Part
     { return m_value.parts[0]; }
 
     inline constexpr auto Uint_128::is_in_64_bit_range() const
@@ -223,7 +220,7 @@ namespace kickstart::large_integers::_definitions {
     {
         m_value.parts[0] += other.m_value.parts[0];
         const Truth carry = (m_value.parts[0] < other.m_value.parts[0]);
-        m_value.parts[1] += Unit( other.m_value.parts[1] + +carry );
+        m_value.parts[1] += Part( other.m_value.parts[1] + +carry );
     }
 
     inline constexpr void Uint_128::operator-=( const Self& other )
@@ -244,7 +241,7 @@ namespace kickstart::large_integers::_definitions {
         const Truth carry = lsb_is_set_in( m_value.parts[1] );
         m_value.parts[1] >>= 1;
         m_value.parts[0] >>= 1;
-        m_value.parts[0] |= (Unit( +carry ) << (bits_per_<Unit> - 1));
+        m_value.parts[0] |= (Part( +carry ) << (bits_per_<Part> - 1));
     }
 
     struct Uint_128::Divmod_result
@@ -253,25 +250,25 @@ namespace kickstart::large_integers::_definitions {
         Uint_128   quotient;
     };
 
-    inline constexpr auto Uint_128::divmod_by_64_bit( const Uint_128::Unit b ) const
+    inline constexpr auto Uint_128::divmod_by_64_bit( const Uint_128::Part b ) const
         -> Divmod_result
     {
         if( b == 0 ) { return Divmod_result{ ~Uint_128(), ~Uint_128() }; }
 
         #ifndef KS_TEST_DIVISION_PLEASE
             if( m_value.parts[1] == 0 ) {
-                return Divmod_result{ Unit( m_value.parts[0] % b ), Unit( m_value.parts[0] / b ) };
+                return Divmod_result{ Part( m_value.parts[0] % b ), Part( m_value.parts[0] / b ) };
             }
         #endif
 
-        Unit divisor = b;
+        Part divisor = b;
         int n_shifts = 0;
         while( not msb_is_set_in( divisor ) ) {
             divisor <<= 1;
             ++n_shifts;
         }
 
-        const int n_q_digits = 1 + n_shifts + bits_per_<Unit>;
+        const int n_q_digits = 1 + n_shifts + bits_per_<Part>;
         Divmod_result result = {*this, 0};
         Truth carry = false;
         for( int i = 0;; ) {
@@ -295,7 +292,7 @@ namespace kickstart::large_integers::_definitions {
         return result;
     }
 
-    inline constexpr auto Uint_128::add_64_bit( const Unit a )
+    inline constexpr auto Uint_128::add_64_bit( const Part a )
         -> Result_kind::Enum
     {
         using R = Result_kind;
@@ -305,11 +302,11 @@ namespace kickstart::large_integers::_definitions {
         return (m_value.parts[1] == 0 and m_value.parts[0] < a? R::wrapped : R::math_exact);
     }
 
-    inline constexpr auto Uint_128::subtract_64_bit( const Unit a )
+    inline constexpr auto Uint_128::subtract_64_bit( const Part a )
         -> Result_kind::Enum
     { return subtract( Self( a ) ); }
 
-    inline constexpr auto Uint_128::multiply_by_64_bit( const Unit a )
+    inline constexpr auto Uint_128::multiply_by_64_bit( const Part a )
         -> Result_kind::Enum
     {
         const Parts lo  = Parts::product_of( a, m_value.parts[0] );
@@ -321,14 +318,14 @@ namespace kickstart::large_integers::_definitions {
         return (intermediate_overflow or final_overflow? R::wrapped : R::math_exact);
     }
 
-    inline constexpr auto Uint_128::divide_by_64_bit( const Unit a )
+    inline constexpr auto Uint_128::divide_by_64_bit( const Part a )
         -> Result_kind::Enum
     {
         *this = divmod_by_64_bit( a ).quotient;
         return Result_kind::math_exact;
     }
 
-    inline constexpr auto Uint_128::mod_by_64_bit( const Unit a )
+    inline constexpr auto Uint_128::mod_by_64_bit( const Part a )
         -> Result_kind::Enum
     {
         *this = divmod_by_64_bit( a ).remainder;
@@ -376,7 +373,7 @@ namespace kickstart::large_integers::_definitions {
         -> Uint_128
     { return a + -b; }
 
-    inline constexpr auto operator*( const Uint_128::Unit a, const Uint_128& b )
+    inline constexpr auto operator*( const Uint_128::Part a, const Uint_128& b )
         -> Uint_128
     {
         Uint_128 result = b;
@@ -384,11 +381,11 @@ namespace kickstart::large_integers::_definitions {
         return result;
     }
 
-    inline constexpr auto operator/( const Uint_128& a, const Uint_128::Unit b )
+    inline constexpr auto operator/( const Uint_128& a, const Uint_128::Part b )
         -> Uint_128
     { return a.divmod_by_64_bit( b ).quotient; }
 
-    inline constexpr auto operator%( const Uint_128& a, const Uint_128::Unit b )
+    inline constexpr auto operator%( const Uint_128& a, const Uint_128::Part b )
         -> Uint_128
     { return a.divmod_by_64_bit( b ).remainder; }
 
