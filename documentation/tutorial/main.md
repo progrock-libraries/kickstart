@@ -48,6 +48,12 @@ Happily, for Visual C++ options can be specified in environment variable `CL`, w
 
 ## **2. “Hello, world!” — or, keep that console window open, please.**
 
+By creating a “Hello, world!” program you learn the necessary coding and tool usage to get a verifiable textual result, which enables you to experiment and in that way learn more about e.g. a new language, or in this case, a library.
+
+*Problem:* when you use an IDE in Windows, then the visible “Hello, world!” result *can* be just that a console window pops up and immediately disappears…
+
+Kickstart provides a practical way to avoid that, but let’s first look at just building and running “Hello, world!” in the command line, where there is no such problem.
+
 ### **2.1. Use basic Kickstart output.**
 
 Here’s the classic “Hello, world!” program expressed with Kickstart console output:
@@ -111,7 +117,7 @@ Notes:
 
 1. All static cleanup performed by object destructors will in practice have been performed, but there’s no guarantee that all relevant static cleanup has been performed at this point.
 
-2. When you just want to keep the console window when you run your program (without debugging) from an IDE such as Visual Studio, then it’s much simpler to use the IDE’s functionality. For example, in Visual Studio run the program via keypress **Ctrl** + **F5**. And, for example, in Code::Blocks run the program via keypress **F9**.
+2. When you just want to keep the console window when you run your program (without debugging) from an IDE such as Visual Studio, then it can be much simpler to use the IDE’s functionality. For example, in Visual Studio run the program via keypress **Ctrl** + **F5**. And, for example, in Code::Blocks run the program via keypress **F9**.
 
 
 ### **2.3. Prevent console window closing in Unix.**
@@ -139,6 +145,12 @@ But the Ubuntu/Unix environment enabled a nice little feature, namely that the �
 
 
 ## **3. Text i/o.**
+
+*Problem*: as of C++20 the C++ standard library is still stuck in an archaic technology where the default text encoding that i/o operations assume for a `char` string, depends on the environment.
+
+In Windows that environment’s default depends on whether the program is built with console subsystem or GUI subsystem. Current C++ standard library implementations generally use the GUI subsystem encoding default even for (the default!) console subsystem, i.e., for the usual students’s programs the default encoding that one gets is at odds with the actual environment. And, less easy to rectify, that default is also at odds with modern programming, because it’s usually not UTF-8 but instead some country specific variant of the single-byte-per-character encoding called Windows ANSI Western…
+
+Kickstart text i/o supports using UTF-8 throughout, also in Windows consoles.
 
 ### **3.1. Output text with non-English letters like Norwegian ÆØÅ.**
 
@@ -513,6 +525,12 @@ Note: `double` represents a limited number of digits of a value. When you try to
 
 ## **4. Command line arguments.**
 
+*Problem*: as of C++20 standard C++ only provides access to command line arguments via the arguments of `main`, which with current Windows implementations of C++ are encoded with some single-byte-per-character national variant of Windows ANSI Western, which means that they cannot accurately convey arbitrary text such as filenames.
+
+Kicstart *assumes* that any Unix-based system such as Linux or Mac OS, is using UTF-8.
+
+Under that assumption Kickstart provides UTF-8 encoded command line arguments access in both Unix-based systems and Windows.
+
 ### **4.1. Access the command line arguments.**
 The main Kickstart way to access command line arguments is via the **`process::the_commandline()`** function, which returns a reference to a static object:
 
@@ -729,6 +747,19 @@ I.e. you need exception handling in order to use “cxxopts” and many other C+
 
 ## **5. Text files.**
 
+*Problems* with the C++ standard library:
+
+* UTF-8 paths are not supported for C `FILE*`.  
+  As of early 2021 the Windows implementations of the C++ standard library for the Visual C++, g++ and clang compilers do not support opening a C `FILE*` from an UTF-8 encoded path.
+* Exe-relative file access is not supported.  
+  As of C++20 the C++ standard library does not support access of files in or relative to the exeutable’s directory, and finding that directory via command line part 0 + `PATH` variable + knowledge of which additional directories the system searches, is complex, inefficient and unreliable.
+* UTF-8 BOM creation and suppression is not supported.  
+  Using an UTF-8 BOM as an encoding indicator in text files is the convention in Windows, crucial for some tools, but current Windows C++ implementations do not support UTF-8 BOM creation for Windows text files. Also, less important but a usability issue, they don’t suppress UTF-8 BOM characters for console output.
+
+Kickstart provides C `FILE*` based `Text_reader` and `Text_writer` classes that you can instantiate with an UTF-8 encoded file path, including an exe-relative path. Also, but not discussed here, the lower level functionality for opening a C `FILE*` from UTF-8 path, e.g. for the purpose of binary i/o, is exposed. See the Kickstart code for details.
+
+The `Text_writer` class will by default *not* add a BOM in Unix systems, and will by default add a BOM in Windows, following the system convention. The `Text_reader` class doesn’t do anything about BOMs: you get any BOMs that are in a file. But Kickstart console output suppresses BOM characters when the output actually goes to a console.
+
 ### **5.1. Display lines from a text file.**
 
 Reading a text file line by line is simple with the [**`Text_reader`**](../../source/library/kickstart/core/stdlib-extensions/c-files/Text_reader.hpp) class, which uses a C `FILE*` internally:
@@ -788,11 +819,11 @@ Also:
 * The **`hopefully()`** function returns the boolean argument value. It really does nothing except communicate to a reader that that expression is a condition that one hopes and assumes is true, or else…
 * The **`fail_app()`** function throws an exception that is *not* derived from `std::exception`, so that barring any `catch(...)`’es (just don’t use `catch(...)`) this exception will propagate all the way up to the top level such as the handler in `with_exceptions_displayed`.
 
-As of early 2021 the Windows implementations of the C++ standard library  do not support opening a C `FILE*` from UTF-8 path, BOM suppression for console output (see fine detail 1 below), or for that matter guaranteed correct output of non-ASCII text such as the “…” above, so this is an example where a library like Kickstart is  *necessary* in order to express a reasonable beginner’s simple task in C++.
+This is an example where a library like Kickstart is  *necessary* in order to express a reasonable beginner’s simple task in C++.
 
 ---
 
-*Fine detail 1*: this example’s “π.txt” file is encoded with UTF-8 with a BOM (a *byte order mark*) at the start, which is the convention in Windows. The BOM character is suppressed by Kickstart’s console output operations. In fact all BOM characters — historically they were “zero width no-break space” characters that shouldn’t be rendered — are suppressed for console output, but they’re retained when the output goes to a file such as with i/o redirection.
+*Fine detail 1*: this example’s “π.txt” file is encoded with UTF-8 with a BOM (a *byte order mark*) at the start, which is the convention in Windows. The BOM character is suppressed by Kickstart’s console output operations. In fact all BOM characters — historically they were “zero width no-break space” characters that shouldn’t be rendered — are suppressed for console output, but they’re retained when the output goes to a file or pipe such as with i/o redirection.
 
 ---
 
