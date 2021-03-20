@@ -31,6 +31,7 @@
 #include <iterator>
 #include <string>
 #include <string_view>
+#include <variant>
 #include <vector>
 
 namespace kickstart::strings::_definitions {
@@ -41,20 +42,28 @@ namespace kickstart::strings::_definitions {
             std::begin, std::end,
             std::string,
             std::string_view,
+            std::holds_alternative, std::get, std::variant,
             std::vector;
 
     class C_str_ref
     {
-        C_str       m_s;
-        string      m_data;
+        variant<C_str, string>  m_data;
 
     public:
-        C_str_ref( const C_str s ): m_s( s ) {}
-        C_str_ref( const string_view& s ): m_data( string( s ) ) { m_s = m_data.c_str(); }
-        C_str_ref( const string& s ): m_s( s.c_str() ) {}
+        C_str_ref( const C_str s ): m_data( s ) {}
+        C_str_ref( const string_view& s ): m_data( string( s ) ) {}
+        C_str_ref( const string& s ): m_data( s.c_str() ) {}
 
-        auto s() const -> C_str { return m_s; }
-        operator C_str () const { return m_s; }
+        auto s() const
+            -> C_str
+        {
+            return (0?0
+                : holds_alternative<C_str>( m_data )?   get<C_str>( m_data )
+                :                                       get<string>( m_data ).c_str()
+                );
+        }
+
+        operator C_str () const { return s(); }
     };
 
     inline auto repeated_times( const int n, const string_view& s )
