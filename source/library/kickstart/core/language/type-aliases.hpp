@@ -51,14 +51,14 @@ namespace kickstart::language::_definitions {
     using Integer   = Int64;
     using Number    = Number64;
 
-    using C_str                 = const char*;
-    using C_wstr                = const wchar_t*;
+    using C_str     = const char*;
+    using C_wstr    = const wchar_t*;
 
-    template< int n_bits > struct Int_t_;
-    template< int n_bits > using Int_ = typename Int_t_<n_bits>::T;
+    template< int n_bits >      struct Int_t_;
+    template< int n_bits >      using Int_ = typename Int_t_<n_bits>::T;
 
-    template< int n_bits > struct Uint_t_;
-    template< int n_bits > using Uint_ = typename Uint_t_<n_bits>::T;
+    template< int n_bits >      struct Uint_t_;
+    template< int n_bits >      using Uint_ = typename Uint_t_<n_bits>::T;
 
     template<> struct Int_t_< 8> { using T =  int8_t; };
     template<> struct Int_t_<16> { using T = int16_t; };
