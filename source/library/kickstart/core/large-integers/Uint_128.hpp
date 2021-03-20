@@ -35,6 +35,7 @@
 #include <assert.h>         // assert
 #include <stdint.h>         // Unit
 
+#include <algorithm>        // min
 #include <array>
 #include <bitset>
 #include <optional>
@@ -61,7 +62,8 @@ namespace kickstart::large_integers::_definitions {
     using   klx::lsb_is_set_in, klx::msb_is_set_in;
     using   kickstart::collection_util::int_size;
     using   kickstart::limits::bits_per_;
-    using   std::array,
+    using   std::min,
+            std::array,
             std::bitset,
             std::optional,
             std::runtime_error,
@@ -100,6 +102,19 @@ namespace kickstart::large_integers::_definitions {
                 m_value.parts[1] = Unit( value >> bits_per_<Unit> );
             } else if( value < 0 ) {
                 m_value.parts[1] = Unit( -1 );      // Sign extension.
+            }
+        }
+
+        template< int set_size >
+        Uint_128( const bitset<set_size>& bits ):
+            m_value()
+        {
+            const int n = min<int>( n_bits, set_size );
+            for( int i_bit = 0; i_bit < n ; ++i_bit ) {
+                if( bits[i_bit] ) {
+                    const int i_part = i_bit / bits_per_<Unit>;
+                    m_value.parts[i_part] |= (1ULL << (i_bit % bits_per_<Unit>));
+                }
             }
         }
 
@@ -172,12 +187,8 @@ namespace kickstart::large_integers::_definitions {
     inline auto Uint_128::to_bitset() const
         -> bitset<n_bits>
     {
-        auto bits = bitset<n_bits>( m_value.parts[0] );
-        for( int i = 0; i < bits_per_<Unit>; ++i ) {
-            const int bit = (m_value.parts[1] >> i) & 1;
-            bits.set( i + bits_per_<Unit>, !!bit );
-        }
-        return bits;
+        using B = bitset<n_bits>;
+        return (B( m_value.parts[1] ) << bits_per_<Unit>) | B( m_value.parts[0] );
     }
 
     inline constexpr auto Uint_128::modulo_64_bits() const
