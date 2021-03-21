@@ -158,7 +158,7 @@ namespace kickstart::large_integers::_definitions {
             ++n_shifts;
         }
 
-        const int n_q_digits = 1 + n_shifts + bits_per_<Part>;
+        const int n_quotient_digits = 1 + n_shifts + bits_per_<Part>;
         Divmod_result result = {a, 0};
         Truth carry = false;
         for( int i = 0;; ) {
@@ -168,7 +168,7 @@ namespace kickstart::large_integers::_definitions {
             }
 
             ++i;
-            if( i == n_q_digits ) {
+            if( i == n_quotient_digits ) {
                 break;
             }
 
