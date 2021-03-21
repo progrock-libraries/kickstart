@@ -752,7 +752,7 @@ I.e. you need exception handling in order to use “cxxopts” and many other C+
 * UTF-8 paths are not supported for C `FILE*`.  
   As of early 2021 the Windows implementations of the C++ standard library for the Visual C++, g++ and clang compilers do not support opening a C `FILE*` from an UTF-8 encoded path.
 * Exe-relative file access is not supported.  
-  As of C++20 the C++ standard library does not support access of files in or relative to the exeutable’s directory, and finding that directory via command line part 0 + `PATH` variable + knowledge of which additional directories the system searches, is complex, inefficient and unreliable.
+  As of C++20 the C++ standard library does not support access of files in or relative to the executable’s directory, and finding that directory via command line part 0 + `PATH` variable + knowledge of which additional directories the system searches, is complex, inefficient and unreliable.
 * UTF-8 BOM creation and suppression is not supported.  
   Using an UTF-8 BOM as an encoding indicator in text files is the convention in Windows, crucial for some tools, but current Windows C++ implementations do not support UTF-8 BOM creation for Windows text files. Also, less important but a usability issue, they don’t suppress UTF-8 BOM characters for console output.
 

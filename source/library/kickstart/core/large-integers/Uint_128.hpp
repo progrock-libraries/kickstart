@@ -218,22 +218,16 @@ namespace kickstart::large_integers::_definitions {
 
     inline constexpr auto Uint_128::operator~() const
         -> Self
-    { return Uint_128( tag::From_parts(), ~m_value.parts[0], ~m_value.parts[1] ); }
+    { return Uint_128( ~m_value ); }
 
     inline constexpr void Uint_128::shift_left()
     {
-        const Truth carry = msb_is_set_in( m_value.parts[0] );
-        m_value.parts[0] <<= 1;
-        m_value.parts[1] <<= 1;
-        m_value.parts[1] |= +carry;
+        m_value.shift_left();
     }
 
     inline constexpr void Uint_128::shift_right()
     {
-        const Truth carry = lsb_is_set_in( m_value.parts[1] );
-        m_value.parts[1] >>= 1;
-        m_value.parts[0] >>= 1;
-        m_value.parts[0] |= (Part( +carry ) << (bits_per_<Part> - 1));
+        m_value.shift_right();
     }
 
     struct Uint_128::Divmod_result
@@ -247,46 +241,6 @@ namespace kickstart::large_integers::_definitions {
     {
         const Parts::Divmod_result internal_states = Parts::quotient_of( m_value, b );
         return Divmod_result{ internal_states.remainder, internal_states.quotient };
-
-    #if 0
-        if( b == 0 ) { return Divmod_result{ ~Uint_128(), ~Uint_128() }; }
-
-        #ifndef KS_TEST_DIVISION_PLEASE
-            if( m_value.parts[1] == 0 ) {
-                return Divmod_result{ Part( m_value.parts[0] % b ), Part( m_value.parts[0] / b ) };
-            }
-        #endif
-
-        Part divisor = b;
-        int n_shifts = 0;
-        while( not msb_is_set_in( divisor ) ) {
-            divisor <<= 1;
-            ++n_shifts;
-        }
-
-        const int n_q_digits = 1 + n_shifts + bits_per_<Part>;
-        Divmod_result result = {*this, 0};
-        Truth carry = false;
-        for( int i = 0;; ) {
-            if( carry or divisor <= result.remainder.m_value.parts[1] ) {
-                result.remainder.m_value.parts[1] -= divisor;
-                result.quotient.m_value.parts[0] |= 1;
-            }
-
-            ++i;
-            if( i == n_q_digits ) {
-                break;
-            }
-
-            result.quotient.shift_left();
-            carry = msb_is_set_in( result.remainder.representation().parts[1] );
-            result.remainder.shift_left();
-        }
-        assert( result.remainder.m_value.parts[0] == 0 );
-        swap( result.remainder.m_value.parts[0], result.remainder.m_value.parts[1] );
-        result.remainder.m_value.parts[0] >>= n_shifts;
-        return result;
-    #endif
     }
 
     inline constexpr auto Uint_128::add_64_bit( const Part a )
