@@ -45,9 +45,6 @@ namespace kickstart::large_integers::_definitions {
 
         Part parts[2];          // Parts in little endian order.
 
-        friend
-        constexpr auto compare( const Uint_double_of_& a, const Uint_double_of_& b ) -> int;
-
         inline constexpr auto operator~() const -> Uint_double_of_;
         inline constexpr void shift_left();
         inline constexpr void shift_right();
@@ -186,7 +183,8 @@ namespace kickstart::large_integers::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Uint_double_of_;
+        d::Uint_double_of_,
+        d::compare;
     }  // namespace exported names
 }  // namespace kickstart::large_integers::_definitions
 
