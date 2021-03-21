@@ -69,7 +69,9 @@ namespace kickstart::strings::_definitions {
     inline auto repeated_times( const int n, const string_view& s )
         -> string
     {
+        if( n <= 0 ) { return ""; }
         string result;
+        result.reserve( n*s.length() );
         for( int i = 1; i <= n; ++i ) {
             result += s;
         }

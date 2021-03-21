@@ -41,54 +41,146 @@ namespace kickstart::large_integers::_definitions {
     struct Uint_double_of_
     {
         static_assert( is_unsigned_v<Uint_param> );
-        using Unit = Uint_param;
+        using Part = Uint_param;
 
-        Unit parts[2];          // Parts in little endian order.
+        Part parts[2];          // Parts in little endian order.
 
         friend
-        constexpr auto compare( const Uint_double_of_& a, const Uint_double_of_& b )
-            -> int
-        {
-            if( const int r = compare( a.parts[1], b.parts[1] ) ) {
-                return r;
-            }
-            return compare( a.parts[0], b.parts[0] );
-        }
+        constexpr auto compare( const Uint_double_of_& a, const Uint_double_of_& b ) -> int;
 
-        constexpr static auto product_of( const Unit a, const Unit b )
-            -> Uint_double_of_
-        {
-            if constexpr( bits_per_<Unit> <= 32 ) {
-                const int unit_radix = 1ULL << bits_per_<Unit>;
-                return { Unit( 1ULL*a*b % unit_radix ), Unit( 1ULL*a*b / unit_radix ) };
-            } else {
-                using Half_unit = Uint_<bits_per_<Unit>/2>;
+        inline constexpr auto operator~() const -> Uint_double_of_;
+        inline constexpr void shift_left();
+        inline constexpr void shift_right();
 
-                const int half_shift = bits_per_<Half_unit>;
-                constexpr auto half_mask = Half_unit( -1 );
+        inline constexpr static auto product_of( const Part a, const Part b )
+            -> Uint_double_of_;
 
-                const Half_unit parts_a[2] = { Half_unit( a & half_mask ), Half_unit( a >> half_shift ) };
-                const Half_unit parts_b[2] = { Half_unit( b & half_mask ), Half_unit( b >> half_shift ) };
-
-                constexpr auto one = Unit( 1 );
-                const Unit  low         = one * parts_a[0] * parts_b[0];
-                const Unit  mid_1       = one * parts_a[0] * parts_b[1];
-                const Unit  mid_2       = one * parts_a[1] * parts_b[0];
-                const Unit  mid         = mid_1 + mid_2;
-                const Truth mid_carry   = (mid < mid_1);
-                const Unit  high        = one * parts_a[1] * parts_b[1];
-
-                Uint_double_of_<Unit> result = {};  // Initialized to silence g++ compiler.
-                result.parts[0] = low + ((mid & half_mask) << half_shift);
-                const Truth part_0_carry = (result.parts[0] < low);
-                result.parts[1] = Unit()
-                    + Unit( +part_0_carry )
-                    + (mid >> half_shift) + (Unit( +mid_carry ) << half_shift)
-                    + high;
-                return result;
-            }
-        }
+        struct Divmod_result;
+        inline constexpr static auto quotient_of( const Uint_double_of_& a, const Part b )
+            -> Divmod_result;
     };
+
+    template< class Uint_param >
+    inline constexpr auto compare(
+        const Uint_double_of_<Uint_param>&   a,
+        const Uint_double_of_<Uint_param>&   b
+        ) -> int
+    {
+        if( const int r = compare( a.parts[1], b.parts[1] ) ) {
+            return r;
+        }
+        return compare( a.parts[0], b.parts[0] );
+    }
+
+    template< class Uint_param >
+    inline constexpr auto Uint_double_of_<Uint_param >::operator~() const
+        -> Uint_double_of_
+    { return {~parts[0], ~parts[1]}; }
+
+    template< class Uint_param >
+    inline constexpr void Uint_double_of_<Uint_param >::shift_left()
+    {
+        const Truth carry = msb_is_set_in( parts[0] );
+        parts[0] <<= 1;  parts[1] <<= 1;
+        parts[1] |= +carry;
+    }
+
+    template< class Uint_param >
+    inline constexpr void Uint_double_of_<Uint_param >::shift_right()
+    {
+        const Truth carry = lsb_is_set_in( parts[1] );
+        parts[1] >>= 1;  parts[0] >>= 1;
+        parts[0] |= (Part( +carry ) << (bits_per_<Part> - 1));
+    }
+
+    template< class Uint_param >
+    constexpr auto Uint_double_of_<Uint_param >::product_of(
+        const Part      a,
+        const Part      b
+        ) -> Uint_double_of_
+    {
+        if constexpr( bits_per_<Part> <= 32 ) {
+            const int unit_radix = 1ULL << bits_per_<Part>;
+            return { Part( 1ULL*a*b % unit_radix ), Part( 1ULL*a*b / unit_radix ) };
+        } else {
+            using Half_unit = Uint_<bits_per_<Part>/2>;
+
+            const int half_shift = bits_per_<Half_unit>;
+            constexpr auto half_mask = Half_unit( -1 );
+
+            const Half_unit parts_a[2] = { Half_unit( a & half_mask ), Half_unit( a >> half_shift ) };
+            const Half_unit parts_b[2] = { Half_unit( b & half_mask ), Half_unit( b >> half_shift ) };
+
+            constexpr auto one = Part( 1 );
+            const Part  low         = one * parts_a[0] * parts_b[0];
+            const Part  mid_1       = one * parts_a[0] * parts_b[1];
+            const Part  mid_2       = one * parts_a[1] * parts_b[0];
+            const Part  mid         = mid_1 + mid_2;
+            const Truth mid_carry   = (mid < mid_1);
+            const Part  high        = one * parts_a[1] * parts_b[1];
+
+            Uint_double_of_<Part> result = {};  // Initialized to silence g++ compiler.
+            result.parts[0] = low + ((mid & half_mask) << half_shift);
+            const Truth part_0_carry = (result.parts[0] < low);
+            result.parts[1] = Part()
+                + Part( +part_0_carry )
+                + (mid >> half_shift) + (Part( +mid_carry ) << half_shift)
+                + high;
+            return result;
+        }
+    }
+
+    template< class Uint_param >
+    struct Uint_double_of_<Uint_param >::Divmod_result
+    {
+        Uint_double_of_     remainder;
+        Uint_double_of_     quotient;
+    };
+
+    template< class Uint_param >
+    inline constexpr auto Uint_double_of_<Uint_param>::quotient_of(
+        const Uint_double_of_&      a,
+        const Part                  b
+        ) -> Divmod_result
+    {
+        if( b == 0 ) { return Divmod_result{ ~Uint_double_of_(), ~Uint_double_of_() }; }
+
+        #ifndef KS_TEST_DIVISION_PLEASE
+            if( parts[1] == 0 ) {
+                return Divmod_result{ Part( parts[0] % b ), Part( parts[0] / b ) };
+            }
+        #endif
+
+        Part divisor = b;
+        int n_shifts = 0;
+        while( not msb_is_set_in( divisor ) ) {
+            divisor <<= 1;
+            ++n_shifts;
+        }
+
+        const int n_q_digits = 1 + n_shifts + bits_per_<Part>;
+        Divmod_result result = {a, 0};
+        Truth carry = false;
+        for( int i = 0;; ) {
+            if( carry or divisor <= result.remainder.parts[1] ) {
+                result.remainder.parts[1] -= divisor;
+                result.quotient.parts[0] |= 1;
+            }
+
+            ++i;
+            if( i == n_q_digits ) {
+                break;
+            }
+
+            result.quotient.shift_left();
+            carry = msb_is_set_in( result.remainder.representation().parts[1] );
+            result.remainder.shift_left();
+        }
+        assert( result.remainder.parts[0] == 0 );
+        swap( result.remainder.parts[0], result.remainder.parts[1] );
+        result.remainder.parts[0] >>= n_shifts;
+        return result;
+    }
 
 
     //----------------------------------------------------------- @exported:

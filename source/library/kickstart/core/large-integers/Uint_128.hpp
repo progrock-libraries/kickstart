@@ -126,7 +126,6 @@ namespace kickstart::large_integers::_definitions {
         inline auto to_bitset() const -> bitset<n_bits>;
         inline constexpr auto modulo_64_bits() const -> Part;
         inline constexpr auto is_in_64_bit_range() const -> Truth;
-        inline constexpr auto operator~() const -> Self;
 
         inline constexpr void operator++();
         inline constexpr void operator--();
@@ -134,6 +133,7 @@ namespace kickstart::large_integers::_definitions {
         inline constexpr void operator+=( const Self& other );
         inline constexpr void operator-=( const Self& other );
 
+        inline constexpr auto operator~() const -> Self;
         inline constexpr void shift_left();
         inline constexpr void shift_right();
 
@@ -196,10 +196,6 @@ namespace kickstart::large_integers::_definitions {
         -> Truth
     { return m_value.parts[1] == 0; }
 
-    inline constexpr auto Uint_128::operator~() const
-        -> Self
-    { return Uint_128( tag::From_parts(), ~m_value.parts[0], ~m_value.parts[1] ); }
-
     inline constexpr void Uint_128::operator++()
     {
         ++m_value.parts[0];
@@ -227,6 +223,10 @@ namespace kickstart::large_integers::_definitions {
     {
         *this += -other;
     }
+
+    inline constexpr auto Uint_128::operator~() const
+        -> Self
+    { return Uint_128( tag::From_parts(), ~m_value.parts[0], ~m_value.parts[1] ); }
 
     inline constexpr void Uint_128::shift_left()
     {
