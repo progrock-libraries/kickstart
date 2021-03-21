@@ -25,17 +25,24 @@
 #include <kickstart/core/language/lx/bits_per_.hpp>                             // lx::bits_per_
 #include <kickstart/core/language/Truth.hpp>                                    // Truth
 #include <kickstart/core/language/type-aliases.hpp>                             // Type_, Uint_
+#include <kickstart/core/language/lx/bit-checking.hpp>
 #include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>  // compare
+
+#include <assert.h>         // assert
+
+#include <type_traits>      // is_unsigned_v
+#include <utility>          // swap
 
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
 
-    using   kl::lx::bits_per_,
+    using   kl::lx::bits_per_, kl::lx::lsb_is_set_in, kl::lx::msb_is_set_in,
             kl::Truth,
             kl::Type_,
             kl::Uint_;
     using   kickstart::math::compare;
-    using   std::is_unsigned_v;
+    using   std::is_unsigned_v,
+            std::swap;
 
     template< class Uint_param >
     struct Uint_double_of_
@@ -143,8 +150,8 @@ namespace kickstart::large_integers::_definitions {
         if( b == 0 ) { return Divmod_result{ ~Uint_double_of_(), ~Uint_double_of_() }; }
 
         #ifndef KS_TEST_DIVISION_PLEASE
-            if( parts[1] == 0 ) {
-                return Divmod_result{ Part( parts[0] % b ), Part( parts[0] / b ) };
+            if( a.parts[1] == 0 ) {
+                return Divmod_result{ { Part( a.parts[0] % b ) }, { Part( a.parts[0] / b ) } };
             }
         #endif
 
@@ -170,7 +177,7 @@ namespace kickstart::large_integers::_definitions {
             }
 
             result.quotient.shift_left();
-            carry = msb_is_set_in( result.remainder.representation().parts[1] );
+            carry = msb_is_set_in( result.remainder.parts[1] );
             result.remainder.shift_left();
         }
         assert( result.remainder.parts[0] == 0 );

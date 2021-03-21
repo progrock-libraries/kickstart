@@ -27,7 +27,6 @@
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>                // Truth
 #include <kickstart/core/language/type-aliases.hpp>         // C_str
-#include <kickstart/core/language/lx/bit-checking.hpp>
 #include <kickstart/core/large-integers/Uint_double_of_.hpp>
 #include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
@@ -43,7 +42,6 @@
 #include <string>           // string
 #include <string_view>      // string_view
 #include <type_traits>      // is_integral_v
-#include <utility>          // swap
 
 namespace kickstart::tag {
     using kickstart::language::Tag_;
@@ -56,10 +54,8 @@ namespace kickstart::large_integers::_definitions {
     using namespace kickstart::text_conversion;     // string <<
     
     namespace kl = kickstart::language;
-    namespace klx = kickstart::language::lx;
 
     using   kl::C_str, kl::Truth;
-    using   klx::lsb_is_set_in, klx::msb_is_set_in;
     using   kickstart::collection_util::int_size;
     using   kickstart::limits::bits_per_;
     using   std::min,
@@ -69,8 +65,7 @@ namespace kickstart::large_integers::_definitions {
             std::runtime_error,
             std::string,
             std::string_view,
-            std::is_integral_v,
-            std::swap;
+            std::is_integral_v;
 
     class Uint_128
     {
@@ -86,8 +81,9 @@ namespace kickstart::large_integers::_definitions {
 
     public:
         Uint_128( tag::Uninitialized ) {}
-
         constexpr Uint_128(): m_value() {}
+        constexpr Uint_128( const Parts& parts ): m_value( parts ) {}
+        constexpr Uint_128( tag::From_parts, const Part lsp, const Part msp = 0 ):m_value{ lsp, msp } {}
 
         // Yields `value` modulo 2^128.
         template< class Integer >
@@ -114,10 +110,6 @@ namespace kickstart::large_integers::_definitions {
                 }
             }
         }
-
-        constexpr Uint_128( tag::From_parts, const Part lsp, const Part msp = 0 ):
-            m_value{ lsp, msp }
-        {}
 
         constexpr Uint_128( const Self& ) = default;
         auto constexpr operator=( const Self& ) -> Self& = default;
@@ -253,6 +245,10 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto Uint_128::divmod_by_64_bit( const Uint_128::Part b ) const
         -> Divmod_result
     {
+        const Parts::Divmod_result internal_states = Parts::quotient_of( m_value, b );
+        return Divmod_result{ internal_states.remainder, internal_states.quotient };
+
+    #if 0
         if( b == 0 ) { return Divmod_result{ ~Uint_128(), ~Uint_128() }; }
 
         #ifndef KS_TEST_DIVISION_PLEASE
@@ -290,6 +286,7 @@ namespace kickstart::large_integers::_definitions {
         swap( result.remainder.m_value.parts[0], result.remainder.m_value.parts[1] );
         result.remainder.m_value.parts[0] >>= n_shifts;
         return result;
+    #endif
     }
 
     inline constexpr auto Uint_128::add_64_bit( const Part a )
