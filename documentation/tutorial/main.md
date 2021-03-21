@@ -754,7 +754,7 @@ I.e. you need exception handling in order to use “cxxopts” and many other C+
 * Exe-relative file access is not supported.  
   As of C++20 the C++ standard library does not support access of files in or relative to the executable’s directory, and finding that directory via command line part 0 + `PATH` variable + knowledge of which additional directories the system searches, is complex, inefficient and unreliable.
 * UTF-8 BOM creation and suppression is not supported.  
-  Using an UTF-8 BOM as an encoding indicator in text files is the convention in Windows, crucial for some tools, but current Windows C++ implementations do not support UTF-8 BOM creation for Windows text files. Also, less important but a usability issue, they don’t suppress UTF-8 BOM characters for console output.
+  Using an UTF-8 BOM as an encoding indicator in text files is the convention in Windows, crucial for some tools, but current Windows C++ implementations do not support UTF-8 BOM creation for Windows text files. Also, less important for correctness but a usability issue, they don’t suppress UTF-8 BOM characters for console output.
 
 Kickstart provides C `FILE*` based `Text_reader` and `Text_writer` classes that you can instantiate with an UTF-8 encoded file path, including an exe-relative path. Also, but not discussed here, the lower level functionality for opening a C `FILE*` from UTF-8 path, e.g. for the purpose of binary i/o, is exposed. See the Kickstart code for details.
 
