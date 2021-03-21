@@ -24,5 +24,5 @@
 
 #include <kickstart/core/stdlib-extensions/math/calculator-functionality.hpp>
 #include <kickstart/core/stdlib-extensions/math/collection-calculations.hpp>
-#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>
 #include <kickstart/core/stdlib-extensions/math/integer-operations.hpp>

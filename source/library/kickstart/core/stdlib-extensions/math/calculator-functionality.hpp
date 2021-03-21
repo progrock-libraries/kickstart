@@ -24,7 +24,7 @@
 
 #include <kickstart/core/language/lx/intpow.hpp>        // intpow
 #include <kickstart/core/language/Truth.hpp>            // Truth
-#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>
 
 #include <math.h>       // The header this one mainly extends.
 

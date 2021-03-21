@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/lx/bits_per_.hpp>             // lx::bits_per_
-#include <kickstart/core/language/Truth.hpp>                    // Truth
-#include <kickstart/core/language/type-aliases.hpp>             // Type_, Uint_
-#include <kickstart/core/stdlib-extensions/math/general-number-operations.h>    // compare
+#include <kickstart/core/language/lx/bits_per_.hpp>                             // lx::bits_per_
+#include <kickstart/core/language/Truth.hpp>                                    // Truth
+#include <kickstart/core/language/type-aliases.hpp>                             // Type_, Uint_
+#include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>  // compare
 
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
