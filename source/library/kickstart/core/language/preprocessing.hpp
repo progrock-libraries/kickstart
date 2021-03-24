@@ -1,6 +1,5 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include "~assert-is-c++17-or-later.hpp"
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,14 +21,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#if defined( __clang__ )
-# // Need to exclude clang explicitly because it pretends to be both Visual C++ and g++.
-#elif defined( _MSC_VER ) && !defined( KS_ASSUME_BOOLEAN_OPERATOR_NAMES_PLEASE )
-#   ifndef and
-        static_assert( false,
-            "Requires standard boolean keywords like `and`. For MSVC use e.g."
-            " `/std:c++17 /Zc:__cplusplus /FI\"iso646.h\" /EHsc /wd4459 /utf-8`."
-            );
-#       include <requires_standard_boolean_keywords>
-#   endif
-#endif
+#include <kickstart/core/language/preprocessing/KS_EXPANDED.hpp>
