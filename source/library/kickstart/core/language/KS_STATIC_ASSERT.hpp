@@ -30,4 +30,4 @@
 //      KS_STATIC_ASSERT(( sizeof( My_map_<int, double>::Value ) >= 4 ));
 //
 #define KS_STATIC_ASSERT( expr ) \
-    static_assert( KS_EXPANDED expr , "static_assert" #expr )
+    static_assert( KS_EXPANDED expr, "static_assert" #expr )
