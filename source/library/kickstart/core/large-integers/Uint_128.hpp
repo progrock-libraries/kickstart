@@ -24,12 +24,13 @@
 
 #include <kickstart/core/collection-util/collection-sizes.hpp>  // int_size
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
-#include <kickstart/core/language/Tag_.hpp>
-#include <kickstart/core/language/Truth.hpp>                // Truth
-#include <kickstart/core/language/type-aliases.hpp>         // C_str
-#include <kickstart/core/large-integers/Uint_double_of_.hpp>
-#include <kickstart/core/stdlib-extensions/limits.hpp>      // bits_per_
-#include <kickstart/core/stdlib-extensions/strings.hpp>     // spaces
+#include <kickstart/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
+#include <kickstart/core/language/Tag_.hpp>                     // Tag_
+#include <kickstart/core/language/Truth.hpp>                    // Truth
+#include <kickstart/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/core/large-integers/Uint_double_of_.hpp>    // Uint_double_of_
+#include <kickstart/core/stdlib-extensions/limits.hpp>          // bits_per_
+#include <kickstart/core/stdlib-extensions/strings.hpp>         // spaces
 
 #include <assert.h>         // assert
 #include <stdint.h>         // Part
@@ -90,7 +91,7 @@ namespace kickstart::large_integers::_definitions {
         constexpr Uint_128( const Integer value ):
             m_value{ Part( value ), 0 }
         {
-            static_assert( is_integral_v<Integer> );
+            KS_STATIC_ASSERT(( is_integral_v<Integer> ));
             if constexpr( sizeof( Integer ) > sizeof( Part ) ) {
                 m_value.parts[1] = Part( value >> bits_per_<Part> );
             } else if( value < 0 ) {

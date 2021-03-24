@@ -21,11 +21,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
+
 #ifndef KS_OS_IS_WIN64
 #   error "This header is for 64-bit Windows systems only."
 #   include <nosuch>
 #endif
-static_assert( sizeof( void* ) == 8 );  // 64-bit system
+KS_STATIC_ASSERT(( sizeof( void* ) == 8 ));     // 64-bit system
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 #include <kickstart/core/language/type-aliases.hpp>

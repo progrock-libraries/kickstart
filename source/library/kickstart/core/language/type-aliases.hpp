@@ -22,7 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/lx/bits_per_.hpp>     // lx::bits_per_
+#include <kickstart/core/language/lx/bits_per_.hpp>         // lx::bits_per_
+#include <kickstart/core/language/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
 
 #include <stddef.h>     // size_t, ptrdiff_t
 #include <stdint.h>     // int32_t, int64_t
@@ -45,8 +46,8 @@ namespace kickstart::language::_definitions {
     using Unsigned_int64        = uint64_t;
     using Number64              = double;
 
-    static_assert( bits_per_<Number32> >= 32 );
-    static_assert( bits_per_<Number64> >= 64 );
+    KS_STATIC_ASSERT(( bits_per_<Number32> >= 32 ));
+    KS_STATIC_ASSERT(( bits_per_<Number64> >= 64 ));
 
     using Integer   = Int64;
     using Number    = Number64;
