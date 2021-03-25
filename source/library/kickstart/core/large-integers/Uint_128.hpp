@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/core/collection-util/collection-sizes.hpp>  // int_size
-#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/core/generate/Relops_from_compare_.hpp>     // Relops_from_compare_
 #include <kickstart/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
 #include <kickstart/core/language/Tag_.hpp>                     // Tag_
 #include <kickstart/core/language/Truth.hpp>                    // Truth
@@ -31,6 +31,7 @@
 #include <kickstart/core/large-integers/Uint_double_of_.hpp>    // Uint_double_of_
 #include <kickstart/core/stdlib-extensions/limits.hpp>          // bits_per_
 #include <kickstart/core/stdlib-extensions/strings.hpp>         // spaces
+#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <assert.h>         // assert
 #include <stdint.h>         // Part
@@ -68,7 +69,8 @@ namespace kickstart::large_integers::_definitions {
             std::string_view,
             std::is_integral_v;
 
-    class Uint_128
+    class Uint_128:
+        public generate::Relops_from_compare_<Uint_128>
     {
     public:
         using Part      = uint64_t;
@@ -158,12 +160,6 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto operator%( const Uint_128& a, const Uint_128::Part b ) -> Uint_128;
 
     inline constexpr auto compare( const Uint_128& a, const Uint_128& b ) -> int;
-    inline constexpr auto operator<( const Uint_128& a, const Uint_128& b ) -> Truth;
-    inline constexpr auto operator<=( const Uint_128& a, const Uint_128& b ) -> Truth;
-    inline constexpr auto operator==( const Uint_128& a, const Uint_128& b ) -> Truth;
-    inline constexpr auto operator>=( const Uint_128& a, const Uint_128& b ) -> Truth;
-    inline constexpr auto operator>( const Uint_128& a, const Uint_128& b ) -> Truth;
-    inline constexpr auto operator!=( const Uint_128& a, const Uint_128& b ) -> Truth;
 
     inline auto str( const Uint_128& v ) -> string;
 
@@ -344,30 +340,6 @@ namespace kickstart::large_integers::_definitions {
     inline constexpr auto compare( const Uint_128& a, const Uint_128& b )
         -> int
     { return compare( a.representation(), b.representation() ); }
-
-    inline constexpr auto operator<( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) < 0); }
-
-    inline constexpr auto operator<=( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) <= 0); }
-
-    inline constexpr auto operator==( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) == 0); }
-
-    inline constexpr auto operator>=( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) >= 0); }
-
-    inline constexpr auto operator>( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) > 0); }
-
-    inline constexpr auto operator!=( const Uint_128& a, const Uint_128& b )
-        -> Truth
-    { return (compare( a, b ) != 0); }
 
     inline auto str( const Uint_128& v )
         -> string

@@ -24,6 +24,7 @@
 
 #include <kickstart/core/collection-util.hpp>       // ssize_
 #include <kickstart/core/failure-handling.hpp>      // hopefully, fail, …
+#include <kickstart/core/generate.hpp>              // generate::Relops_from_compare_, …
 #include <kickstart/core/language.hpp>              // Size etc.
 #include <kickstart/core/large-integers.hpp>        // Uint_128
 #include <kickstart/core/matrices.hpp>              // Matrix_ etc.
@@ -36,6 +37,7 @@
 namespace kickstart::core {
     using namespace kickstart::             collection_util;            // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
+    namespace generate = kickstart::        generate;
     using namespace kickstart::             language;                   // <core/language.hpp>
     using namespace kickstart::             large_integers;             // <core/large-integers.hpp>
     inline namespace                        language_support {
