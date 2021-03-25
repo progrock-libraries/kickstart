@@ -46,8 +46,8 @@ namespace kickstart::language::_definitions {
     using Unsigned_int64        = uint64_t;
     using Number64              = double;
 
-    KS_STATIC_ASSERT(( bits_per_<Number32> >= 32 ));
-    KS_STATIC_ASSERT(( bits_per_<Number64> >= 64 ));
+    KS_STATIC_ASSERT( bits_per_<Number32> >= 32 );
+    KS_STATIC_ASSERT( bits_per_<Number64> >= 64 );
 
     using Integer   = Int64;
     using Number    = Number64;

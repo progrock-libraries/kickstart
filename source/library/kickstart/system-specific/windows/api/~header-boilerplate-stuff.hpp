@@ -27,7 +27,7 @@
 #   error "This header is for 64-bit Windows systems only."
 #   include <nosuch>
 #endif
-KS_STATIC_ASSERT(( sizeof( void* ) == 8 ));     // 64-bit system
+KS_STATIC_ASSERT( sizeof( void* ) == 8 );     // 64-bit system
 #include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
 #include <kickstart/core/language/type-aliases.hpp>

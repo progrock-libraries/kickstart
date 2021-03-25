@@ -91,7 +91,7 @@ namespace kickstart::large_integers::_definitions {
         constexpr Uint_128( const Integer value ):
             m_value{ Part( value ), 0 }
         {
-            KS_STATIC_ASSERT(( is_integral_v<Integer> ));
+            KS_STATIC_ASSERT( is_integral_v<Integer> );
             if constexpr( sizeof( Integer ) > sizeof( Part ) ) {
                 m_value.parts[1] = Part( value >> bits_per_<Part> );
             } else if( value < 0 ) {

@@ -27,7 +27,14 @@
 
 // Usage: with double parenthesis, e.g.
 // 
-//      KS_STATIC_ASSERT(( sizeof( My_map_<int, double>::Value ) >= 4 ));
+//      KS_BASIC_STATIC_ASSERT(( sizeof( My_map_<int, double>::Value ) >= 4 ));
 //
-#define KS_STATIC_ASSERT( expr ) \
+#define KS_BASIC_STATIC_ASSERT( expr ) \
     static_assert( KS_EXPANDED expr, "static_assert" #expr )
+
+// Usage: e.g.
+// 
+//      KS_STATIC_ASSERT( sizeof( My_map_<int, double>::Value ) >= 4 );
+//
+#define KS_STATIC_ASSERT( ... ) \
+    KS_BASIC_STATIC_ASSERT(( __VA_ARGS__ ))
