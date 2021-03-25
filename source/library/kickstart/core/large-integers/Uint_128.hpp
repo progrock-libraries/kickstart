@@ -127,6 +127,8 @@ namespace kickstart::large_integers::_definitions {
 
         inline constexpr void operator+=( const Self& other );
         inline constexpr void operator-=( const Self& other );
+        //inline constexpr void operator*=( const Part a );
+        //inline constexpr void operator/=( const Part a );
 
         inline constexpr auto operator~() const -> Self;
         inline constexpr void shift_left();
@@ -144,9 +146,6 @@ namespace kickstart::large_integers::_definitions {
 
         inline constexpr auto add( const Self& a ) -> Result_kind::Enum;
         inline constexpr auto subtract( const Self& other ) -> Result_kind::Enum;
-
-        //inline constexpr void operator*=( const Part a );
-        //inline constexpr void operator/=( const Part a );
     };
 
     inline constexpr auto operator+( const Uint_128& ) -> Uint_128;
