@@ -23,14 +23,13 @@
 
 #include <kickstart/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
 #include <kickstart/system-specific/os-detection.hpp>
-
 #ifndef KS_OS_IS_WIN64
 #   error "This header is for 64-bit Windows systems only."
 #   include <nosuch>
 #endif
 KS_STATIC_ASSERT( sizeof( void* ) == 8 );     // 64-bit system
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 
+#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:
