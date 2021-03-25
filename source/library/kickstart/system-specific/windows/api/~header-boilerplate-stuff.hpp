@@ -22,6 +22,7 @@
 // SOFTWARE.
 
 #include <kickstart/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
+#include <kickstart/system-specific/os-detection.hpp>
 
 #ifndef KS_OS_IS_WIN64
 #   error "This header is for 64-bit Windows systems only."
