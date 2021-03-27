@@ -24,5 +24,5 @@
 
 #include <kickstart/all.hpp>
 using namespace kickstart::all;
-extern void cppmain();
+void cppmain();
 auto main( int n, char** a ) -> int { return with_exceptions_displayed( cppmain, n, a ); }
