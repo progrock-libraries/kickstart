@@ -25,6 +25,13 @@
 #include <kickstart/system-specific/windows/api/types.hpp>
 #include "memory.hpp"           // LocalFree
 
+#ifdef MessageBox           // <windows.h> has been included
+#   include <shellapi.h>    // CommandLineToArgvW
+#endif
+#ifdef _MSC_VER
+#     pragma comment( lib, "shell32.lib" )        // g++ links this implicitly.
+#endif
+
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.
 
@@ -39,10 +46,6 @@ namespace kickstart::winapi::_definitions {
     // A more fragile fix is to include <windows.h> BEFORE any Kickstart header, or
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
-    #ifdef _MSC_VER
-    #   pragma comment( lib, "shell32.lib" )        // g++ links this implicitly.
-    #endif
-    
     #ifdef MessageBox       // <windows.h> has been included
         using   ::GetCommandLineW,
                 ::CommandLineToArgvW,

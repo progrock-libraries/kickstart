@@ -39,7 +39,7 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::BOOL, ::DWORD, ::HANDLE, HMODULE, ::UINT;
+        using   ::BOOL, ::DWORD, ::HANDLE, ::HMODULE, ::UINT;
 
         const int       max_path                = MAX_PATH;
         const HANDLE    invalid_handle_value    = INVALID_HANDLE_VALUE;
