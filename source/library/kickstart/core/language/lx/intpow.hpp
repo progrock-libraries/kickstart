@@ -24,9 +24,13 @@
 
 #include <kickstart/core/language/Truth.hpp>
 
+#include <type_traits>      // is_floating_point_v
+
 // Important to not introduce possible future name conflicts with <math.h>, hence
 // the “lx” (short for “language extension”) namespace.
 namespace kickstart::language::lx::_definitions {
+    using std::is_floating_point_v;
+
     namespace impl
     {
         // Essentially this is Horner's rule adapted to calculating a power, so that the
@@ -51,10 +55,14 @@ namespace kickstart::language::lx::_definitions {
     constexpr inline auto intpow( const Number_type base, const int exponent )
         -> Number_type
     {
+        // TODO: proper failure handling
+        if( exponent < 0 and not is_floating_point_v<Number_type> ) {
+            throw __func__;
+        }
         return (0?0
             : exponent > 0?     impl::intpow_<Number_type>( base, exponent )
-            : exponent == 0?    1.0
-            :                   1.0/impl::intpow_<Number_type>( base, -exponent )
+            : exponent == 0?    1
+            :                   Number_type( 1.0/impl::intpow_<Number_type>( base, -exponent ) )
             );
     }
 
