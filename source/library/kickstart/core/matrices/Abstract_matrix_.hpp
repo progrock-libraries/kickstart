@@ -28,8 +28,26 @@ namespace kickstart::matrices::_definitions {
     using kickstart::language::Truth;
 
     namespace two_d_grid {
-        struct Size         { int w; int h; };
         struct Position     { int x; int y; };
+        struct Size         { int w; int h; };
+
+        inline auto operator+( const Position& pos, const Size& offset )
+            -> Position
+        { return Position{ pos.x + offset.w, pos.y + offset.h }; }
+
+        inline auto operator-( const Position& pos, const Size& offset )
+            -> Position
+        { return Position{ pos.x - offset.w, pos.y - offset.h }; }
+
+        inline void operator+=( Position& pos, const Size& offset )
+        {
+            pos = pos + offset;
+        }
+
+        inline void operator-=( Position& pos, const Size& offset )
+        {
+            pos = pos - offset;
+        }
     }  // namespace two_d_grid
 
     template< class Item_type_param >

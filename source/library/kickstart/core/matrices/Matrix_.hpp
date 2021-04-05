@@ -51,8 +51,8 @@ namespace kickstart::matrices::_definitions {
         using Item = Item_type_param;
 
     private:
-        vector<Item>    m_items;
-        two_d_grid::Size      m_size;
+        vector<Item>        m_items;
+        two_d_grid::Size    m_size;
 
     public:
         ~Matrix_() { deallocate_vector( m_items ); }
@@ -99,7 +99,7 @@ namespace kickstart::matrices::_definitions {
         }
 
         Matrix_( Matrix_&& other ):
-            m_items( move( other ) ),
+            m_items( move( other.m_items ) ),
             m_size( other.m_size )
         {}
 
