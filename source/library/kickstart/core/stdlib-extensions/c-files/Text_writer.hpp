@@ -24,7 +24,7 @@
 
 #include <kickstart/core/language/Tag_.hpp>
 #include <kickstart/core/language/Truth.hpp>
-#include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/Path.hpp>
 #include <kickstart/core/stdlib-extensions/strings.hpp>     // starts_with
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
@@ -41,7 +41,7 @@ namespace kickstart::c_files::_definitions {
     using kickstart::language::Truth;
 
     class Text_writer:
-        public Wrapped_c_file
+        public Abstract_c_file
     {
         Truth                       m_some_output_done;
         utf8::Bom_policy::Enum      m_bom_policy;
@@ -51,7 +51,7 @@ namespace kickstart::c_files::_definitions {
             const utf8::Bom_policy::Enum    bom_policy,
             const C_str                     mode
             ):
-            Wrapped_c_file( open_c_file_or_x( path, mode ) ),
+            Abstract_c_file( open_c_file_or_x( path, mode ) ),
             m_some_output_done( false ),
             m_bom_policy( bom_policy )
         {}

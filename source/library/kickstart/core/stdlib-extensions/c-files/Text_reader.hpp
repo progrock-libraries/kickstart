@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
 #include <kickstart/core/stdlib-extensions/filesystem/Path.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
@@ -30,11 +30,11 @@ namespace kickstart::c_files::_definitions {
     using namespace kickstart::text_conversion;     // ""s, string operator<<
 
     class Text_reader:
-        public Wrapped_c_file
+        public Abstract_c_file
     {
     public:
         explicit Text_reader( const fsx::Path& path ):
-            Wrapped_c_file( open_c_file_or_x( path, "r" ) )
+            Abstract_c_file( open_c_file_or_x( path, "r" ) )
         {}
 
         auto input_or_none()

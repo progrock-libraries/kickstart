@@ -27,6 +27,8 @@
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
+#include <memory>       // std::addressof
+
 namespace kickstart::collection_util::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
@@ -36,7 +38,8 @@ namespace kickstart::collection_util::_definitions {
     using kc::begin_ptr_of, kc::end_ptr_of;
     using kickstart::language::Size;
 
-    using std::out_of_range;
+    using   std::out_of_range,
+            std::addressof;
 
     // Wrt. `const` correctness class `Array_span_` is designed to act like an array.
     template< class Tp_item >
@@ -114,11 +117,20 @@ namespace kickstart::collection_util::_definitions {
         return Array_span_<Item>( a );
     }
 
+    template< class Type >      // TODO: enable_if or static_assert POD
+    inline auto byte_span_of( const Type& o )
+        -> Array_span_<const Byte>
+    {
+        const Type_<const void*> p_start = addressof( o );
+        return Array_span_<const Byte>( reinterpret_cast<const Byte*>( p_start ), sizeof( o ) );
+    }
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::Array_span_,
-        d::array_span_of;
+        d::array_span_of,
+        d::byte_span_of;
     }  // namespace exported names
 }  // namespace kickstart::core::collection_util::_definitions
 

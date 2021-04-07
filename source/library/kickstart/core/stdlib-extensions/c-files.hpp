@@ -25,5 +25,5 @@
 #include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #include <kickstart/core/stdlib-extensions/c-files/Text_reader.hpp>
 #include <kickstart/core/stdlib-extensions/c-files/Text_writer.hpp>
-#include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
 #include <kickstart/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>

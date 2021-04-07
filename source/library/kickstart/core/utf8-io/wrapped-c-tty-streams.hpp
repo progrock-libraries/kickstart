@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/c-files/Wrapped_c_file.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
 
 #include <optional>
 #include <string>
@@ -46,13 +46,13 @@ namespace kickstart::utf8_io::_definitions {
     using Output_func   = void ( const C_file f, const string_view& s );
 
     class C_tty_input_stream:
-        public Wrapped_c_file
+        public Abstract_c_file
     {
         Input_func*     m_input_or_eof_from;
 
     public:
         C_tty_input_stream( const C_file f ):
-            Wrapped_c_file( f ),
+            Abstract_c_file( f ),
             m_input_or_eof_from(
                 is_console( f )? input_or_eof_from_console : clib_input_or_eof_from
                 )
@@ -74,13 +74,13 @@ namespace kickstart::utf8_io::_definitions {
     };
 
     class C_tty_output_stream:
-        public Wrapped_c_file
+        public Abstract_c_file
     {
         Output_func*    m_output_to;
 
     public:
         C_tty_output_stream( const C_file f ):
-            Wrapped_c_file( f ),
+            Abstract_c_file( f ),
             m_output_to( is_console( f )? output_to_console : clib_output_to )
         {}
 

@@ -35,28 +35,28 @@ namespace kickstart::c_files::_definitions {
     using   std::exchange,
             std::move;
 
-    class Wrapped_c_file
+    class Abstract_c_file
     {
-        using Self = Wrapped_c_file;
-        Wrapped_c_file( const Self& ) = delete;
+        using Self = Abstract_c_file;
+        Abstract_c_file( const Self& ) = delete;
         auto operator=( const Self& ) -> Self& = delete;
 
         C_file  m_c_file;
 
     protected:
-        ~Wrapped_c_file() noexcept
+        ~Abstract_c_file() noexcept
         {
             // The `m_c_file` can be set to 0 by the `release` method and by moving.
             if( m_c_file ) { ::fclose( m_c_file ); }
         }
 
-        Wrapped_c_file( const C_file f ) noexcept:
+        Abstract_c_file( const C_file f ) noexcept:
             m_c_file( f )
         {
             assert( m_c_file != nullptr );
         }
 
-        Wrapped_c_file( Self&& other ) noexcept:
+        Abstract_c_file( Self&& other ) noexcept:
             m_c_file( exchange( other.m_c_file, {} ) )
         {}
 
@@ -88,7 +88,7 @@ namespace kickstart::c_files::_definitions {
 
     namespace d = _definitions;
     namespace exports{ using
-        d::Wrapped_c_file;
+        d::Abstract_c_file;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 
