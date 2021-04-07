@@ -27,6 +27,7 @@
 
 #include <unordered_map>
 #include <vector>
+#include <type_traits>
 #include <utility>
 
 namespace kickstart::matrices::_definitions {
@@ -35,6 +36,7 @@ namespace kickstart::matrices::_definitions {
             k::collection_util::int_size;
     using   std::unordered_map,
             std::vector,
+            std::is_array_v, std::remove_extent_t,
             std::swap;
 
     template< class Item_type_param >
@@ -72,7 +74,18 @@ namespace kickstart::matrices::_definitions {
                 vector<Item> result;
                 using std::swap;  swap( result, vectors.back() );
                 vectors.pop_back();
-                if( zeroing ) { for( Item& item: result ) { item = Item(); } }
+                if( zeroing ) {
+                    for( Item& item: result ) {
+                        if constexpr( is_array_v<Item> ) {
+                            const auto zeroed = remove_extent_t<Item>();
+                            for( auto& sub_item: item ) {
+                                sub_item = zeroed;
+                            }
+                        } else {
+                            item = Item();
+                        }
+                    }
+                }
                 return result;
             }
         }

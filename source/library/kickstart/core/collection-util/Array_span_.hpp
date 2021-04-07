@@ -125,6 +125,13 @@ namespace kickstart::collection_util::_definitions {
         return Array_span_<const Byte>( reinterpret_cast<const Byte*>( p_start ), sizeof( o ) );
     }
 
+    template< class Type >      // TODO: enable_if or static_assert POD
+    inline auto byte_span_of( const Type_<const Type*> p, const Size n )
+        -> Array_span_<const Byte>
+    {
+        return Array_span_<const Byte>( reinterpret_cast<const Byte*>( p ), n );
+    }
+
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
