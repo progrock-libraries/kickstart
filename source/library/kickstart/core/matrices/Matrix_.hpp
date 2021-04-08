@@ -103,10 +103,11 @@ namespace kickstart::matrices::_definitions {
             m_size( other.m_size )
         {}
 
-        operator Matrix_<const Item>& () const
-        {
-            return reinterpret_cast<Matrix_<const Item>&>( *this );
-        }
+        //! std::vector can't have const items.
+        //operator Matrix_<const Item>& () const
+        //{
+        //    return reinterpret_cast<Matrix_<const Item>&>( *this );
+        //}
 
         auto size() const       -> two_d_grid::Size { return m_size; }
         auto width() const      -> int              { return m_size.w; }
@@ -116,8 +117,9 @@ namespace kickstart::matrices::_definitions {
             -> int
         { return pos.y*m_size.w + pos.x; }
 
-        auto items()        -> Item*        { return m_items.data(); }
-        auto items() const  -> const Item*  { return m_items.data(); }
+        auto p_items()          -> Item*        { return m_items.data(); }
+        auto p_items() const    -> const Item*  { return m_items.data(); }
+        auto n_items() const    -> int          { return m_size.w*m_size.h; }
 
         auto operator()( const two_d_grid::Position& pos )
             -> Item&
@@ -141,8 +143,8 @@ namespace kickstart::matrices::_definitions {
     {
         if( i1 == i2 ) { return; }
 
-        auto p1 = m.items() + m.items_index_for({ 0, i1 });
-        auto p2 = m.items() + m.items_index_for({ 0, i2 });
+        auto p1 = m.p_items() + m.items_index_for({ 0, i1 });
+        auto p2 = m.p_items() + m.items_index_for({ 0, i2 });
 
         for( int x = 0, w = m.width(); x < w; ++x ) {
             swap( *p1++, *p2++ );
@@ -157,8 +159,8 @@ namespace kickstart::matrices::_definitions {
         const two_d_grid::Size size = m.size();
         if( size.w == 0 ) { return; }
 
-        auto p1 = m.items() + m.items_index_for({ i1, 0 });
-        auto p2 = m.items() + m.items_index_for({ i2, 0 });
+        auto p1 = m.p_items() + m.items_index_for({ i1, 0 });
+        auto p2 = m.p_items() + m.items_index_for({ i2, 0 });
 
         for( int count = 1; ; ++count ) {
             swap( *p1, *p2 );

@@ -44,9 +44,9 @@ namespace kickstart::matrices::_definitions {
             return reinterpret_cast<Abstract_matrix_ref_<const Item>&>( *this );
         }
 
-        virtual auto size() const   -> two_d_grid::Size   { return m_p_matrix->size(); }
-        virtual auto items()        -> Item*        { return m_p_matrix->items(); }
-        virtual auto items() const  -> const Item*  { return m_p_matrix->items(); }
+        virtual auto size() const       -> two_d_grid::Size     { return m_p_matrix->size(); }
+        virtual auto p_items()          -> Item*                { return m_p_matrix->p_items(); }
+        virtual auto p_items() const    -> const Item*          { return m_p_matrix->p_items(); }
     };
 
     template< class Item_type_param >

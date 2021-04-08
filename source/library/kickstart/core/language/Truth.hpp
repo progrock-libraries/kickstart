@@ -79,6 +79,8 @@ namespace kickstart::language::_definitions {
             >
         constexpr operator Result() const noexcept { return m_value; }
 
+        constexpr Truth() noexcept: m_value( false ) {}
+
         /// \brief Construction from `bool` (only).
         ///
         /// Construction SFINAE-restricted to `bool` argument.

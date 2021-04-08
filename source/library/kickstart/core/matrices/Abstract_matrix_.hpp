@@ -56,9 +56,9 @@ namespace kickstart::matrices::_definitions {
     public:
         using Item = Item_type_param;
 
-        virtual auto size() const   -> two_d_grid::Size     = 0;
-        virtual auto items()        -> Item*                = 0;
-        virtual auto items() const  -> const Item*          = 0;
+        virtual auto size() const       -> two_d_grid::Size     = 0;
+        virtual auto p_items()          -> Item*                = 0;
+        virtual auto p_items() const    -> const Item*          = 0;
 
         virtual auto width() const  -> int  { return size().w; }
         virtual auto height() const -> int  { return size().h; }
@@ -69,17 +69,17 @@ namespace kickstart::matrices::_definitions {
 
         auto operator()( const two_d_grid::Position& pos )
             -> Item&
-        { return items()[items_index_for( pos )]; }
+        { return p_items()[items_index_for( pos )]; }
 
         auto operator()( const two_d_grid::Position& pos ) const
             -> const Item&
-        { return items()[items_index_for( pos )]; }
+        { return p_items()[items_index_for( pos )]; }
     };
 
     template< class Item, class Matrix >
     inline auto pointer_to_row( const int y, Matrix& m )
         -> auto*
-    { return m.items() + m.item_index_for( {0, y} ); }
+    { return m.p_items() + m.item_index_for( {0, y} ); }
 
 
     //----------------------------------------------------------- @exported:
