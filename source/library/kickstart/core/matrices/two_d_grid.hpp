@@ -69,11 +69,11 @@ namespace kickstart::two_d_grid::_definitions {
 
     inline auto rotated_left( const Size& size )
         -> Size
-    { return Size{ -size.h, size.w }; }
+    { return Size{ size.h, -size.w }; }
 
     inline auto rotated_right( const Size& size )
         -> Size
-    { return Size{ size.h, -size.w }; }
+    { return Size{ -size.h, size.w }; }
 
 
     //----------------------------------------------------------- @exported:
