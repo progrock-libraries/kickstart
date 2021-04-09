@@ -24,4 +24,5 @@
 
 #include <kickstart/core/matrices/Abstract_matrix_.hpp>
 #include <kickstart/core/matrices/Matrix_.hpp>
+#include <kickstart/core/matrices/two_d_grid.hpp>
 #include <kickstart/core/matrices/vector-pool.hpp>
