@@ -47,7 +47,7 @@ namespace kickstart::c_files::_definitions {
             if( optional<string> s = input_or_none() ) {
                 return move( s.value() );
             }
-            KS_FAIL_( End_of_file_exception, "End of file" );
+            KS_FAIL_( End_of_file_exception, "End of file" );       // TODO: check for other fail.
             unreachable();
         }
 
