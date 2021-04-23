@@ -80,6 +80,10 @@ namespace kickstart::c_files::_definitions {
             -> C_file
         { return exchange( m_c_file, nullptr ); }
 
+        auto has_passed_eof() const
+            -> Truth
+        { return !!::feof( m_c_file ); }
+
     public:
         auto in_failstate() const noexcept
             -> Truth
