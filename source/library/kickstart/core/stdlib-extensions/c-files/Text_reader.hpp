@@ -39,7 +39,7 @@ namespace kickstart::c_files::_definitions {
 
         auto input_or_none()
             -> optional<string>
-        { return clib_input_or_eof_from( c_file() ); }
+        { return clib_input_or_none_from( c_file() ); }
 
         auto input()
             -> string

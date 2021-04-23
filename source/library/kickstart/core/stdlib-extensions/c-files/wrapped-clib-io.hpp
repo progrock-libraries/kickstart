@@ -40,7 +40,7 @@ namespace kickstart::c_files::_definitions {
             std::string,
             std::string_view;
 
-    inline auto clib_input_or_eof_from( const C_file f )
+    inline auto clib_input_or_none_from( const C_file f )
         -> optional<string>
     {
         string  line;
@@ -67,7 +67,7 @@ namespace kickstart::c_files::_definitions {
     namespace d = _definitions;
     namespace exports{ using
         d::C_file,
-        d::clib_input_or_eof_from,
+        d::clib_input_or_none_from,
         d::clib_output_to;
     }  // exports
 }  // namespace kickstart::c_files::_definitions

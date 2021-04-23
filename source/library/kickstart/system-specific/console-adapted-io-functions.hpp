@@ -42,9 +42,9 @@
             -> Truth
         { return !!::isatty( fileno( f ) ); }
 
-        inline auto raw_input_or_eof_from_console( const C_file f )
+        inline auto raw_input_or_none_from_console( const C_file f )
             -> optional<string>
-        { return clib_input_or_eof_from( f ); }
+        { return clib_input_or_none_from( f ); }
 
         inline void raw_output_to_console( const C_file f, const string_view& s )
         {
@@ -66,9 +66,9 @@
             -> Truth
         { return false; }
 
-        inline auto raw_input_or_eof_from_console( const C_file f )
+        inline auto raw_input_or_none_from_console( const C_file f )
             -> optional<string>
-        { return clib_input_or_eof_from( f ); }
+        { return clib_input_or_none_from( f ); }
 
         inline void raw_output_to_console( const C_file f, const string_view& s )
         {

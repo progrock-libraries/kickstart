@@ -48,7 +48,7 @@ namespace kickstart::system_specific::_definitions {
         return !!winapi::GetConsoleMode( winapi::HANDLE( handle ), &mode );
     }
 
-    inline auto raw_input_or_eof_from_console( const C_file )
+    inline auto raw_input_or_none_from_console( const C_file )
         -> optional<string>
     { return Windows_console::instance().input_or_none(); }
 

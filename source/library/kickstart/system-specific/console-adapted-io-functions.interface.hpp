@@ -46,7 +46,7 @@ namespace kickstart::system_specific::_definitions {
 
     inline auto is_console( const C_file f ) -> Truth;
     inline void raw_output_to_console( const C_file, const string_view& );
-    inline auto raw_input_or_eof_from_console( const C_file ) -> optional<string>;
+    inline auto raw_input_or_none_from_console( const C_file ) -> optional<string>;
 
     inline void output_to_console( const C_file f, const string_view& s )
     {
@@ -59,21 +59,21 @@ namespace kickstart::system_specific::_definitions {
         } );
     }
 
-    inline auto input_or_eof_from_console( const C_file f )
+    inline auto input_or_none_from_console( const C_file f )
         -> optional<string>
     {
         #ifdef KS_CHECK_CONSOLE_STREAMS_PLEASE
             assert( is_console( f ) );
         #endif
 
-        return raw_input_or_eof_from_console( f );
+        return raw_input_or_none_from_console( f );
     }
 
     namespace d = _definitions;
     namespace exports { using
         d::is_console,
         d::output_to_console,
-        d::input_or_eof_from_console;
+        d::input_or_none_from_console;
     }  // namespace exports
 }  // namespace kickstart::system_specific::_definitions
 

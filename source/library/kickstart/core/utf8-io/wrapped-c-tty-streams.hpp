@@ -36,7 +36,7 @@ namespace kickstart::utf8_io::_definitions {
     namespace ks = kickstart::system_specific;
 
     using   ks::is_console,
-            ks::input_or_eof_from_console,
+            ks::input_or_none_from_console,
             ks::output_to_console;
     using   std::optional,
             std::string,
@@ -48,19 +48,19 @@ namespace kickstart::utf8_io::_definitions {
     class C_tty_input_stream:
         public Abstract_c_file
     {
-        Input_func*     m_input_or_eof_from;
+        Input_func*     m_input_or_none_from;
 
     public:
         C_tty_input_stream( const C_file f ):
             Abstract_c_file( f ),
-            m_input_or_eof_from(
-                is_console( f )? input_or_eof_from_console : clib_input_or_eof_from
+            m_input_or_none_from(
+                is_console( f )? input_or_none_from_console : clib_input_or_none_from
                 )
         {}
 
         auto input_or_none()
             -> optional<string>
-        { return m_input_or_eof_from( c_file() ); }
+        { return m_input_or_none_from( c_file() ); }
 
         auto input()
             -> string

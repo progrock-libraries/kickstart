@@ -43,7 +43,7 @@ namespace kickstart::utf8_io::_definitions {
         auto ref() -> C_tty_output_stream& { return *this; }
     };
 
-    inline auto tty_stream_input_or_eof_from( const C_file f )
+    inline auto tty_stream_input_or_none_from( const C_file f )
         -> optional<string>
     { return Temporary_c_tty_input_stream_wrapping( f ).input_or_none(); }
 
@@ -60,7 +60,7 @@ namespace kickstart::utf8_io::_definitions {
     namespace exports{ using
         d::Temporary_c_tty_output_stream_wrapping,
         d::Temporary_c_tty_input_stream_wrapping,
-        d::tty_stream_input_or_eof_from,
+        d::tty_stream_input_or_none_from,
         d::tty_stream_input_from,
         d::tty_stream_output_to;
     }  // exports
