@@ -24,12 +24,12 @@
 
 #include <kickstart/system-specific/os-detection.hpp>
 
+#include <kickstart/console/utf8-io/io.hpp>                        // output_error_message
 #include <kickstart/core/failure-handling.hpp>                  // Clean_app_exception
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>             // Type_, C_str
 #include <kickstart/core/language/startup-function-types.hpp>   // Simple_startup, Startup_with_args
 #include <kickstart/core/text-encoding/ascii/string-util.hpp>   // is_all_ascii
-#include <kickstart/core/utf8-io/io.hpp>                        // output_error_message
 #include <kickstart/core/process/Commandline.hpp>               // Commandline
 #include <kickstart/system-specific/os-detection.hpp>
 

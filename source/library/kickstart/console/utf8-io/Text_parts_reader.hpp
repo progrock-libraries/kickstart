@@ -22,47 +22,62 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/utf8-io/wrapped-c-tty-streams.hpp>
+#include <kickstart/console/utf8-io/io.hpp>
+#include <kickstart/core/language/Default.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/C_file_operations.hpp>
+#include <kickstart/core/stream-io-util/Abstract_text_parts_reader.hpp>
+
+#include <functional>
+#include <optional>
+#include <string>
+#include <utility>
 
 namespace kickstart::utf8_io::_definitions {
-    class Temporary_c_tty_input_stream_wrapping:
-        public C_tty_input_stream
+    namespace k = kickstart;
+    using   k::c_files::C_file, k::c_files::C_file_operations,
+            k::stream_io_util::Abstract_text_parts_reader;
+    using   std::function,
+            std::optional,
+            std::string,
+            std::move;
+
+    class Text_parts_reader final:
+        private C_file_operations,
+        public Abstract_text_parts_reader
     {
+        using Self = Text_parts_reader;
+
+        string                  m_line_prompt;
+
+        auto input_line()
+            -> optional<string>
+            override
+        {
+            if( not m_line_prompt.empty() ) {
+                output( m_line_prompt );
+            }
+            return C_file_operations::input_or_none();
+        }
+
     public:
-        ~Temporary_c_tty_input_stream_wrapping() { release(); }
-        Temporary_c_tty_input_stream_wrapping( const C_file f ): C_tty_input_stream( f ) {}
-        auto ref() -> C_tty_input_stream& { return *this; }
+        Text_parts_reader(
+            string                  line_prompt     = "",
+            function<Stop_checker>  should_stop     = stop_on_empty_line
+            ):
+            C_file_operations( stdin ),
+            Abstract_text_parts_reader( move( should_stop ) ),
+            m_line_prompt( move( line_prompt ) )
+        {}
+
+        Text_parts_reader( Self&& ) = default;
+        auto operator=( Self&& ) -> Self& = default;
+
+        using C_file_operations::has_passed_eof;
     };
-
-    class Temporary_c_tty_output_stream_wrapping:
-        public C_tty_output_stream
-    {
-    public:
-        ~Temporary_c_tty_output_stream_wrapping() { release(); }
-        Temporary_c_tty_output_stream_wrapping( const C_file f ): C_tty_output_stream( f ) {}
-        auto ref() -> C_tty_output_stream& { return *this; }
-    };
-
-    inline auto tty_stream_input_or_none_from( const C_file f )
-        -> optional<string>
-    { return Temporary_c_tty_input_stream_wrapping( f ).input_or_none(); }
-
-    inline auto tty_stream_input_from( const C_file f )
-        -> string
-    { return Temporary_c_tty_input_stream_wrapping( f ).input(); }
-
-    inline void tty_stream_output_to( const C_file f, const string_view& s )
-    {
-        Temporary_c_tty_output_stream_wrapping( f ).output( s );
-    }
 
     namespace d = _definitions;
     namespace exports{ using
-        d::Temporary_c_tty_output_stream_wrapping,
-        d::Temporary_c_tty_input_stream_wrapping,
-        d::tty_stream_input_or_none_from,
-        d::tty_stream_input_from,
-        d::tty_stream_output_to;
+        d::Text_parts_reader;
     }  // exports
 }  // namespace kickstart::utf8_io::_definitions
 

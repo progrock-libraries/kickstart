@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/console/utf8-io.hpp>
 #include <kickstart/core/collection-util.hpp>       // ssize_
 #include <kickstart/core/failure-handling.hpp>      // hopefully, fail, …
 #include <kickstart/core/generate.hpp>              // generate::Relops_from_compare_, …
@@ -30,9 +31,9 @@
 #include <kickstart/core/matrices.hpp>              // Matrix_ etc.
 #include <kickstart/core/process.hpp>               // process::Commandline
 #include <kickstart/core/stdlib-extensions.hpp>     // bits_per, …
+#include <kickstart/core/stream-io-util.hpp>        // Abstract_text_parts_reader
 #include <kickstart/core/text-conversion.hpp>
 #include <kickstart/core/text-encoding.hpp>
-#include <kickstart/core/utf8-io.hpp>
 
 namespace kickstart::core {
     using namespace kickstart::             collection_util;            // <core/collection-util.hpp>
@@ -59,5 +60,5 @@ namespace kickstart::core {
         namespace ascii = kickstart::           ascii;                  //   <… ascii.hpp>
         namespace utf8 = kickstart::            utf8;                   //   <… utf8.hpp>
     }
-    namespace utf8_io = kickstart::         utf8_io;                    // <core/utf8-io.hpp>
+    namespace utf8_io = kickstart::         utf8_io;                    // <console/utf8-io.hpp>
 }  // namespace kickstart::core

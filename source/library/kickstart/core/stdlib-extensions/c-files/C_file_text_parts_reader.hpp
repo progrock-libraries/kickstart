@@ -22,38 +22,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
-#include <kickstart/core/stdlib-extensions/filesystem/Path.hpp>
-#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/C_file_operations.hpp>
+#include <kickstart/core/stream-io-util/Abstract_text_parts_reader.hpp>
 
 namespace kickstart::c_files::_definitions {
-    using namespace kickstart::text_conversion;     // ""s, string operator<<
+    using kickstart::stream_io_util::Abstract_text_parts_reader;
 
-    class Text_reader:
-        public Abstract_c_file
+    class C_file_text_parts_reader final:
+        private C_file_operations,
+        public Abstract_text_parts_reader
     {
+        using Self = C_file_text_parts_reader;
+
+        virtual auto input_line()
+            -> optional<string> override
+        { return C_file_operations::input_or_none(); }
+
     public:
-        explicit Text_reader( const fsx::Path& path ):
-            Abstract_c_file( open_c_file_or_x( path, "r" ) )
+        C_file_text_parts_reader( const C_file f ):
+            C_file_operations( f )
         {}
 
-        auto input()
-            -> string
-        {
-            if( optional<string> s = input_or_none() ) {
-                return move( s.value() );
-            }
-            KS_FAIL_( End_of_file_exception, "End of file" );       // TODO: check for other fail.
-            unreachable();
-        }
+        C_file_text_parts_reader( Self&& ) = default;
+        auto operator=( Self&& ) -> Self& = default;
 
-        using Abstract_c_file::input_or_none;
-        using Abstract_c_file::has_passed_eof;
+        // From Abstract_text_parts_reader:
+        //
+        // auto input_part_view_or_none() -> optional<string_view>;
+        // auto input_part_view() -> string_view;
+        // auto input_part_string() -> string;
+        // auto input_part() -> string_view;
+
+        using C_file_operations::has_passed_eof;
     };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::Text_reader;
+        d::C_file_text_parts_reader;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 

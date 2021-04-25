@@ -22,56 +22,70 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
+#include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/strings.hpp>
-#include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/core/text-encoding/ascii/string-util.hpp>
 
+#include <functional>
+#include <optional>
+#include <string>
+#include <string_view>
 #include <vector>
 
-namespace kickstart::c_files::_definitions {
+namespace kickstart::stream_io_util::_definitions {
     using namespace kickstart::text_conversion;     // ""s, string operator<<
-    using   kickstart::strings::split_on_whitespace;
-    using   std::vector;
+    using   kickstart::language::Truth,
+            kickstart::strings::split_on_whitespace;
+    using   std::function,
+            std::optional,
+            std::string,
+            std::string_view,
+            std::vector;
 
-    class Text_parts_reader:
-        private Abstract_c_file
+    class Abstract_text_parts_reader
     {
-        using Self              = Text_parts_reader;
+    public:
+        using Stop_checker      = auto( const string_view& s ) -> Truth;
+
+    private:
+        using Self              = Abstract_text_parts_reader;
         using String_views      = vector<string_view>;
         using View_iterator     = String_views::const_iterator;
 
-        string              m_line;
-        String_views        m_line_parts;
-        View_iterator       m_current;
+        string                  m_line;
+        String_views            m_line_parts;
+        View_iterator           m_current;
+        function<Stop_checker>  m_should_stop;
+
+        virtual auto input_line() -> optional<string> = 0;
+
+    protected:
+        Abstract_text_parts_reader( Self&& ) = default;
+        auto operator=( Self&& ) -> Self& = default;
 
     public:
-        ~Text_parts_reader()
-        {
-            Abstract_c_file::release();
-        }
+        static auto non_stop( const string_view& )
+            -> Truth
+        { return false; }
 
-        Text_parts_reader( const C_file f = stdin):
-            Abstract_c_file( f ),
+        static auto stop_on_empty_line( const string_view& s )
+            -> Truth
+        { return (ascii::trimmed_view( s ).length() == 0); }
+
+        virtual ~Abstract_text_parts_reader() = default;
+
+        Abstract_text_parts_reader( function<Stop_checker> stop_checker = stop_on_empty_line ):
             m_line_parts(),
-            m_current( m_line_parts.cend() )
+            m_current( m_line_parts.cend() ),
+            m_should_stop( stop_checker )
         {}
 
-        Text_parts_reader( Self&& other ):
-            Abstract_c_file( move( other ) )
-        {}
-
-        auto operator=( Self&& other ) noexcept
-            -> Self&
-        {
-            Abstract_c_file::operator=( move( other ) );
-            return *this;
-        }
-
-        auto input_part_view_or_none()
+        auto input_part()
             -> optional<string_view>
         {
             while( m_current == m_line_parts.cend() ) {
-                if( optional<string> line = clib_input_or_none_from( c_file() ) ) {
+                optional<string> line = input_line();
+                if( line.has_value() and not m_should_stop( line.value() ) ) {
                     m_line = line.value();
                     m_line_parts = split_on_whitespace( m_line );
                     m_current = m_line_parts.cbegin();
@@ -85,15 +99,13 @@ namespace kickstart::c_files::_definitions {
         auto input_part_view() -> string_view   { return input_part_view_or_none().value(); }
         auto input_part_string() -> string      { return string( input_part_view() ); }
 
-        auto input_part() -> string_view        { return input_part_view(); }
-
-        using Abstract_c_file::has_passed_eof;
+        auto input_part_view_or_none() -> optional<string_view> { return input_part(); }
     };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::Text_parts_reader;
+        d::Abstract_text_parts_reader;
     }  // exports
-}  // namespace kickstart::c_files::_definitions
+}  // namespace kickstart::stream_io_util::_definitions
 
-namespace kickstart::c_files    { using namespace _definitions::exports; }
+namespace kickstart::stream_io_util    { using namespace _definitions::exports; }

@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/Truth.hpp>
+#include <kickstart/core/stdlib-extensions/c-files/C_file_operations.hpp>
 #include <kickstart/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
 #include <kickstart/system-specific/console-adapted-io-functions.hpp>
 
@@ -80,9 +80,15 @@ namespace kickstart::c_files::_definitions {
             -> C_file
         { return exchange( m_c_file, nullptr ); }
 
+        //----------------------------------- Only meaningful for input:
+
         auto has_passed_eof() const
             -> Truth
         { return !!::feof( m_c_file ); }
+
+        auto input_or_none()
+            -> optional<string>
+        { return clib_input_or_none_from( c_file() ); }
 
     public:
         auto in_failstate() const noexcept

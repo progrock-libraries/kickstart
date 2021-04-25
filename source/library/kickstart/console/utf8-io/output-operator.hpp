@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/utf8-io/io.hpp>
+#include <kickstart/console/utf8-io/io.hpp>
 #include <kickstart/core/text-conversion/to-text.hpp>
 
-namespace kickstart::faux_iostreams::_definitions {
+namespace kickstart::utf8_output_operator::_definitions {
     using namespace kickstart::utf8_io;
     using namespace kickstart::text_conversion;
 
@@ -75,6 +75,6 @@ namespace kickstart::faux_iostreams::_definitions {
         d::err,
         d::endl;
     }  // namespace exported names
-}  // namespace kickstart::faux_iostreams::_definitions
+}  // namespace kickstart::utf8_io::_definitions
 
-namespace kickstart::faux_iostreams    { using namespace _definitions::exported_names; }
+namespace kickstart::utf8_output_operator   { using namespace _definitions::exported_names; }

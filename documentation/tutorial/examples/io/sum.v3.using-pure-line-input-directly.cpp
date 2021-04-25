@@ -6,12 +6,17 @@ void cppmain()
     out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
     out << "Enter one or more numbers per line. Just"
            " press return to calculate the sum." << endl;
-    out << endl;
 
-    auto numbers    = vector<double>();
-    auto reader     = Text_parts_reader( "Numbers (or just return), please? " );
-    while( const optional<string_view> spec = reader.input_part() ) {
-        numbers.push_back( to_<double>( spec.value() ) );
+    vector<double> numbers;
+    out << endl;
+    for( ;; ) {
+        const string spec = input( "Numbers (or just return), please? " );
+        if( spec == "" ) {
+            break;
+        }
+        for( const double x: parts_to_vector_<double>( spec ) ) {
+            numbers.push_back( x );
+        }
     }
 
     out << endl;

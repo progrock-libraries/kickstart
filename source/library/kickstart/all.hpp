@@ -23,9 +23,9 @@
 // SOFTWARE.
 
 #include <kickstart/all-except-streams.hpp>
-#include <kickstart/faux_iostreams.hpp>
+#include <kickstart/console/utf8-io/output-operator.hpp>
 
 namespace kickstart::all {
     using namespace all_except_streams;     // Just for exposition, it's already done.
-    using namespace faux_iostreams;
+    using namespace utf8_output_operator;
 }

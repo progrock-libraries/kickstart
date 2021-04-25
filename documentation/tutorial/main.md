@@ -394,7 +394,11 @@ Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic fu
 
 ---
 
-The above two ways can be combined for a better user experience, at the cost of more complex code:
+The above two ways can be combined for a better user experience, supporting any number of input lines with any number of values per line, then at the cost of more complex code.
+
+However, for that functionality the code can be much simpler and much reduced by using the `Text_parts_reader` class, which reads whitespace-separated text parts.
+
+By default a `Text_parts_reader` reads from `stdin`:
 
 *File ([io/sum.v3.cpp](examples/io/sum.v3.cpp)):*
 ~~~cpp
