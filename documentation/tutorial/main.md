@@ -394,11 +394,9 @@ Indeed `parts_to_vector_` is a simple convenience wrapper over the more basic fu
 
 ---
 
-The above two ways can be combined for a better user experience, supporting any number of input lines with any number of values per line, then at the cost of more complex code.
+The above two ways can be combined for a better user experience, supporting any number of input lines with any number of values per line. However, for that functionality the code can be much simpler and much reduced by using the [`Text_parts_reader`]() class, which reads whitespace-separated text parts much like the standard library’s iostreams `>>` does. The `input_part()` function returns an `optional<string_view>` valid until the next read operation; the `input_part_view()` function returns a `string_view` (with same validity guarantee) or throws; and the `input_part_string` returns a `string`, or throws.
 
-However, for that functionality the code can be much simpler and much reduced by using the `Text_parts_reader` class, which reads whitespace-separated text parts.
-
-By default a `Text_parts_reader` reads from `stdin`:
+By default a `Text_parts_reader` reads from `stdin` and stops — returns empty optional or throws — on the first empty input line:
 
 *File ([io/sum.v3.cpp](examples/io/sum.v3.cpp)):*
 ~~~cpp
@@ -410,17 +408,12 @@ void cppmain()
     out << "This will calculate the sum of numbers like 2.17 and 3.14." << endl;
     out << "Enter one or more numbers per line. Just"
            " press return to calculate the sum." << endl;
-
-    vector<double> numbers;
     out << endl;
-    for( ;; ) {
-        const string spec = input( "Numbers (or just return), please? " );
-        if( spec == "" ) {
-            break;
-        }
-        for( const double x: parts_to_vector_<double>( spec ) ) {
-            numbers.push_back( x );
-        }
+
+    auto numbers    = vector<double>();
+    auto reader     = Text_parts_reader( "Numbers (or just return), please? " );
+    while( const optional<string_view> spec = reader.input_part() ) {
+        numbers.push_back( to_<double>( spec.value() ) );
     }
 
     out << endl;
@@ -444,7 +437,7 @@ Example run:
 > 
 > 1.2 + 3.45 + 6.789 = 11.439.
 
-
+There is also a `C_file_text_parts_reader` that’s useful for reading whitespace-separated text parts from a C `FILE*`. The ordinary `Text_parts_reader` can issue a prompt for every line input operation, as it does in the code above, and it uses functionality to read UTF-8 encoded text from a Windows console. `C_file_text_parts_reader` is more lean ’n mean: it neither prompts nor ensures UTF-8 encoding for standard stream input.
 
 
 ### **3.6. Display a table of numbers.**
