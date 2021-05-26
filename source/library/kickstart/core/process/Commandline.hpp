@@ -135,12 +135,14 @@ namespace kickstart::process::_definitions {
                     for( const char* p = parts[i]; *p; ++p ) {
                         const char ch = *p;
                         const auto npos = string_view::npos;
-                        if( escape and (false
-                            or "<>()&|,;\"\'"sv.find( ch ) != npos
-                            or ch == escape
-                            or is( ascii::whitespace, ch )
-                            ) ) {
-                            m_data.fulltext += escape;
+                        if constexpr( escape ) {
+                            if( false
+                                or "<>()&|,;\"\'"sv.find( ch ) != npos
+                                or ch == escape
+                                or is( ascii::whitespace, ch )
+                                ) {
+                                m_data.fulltext += escape;
+                            }
                         }
                         m_data.fulltext += ch;
                     }

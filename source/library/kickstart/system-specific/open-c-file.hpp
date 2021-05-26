@@ -50,6 +50,11 @@
 #
 #   include <kickstart/system-specific/windows/open-c-file.impl.hpp>
 #
+#elif defined( KS_OS_IS_WIN32 )
+#
+#   error "32-bit Windows is not supported"
+#   include <oops_32_bit_windows_is_not_supported>
+#
 #else
 #
 #   include <kickstart/core/failure-handling.hpp>
