@@ -23,6 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/all.hpp>
-using namespace kickstart::all;
-void cppmain();
-auto main( int n, char** a ) -> int { return with_exceptions_displayed( cppmain, n, a ); }
+void cpp_main();
+
+auto main( int n, char** a )
+    -> int
+{ return kickstart::console_startup::with_exceptions_displayed( cpp_main, n, a ); }
