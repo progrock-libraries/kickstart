@@ -25,5 +25,5 @@
 
 #ifndef _USE_MATH_DEFINES
 #   error "This program needs macro _USE_MATH_DEFINES defined in the build command."
-#   include <the_USE_MATH_DEFINES_macro_must_be_defined>
+#   include <because.the_USE_MATH_DEFINES_macro_must_be_defined>
 #endif
