@@ -22,9 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/all.hpp>
-void cpp_main();
+#include <kickstart/headers-collection/all-except-streams.hpp>
+#include <kickstart/core/language/stdlib-includes/iostreams.hpp>
 
-auto main( int n, char** a )
-    -> int
-{ return kickstart::console_startup::with_exceptions_displayed( cpp_main, n, a ); }
+// An example convenience namespace. Will probably never be used, but hey.
+namespace kickstart::with_iostreams {
+    using namespace all_except_streams;
+    using namespace stdlib::iostreams;
+}

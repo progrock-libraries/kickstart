@@ -22,6 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-namespace kickstart::numerical_input::_definitions {
+#include <kickstart/headers-collection/all-except-streams.hpp>
+#include <kickstart/console/utf8-io/output-operator.hpp>
 
-}  // namespace kickstart::numerical_input::_definitions
+namespace kickstart::all {
+    using namespace all_except_streams;     // Just for exposition, it's already done.
+    using namespace utf8_output_operator;
+}
