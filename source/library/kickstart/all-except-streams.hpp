@@ -38,3 +38,5 @@ namespace kickstart::all_except_streams {
 namespace kickstart::all {
     using namespace all_except_streams;
 }  // namespace kickstart::all
+
+namespace progrock{ namespace basics = ::kickstart; }
