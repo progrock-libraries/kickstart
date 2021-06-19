@@ -33,8 +33,8 @@
 #include <kickstart/core/stdlib-extensions/strings.hpp>         // spaces
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
-#include <assert.h>         // assert
-#include <stdint.h>         // Part
+#include <kickstart/c/assert.hpp>       // assert
+#include <kickstart/c/stdint.hpp>       // uint64_t
 
 #include <algorithm>        // min
 #include <array>

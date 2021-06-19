@@ -27,7 +27,7 @@
 #include <kickstart/core/matrices/Abstract_matrix_.hpp>
 #include <kickstart/core/matrices/vector-pool.hpp>
 
-#include <assert.h>
+#include <kickstart/c/assert.hpp>
 
 #include <algorithm>
 #include <initializer_list>

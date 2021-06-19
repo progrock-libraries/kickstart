@@ -22,8 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-//#include <kickstart/>
-#include <stdio.h>
+#include <kickstart/c/stdio.hpp>
 
 namespace kickstart::c_files::_definitions {
     using C_file            = ::FILE*;

@@ -32,7 +32,7 @@
 #include <kickstart/core/language/type-aliases.hpp>
 #include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 
-#include <string.h>
+#include <kickstart/c/string.hpp>
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;

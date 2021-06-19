@@ -31,8 +31,8 @@
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/Truth.hpp>
 
-#include <assert.h>         // assert
-#include <limits.h>         // INT_MAX
+#include <kickstart/c/assert.hpp>       // assert
+#include <kickstart/c/limits.hpp>       // INT_MAX
 
 #include <string>
 #include <string_view>

@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stdint.h>     // int32_t, uint32_t, uintptr_t
+#include <kickstart/c/stdint.hpp>   // int32_t, uint32_t, uintptr_t
 
 namespace kickstart::winapi::_definitions {
     using namespace kickstart::language;        // Type_ etc.

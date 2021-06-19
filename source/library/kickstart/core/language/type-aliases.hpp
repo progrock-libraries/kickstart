@@ -25,8 +25,8 @@
 #include <kickstart/core/language/lx/bits_per_.hpp>         // lx::bits_per_
 #include <kickstart/core/language/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
 
-#include <stddef.h>     // size_t, ptrdiff_t
-#include <stdint.h>     // int32_t, int64_t
+#include <kickstart/c/stddef.hpp>       // size_t, ptrdiff_t
+#include <kickstart/c/stdint.hpp>       // int32_t, int64_t
 
 namespace kickstart::language::_definitions {
     using lx::bits_per_;

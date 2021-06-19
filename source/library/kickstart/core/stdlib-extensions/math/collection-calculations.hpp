@@ -25,7 +25,7 @@
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/stdlib-extensions/type-traits.hpp>
 
-#include <stddef.h>         // size_t
+#include <kickstart/c/stddef.hpp>       // size_t
 
 #include <numeric>          // accumulate
 

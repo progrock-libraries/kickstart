@@ -32,8 +32,8 @@
 
 #include <unistd.h>         // getpid
 
-#include <assert.h>
-#include <stdio.h>          // fgets, popen, pclose
+#include <kickstart/c/assert.hpp>
+#include <kickstart/c/stdio.hpp>        // fgets, popen, pclose
 
 #include <iterator>         // std::size
 #include <string>

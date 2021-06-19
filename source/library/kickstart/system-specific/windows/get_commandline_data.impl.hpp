@@ -34,7 +34,7 @@
 #include <kickstart/system-specific/windows/api/process-info.hpp>
 #include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 
-#include <assert.h>
+#include <kickstart/c/assert.hpp>
 
 #include <vector>
 #include <memory>

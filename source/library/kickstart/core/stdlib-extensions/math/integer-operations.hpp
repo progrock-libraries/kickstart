@@ -27,7 +27,7 @@
 #include <kickstart/core/language/type-aliases.hpp>                             // Type_
 #include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>  // abs
 
-#include <assert.h>         // assert
+#include <kickstart/c/assert.hpp>       // assert
 
 #include <type_traits>      // make_signed_t
 #include <utility>

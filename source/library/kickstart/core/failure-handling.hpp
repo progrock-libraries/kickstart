@@ -30,7 +30,7 @@
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
-#include <assert.h>
+#include <kickstart/c/assert.hpp>
 
 #include <string>
 #include <string_view>

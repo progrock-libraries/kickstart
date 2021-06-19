@@ -28,7 +28,7 @@
 #include <kickstart/core/language/lx/bit-checking.hpp>
 #include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>  // compare
 
-#include <assert.h>         // assert
+#include <kickstart/c/assert.hpp>       // assert
 
 #include <type_traits>      // is_unsigned_v
 #include <utility>          // swap

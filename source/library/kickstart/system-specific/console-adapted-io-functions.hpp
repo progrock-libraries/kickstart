@@ -28,8 +28,10 @@
 #elif defined( KS_OS_IS_UNIX )
 #   include <kickstart/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
 #   include <kickstart/core/language/Truth.hpp>
-#   include <unistd.h>      // isatty
-#   include <stdio.h>       // fileno
+#
+#   include <unistd.h>                  // isatty
+#   include <kickstart/c/stdio.hpp>     // fileno
+#
 #   include <optional>
 #   include <string>
 #   include <string_view>

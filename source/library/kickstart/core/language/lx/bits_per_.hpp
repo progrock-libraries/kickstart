@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <limits.h>     // CHAR_BIT
+#include <kickstart/c/limits.hpp>   // CHAR_BIT
 
 namespace kickstart::language::lx::_definitions {
 

@@ -32,8 +32,8 @@
 #include <kickstart/core/text-conversion/to-number-exceptions.hpp>
 #include <kickstart/core/text-encoding/ascii.hpp>
 
-#include <string.h>         // strerror
-#include <limits.h>         // INT_MIN, INT_MAX
+#include <kickstart/c/string.hpp>   // strerror
+#include <kickstart/c/limits.hpp>   // INT_MIN, INT_MAX
 
 #include <algorithm>        // std::min, std::max
 #include <string>

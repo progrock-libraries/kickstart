@@ -32,7 +32,7 @@
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/core/text-encoding/ascii/character-util.hpp>
 
-#include <string.h>         // strlen
+#include <kickstart/c/string.hpp>       // strlen
 
 //TODO: Use C files.
 #include <fstream>

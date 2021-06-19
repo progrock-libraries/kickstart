@@ -28,7 +28,7 @@
 #include <kickstart/core/stdlib-extensions/strings.hpp>                 // for_each_part_of
 #include <kickstart/core/text-encoding/utf8/bom.hpp>                    // bom
 
-#include <stdio.h>
+#include <kickstart/c/stdio.hpp>
 
 #include <optional>
 #include <string>

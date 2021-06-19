@@ -33,7 +33,7 @@
 #   include <kickstart/system-specific/windows/text-encoding-conversion.hpp>
 #endif
 
-#include <assert.h>
+#include <kickstart/c/assert.hpp>
 
 #include <memory>
 #include <string>

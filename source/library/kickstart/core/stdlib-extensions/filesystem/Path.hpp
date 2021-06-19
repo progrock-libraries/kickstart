@@ -28,7 +28,7 @@
 #include <kickstart/core/stdlib-extensions/filesystem/fspath-util.hpp>
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
-#include <stddef.h>         // size_t
+#include <kickstart/c/stddef.hpp>       // size_t
 
 #include <string>
 #include <string_view>

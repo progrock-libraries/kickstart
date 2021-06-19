@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <stddef.h>     // size_t, ptrdiff_t
+#include <kickstart/c/stddef.hpp>       // size_t, ptrdiff_t
 
 #include <array>
 #include <functional>

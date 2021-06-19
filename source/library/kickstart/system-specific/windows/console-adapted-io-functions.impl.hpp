@@ -33,8 +33,8 @@
 #include <kickstart/system-specific/windows/api/consoles.hpp>
 #include <kickstart/system-specific/windows/Console.impl.hpp>
 
-#include <stdio.h>      // Windows-specific function `_fileno`.
-#include <io.h>         // Windows-specific header, `_get_osfhandle`.
+#include <kickstart/c/stdio.hpp>    // Windows-specific function `_fileno`.
+#include <io.h>                     // Windows-specific header, `_get_osfhandle`.
 
 namespace kickstart::system_specific::_definitions {
 

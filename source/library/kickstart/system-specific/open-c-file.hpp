@@ -29,7 +29,7 @@
 #   include <kickstart/core/language/type-aliases.hpp>
 #   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #   include <filesystem>
-#   include <stdio.h>
+#   include <kickstart/c/stdio.hpp>
 
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;
@@ -61,7 +61,7 @@
 #   include <kickstart/core/language/type-aliases.hpp>
 #   include <kickstart/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #   include <filesystem>
-#   include <stdio.h>
+#   include <kickstart/c/stdio.hpp>
 
     namespace kickstart::system_specific::_definitions {
         using namespace kickstart::failure_handling;

@@ -25,7 +25,7 @@
 #include <kickstart/core/language/lx/intpow.hpp>        // lx::intpow_
 #include <kickstart/core/language/lx/bits_per_.hpp>     // bits_per_
 
-#include <float.h>      // DBL_MANT_DIG
+#include <kickstart/c/float.hpp>    // DBL_MANT_DIG
 
 namespace kickstart::limits::_definitions {
     namespace kl = kickstart::language;

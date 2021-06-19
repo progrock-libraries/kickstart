@@ -35,8 +35,8 @@
 #include <kickstart/system-specific/windows/api/files.hpp>          // CreateFile
 #include <kickstart/system-specific/windows/api/text-encoding.hpp>
 
-#include <assert.h>         // assert
-#include <limits.h>         // INT_MAX
+#include <kickstart/c/assert.hpp>       // assert
+#include <kickstart/c/limits.hpp>       // INT_MAX
 
 #include <queue>
 #include <string>

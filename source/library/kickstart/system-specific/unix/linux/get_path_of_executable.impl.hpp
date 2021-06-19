@@ -30,8 +30,8 @@
 #include <kickstart/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <unistd.h>     // pathconf, readlink
-#include <assert.h>
-#include <string>
+#include <kickstart/c/assert.hpp>
+#include <kickstart/c/string.hpp>
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;    // hopefully

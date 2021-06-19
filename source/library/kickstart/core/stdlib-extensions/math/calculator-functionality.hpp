@@ -26,7 +26,7 @@
 #include <kickstart/core/language/Truth.hpp>            // Truth
 #include <kickstart/core/stdlib-extensions/math/general-number-operations.hpp>
 
-#include <math.h>       // The header this one mainly extends.
+#include <kickstart/c/math.hpp> // The header that this one mainly extends.
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
