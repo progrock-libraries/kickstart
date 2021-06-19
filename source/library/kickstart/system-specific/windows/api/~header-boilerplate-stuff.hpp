@@ -29,7 +29,7 @@
 #endif
 KS_STATIC_ASSERT( sizeof( void* ) == 8 );     // 64-bit system
 
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
 // Part of workaround for sabotage-like Visual C++ 2019 behavior for “extern "C"” funcs:

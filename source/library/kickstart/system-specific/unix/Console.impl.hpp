@@ -4,7 +4,7 @@
 #   error "This header is for Unix systems only."
 #   include <nosuch>
 #endif
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //

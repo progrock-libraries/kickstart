@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 /// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
 /// than `bool`.

@@ -1,6 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include <kickstart/core/language/assertion-headers/~assert-reasonable-compiler.hpp>
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 #ifndef KS_OS_IS_LINUX
 #   error "This header is for Linux systems only."
 #   include <nosuch>
