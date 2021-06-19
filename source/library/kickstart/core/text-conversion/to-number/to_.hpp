@@ -25,6 +25,7 @@
 #include <kickstart/core/collection-util.hpp>                   // begin_ptr_of, end_ptr_of, Array_span_
 #include <kickstart/core/failure-handling.hpp>
 #include <kickstart/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/core/language/lx/bits_per_.hpp>             // bits_per_
 #include <kickstart/core/stdlib-extensions/limits.hpp>          // largest_exact_integer_of_
 #include <kickstart/core/stdlib-extensions/strings.hpp>         // split_on_whitespace
 #include <kickstart/core/text-conversion/to-text.hpp>
@@ -37,6 +38,7 @@
 #include <algorithm>        // std::min, std::max
 #include <string>
 #include <string_view>
+#include <type_traits>
 #include <utility>
 #include <vector>
 
@@ -50,11 +52,13 @@ namespace kickstart::text_conversion::_definitions {
     namespace ascii = kickstart::ascii;
 
     using   kickstart::strings::split_on_whitespace;
-    using   std::min, std::max,
-            std::string,
-            std::string_view,
-            std::pair,
-            std::vector;
+    using   kickstart::language::lx::bits_per_;
+    using   std::min, std::max,                         // <algorithm>
+            std::string,                                // <string>
+            std::string_view,                           // <string_view>
+            std::is_integral_v, std::make_unsigned_t,   // <type_traits>
+            std::enable_if_t, std::pair,                // <utility>
+            std::vector;                                // <vector>
 
     template< class Number >
     auto to_(
@@ -205,6 +209,28 @@ namespace kickstart::text_conversion::_definitions {
         -> int
     { return to_<int>( s ); }
 
+    template<
+        class Integer,
+        class = enable_if_t< is_integral_v<Integer> >       // TODO: Add overload for enumerations.
+        >
+    inline auto to_hex( const Integer value, const string_view& hex_digits = "0123456789ABCDEF" )
+        -> string
+    {
+        static_assert( bits_per_<char> == 8 );
+        using Unsigned = make_unsigned_t<Integer>;
+
+        assert( hex_digits.length() >= 16 );
+        const int n_bytes = sizeof( Integer );
+        const int n_digits = 2*n_bytes;
+        auto result = string( n_digits, '\0' );
+        Unsigned x = value;
+        for( int i = n_digits; i --> 0; ) {
+            const unsigned digit = x & 0xF;
+            result[i] = hex_digits[digit];
+            x >>= 4;
+        }
+        return result;
+    }
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
@@ -217,7 +243,8 @@ namespace kickstart::text_conversion::_definitions {
             d::to_vector_,
             d::parts_to_vector_,
             d::to_double,
-            d::to_int;
+            d::to_int,
+            d::to_hex;
     }  // namespace exported names
 }  // namespace kickstart::text_conversion::_definitions
 

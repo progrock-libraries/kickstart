@@ -27,10 +27,13 @@
 #include <utility>
 
 namespace kickstart::type_traits::_definitions {
-    using   std::begin,                     // From <iterator>
-            std::remove_cv_t,               // From <type_traits>
-            std::remove_reference_t,        // -- " --
-            std::declval;                   // From <utility>
+    using   std::begin,                             // From <iterator>
+            std::is_base_of_v, std::remove_cv_t,    // From <type_traits>
+            std::remove_reference_t,                // -- " --
+            std::declval;                           // From <utility>
+
+    template< class D, class B >
+    constexpr bool is_derived_and_base_ = is_base_of_v<B, D>;    // Arg order is actually so.
 
     template< class Collection >
     using Item_type_of_ = remove_cv_t<remove_reference_t<
@@ -39,6 +42,7 @@ namespace kickstart::type_traits::_definitions {
 
     namespace d = _definitions;
     namespace exported_names { using
+        d::is_derived_and_base_,
         d::Item_type_of_;
     }  // namespace exported names
 }  // namespace kickstart::type_traits::_definitions 

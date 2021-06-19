@@ -26,6 +26,7 @@
 // C4702: unreachable code” sillywarnings on use of `hopefully( something ) or fail()`.
 
 #include <kickstart/core/stdlib-extensions/standard-exceptions.hpp>
+#include <kickstart/core/stdlib-extensions/type-traits.hpp>     // is_derived_and_base
 #include <kickstart/core/language/Truth.hpp>
 #include <kickstart/core/language/type-aliases.hpp>
 
@@ -33,6 +34,7 @@
 
 #include <string>
 #include <string_view>
+#include <utility>          // std::enable_if_t
 
 #define KS_FAIL_( X, s )                                                        \
         ::kickstart::failure_handling::fail_<X>(                                \
@@ -44,8 +46,10 @@
 
 namespace kickstart::failure_handling::_definitions {
     using namespace kickstart::language;
+    using namespace kickstart::type_traits;
     using   std::string,
-            std::string_view;
+            std::string_view,
+            std::enable_if_t;
 
     // For named parameter:
     struct Funcname
@@ -53,11 +57,45 @@ namespace kickstart::failure_handling::_definitions {
         string_view     value;
     };
 
+
     [[noreturn]] inline void unreachable() { assert( false ); throw ~42; }
 
     inline constexpr auto hopefully( const Truth condition )
         -> Truth
     { return condition; }
+
+    class A_success_checker {};
+
+    struct Is_false: A_success_checker
+    {
+        auto denotes_success( const Truth x ) const -> Truth { return not x; }
+    };
+
+    struct Is_true: A_success_checker
+    {
+        auto denotes_success( const Truth x ) const -> Truth { return x; }
+    };
+
+    struct Is_zero: A_success_checker
+    {
+        template< class Value >
+        auto denotes_success( const Value x ) const -> Truth { return x == 0; }
+    };
+
+    struct Is_nonzero: A_success_checker
+    {
+        template< class Value >
+        auto denotes_success( const Value x ) const -> Truth { return x != 0; }
+    };
+
+    template< 
+        class Value,
+        class Checker,
+        class = enable_if_t< is_derived_and_base_<Checker, A_success_checker> >
+        >
+    inline auto operator>>( const Value& v, const Checker& checker )
+        -> Truth
+    { return checker.denotes_success( v ); }
 
     template< class X >
     //[[noreturn]]
@@ -123,6 +161,7 @@ namespace kickstart::failure_handling::_definitions {
     namespace exported_names { using
         d::Funcname,
         d::unreachable,
+        d::A_success_checker, d::Is_false, d::Is_true, d::Is_zero, d::Is_nonzero,
         d::hopefully,
         d::fail_,
         d::fail,
