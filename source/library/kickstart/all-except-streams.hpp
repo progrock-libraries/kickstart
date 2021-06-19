@@ -30,9 +30,9 @@ namespace kickstart::all_except_streams {
     using namespace console_startup;    // From "console.hpp"
     using namespace utf8_io;            // Ditto.
 
-    namespace ansi_escape_seq = kickstart::ansi_escape_seq;
-    namespace portable_dingbats = kickstart::portable_dingbats;
-    namespace process = kickstart::process;
+    namespace ansi_escape_seq       = kickstart::ansi_escape_seq;
+    namespace portable_dingbats     = kickstart::portable_dingbats;
+    namespace process               = kickstart::process;
 }
 
 namespace kickstart::all {
