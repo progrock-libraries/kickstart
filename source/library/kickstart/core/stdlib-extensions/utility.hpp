@@ -22,14 +22,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Iostreams intentionally not included by default, it's large.
-// It can be included via `<kickstart/with_iostreams.hpp>`.
+#include <utility>
 
-#include <kickstart/core/stdlib-extensions/c-files.hpp>
-#include <kickstart/core/stdlib-extensions/filesystem.hpp>
-#include <kickstart/core/stdlib-extensions/limits.hpp>
-#include <kickstart/core/stdlib-extensions/math.hpp>
-#include <kickstart/core/stdlib-extensions/standard-exceptions.hpp>
-#include <kickstart/core/stdlib-extensions/strings.hpp>
-#include <kickstart/core/stdlib-extensions/type-traits.hpp>
-#include <kickstart/core/stdlib-extensions/utility.hpp>
+namespace kickstart::x_utility::_definitions {
+    using   std::enable_if_t;
+
+    struct Enabled {};
+
+    template< bool v >
+    using Enable_if_ = enable_if_t< v, Enabled >;
+
+    enum Template_param_requirement {};
+
+    // As a function one gets an up front error message with Visual C++.
+    template< const bool v >
+    constexpr inline auto tpr_()
+        -> Template_param_requirement
+    {
+        static_assert( v, "A template parameter requirement was not fulfilled" );
+        return {};
+    }
+
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Enabled,
+        d::Enable_if_,
+        d::Template_param_requirement,
+        d::tpr_;
+    }  // namespace exported names
+}  // namespace kickstart::x_utility::_definitions 
+
+namespace kickstart::x_utility    { using namespace _definitions::exported_names; }

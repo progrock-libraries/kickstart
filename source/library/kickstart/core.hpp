@@ -54,6 +54,7 @@ namespace kickstart::core {
         namespace std_exception = kickstart::std_exception;             //   <… standard-exceptions.hpp>
         using namespace kickstart::             strings;                //   <… strings.hpp>
         using namespace kickstart::             type_traits;            //   <… type-traits.hpp>
+        using namespace kickstart::             x_utility;              //   <… utility.hpp>
     }
     using namespace kickstart::             text_conversion;            // <core/text-conversion.hpp>
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
