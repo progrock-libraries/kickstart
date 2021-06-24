@@ -2,9 +2,6 @@
 #pragma once
 #include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
-/// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
-/// than `bool`.
-
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -24,6 +21,15 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
+
+
+// Example usage:
+// 
+//  namespace kickstart::tag {
+//      using kickstart::language::Tag_;
+//      using From_parts        = Tag_<struct Struct_from_value>;
+//      using Uninitialized     = Tag_<struct Struct_uninitialized>;
+//  }  // namespace kickstart::tag
 
 
 namespace kickstart::language::_definitions {
