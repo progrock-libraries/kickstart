@@ -23,5 +23,5 @@
 
 // Library includes actually used in this header.
 
-#include <kickstart/core/text-encoding/utf8/execution-character-set-checking.hpp>
+#include <kickstart/root/core/text-encoding/utf8/execution-character-set-checking.hpp>
 KS_ASSERT_UTF8_LITERALS();

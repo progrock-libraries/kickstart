@@ -1,1 +1,1 @@
-#include <kickstart/core/language/lx/intpow.hpp>
+#include <kickstart/root/core/language/lx/intpow.hpp>

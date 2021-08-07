@@ -1,1 +1,1 @@
-#include <kickstart/core/text-encoding/ascii/string-util.hpp>
+#include <kickstart/root/core/text-encoding/ascii/string-util.hpp>

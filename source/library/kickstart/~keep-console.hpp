@@ -51,11 +51,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/core/language/Truth.hpp>
+#include <kickstart/root/core/language/Truth.hpp>
 
 #include <stdlib.h>     // ::system
 
-#include <kickstart/system-specific/os-detection.hpp>
+#include <kickstart/root/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
 #   include "system-specific/windows/api/consoles.hpp"          // GetConsoleProcessList
 #endif
