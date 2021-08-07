@@ -22,8 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/text-encoding/utf8/execution-character-set-checking.hpp>
-
 #include <kickstart/root/console/utf8-io/io.hpp>
 #include <kickstart/root/console/utf8-io/output-operator.hpp>
 #include <kickstart/root/console/utf8-io/temporary-c-tty-stream-wrappings.hpp>

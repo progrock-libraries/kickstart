@@ -23,5 +23,16 @@
 
 // Library includes actually used in this header.
 
-#include <kickstart/root/core/text-encoding/utf8/execution-character-set-checking.hpp>
-KS_ASSERT_UTF8_LITERALS();
+namespace kickstart::utf8 {
+    constexpr inline auto utf8_is_the_execution_character_set()
+        -> bool
+    {
+        constexpr auto& slashed_o = "ø";
+        return (sizeof( slashed_o ) == 3 and slashed_o[0] == '\xC3' and slashed_o[1] == '\xB8');
+    }
+}  // namespace kickstart::utf8
+
+static_assert(
+    kickstart::utf8::utf8_is_the_execution_character_set(),
+    "The execution character set must be UTF-8 (e.g. MSVC option \"/utf-8\")."
+    );

@@ -1,1 +1,1 @@
-#include <kickstart/headers-collection/all.hpp>
+#include <kickstart/all.hpp>

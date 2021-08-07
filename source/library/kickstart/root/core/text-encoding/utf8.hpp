@@ -22,5 +22,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/text-encoding/utf8/execution-character-set-checking.hpp>
 #include <kickstart/root/core/text-encoding/utf8/bom.hpp>

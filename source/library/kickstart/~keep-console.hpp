@@ -57,7 +57,7 @@
 
 #include <kickstart/root/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
-#   include "system-specific/windows/api/consoles.hpp"          // GetConsoleProcessList
+#   include <kickstart/root/system-specific/windows/api/consoles.hpp>   // GetConsoleProcessList
 #endif
 
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {

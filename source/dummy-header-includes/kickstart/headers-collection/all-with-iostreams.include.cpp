@@ -1,1 +1,1 @@
-#include <kickstart/headers-collection/all-with-iostreams.hpp>
+#include <kickstart/all-with-iostreams.hpp>
