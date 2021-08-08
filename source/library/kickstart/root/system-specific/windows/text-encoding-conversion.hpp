@@ -29,7 +29,7 @@
 #include <kickstart/root/core/collection-util.hpp>                           // int_size
 #include <kickstart/root/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert
 #include <kickstart/c/limits.hpp>       // INT_MAX

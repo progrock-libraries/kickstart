@@ -24,10 +24,10 @@
 
 #include <kickstart/root/core/collection-util/collection-sizes.hpp>  // int_size
 #include <kickstart/root/core/generate/Relational_operators_from_compare_.hpp>  // Relational_operators_from_compare_
-#include <kickstart/root/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
-#include <kickstart/root/core/language/Tag_.hpp>                     // Tag_
-#include <kickstart/root/core/language/Truth.hpp>                    // Truth
-#include <kickstart/root/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/root/core/language/syntax/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
+#include <kickstart/root/core/language/misc/Tag_.hpp>                     // Tag_
+#include <kickstart/root/core/language/types/Truth.hpp>                    // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>             // C_str
 #include <kickstart/root/core/large-integers/Uint_double_of_.hpp>    // Uint_double_of_
 #include <kickstart/root/core/stdlib-extensions/limits.hpp>          // bits_per_
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>         // spaces

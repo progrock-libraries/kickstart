@@ -22,52 +22,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/types/Truth.hpp>
-#include <kickstart/root/core/matrices/two_d_grid.hpp>
+#include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
+#include <kickstart/root/core/language/types/type-aliases.hpp>                        // Type_, C_str
 
-namespace kickstart::matrices::_definitions {
-    using kickstart::language::Truth;
+#include <string>
 
-    template< class Item_type_param >
-    class Abstract_matrix_
-    {
-    public:
-        using Item = Item_type_param;
+namespace kickstart::language::_definitions {
+    using   kickstart::collection_util::Array_span_;
+    using   std::string;
 
-        virtual auto size() const       -> two_d_grid::Size     = 0;
-        virtual auto p_items()          -> Item*                = 0;
-        virtual auto p_items() const    -> const Item*          = 0;
-
-        virtual auto width() const  -> int  { return size().w; }
-        virtual auto height() const -> int  { return size().h; }
-
-        auto items_index_for( const two_d_grid::Position& pos ) const
-            -> int
-        { return pos.y*width() + pos.x; }
-
-        auto operator()( const two_d_grid::Position& pos )
-            -> Item&
-        { return p_items()[items_index_for( pos )]; }
-
-        auto operator()( const two_d_grid::Position& pos ) const
-            -> const Item&
-        { return p_items()[items_index_for( pos )]; }
-    };
-
-    template< class Item, class Matrix >
-    inline auto pointer_to_row( const int y, Matrix& m )
-        -> auto*
-    { return m.p_items() + m.item_index_for( {0, y} ); }
-
+    using Cmdline_args          = Array_span_<const string>;
+    using Simple_startup        = void();
+    using Startup_with_args     = void( const string&, const Cmdline_args& );
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Abstract_matrix_,
-        d::pointer_to_row;
-
-        namespace two_d_grid = kickstart::two_d_grid;
+        d::Cmdline_args,
+        d::Simple_startup,
+        d::Startup_with_args;
     }  // namespace exported names
-}  // namespace kickstart::matrices::_definitions
+}  // namespace kickstart::language::_definitions
 
-namespace kickstart::matrices   { using namespace _definitions::exported_names;}
+namespace kickstart::language       { using namespace _definitions::exported_names; }

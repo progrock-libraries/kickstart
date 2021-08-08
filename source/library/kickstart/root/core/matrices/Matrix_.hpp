@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/collection-util.hpp>
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 #include <kickstart/root/core/matrices/Abstract_matrix_.hpp>
 #include <kickstart/root/core/matrices/vector-pool.hpp>
 

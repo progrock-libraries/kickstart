@@ -27,8 +27,8 @@
 
 #include <kickstart/root/core/stdlib-extensions/standard-exceptions.hpp>
 #include <kickstart/root/core/stdlib-extensions/type-traits.hpp>     // is_derived_and_base
-#include <kickstart/root/core/language/Truth.hpp>
-#include <kickstart/root/core/language/type-aliases.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/language/types/type-aliases.hpp>
 
 #include <kickstart/c/assert.hpp>
 

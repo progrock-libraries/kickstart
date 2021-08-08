@@ -26,9 +26,9 @@
 // SOFTWARE.
 
 // Can't use the `Truth` class here because it would be a circular include.
-// #include <kickstart/root/core/language/Truth.hpp>
+// #include <kickstart/root/core/language/types/Truth.hpp>
 
-#include <kickstart/root/core/language/Default.hpp>              // Default
+#include <kickstart/root/core/language/syntax/Default.hpp>              // Default
 #include <kickstart/root/system-specific/os-detection.hpp>       // os_is_windows
 
 #include <string_view>

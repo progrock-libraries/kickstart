@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/type-aliases.hpp>             // C_str
+#include <kickstart/root/core/language/types/type-aliases.hpp>             // C_str
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>         // C_str_ref
 #include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
 

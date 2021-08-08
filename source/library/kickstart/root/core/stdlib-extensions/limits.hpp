@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/lx/intpow.hpp>        // lx::intpow_
-#include <kickstart/root/core/language/lx/bits_per_.hpp>     // bits_per_
+#include <kickstart/root/core/language/operations/intpow.hpp>        // lx::intpow_
+#include <kickstart/root/core/language/operations/bits_per_.hpp>     // bits_per_
 
 #include <kickstart/c/float.hpp>    // DBL_MANT_DIG
 

@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/Tag_.hpp>
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/misc/Tag_.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/Abstract_c_file.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/filesystem/Path.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>     // starts_with

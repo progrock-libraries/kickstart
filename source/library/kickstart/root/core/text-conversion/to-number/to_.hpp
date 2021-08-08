@@ -24,8 +24,8 @@
 
 #include <kickstart/root/core/collection-util.hpp>                              // begin_ptr_of, end_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/type-aliases.hpp>                        // C_str
-#include <kickstart/root/core/language/lx/bits_per_.hpp>                        // bits_per_
+#include <kickstart/root/core/language/types/type-aliases.hpp>                        // C_str
+#include <kickstart/root/core/language/operations/bits_per_.hpp>                        // bits_per_
 #include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
 #include <kickstart/root/core/stdlib-extensions/limits.hpp>                     // largest_exact_integer_of_
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>                    // split_on_whitespace

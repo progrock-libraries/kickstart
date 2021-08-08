@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/lx/intpow.hpp>        // intpow
-#include <kickstart/root/core/language/Truth.hpp>            // Truth
+#include <kickstart/root/core/language/operations/intpow.hpp>        // intpow
+#include <kickstart/root/core/language/types/Truth.hpp>            // Truth
 #include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp>
 
 #include <kickstart/c/math.hpp> // The header that this one mainly extends.

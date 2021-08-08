@@ -26,9 +26,9 @@
 
 #include <kickstart/root/console/utf8-io/io.hpp>                        // output_error_message
 #include <kickstart/root/core/failure-handling.hpp>                  // Clean_app_exception
-#include <kickstart/root/core/language/Truth.hpp>
-#include <kickstart/root/core/language/type-aliases.hpp>             // Type_, C_str
-#include <kickstart/root/core/language/startup-function-types.hpp>   // Simple_startup, Startup_with_args
+#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/language/types/type-aliases.hpp>             // Type_, C_str
+#include <kickstart/root/core/language/types/startup-function-types.hpp>   // Simple_startup, Startup_with_args
 #include <kickstart/root/core/text-encoding/ascii/string-util.hpp>   // is_all_ascii
 #include <kickstart/root/core/process/Commandline.hpp>               // Commandline
 #include <kickstart/root/system-specific/os-detection.hpp>

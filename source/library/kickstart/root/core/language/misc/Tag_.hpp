@@ -22,26 +22,28 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
-#include <kickstart/root/core/language/type-aliases.hpp>                        // Type_, C_str
 
-#include <string>
+// Example usage:
+// 
+//  namespace kickstart::tag {
+//      using From_parts        = Tag_<struct Struct_from_parts>;
+//      using Uninitialized     = Tag_<struct Struct_uninitialized>;
+//  }  // namespace kickstart::tag
+
 
 namespace kickstart::language::_definitions {
-    using   kickstart::collection_util::Array_span_;
-    using   std::string;
 
-    using Cmdline_args          = Array_span_<const string>;
-    using Simple_startup        = void();
-    using Startup_with_args     = void( const string&, const Cmdline_args& );
+    template< class T > struct Tag_ {};
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Cmdline_args,
-        d::Simple_startup,
-        d::Startup_with_args;
+        d::Tag_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
 namespace kickstart::language       { using namespace _definitions::exported_names; }
+
+namespace kickstart::tag {
+    using kickstart::language::Tag_;
+}  // namespace kickstart::tag

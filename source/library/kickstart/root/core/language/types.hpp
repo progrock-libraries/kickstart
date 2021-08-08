@@ -1,6 +1,5 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,30 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/Truth.hpp>                    // Truth
-
-#include <type_traits>      // make_signed_t
-
-namespace kickstart::language::lx::_definitions {
-    using   std::make_signed_t;
-
-    template< class Int >
-    constexpr inline auto msb_is_set_in( const Int value )
-        -> Truth
-    { return make_signed_t<Int>( value ) < 0; }
-
-    template< class Int >
-    constexpr inline auto lsb_is_set_in( const Int value )
-        -> Truth
-    { return !!(value & 1); }
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::msb_is_set_in,
-        d::lsb_is_set_in;
-    }  // namespace exported names
-}  // namespace kickstart::language::lx::_definitions
-
-namespace kickstart::language::lx   { using namespace _definitions::exported_names; }
+#include <kickstart/root/core/language/types/startup-function-types.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/language/types/type-aliases.hpp>

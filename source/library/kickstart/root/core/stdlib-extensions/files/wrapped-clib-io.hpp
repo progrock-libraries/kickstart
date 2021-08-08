@@ -25,7 +25,7 @@
 #include <kickstart/root/core/collection-util/collection-pointers.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <optional>
 #include <string>

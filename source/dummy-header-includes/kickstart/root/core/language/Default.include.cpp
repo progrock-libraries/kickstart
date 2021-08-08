@@ -1,1 +1,1 @@
-#include <kickstart/root/core/language/Default.hpp>
+#include <kickstart/root/core/language/syntax/Default.hpp>

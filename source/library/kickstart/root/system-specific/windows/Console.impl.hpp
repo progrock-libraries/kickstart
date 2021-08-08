@@ -28,7 +28,7 @@
 
 #include <kickstart/root/system-specific/Console.interface.hpp>
 
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/root/system-specific/windows/api/consoles.hpp>
 #include <kickstart/root/system-specific/windows/api/error-handling.hpp>

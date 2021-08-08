@@ -51,7 +51,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <stdlib.h>     // ::system
 

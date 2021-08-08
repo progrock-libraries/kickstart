@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/lx/bits_per_.hpp>         // lx::bits_per_
-#include <kickstart/root/core/language/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
+#include <kickstart/root/core/language/operations/bits_per_.hpp>        // lx::bits_per_
+#include <kickstart/root/core/language/syntax/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
 
 #include <kickstart/c/stddef.hpp>       // size_t, ptrdiff_t
 #include <kickstart/c/stdint.hpp>       // int32_t, int64_t

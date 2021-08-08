@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/Default.hpp>                          // Default
-#include <kickstart/root/core/language/lx.hpp>                               // lx\*
-#include <kickstart/root/core/language/startup-function-types.hpp>           // Simple_startup, Startup_with_args
-#include <kickstart/root/core/language/Truth.hpp>                            // Truth
-#include <kickstart/root/core/language/type-aliases.hpp>                     // Size, Index, C_str, Byte, Int, Float
+#include <kickstart/root/core/language/misc.hpp>
+#include <kickstart/root/core/language/operations.hpp>                       // lx\*
+#include <kickstart/root/core/language/preprocessing.hpp>
+#include <kickstart/root/core/language/syntax.hpp>
+#include <kickstart/root/core/language/types.hpp>

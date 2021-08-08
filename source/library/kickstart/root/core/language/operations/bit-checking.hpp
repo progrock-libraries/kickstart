@@ -22,25 +22,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/root/core/language/types/Truth.hpp>                    // Truth
 
-// Example usage:
-// 
-//  namespace kickstart::tag {
-//      using kickstart::language::Tag_;
-//      using From_parts        = Tag_<struct Struct_from_value>;
-//      using Uninitialized     = Tag_<struct Struct_uninitialized>;
-//  }  // namespace kickstart::tag
+#include <type_traits>      // make_signed_t
 
+namespace kickstart::language::lx::_definitions {
+    using   std::make_signed_t;
 
-namespace kickstart::language::_definitions {
+    template< class Int >
+    constexpr inline auto msb_is_set_in( const Int value )
+        -> Truth
+    { return static_cast<make_signed_t<Int>>( value ) < 0; }
 
-    template< class T > struct Tag_ {};
+    template< class Int >
+    constexpr inline auto lsb_is_set_in( const Int value )
+        -> Truth
+    { return !!(value & 1); }
+
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Tag_;
+        d::msb_is_set_in,
+        d::lsb_is_set_in;
     }  // namespace exported names
-}  // namespace kickstart::language::_definitions
+}  // namespace kickstart::language::lx::_definitions
 
-namespace kickstart::language       { using namespace _definitions::exported_names; }
+namespace kickstart::language::lx   { using namespace _definitions::exported_names; }

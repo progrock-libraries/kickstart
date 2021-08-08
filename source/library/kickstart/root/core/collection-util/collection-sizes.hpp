@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/cpp/basics.hpp>                                 // size, ssize
-#include <kickstart/root/core/language/type-aliases.hpp>            // Size
+#include <kickstart/root/core/language/types/type-aliases.hpp>            // Size
 
 namespace kickstart::collection_util::_definitions {
     namespace kl = kickstart::language;

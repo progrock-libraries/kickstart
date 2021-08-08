@@ -1,6 +1,5 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -22,7 +21,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/lx/bit-checking.hpp>
-#include <kickstart/root/core/language/lx/bits_per_.hpp>
-#include <kickstart/root/core/language/lx/intpow.hpp>
-#include <kickstart/root/core/language/lx/KS_WITH.hpp>
+#include <kickstart/root/core/language/misc/Tag_.hpp>

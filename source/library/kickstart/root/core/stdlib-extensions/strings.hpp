@@ -23,8 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/collection-util.hpp>                       // ssize, tail_of
-#include <kickstart/root/core/language/Truth.hpp>                        // Truth
-#include <kickstart/root/core/language/type-aliases.hpp>                 // C_str
+#include <kickstart/root/core/language/types/Truth.hpp>                        // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>                 // C_str
 #include <kickstart/root/core/text-encoding/ascii/character-util.hpp>    // ascii::whitespace
 
 #include <initializer_list>

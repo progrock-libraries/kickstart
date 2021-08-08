@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/type-aliases.hpp>     // Size
+#include <kickstart/root/core/language/types/type-aliases.hpp>     // Size
 
 namespace kickstart::collection_util::_definitions {
     using kickstart::language::Size;

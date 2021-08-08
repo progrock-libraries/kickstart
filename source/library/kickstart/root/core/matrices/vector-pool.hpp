@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/collection-util.hpp>
-#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <unordered_map>
 #include <vector>
