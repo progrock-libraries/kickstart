@@ -24,8 +24,8 @@
 
 #include <kickstart/root/core/language/Tag_.hpp>
 #include <kickstart/root/core/language/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
-#include <kickstart/root/core/stdlib-extensions/filesystem/Path.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/Abstract_c_file.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/filesystem/Path.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>     // starts_with
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/root/core/text-encoding/utf8/bom.hpp>

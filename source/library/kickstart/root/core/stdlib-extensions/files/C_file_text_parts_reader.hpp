@@ -22,57 +22,43 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
-#include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/C_file_operations.hpp>
+#include <kickstart/root/core/stream-io-util/Abstract_text_parts_reader.hpp>
 
 namespace kickstart::c_files::_definitions {
-    using namespace language;       // Truth
-    namespace ks = kickstart::system_specific;
+    using kickstart::stream_io_util::Abstract_text_parts_reader;
 
-    class C_file_operations
+    class C_file_text_parts_reader final:
+        private C_file_operations,
+        public Abstract_text_parts_reader
     {
-        using Self = C_file_operations;
-        C_file_operations( const Self& ) = delete;
-        auto operator=( const Self& ) -> Self& = delete;
+        using Self = C_file_text_parts_reader;
 
-        C_file  m_c_file;
+        virtual auto input_line()
+            -> optional<string> override
+        { return C_file_operations::input_or_none(); }
 
     public:
-        C_file_operations( const C_file f ) noexcept:
-            m_c_file( f )
-        {
-            assert( m_c_file != nullptr );
-        }
+        C_file_text_parts_reader( const C_file f ):
+            C_file_operations( f )
+        {}
 
-        auto c_file() const noexcept
-            -> C_file
-        { return m_c_file; }
+        C_file_text_parts_reader( Self&& ) = default;
+        auto operator=( Self&& ) -> Self& = default;
 
-        void close() noexcept
-        {
-            if( m_c_file ) {
-                ::fclose( m_c_file );
-                m_c_file = nullptr;
-            }
-        }
+        // From Abstract_text_parts_reader:
+        //
+        // auto input_part_view_or_none() -> optional<string_view>;
+        // auto input_part_view() -> string_view;
+        // auto input_part_string() -> string;
+        // auto input_part() -> string_view;
 
-        auto has_passed_eof() const
-            -> Truth
-        { return !!::feof( m_c_file ); }
-
-        auto in_failstate() const noexcept
-            -> Truth
-        { return !!::ferror( c_file() ); }
-
-        auto input_or_none()
-            -> optional<string>
-        { return clib_input_or_none_from( c_file() ); }
+        using C_file_operations::has_passed_eof;
     };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::C_file_operations;
+        d::C_file_text_parts_reader;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 

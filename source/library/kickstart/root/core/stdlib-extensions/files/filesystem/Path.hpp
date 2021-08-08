@@ -25,7 +25,7 @@
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/language/Truth.hpp>
 #include <kickstart/root/core/language/type-aliases.hpp>
-#include <kickstart/root/core/stdlib-extensions/filesystem/fspath-util.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/filesystem/fspath-util.hpp>
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <kickstart/c/stddef.hpp>       // size_t

@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util.hpp>                       // Array_span_
+#include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/type-aliases.hpp>                 // C_str
+#include <kickstart/root/core/language/type-aliases.hpp>                        // C_str
 #include <kickstart/root/core/text-encoding/ascii/character-util.hpp>
-#include <kickstart/root/system-specific/get_commandline_data.hpp>       // get_command_line_data
+#include <kickstart/root/system-specific/get_commandline_data.hpp>              // get_command_line_data
 
 #include <kickstart/root/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64

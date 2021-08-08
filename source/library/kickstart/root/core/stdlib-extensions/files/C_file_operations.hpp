@@ -22,83 +22,57 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/c-files/C_file_operations.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
+#include <kickstart/root/core/language/Truth.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/wrapped-clib-io.hpp>
 #include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
-
-#include <utility>
 
 namespace kickstart::c_files::_definitions {
     using namespace language;       // Truth
     namespace ks = kickstart::system_specific;
 
-    using   std::exchange,
-            std::move;
-
-    class Abstract_c_file
+    class C_file_operations
     {
-        using Self = Abstract_c_file;
-        Abstract_c_file( const Self& ) = delete;
+        using Self = C_file_operations;
+        C_file_operations( const Self& ) = delete;
         auto operator=( const Self& ) -> Self& = delete;
 
         C_file  m_c_file;
 
-    protected:
-        ~Abstract_c_file() noexcept
-        {
-            // The `m_c_file` can be set to 0 by the `release` method and by moving.
-            if( m_c_file ) { ::fclose( m_c_file ); }
-        }
-
-        Abstract_c_file( const C_file f ) noexcept:
+    public:
+        C_file_operations( const C_file f ) noexcept:
             m_c_file( f )
         {
             assert( m_c_file != nullptr );
-        }
-
-        Abstract_c_file( Self&& other ) noexcept:
-            m_c_file( exchange( other.m_c_file, {} ) )
-        {}
-
-        void assign( Self&& other ) noexcept
-        {
-            m_c_file = exchange( other.m_c_file, {} );
-        }
-
-        auto operator=( Self&& other ) noexcept
-            -> Self&
-        {
-            assign( move( other ) );
-            return *this;
         }
 
         auto c_file() const noexcept
             -> C_file
         { return m_c_file; }
 
-        auto release() noexcept
-            -> C_file
-        { return exchange( m_c_file, nullptr ); }
-
-        //----------------------------------- Only meaningful for input:
+        void close() noexcept
+        {
+            if( m_c_file ) {
+                ::fclose( m_c_file );
+                m_c_file = nullptr;
+            }
+        }
 
         auto has_passed_eof() const
             -> Truth
         { return !!::feof( m_c_file ); }
 
-        auto input_or_none()
-            -> optional<string>
-        { return clib_input_or_none_from( c_file() ); }
-
-    public:
         auto in_failstate() const noexcept
             -> Truth
         { return !!::ferror( c_file() ); }
+
+        auto input_or_none()
+            -> optional<string>
+        { return clib_input_or_none_from( c_file() ); }
     };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::Abstract_c_file;
+        d::C_file_operations;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 

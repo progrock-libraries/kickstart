@@ -24,7 +24,7 @@
 
 #include <kickstart/root/core/language/type-aliases.hpp>             // C_str
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>         // C_str_ref
-#include <kickstart/root/core/stdlib-extensions/c-files/clib-file-types.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
 
 #include <filesystem> 
 #include <optional>

@@ -22,6 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util/collection-pointers.hpp>
-#include <kickstart/root/core/collection-util/collection-sizes.hpp>
-#include <kickstart/root/core/collection-util/collection-iteration_.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/filesystem/fspath-util.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/filesystem/Path.hpp>

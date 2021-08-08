@@ -24,7 +24,7 @@
 
 #include <kickstart/root/console/utf8-io/io.hpp>
 #include <kickstart/root/core/language/Default.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/C_file_operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/C_file_operations.hpp>
 #include <kickstart/root/core/stream-io-util/Abstract_text_parts_reader.hpp>
 
 #include <functional>

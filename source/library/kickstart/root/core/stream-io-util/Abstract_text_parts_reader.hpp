@@ -24,6 +24,7 @@
 
 #include <kickstart/root/core/language/Truth.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>
+#include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 #include <kickstart/root/core/text-encoding/ascii/string-util.hpp>
 
 #include <functional>

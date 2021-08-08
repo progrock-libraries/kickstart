@@ -22,9 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/c-files/clib-file-types.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/C_file_text_parts_reader.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/Text_reader.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/Text_writer.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/Abstract_c_file.hpp>
-#include <kickstart/root/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/Abstract_c_file.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/C_file_operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/C_file_text_parts_reader.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/filesystem.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/Text_reader.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/Text_writer.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/wrapped-clib-io.hpp>

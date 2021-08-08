@@ -22,44 +22,54 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/c-files/C_file_operations.hpp>
-#include <kickstart/root/core/stream-io-util/Abstract_text_parts_reader.hpp>
+#include <kickstart/root/core/collection-util/collection-pointers.hpp>
+#include <kickstart/root/core/failure-handling.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
+#include <kickstart/root/core/language/Truth.hpp>
+
+#include <optional>
+#include <string>
+#include <string_view>
 
 namespace kickstart::c_files::_definitions {
-    using kickstart::stream_io_util::Abstract_text_parts_reader;
+    using namespace collection_util;
+    using namespace failure_handling;
+    using namespace language;           // Truth etc.
 
-    class C_file_text_parts_reader final:
-        private C_file_operations,
-        public Abstract_text_parts_reader
+    using   std::optional,
+            std::string,
+            std::string_view;
+
+    inline auto clib_input_or_none_from( const C_file f )
+        -> optional<string>
     {
-        using Self = C_file_text_parts_reader;
+        string  line;
+        int     code;
 
-        virtual auto input_line()
-            -> optional<string> override
-        { return C_file_operations::input_or_none(); }
+        hopefully( not ferror( f ) )
+            or KS_FAIL( "`ferror(f)` reports true for the file" );
+        while( (code = fgetc( f )) != EOF and code != '\n' ) {
+            line += char( code );
+        }
+        // NO check of error here in order to allow a partial read to succeed.
+        const Truth eof = (line.empty() and code == EOF);
+        if( eof ) { return {}; }
+        return line;
+    }
 
-    public:
-        C_file_text_parts_reader( const C_file f ):
-            C_file_operations( f )
-        {}
-
-        C_file_text_parts_reader( Self&& ) = default;
-        auto operator=( Self&& ) -> Self& = default;
-
-        // From Abstract_text_parts_reader:
-        //
-        // auto input_part_view_or_none() -> optional<string_view>;
-        // auto input_part_view() -> string_view;
-        // auto input_part_string() -> string;
-        // auto input_part() -> string_view;
-
-        using C_file_operations::has_passed_eof;
-    };
+    inline void clib_output_to( const C_file f, const string_view& s )
+    {
+        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
+        hopefully( n_bytes_written == s.size() )
+            or KS_FAIL( "::fwrite failed" );
+    }
 
     namespace d = _definitions;
     namespace exports{ using
-        d::C_file_text_parts_reader;
+        d::C_file,
+        d::clib_input_or_none_from,
+        d::clib_output_to;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 
-namespace kickstart::c_files    { using namespace _definitions::exports; }
+namespace kickstart::c_files        { using namespace _definitions::exports; }
