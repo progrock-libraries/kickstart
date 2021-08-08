@@ -22,4 +22,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/generate/Relops_from_compare_.hpp>
+#include <kickstart/root/core/generate/Relational_operators_from_compare_.hpp>

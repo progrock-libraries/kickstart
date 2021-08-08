@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/collection-util/collection-sizes.hpp>  // int_size
-#include <kickstart/root/core/generate/Relops_from_compare_.hpp>     // Relops_from_compare_
+#include <kickstart/root/core/generate/Relational_operators_from_compare_.hpp>  // Relational_operators_from_compare_
 #include <kickstart/root/core/language/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
 #include <kickstart/root/core/language/Tag_.hpp>                     // Tag_
 #include <kickstart/root/core/language/Truth.hpp>                    // Truth
@@ -70,7 +70,7 @@ namespace kickstart::large_integers::_definitions {
             std::is_integral_v;
 
     class Uint_128:
-        public generate::Relops_from_compare_<Uint_128>
+        public generate::Relational_operators_from_compare_<Uint_128>
     {
     public:
         using Part      = uint64_t;

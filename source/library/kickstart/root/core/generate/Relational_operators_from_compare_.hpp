@@ -28,7 +28,7 @@ namespace kickstart::generate::_definitions {
     using kickstart::language::Truth;
 
     template< class Derived >
-    struct Relops_from_compare_
+    struct Relational_operators_from_compare_
     {
         friend
         inline constexpr auto operator<( const Derived& a, const Derived& b )
@@ -64,7 +64,7 @@ namespace kickstart::generate::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Relops_from_compare_;
+        d::Relational_operators_from_compare_;
     }  // namespace exported names
 }  // namespace kickstart::generate::_definitions
 
