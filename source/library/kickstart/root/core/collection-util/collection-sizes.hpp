@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/stdlib-includes/basics.hpp>       // size, ssize
-#include <kickstart/root/core/language/type-aliases.hpp>                 // Size
+#include <kickstart/cpp/basics.hpp>                                 // size, ssize
+#include <kickstart/root/core/language/type-aliases.hpp>            // Size
 
 namespace kickstart::collection_util::_definitions {
     namespace kl = kickstart::language;

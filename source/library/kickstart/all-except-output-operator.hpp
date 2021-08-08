@@ -22,6 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/cpp-except-iostreams.hpp>       // Safe-with-`using` stuff from std library.
 #include <kickstart/root/console.hpp>
 #include <kickstart/root/core.hpp>
 

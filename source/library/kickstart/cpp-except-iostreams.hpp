@@ -22,7 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/stdlib-includes/iostreams/file-streams.hpp>
-#include <kickstart/root/core/language/stdlib-includes/iostreams/formatting.hpp>
-#include <kickstart/root/core/language/stdlib-includes/iostreams/string-streams.hpp>
-#include <kickstart/root/core/language/stdlib-includes/iostreams/tty-streams.hpp>
+// Iostreams intentionally not included by default, it's large.
+// It can be included via `<kickstart/all-with-iostreams.hpp>`.
+#include <kickstart/cpp/basics.hpp>

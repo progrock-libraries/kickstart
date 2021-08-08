@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/all-except-output-operator.hpp>
-#include <kickstart/root/core/language/stdlib-includes/iostreams.hpp>
+#include <kickstart/cpp/iostreams.hpp>
 
 // An example convenience namespace. Will probably never be used, but hey.
 namespace kickstart::with_iostreams {

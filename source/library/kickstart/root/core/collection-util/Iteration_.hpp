@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/stdlib-includes/basics.hpp>    // size
+#include <kickstart/cpp/basics.hpp>         // size
 
 #include <iterator>
 
