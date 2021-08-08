@@ -26,7 +26,7 @@
 
 #include <unordered_map>
 
-namespace kickstart::ansi_escape_seq::_definitions {
+namespace kickstart::ansi_escape_sequences::_definitions {
     using namespace kickstart::text_conversion;
 
     using   std::string,
@@ -158,9 +158,9 @@ namespace kickstart::ansi_escape_seq::_definitions {
         d::set_console_title,
         d::color;
     }  // namespace exported names
-}  // namespace kickstart::ansi_escape_seq::_definitions
+}  // namespace kickstart::ansi_escape_sequences::_definitions
 
-namespace kickstart::ansi_escape_seq {
+namespace kickstart::ansi_escape_sequences {
     using namespace _definitions::exported_names;
     inline namespace colors { using namespace _definitions::colors; }
 }

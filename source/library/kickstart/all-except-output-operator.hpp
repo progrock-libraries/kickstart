@@ -31,7 +31,7 @@ namespace kickstart::all_except_output_operator {
     using namespace console_startup;    // From "console.hpp"
     using namespace utf8_io;            // Ditto.
 
-    namespace ansi_escape_seq       = kickstart::ansi_escape_seq;
+    namespace ansi_escape_seq       = kickstart::ansi_escape_sequences;
     namespace portable_dingbats     = kickstart::portable_dingbats;
     namespace process               = kickstart::process;
 }  // namespace kickstart::all_except_output_operator
