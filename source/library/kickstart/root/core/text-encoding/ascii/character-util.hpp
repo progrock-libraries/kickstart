@@ -70,5 +70,4 @@ namespace kickstart::ascii {
     constexpr auto letter       = Group_<is_letter>();
     constexpr auto digit        = Group_<is_digit>();
     constexpr auto whitespace   = Group_<is_whitespace>();
-
 }  // namespace kickstart::ascii
