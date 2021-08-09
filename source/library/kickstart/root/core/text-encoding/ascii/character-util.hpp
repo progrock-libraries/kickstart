@@ -49,7 +49,7 @@ namespace kickstart::ascii {
         -> char
     { return (is_lowercase( ch )? char( ch - 'a' + 'A' ) : ch); }
 
-    // Alternate invocation syntax, may possibly support certain template construcs.
+    // Alternate invocation syntax, may be more readable, may possibly support certain template construcs.
     template< class Group >
     constexpr auto is( Group, const char ch )
         -> Truth
