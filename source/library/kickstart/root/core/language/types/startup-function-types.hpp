@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
-#include <kickstart/root/core/language/types/type-aliases.hpp>                        // Type_, C_str
+#include <kickstart/root/core/language/types/type-aliases.hpp>                  // Type_, C_str
 
 #include <string>
 
