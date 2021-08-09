@@ -1,9 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-
-// Can't just include "reasonable-compiler" assert because it uses this file.
-#include <kickstart/assertion-headers/~assert-is-c++17-or-later.hpp>
-#include <kickstart/assertion-headers/~assert-has-boolean-operator-keywords.hpp>
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -24,9 +21,6 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
-
-// Can't use the `Truth` class here because it would be a circular include.
-// #include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <kickstart/root/core/language/syntax/Default.hpp>          // Default
 #include <kickstart/root/system-specific/os-detection.hpp>          // os_is_windows
