@@ -23,69 +23,52 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/language/types/Truth.hpp>
+#include <string_view>
 
 namespace kickstart::ascii {
     using language::Truth;
+    using std::string_view;
 
+    inline auto is_in( const string_view& chars, const char ch )
+        -> Truth
+    { return chars.find( ch ) != string_view::npos; }
+
+    inline auto is_valid( char ch ) -> Truth        { return (static_cast<unsigned char>( ch ) < 128); }
+    inline auto is_character( char ch ) -> Truth    { return is_valid( ch ); }
+    inline auto is_lowercase( char ch ) -> Truth    { return ('a' <= ch and ch <= 'z'); }
+    inline auto is_uppercase( char ch ) -> Truth    { return ('A' <= ch and ch <= 'Z'); }
+    inline auto is_letter( char ch ) -> Truth       { return (is_lowercase( ch ) or is_uppercase( ch )); }
+    inline auto is_digit( char ch ) -> Truth        { return ('0' <= ch and ch <= '9'); }
+    inline auto is_whitespace( char ch ) -> Truth   { return is_in( " \f\n\r\t\v", ch ); }
+
+    inline auto to_lower( const char ch )
+        -> char
+    { return (is_uppercase( ch )? char( ch - 'A' + 'a' ) : ch); }
+
+    inline auto to_upper( const char ch )
+        -> char
+    { return (is_lowercase( ch )? char( ch - 'a' + 'A' ) : ch); }
+
+    // Alternate invocation syntax, may possibly support certain template construcs.
     template< class Group >
     constexpr auto is( Group, const char ch )
         -> Truth
     { return Group::includes( ch ); }
 
-    struct Character
+    template< auto (*f)( char ch ) -> Truth >
+    struct Group_
     {
         static constexpr auto includes( const char ch )
             -> Truth
-        { return (static_cast<unsigned char>( ch ) < 128); }
+        { return f( ch ); }
     };
-    constexpr Character     character   = {};
 
-    struct Lowercase
-    {
-        static constexpr auto includes( const char ch )
-            -> Truth
-        { return ('a' <= ch and ch <= 'z'); }
-    };
-    constexpr Lowercase     lowercase   = {};
-
-    struct Uppercase
-    {
-        static constexpr auto includes( const char ch )
-            -> Truth
-        { return ('A' <= ch and ch <= 'B'); }
-    };
-    constexpr Uppercase     uppercase   = {};
-
-    struct Letter
-    {
-        static constexpr auto includes( const char ch )
-            -> Truth
-        { return (is( lowercase, ch ) or is( uppercase, ch )); }
-    };
-    constexpr Letter        letter      = {};
-
-    struct Digit
-    {
-        static constexpr auto includes( const char ch )
-            -> Truth
-        { return ('0' <= ch and ch <= '9'); }
-    };
-    constexpr Digit         digit       = {};
-
-    struct Whitespace
-    {
-        static constexpr auto includes( const char ch )
-            -> Truth
-        { return (ch == ' ' or ch == '\f' or ch == '\n' or ch == '\r' or ch == '\t' or ch == '\v'); }
-    };
-    constexpr Whitespace    whitespace  = {};
-
-    inline auto to_lower( const char ch )
-        -> char
-    { return (is( uppercase, ch )? char( ch - 'A' + 'a' ) : ch); }
-
-    inline auto to_upper( const char ch )
-        -> char
-    { return (is( lowercase, ch )? char( ch - 'a' + 'A' ) : ch); }
+    constexpr auto valid        = Group_<is_valid>();
+    constexpr auto character    = valid;
+    constexpr auto lowercase    = Group_<is_lowercase>();
+    constexpr auto uppercase    = Group_<is_uppercase>();
+    constexpr auto letter       = Group_<is_letter>();
+    constexpr auto digit        = Group_<is_digit>();
+    constexpr auto whitespace   = Group_<is_whitespace>();
 
 }  // namespace kickstart::ascii
