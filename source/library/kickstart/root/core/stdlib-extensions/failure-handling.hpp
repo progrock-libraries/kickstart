@@ -22,14 +22,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-// Iostreams intentionally not included by default, it's large.
-// It can be included via `<kickstart/with_iostreams.hpp>`.
-
-#include <kickstart/root/core/stdlib-extensions/collections.hpp>
-#include <kickstart/root/core/stdlib-extensions/files.hpp>
-#include <kickstart/root/core/stdlib-extensions/basic_type_properties.hpp>
-#include <kickstart/root/core/stdlib-extensions/calc.hpp>
-#include <kickstart/root/core/stdlib-extensions/failure-handling.hpp>
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>
-#include <kickstart/root/core/stdlib-extensions/type-traits.hpp>
-#include <kickstart/root/core/stdlib-extensions/utility.hpp>
+#include <kickstart/root/core/stdlib-extensions/failure-handling/standard-exceptions.hpp>
