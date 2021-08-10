@@ -22,6 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/operations/bit-checking.hpp>
 #include <kickstart/root/core/language/operations/bits_per_.hpp>
 #include <kickstart/root/core/language/operations/intpow.hpp>

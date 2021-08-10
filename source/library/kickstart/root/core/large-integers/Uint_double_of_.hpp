@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/operations/bits_per_.hpp>                             // lx::bits_per_
-#include <kickstart/root/core/language/types/Truth.hpp>                                    // Truth
-#include <kickstart/root/core/language/types/type-aliases.hpp>                             // Type_, Uint_
-#include <kickstart/root/core/language/operations/bit-checking.hpp>
-#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp>  // compare
+#include <kickstart/root/core/language/operations/bits_per_.hpp>                    // lx::bits_per_
+#include <kickstart/root/core/language/types/Truth.hpp>                             // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>                      // Type_, Uint_
+#include <kickstart/root/core/stdlib-extensions/math/integer-operations.hpp>        // lsb_is_set_in, msb_is_set_in
+#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp> // compare
 
 #include <kickstart/c/assert.hpp>       // assert
 
@@ -35,12 +35,13 @@
 
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
+    namespace km = kickstart::math;
 
-    using   kl::lx::bits_per_, kl::lx::lsb_is_set_in, kl::lx::msb_is_set_in,
+    using   kl::lx::bits_per_,
             kl::Truth,
             kl::Type_,
             kl::Uint_;
-    using   kickstart::math::compare;
+    using   km::lsb_is_set_in, km::msb_is_set_in, km::compare;
     using   std::is_unsigned_v,
             std::swap;
 

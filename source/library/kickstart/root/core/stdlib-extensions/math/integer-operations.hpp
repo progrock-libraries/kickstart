@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/operations/bits_per_.hpp>                             // lx::bits_per_
-#include <kickstart/root/core/language/types/Truth.hpp>                                    // Truth
-#include <kickstart/root/core/language/types/type-aliases.hpp>                             // Type_
-#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp>  // abs
+#include <kickstart/root/core/language/operations/bits_per_.hpp>                        // lx::bits_per_
+#include <kickstart/root/core/language/types/Truth.hpp>                                 // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>                          // Type_
+#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp>     // abs
 
 #include <kickstart/c/assert.hpp>       // assert
 
@@ -38,6 +38,7 @@ namespace kickstart::math::_definitions {
     namespace kl = kickstart::language;
 
     using   kl::lx::bits_per_, kl::Truth, kl::Type_;
+    using   std::make_signed_t;
 
     template< class Int >
     inline constexpr auto is_even( const Int x ) -> Truth { return x % 2 == 0; }
@@ -58,13 +59,22 @@ namespace kickstart::math::_definitions {
         -> Int
     { return sign_of( a )*sign_of( b )*div_up_positive( abs( a ), abs( b ) ); }
 
+    template< class Int >
+    constexpr inline auto msb_is_set_in( const Int value )
+        -> Truth
+    { return static_cast<make_signed_t<Int>>( value ) < 0; }
+
+    template< class Int >
+    constexpr inline auto lsb_is_set_in( const Int value )
+        -> Truth
+    { return !!(value & 1); }
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::is_even, d::is_odd,
-        d::div_up_positive,
-        d::div_up;
+        d::div_up_positive, d::div_up,
+        d::msb_is_set_in, d::lsb_is_set_in;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 
