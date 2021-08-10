@@ -22,6 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/console/interactive.hpp>
-#include <kickstart/root/console/utf8-io.hpp>
-#include <kickstart/root/console/utility.hpp>
+#include <kickstart/root/console/utility/ansi_escape_sequences.hpp>
+#include <kickstart/root/console/utility/portable_dingbats.hpp>
+#include <kickstart/root/console/utility/program-startup-support.hpp>
