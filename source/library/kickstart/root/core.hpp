@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/console/utf8-io.hpp>
-#include <kickstart/root/core/collection-util.hpp>       // ssize_
+#include <kickstart/root/core/collection-utility.hpp>    // ssize_
 #include <kickstart/root/core/failure-handling.hpp>      // hopefully, fail, …
 #include <kickstart/root/core/generate.hpp>              // generate::Relational_operators_from_compare_, …
 #include <kickstart/root/core/language.hpp>              // Size etc.
@@ -40,9 +40,6 @@ namespace kickstart::core {
     namespace generate = kickstart::        generate;
     using namespace kickstart::             language;                   // <core/language.hpp>
     using namespace kickstart::             large_integers;             // <core/large-integers.hpp>
-    inline namespace                        language_support {
-        using namespace kickstart::             stdlib;                 //   <stdlib-includes/basics.hpp>
-    }
     using namespace kickstart::             matrices;                   // <core/matrices.hpp>
     namespace process = kickstart::         process;                    // <core/process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>

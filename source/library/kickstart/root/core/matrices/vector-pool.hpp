@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util.hpp>
+#include <kickstart/root/core/collection-utility.hpp>
 #include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <unordered_map>

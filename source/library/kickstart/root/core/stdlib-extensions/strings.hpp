@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util.hpp>                       // ssize, tail_of
-#include <kickstart/root/core/language/types/Truth.hpp>                        // Truth
-#include <kickstart/root/core/language/types/type-aliases.hpp>                 // C_str
-#include <kickstart/root/core/text-encoding/ascii/character-util.hpp>    // ascii::whitespace
+#include <kickstart/root/core/collection-utility.hpp>                   // ssize, tail_of
+#include <kickstart/root/core/language/types/Truth.hpp>                 // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>          // C_str
+#include <kickstart/root/core/text-encoding/ascii/character-util.hpp>   // ascii::whitespace
 
 #include <initializer_list>
 #include <iterator>

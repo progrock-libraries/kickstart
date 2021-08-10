@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util/collection-pointers.hpp>              // begin_ptr_of
+#include <kickstart/root/core/collection-utility/collection-pointers.hpp>           // begin_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>     // C_file
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>                        // for_each_part_of

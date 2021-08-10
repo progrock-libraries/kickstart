@@ -22,6 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util/collection-pointers.hpp>
-#include <kickstart/root/core/collection-util/collection-sizes.hpp>
-#include <kickstart/root/core/collection-util/collection-iteration.hpp>
+#include <kickstart/root/core/collection-utility/collection-pointers.hpp>
+#include <kickstart/root/core/collection-utility/collection-sizes.hpp>
+#include <kickstart/root/core/collection-utility/collection-iteration.hpp>

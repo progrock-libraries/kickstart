@@ -26,7 +26,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util.hpp>                           // int_size
+#include <kickstart/root/core/collection-utility.hpp>                       // int_size
 #include <kickstart/root/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/language/types/Truth.hpp>

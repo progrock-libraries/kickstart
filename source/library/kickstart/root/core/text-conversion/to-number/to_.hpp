@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-util.hpp>                              // begin_ptr_of, end_ptr_of
+#include <kickstart/root/core/collection-utility.hpp>                           // begin_ptr_of, end_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/language/types/type-aliases.hpp>                  // C_str
 #include <kickstart/root/core/language/operations/bits_per_.hpp>                // bits_per_

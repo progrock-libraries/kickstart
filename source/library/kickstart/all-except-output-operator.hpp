@@ -29,7 +29,8 @@
 namespace kickstart::all_except_output_operator {
     using namespace core;               // From "core.hpp"
     using namespace console_startup;    // From "console.hpp"
-    using namespace utf8_io;            // Ditto.
+    using namespace stdlib;             // From "cpp.hpp"
+    using namespace utf8_io;            // From "console.hpp"
 
     namespace ansi_escape_seq       = kickstart::ansi_escape_sequences;
     namespace portable_dingbats     = kickstart::portable_dingbats;

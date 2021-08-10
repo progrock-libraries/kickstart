@@ -28,12 +28,12 @@
 
 #include <kickstart/root/system-specific/get_path_of_executable.interface.hpp>
 
-#include <kickstart/root/core/collection-util/collection-sizes.hpp>              // int_size
+#include <kickstart/root/core/collection-utility/collection-sizes.hpp>              // int_size
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
-#include <kickstart/root/system-specific/windows/api/error-handling.hpp>         // GetLastError, SetLasError
-#include <kickstart/root/system-specific/windows/api/process-info.hpp>           // GetModuleFileName
-#include <kickstart/root/system-specific/windows/text-encoding-conversion.hpp>   // to_utf8
+#include <kickstart/root/system-specific/windows/api/error-handling.hpp>            // GetLastError, SetLasError
+#include <kickstart/root/system-specific/windows/api/process-info.hpp>              // GetModuleFileName
+#include <kickstart/root/system-specific/windows/text-encoding-conversion.hpp>      // to_utf8
 
 #include <string>
 
