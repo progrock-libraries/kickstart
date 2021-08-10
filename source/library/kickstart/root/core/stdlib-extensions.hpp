@@ -28,7 +28,7 @@
 #include <kickstart/root/core/stdlib-extensions/collections.hpp>
 #include <kickstart/root/core/stdlib-extensions/files.hpp>
 #include <kickstart/root/core/stdlib-extensions/basic_type_properties.hpp>
-#include <kickstart/root/core/stdlib-extensions/math.hpp>
+#include <kickstart/root/core/stdlib-extensions/calc.hpp>
 #include <kickstart/root/core/stdlib-extensions/standard-exceptions.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>
 #include <kickstart/root/core/stdlib-extensions/type-traits.hpp>

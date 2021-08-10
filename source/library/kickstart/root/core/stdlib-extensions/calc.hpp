@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/math/calculator-functionality.hpp>
-#include <kickstart/root/core/stdlib-extensions/math/collection-calculations.hpp>
-#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp>
-#include <kickstart/root/core/stdlib-extensions/math/integer-operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/calc/calculator-stuff.hpp>
+#include <kickstart/root/core/stdlib-extensions/calc/statistics.hpp>
+#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/calc/integer-operations.hpp>

@@ -22,54 +22,35 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/types/Truth.hpp>                    // Truth
+#include <kickstart/root/core/language/operations/intpow.hpp>       // intpow
+#include <kickstart/root/core/language/types/Truth.hpp>             // Truth
+#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>
 
-#include <type_traits>
-
+#include <kickstart/c/math.hpp> // The header that this one mainly extends.
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::math::_definitions {
+    namespace kl = kickstart::language;
+    using   kl::lx::intpow,
+            kl::Truth;
 
-    using   std::is_arithmetic_v,
-            std::enable_if_t;
-
-    template< class Number,
-        class = enable_if_t<is_arithmetic_v<Number>>
-        >
-    inline constexpr auto compare( const Number a, const Number b )
-        -> int
-    { return (a < b? -1 : a == b? 0 : +1); }
-
-    template< class Number >
-    inline constexpr auto sign_of( const Number x )
-        -> int
-    { return (x > 0) - (x < 0); }
-
-    template< class Number >
-    inline constexpr auto abs( const Number v )
-        -> Number
-    { return (v < 0? -v : v); }
-
-    template< class Number_type >
-    inline constexpr auto squared( const Number_type x ) 
-        -> Number_type
-    { return x*x; }
-
-    template< class Number_type >
-    inline constexpr auto cubed( const Number_type x ) 
-        -> Number_type
-    { return x*x*x; }
+    constexpr double e                  = 2.71828182845904523536;
+    constexpr double log2e              = 1.44269504088896340736;
+    constexpr double log10e             = 0.434294481903251827651;
+    constexpr double ln2                = 0.693147180559945309417;
+    constexpr double ln10               = 2.30258509299404568402;
+    constexpr double pi                 = 3.14159265358979323846;
+    constexpr double inv_sqrt_pi        = 1.12837916709551257390;
+    constexpr double sqrt2              = 1.41421356237309504880;
+    constexpr double inv_sqrt2          = 0.707106781186547524401;
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::compare,
-        d::sign_of,
-        d::abs,
-        d::squared,
-        d::cubed;
+        d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi, d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2,
+        d::intpow;
     }  // namespace exported names
 }  // namespace kickstart::math::_definitions
 
-namespace kickstart::math   { using namespace _definitions::exported_names; }
+namespace kickstart::math           { using namespace _definitions::exported_names; }

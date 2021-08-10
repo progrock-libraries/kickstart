@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/operations/bits_per_.hpp>                    // lx::bits_per_
-#include <kickstart/root/core/language/types/Truth.hpp>                             // Truth
-#include <kickstart/root/core/language/types/type-aliases.hpp>                      // Type_, Uint_
-#include <kickstart/root/core/stdlib-extensions/math/integer-operations.hpp>        // lsb_is_set_in, msb_is_set_in
-#include <kickstart/root/core/stdlib-extensions/math/general-number-operations.hpp> // compare
+#include <kickstart/root/core/language/operations/bits_per_.hpp>                            // lx::bits_per_
+#include <kickstart/root/core/language/types/Truth.hpp>                                     // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>                              // Type_, Uint_
+#include <kickstart/root/core/stdlib-extensions/calc/integer-operations.hpp>                // lsb_is_set_in, msb_is_set_in
+#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>    // compare
 
 #include <kickstart/c/assert.hpp>       // assert
 
