@@ -32,10 +32,11 @@
 #include <string>
 #include <utility>
 
-namespace kickstart::utf8_io::_definitions {
+namespace kickstart::console::_definitions {
     namespace k = kickstart;
     using   k::c_files::C_file, k::c_files::C_file_operations,
-            k::text_stream_io::Abstract_text_parts_reader;
+            k::text_stream_io::Abstract_text_parts_reader,
+            k::utf8_io::output;
     using   std::function,
             std::optional,
             std::string,
@@ -79,6 +80,6 @@ namespace kickstart::utf8_io::_definitions {
     namespace exports{ using
         d::Text_parts_reader;
     }  // exports
-}  // namespace kickstart::utf8_io::_definitions
+}  // namespace kickstart::console::_definitions
 
-namespace kickstart::utf8_io    { using namespace _definitions::exports; }
+namespace kickstart::console    { using namespace _definitions::exports; }

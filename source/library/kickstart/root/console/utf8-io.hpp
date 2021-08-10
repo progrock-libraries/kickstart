@@ -25,5 +25,4 @@
 #include <kickstart/root/console/utf8-io/io.hpp>
 #include <kickstart/root/console/utf8-io/output-operator.hpp>
 #include <kickstart/root/console/utf8-io/temporary-c-tty-stream-wrappings.hpp>
-#include <kickstart/root/console/utf8-io/Text_parts_reader.hpp>
 #include <kickstart/root/console/utf8-io/wrapped-c-tty-streams.hpp>
