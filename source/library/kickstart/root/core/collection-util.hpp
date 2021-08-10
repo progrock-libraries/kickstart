@@ -24,4 +24,4 @@
 
 #include <kickstart/root/core/collection-util/collection-pointers.hpp>
 #include <kickstart/root/core/collection-util/collection-sizes.hpp>
-#include <kickstart/root/core/collection-util/collection-iteration_.hpp>
+#include <kickstart/root/core/collection-util/collection-iteration.hpp>
