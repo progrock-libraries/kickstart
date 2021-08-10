@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/files/C_file_operations.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/wrapped-clib-io.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/c_files/C_file_operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/c_files/wrapped-clib-io.hpp>
 #include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
 
 #include <utility>

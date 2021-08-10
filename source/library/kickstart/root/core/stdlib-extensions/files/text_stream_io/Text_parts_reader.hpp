@@ -22,24 +22,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/console/utf8-io/io.hpp>
-#include <kickstart/root/core/language/syntax/Default.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/C_file_operations.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Abstract_text_parts_reader.hpp>
 
-#include <functional>
-#include <optional>
-#include <string>
-#include <utility>
-
-namespace kickstart::utf8_io::_definitions {
-    namespace k = kickstart;
-    using   k::c_files::C_file, k::c_files::C_file_operations,
-            k::text_stream_io::Abstract_text_parts_reader;
-    using   std::function,
-            std::optional,
-            std::string,
-            std::move;
+namespace kickstart::text_stream_io::_definitions {
+    namespace cf = kickstart::c_files;
+    using cf::C_file, cf::C_file_operations;
 
     class Text_parts_reader final:
         private C_file_operations,
@@ -47,30 +35,24 @@ namespace kickstart::utf8_io::_definitions {
     {
         using Self = Text_parts_reader;
 
-        string                  m_line_prompt;
-
-        auto input_line()
-            -> optional<string>
-            override
-        {
-            if( not m_line_prompt.empty() ) {
-                output( m_line_prompt );
-            }
-            return C_file_operations::input_or_none();
-        }
+        virtual auto input_line()
+            -> optional<string> override
+        { return C_file_operations::input_or_none(); }
 
     public:
-        Text_parts_reader(
-            string                  line_prompt     = "",
-            function<Stop_checker>  should_stop     = stop_on_empty_line
-            ):
-            C_file_operations( stdin ),
-            Abstract_text_parts_reader( move( should_stop ) ),
-            m_line_prompt( move( line_prompt ) )
+        Text_parts_reader( const C_file f ):
+            C_file_operations( f )
         {}
 
         Text_parts_reader( Self&& ) = default;
         auto operator=( Self&& ) -> Self& = default;
+
+        // From Abstract_text_parts_reader:
+        //
+        // auto input_part_view_or_none() -> optional<string_view>;
+        // auto input_part_view() -> string_view;
+        // auto input_part_string() -> string;
+        // auto input_part() -> string_view;
 
         using C_file_operations::has_passed_eof;
     };
@@ -79,6 +61,6 @@ namespace kickstart::utf8_io::_definitions {
     namespace exports{ using
         d::Text_parts_reader;
     }  // exports
-}  // namespace kickstart::utf8_io::_definitions
+}  // namespace kickstart::text_stream_io::_definitions
 
-namespace kickstart::utf8_io    { using namespace _definitions::exports; }
+namespace kickstart::text_stream_io { using namespace _definitions::exports; }

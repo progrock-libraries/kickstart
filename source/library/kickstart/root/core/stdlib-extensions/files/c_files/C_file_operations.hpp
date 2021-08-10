@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/language/types/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/wrapped-clib-io.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/c_files/wrapped-clib-io.hpp>
 #include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
 
 namespace kickstart::c_files::_definitions {

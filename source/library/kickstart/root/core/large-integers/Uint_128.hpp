@@ -24,13 +24,13 @@
 
 #include <kickstart/root/core/collection-util/collection-sizes.hpp>  // int_size
 #include <kickstart/root/core/generate/Relational_operators_from_compare_.hpp>  // Relational_operators_from_compare_
-#include <kickstart/root/core/language/syntax/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
-#include <kickstart/root/core/language/misc/Tag_.hpp>                     // Tag_
-#include <kickstart/root/core/language/types/Truth.hpp>                    // Truth
-#include <kickstart/root/core/language/types/type-aliases.hpp>             // C_str
-#include <kickstart/root/core/large-integers/Uint_double_of_.hpp>    // Uint_double_of_
-#include <kickstart/root/core/stdlib-extensions/limits.hpp>          // bits_per_
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>         // spaces
+#include <kickstart/root/core/language/syntax/KS_STATIC_ASSERT.hpp>                             // KS_STATIC_ASSERT
+#include <kickstart/root/core/language/misc/Tag_.hpp>                                           // Tag_
+#include <kickstart/root/core/language/types/Truth.hpp>                                         // Truth
+#include <kickstart/root/core/language/types/type-aliases.hpp>                                  // C_str
+#include <kickstart/root/core/large-integers/Uint_double_of_.hpp>                               // Uint_double_of_
+#include <kickstart/root/core/stdlib-extensions/basic_type_properties/integer-properties.hpp>   // bits_per_
+#include <kickstart/root/core/stdlib-extensions/strings.hpp>                                    // spaces
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert
@@ -59,7 +59,7 @@ namespace kickstart::large_integers::_definitions {
 
     using   kl::C_str, kl::Truth;
     using   kickstart::collection_util::int_size;
-    using   kickstart::limits::bits_per_;
+    using   kickstart::basic_type_properties::bits_per_;
     using   std::min,
             std::array,
             std::bitset,

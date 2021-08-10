@@ -22,6 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/files/c_files.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/filesystem.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io.hpp>
+#include <kickstart/root/core/stdlib-extensions/basic_type_properties/floating-point-properties.hpp>
+#include <kickstart/root/core/stdlib-extensions/basic_type_properties/integer-properties.hpp>

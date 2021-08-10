@@ -22,4 +22,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stream-io-util/Abstract_text_parts_reader.hpp>
+#include <kickstart/root/core/language/operations/intpow.hpp>        // lx::intpow_
+
+#include <kickstart/c/float.hpp>    // DBL_MANT_DIG
+
+namespace kickstart::basic_type_properties::_definitions {
+    namespace lx = kickstart::language::lx;
+
+    template< class Fp_type > constexpr int bits_per_mantissa_of_ = 0;  // "= 0" for clang.
+    template<> constexpr int bits_per_mantissa_of_<float>           = FLT_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<double>          = DBL_MANT_DIG;
+    template<> constexpr int bits_per_mantissa_of_<long double>     = LDBL_MANT_DIG;
+
+    template< class Fp_type >
+    constexpr Fp_type largest_exact_integer_of_ =
+        lx::intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) +
+        (lx::intpow( Fp_type( 2 ), bits_per_mantissa_of_<Fp_type> - 1 ) - 1);
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::bits_per_mantissa_of_,
+        d::largest_exact_integer_of_;
+    }  // namespace exported names
+}  // namespace kickstart::basic_type_properties::_definitions
+
+namespace kickstart::basic_type_properties  { using namespace _definitions::exported_names; }

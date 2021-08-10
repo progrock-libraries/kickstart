@@ -24,10 +24,10 @@
 
 #include <kickstart/root/core/collection-util.hpp>                              // begin_ptr_of, end_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/types/type-aliases.hpp>                        // C_str
-#include <kickstart/root/core/language/operations/bits_per_.hpp>                        // bits_per_
+#include <kickstart/root/core/language/types/type-aliases.hpp>                  // C_str
+#include <kickstart/root/core/language/operations/bits_per_.hpp>                // bits_per_
 #include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
-#include <kickstart/root/core/stdlib-extensions/limits.hpp>                     // largest_exact_integer_of_
+#include <kickstart/root/core/stdlib-extensions/basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>                    // split_on_whitespace
 #include <kickstart/root/core/text-conversion/to-text.hpp>
 #include <kickstart/root/core/text-conversion/to-number-exceptions.hpp>
@@ -47,7 +47,7 @@ namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::collection_util;             // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;                    // C_str
-    using namespace kickstart::limits;                      // largest_exact_integer_of_
+    using namespace kickstart::basic_type_properties;       // largest_exact_integer_of_
     using namespace kickstart::text_conversion::exception;  // Invalid_argument, Out_of_range, ...
 
     namespace ascii = kickstart::ascii;

@@ -33,7 +33,7 @@
 #include <string_view>
 #include <vector>
 
-namespace kickstart::stream_io_util::_definitions {
+namespace kickstart::text_stream_io::_definitions {
     using namespace kickstart::text_conversion;     // ""s, string operator<<
     using   kickstart::language::Truth,
             kickstart::strings::split_on_whitespace;
@@ -107,6 +107,6 @@ namespace kickstart::stream_io_util::_definitions {
     namespace exports{ using
         d::Abstract_text_parts_reader;
     }  // exports
-}  // namespace kickstart::stream_io_util::_definitions
+}  // namespace kickstart::text_stream_io::_definitions
 
-namespace kickstart::stream_io_util    { using namespace _definitions::exports; }
+namespace kickstart::text_stream_io   { using namespace _definitions::exports; }

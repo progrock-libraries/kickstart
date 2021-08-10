@@ -31,7 +31,6 @@
 #include <kickstart/root/core/matrices.hpp>              // Matrix_ etc.
 #include <kickstart/root/core/process.hpp>               // process::Commandline
 #include <kickstart/root/core/stdlib-extensions.hpp>     // bits_per, …
-#include <kickstart/root/core/stream-io-util.hpp>        // Abstract_text_parts_reader
 #include <kickstart/root/core/text-conversion.hpp>
 #include <kickstart/root/core/text-encoding.hpp>
 
@@ -49,7 +48,7 @@ namespace kickstart::core {
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
         namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
-        using namespace kickstart::             limits;                 //   <… limits.hpp>
+        using namespace kickstart::             basic_type_properties;  //   <… basic_type_properties.hpp>
         namespace math = kickstart::            math;                   //   <… math.hpp>
         namespace std_exception = kickstart::std_exception;             //   <… standard-exceptions.hpp>
         using namespace kickstart::             strings;                //   <… strings.hpp>

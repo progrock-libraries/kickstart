@@ -22,17 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/types/type-aliases.hpp>             // C_str
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>         // C_str_ref
-#include <kickstart/root/core/stdlib-extensions/files/clib-file-types.hpp>
+#include <kickstart/root/core/language/types/type-aliases.hpp>                      // C_str
+#include <kickstart/root/core/stdlib-extensions/strings.hpp>                        // C_str_ref
+#include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>     // C_file
 
 #include <filesystem> 
 #include <optional>
 
 namespace kickstart::system_specific::_definitions {
-    using kickstart::c_files::C_file;
     using kickstart::language::C_str;
     using kickstart::strings::C_str_ref;
+    using kickstart::c_files::C_file;
 
     namespace fs = std::filesystem;
 
