@@ -24,11 +24,8 @@
 
 #include <kickstart/root/core/language/operations/bits_per_.hpp>     // bits_per_
 
-#include <kickstart/c/float.hpp>    // DBL_MANT_DIG
-
 namespace kickstart::basic_type_properties::_definitions {
     namespace lx = kickstart::language::lx;
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
