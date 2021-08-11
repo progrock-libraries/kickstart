@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace.language/operations/intpow.hpp>        // lx::intpow_
+#include <kickstart/root/core/namespace▸language/operations/intpow.hpp>        // lx::intpow_
 
 #include <kickstart/c/float.hpp>    // DBL_MANT_DIG
 

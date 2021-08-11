@@ -1,1 +1,1 @@
-#include <kickstart/root/core/text-encoding/namespace.utf8/bom.hpp>
+﻿#include <kickstart/root/core/text-encoding/namespace▸utf8/bom.hpp>

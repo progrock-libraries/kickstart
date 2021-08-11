@@ -1,1 +1,1 @@
-#include <kickstart/root/core/namespace.generate.hpp>
+﻿#include <kickstart/root/core/namespace▸generate.hpp>

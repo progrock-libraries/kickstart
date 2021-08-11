@@ -26,7 +26,7 @@
 #if defined( KS_OS_IS_UNIX ) || defined( KS_USE_FOPEN_PLEASE )
 #
 #   include <kickstart/root/core/failure-handling.hpp>
-#   include <kickstart/root/core/namespace.language/types/type-aliases.hpp>
+#   include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>
 #   include <kickstart/root/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #   include <filesystem>
 #   include <kickstart/c/stdio.hpp>
@@ -58,7 +58,7 @@
 #else
 #
 #   include <kickstart/root/core/failure-handling.hpp>
-#   include <kickstart/root/core/namespace.language/types/type-aliases.hpp>
+#   include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>
 #   include <kickstart/root/core/stdlib-extensions/c-files/clib-file-types.hpp>
 #   include <filesystem>
 #   include <kickstart/c/stdio.hpp>

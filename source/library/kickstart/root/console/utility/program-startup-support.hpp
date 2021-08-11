@@ -26,11 +26,11 @@
 
 #include <kickstart/root/console/utf8-io/io.hpp>                        // output_error_message
 #include <kickstart/root/core/failure-handling.hpp>                  // Clean_app_exception
-#include <kickstart/root/core/namespace.language/types/Truth.hpp>
-#include <kickstart/root/core/namespace.language/types/type-aliases.hpp>             // Type_, C_str
-#include <kickstart/root/core/namespace.language/types/startup-function-types.hpp>   // Simple_startup, Startup_with_args
-#include <kickstart/root/core/text-encoding/namespace.ascii/string-util.hpp>   // is_all_ascii
-#include <kickstart/root/core/namespace.process/Commandline.hpp>               // Commandline
+#include <kickstart/root/core/namespace▸language/types/Truth.hpp>
+#include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>             // Type_, C_str
+#include <kickstart/root/core/namespace▸language/types/startup-function-types.hpp>   // Simple_startup, Startup_with_args
+#include <kickstart/root/core/text-encoding/namespace▸ascii/string-util.hpp>   // is_all_ascii
+#include <kickstart/root/core/namespace▸process/Commandline.hpp>               // Commandline
 #include <kickstart/root/system-specific/os-detection.hpp>
 
 #include <assert.h>         // assert

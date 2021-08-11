@@ -1,1 +1,1 @@
-#include <kickstart/root/core/namespace.language/syntax/KS_STATIC_ASSERT.hpp>
+﻿#include <kickstart/root/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>

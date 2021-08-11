@@ -69,7 +69,7 @@ In [the above code](source/examples/motivational/name-and-age.kickstart.cpp):
 
 * The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp#L9-L13) e.g. for [**colors**](source/library/kickstart/root/console/ansi_escape_seq.hpp#L102-L149).
  
-* The `kickstart::all` namespace also provides [a few select standard library identifiers](source/library/kickstart/core/namespace.language/stdlib-includes/basics.hpp#L37-L55). In particular you can use `string`, `array` and `vector` directly instead of writing `std::string`, `std::array` and `std::vector`.
+* The `kickstart::all` namespace also provides [a few select standard library identifiers](source/library/kickstart/core/namespace▸language/stdlib-includes/basics.hpp#L37-L55). In particular you can use `string`, `array` and `vector` directly instead of writing `std::string`, `std::array` and `std::vector`.
 
 If `to_<int>` ignored all characters after a valid specification then text input `3,14` would erroneously convert to number `3`, and the program could then produce an incorrect but still plausible result. That’s unfortunately the default in the standard library, but Kickstart fixes that for you. If `to_<int>` finds extraneous characters other than leading or trailing whitespace, then it fails with an exception.
 

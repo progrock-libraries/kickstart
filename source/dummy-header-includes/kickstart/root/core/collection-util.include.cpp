@@ -1,1 +1,1 @@
-#include <kickstart/root/core/namespace.collection_utility.hpp>
+﻿#include <kickstart/root/core/namespace▸collection_utility.hpp>

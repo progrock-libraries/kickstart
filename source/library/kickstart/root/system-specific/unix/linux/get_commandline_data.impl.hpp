@@ -29,8 +29,8 @@
 #include <kickstart/root/system-specific/Commandline_data.hpp>
 
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
-#include <kickstart/root/core/text-encoding/namespace.ascii/character-util.hpp>
+#include <kickstart/root/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/text-encoding/namespace▸ascii/character-util.hpp>
 
 #include <kickstart/c/string.hpp>       // strlen
 

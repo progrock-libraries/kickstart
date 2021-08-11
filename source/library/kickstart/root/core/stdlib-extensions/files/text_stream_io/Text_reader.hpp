@@ -24,7 +24,7 @@
 
 #include <kickstart/root/core/stdlib-extensions/files/c_files/Abstract_c_file.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/filesystem/Path.hpp>
-#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
 
 namespace kickstart::c_files::_definitions {
     using namespace kickstart::text_conversion;     // ""s, string operator<<

@@ -25,8 +25,8 @@
 
 #include <kickstart/root/console/utf8-io/wrapped-c-tty-streams.hpp>
 #include <kickstart/root/core/failure-handling.hpp>          // hopefully, fail
-#include <kickstart/root/core/namespace.language/types/Truth.hpp>
-#include <kickstart/root/core/namespace.language/types/type-aliases.hpp>     // Size etc.
+#include <kickstart/root/core/namespace▸language/types/Truth.hpp>
+#include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>     // Size etc.
 
 #include <kickstart/c/stdio.hpp>    // stdin, stdout, stdcerr, ...
 

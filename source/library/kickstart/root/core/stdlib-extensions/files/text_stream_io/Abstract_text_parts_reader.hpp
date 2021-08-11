@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace.language/types/Truth.hpp>
+#include <kickstart/root/core/namespace▸language/types/Truth.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>
-#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
-#include <kickstart/root/core/text-encoding/namespace.ascii/string-util.hpp>
+#include <kickstart/root/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/text-encoding/namespace▸ascii/string-util.hpp>
 
 #include <functional>
 #include <optional>
