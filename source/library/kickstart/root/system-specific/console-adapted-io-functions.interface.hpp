@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-utility/collection-pointers.hpp>           // begin_ptr_of
+#include <kickstart/root/core/collection_utility/collection-pointers.hpp>           // begin_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>     // C_file
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>                        // for_each_part_of
@@ -37,7 +37,7 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::c_files;
-    using namespace kickstart::collection_util;
+    using namespace kickstart::collection_utility;
     using namespace kickstart::language;            // Size, Index
     using namespace kickstart::strings;             // for_each_part
     using   std::optional,

@@ -24,7 +24,7 @@
 
 #include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/types/type-aliases.hpp>                        // C_str
+#include <kickstart/root/core/language/types/type-aliases.hpp>                  // C_str
 #include <kickstart/root/core/text-encoding/ascii/character-util.hpp>
 #include <kickstart/root/system-specific/get_commandline_data.hpp>              // get_command_line_data
 
@@ -42,14 +42,15 @@
 #include <vector>
 
 namespace kickstart::process::_definitions {
-    using namespace kickstart::collection_util;     // Array_span_
+    using namespace kickstart::collection_utility;  // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Type_, C_str
     using namespace std::string_view_literals;
 
     namespace ascii = kickstart::ascii;
 
-    using   kickstart::system_specific::Commandline_data,
+    using   kickstart::collections::Array_span_,
+            kickstart::system_specific::Commandline_data,
             kickstart::system_specific::get_commandline_data;
     using   std::unique_ptr,
             std::string,

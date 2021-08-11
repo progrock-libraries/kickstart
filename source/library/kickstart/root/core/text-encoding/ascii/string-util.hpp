@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-utility.hpp>            // int_size
+#include <kickstart/root/core/collection_utility.hpp>            // int_size
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>     // spaces
 #include <kickstart/root/core/language/types/Truth.hpp>
 #include <kickstart/root/core/text-encoding/ascii/character-util.hpp>
@@ -31,7 +31,7 @@
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::collection_util;     // begin_ptr_of, end_ptr_of, int_size
+    using namespace kickstart::collection_utility;     // begin_ptr_of, end_ptr_of, int_size
     using namespace kickstart::language;            // Truth
     using namespace kickstart::strings;             // spaces
     using namespace std::string_view_literals;      // ""sv

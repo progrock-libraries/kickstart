@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-utility.hpp>
+#include <kickstart/root/core/collection_utility.hpp>
 #include <kickstart/root/core/language/types/Truth.hpp>
 
 #include <unordered_map>
@@ -33,7 +33,7 @@
 namespace kickstart::matrices::_definitions {
     namespace k = kickstart;
     using   k::language::Truth,
-            k::collection_util::int_size;
+            k::collection_utility::int_size;
     using   std::unordered_map,
             std::vector,
             std::is_array_v, std::remove_extent_t,

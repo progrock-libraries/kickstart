@@ -26,7 +26,7 @@
 
 #include <iterator>
 
-namespace kickstart::collection_util::_definitions {
+namespace kickstart::collection_utility::_definitions {
     using   std::next;
 
     template< class C >
@@ -99,6 +99,6 @@ namespace kickstart::collection_util::_definitions {
         d::Iteration_,
         d::all_of, d::head_of, d::tail_of;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_util::_definitions
+}  // namespace kickstart::core::collection_utility::_definitions
 
-namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+namespace kickstart::collection_utility    { using namespace _definitions::exported_names; }

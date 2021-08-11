@@ -44,7 +44,7 @@
 
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::language;                // Truth etc.
-    using namespace kickstart::collection_util;         // begin_ptr_of
+    using namespace kickstart::collection_utility;         // begin_ptr_of
     using namespace kickstart::text_conversion;
     using   std::queue,
             std::wstring,

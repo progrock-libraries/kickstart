@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-utility.hpp>                           // begin_ptr_of, end_ptr_of
+#include <kickstart/root/core/collection_utility.hpp>                           // begin_ptr_of, end_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/language/types/type-aliases.hpp>                  // C_str
 #include <kickstart/root/core/language/operations/bits_per_.hpp>                // bits_per_
@@ -44,7 +44,7 @@
 #include <vector>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::collection_util;             // begin_ptr_of, end_ptr_of
+    using namespace kickstart::collection_utility;          // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;                    // C_str
     using namespace kickstart::basic_type_properties;       // largest_exact_integer_of_
@@ -52,6 +52,7 @@ namespace kickstart::text_conversion::_definitions {
 
     namespace ascii = kickstart::ascii;
 
+    using   kickstart::collections::Array_span_;
     using   kickstart::strings::split_on_whitespace;
     using   kickstart::language::lx::bits_per_;
     using   std::min, std::max,                         // <algorithm>

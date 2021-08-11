@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/console/utf8-io.hpp>
-#include <kickstart/root/core/collection-utility.hpp>    // ssize_
+#include <kickstart/root/core/collection_utility.hpp>    // ssize_
 #include <kickstart/root/core/failure-handling.hpp>      // hopefully, fail, …
 #include <kickstart/root/core/generate.hpp>              // generate::Relational_operators_from_compare_, …
 #include <kickstart/root/core/language.hpp>              // Size etc.
@@ -35,7 +35,7 @@
 #include <kickstart/root/core/text-encoding.hpp>
 
 namespace kickstart::core {
-    using namespace kickstart::             collection_util;            // <core/collection-util.hpp>
+    using namespace kickstart::             collection_utility;            // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     namespace generate = kickstart::        generate;
     using namespace kickstart::             language;                   // <core/language.hpp>

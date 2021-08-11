@@ -28,7 +28,7 @@
 #include <string>
 
 namespace kickstart::language::_definitions {
-    using   kickstart::collection_util::Array_span_;
+    using   kickstart::collections::Array_span_;
     using   std::string;
 
     using Cmdline_args          = Array_span_<const string>;

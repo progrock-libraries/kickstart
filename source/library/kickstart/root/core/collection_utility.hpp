@@ -22,34 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/cpp/basics.hpp>                                 // size, ssize
-#include <kickstart/root/core/language/types/type-aliases.hpp>            // Size
-
-namespace kickstart::collection_util::_definitions {
-    namespace kl = kickstart::language;
-    namespace ks = kickstart::stdlib;
-    using   kl::Size, kl::Index;
-    using   ks::size, ks::ssize;
-
-    template< class Result, class Collection >
-    inline constexpr auto size_( const Collection& c )
-        -> Result
-    { return static_cast<Result>( size( c ) ); }
-
-    template< class Collection >
-    inline constexpr auto int_size( const Collection& c )
-        -> int
-    { return size_<int>( c ); }
-
-
-    //----------------------------------------------------------- @exported:
-    namespace d = _definitions;
-    namespace exported_names { using
-        d::Size, d::Index,
-        d::size, d::ssize,          // The standard library’s functions.
-        d::size_,
-        d::int_size;
-    }  // namespace exported names
-}  // namespace kickstart::core::collection_util::_definitions
-
-namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+#include <kickstart/root/core/collection_utility/collection-pointers.hpp>
+#include <kickstart/root/core/collection_utility/collection-sizes.hpp>
+#include <kickstart/root/core/collection_utility/collection-iteration.hpp>

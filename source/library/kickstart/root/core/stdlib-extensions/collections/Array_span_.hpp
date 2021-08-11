@@ -22,19 +22,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection-utility/collection-pointers.hpp>
-#include <kickstart/root/core/collection-utility/collection-sizes.hpp>
+#include <kickstart/root/core/collection_utility/collection-pointers.hpp>
+#include <kickstart/root/core/collection_utility/collection-sizes.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
 
 #include <memory>       // std::addressof
 
-namespace kickstart::collection_util::_definitions {
+namespace kickstart::collections::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
     using namespace kickstart::text_conversion;     // ""s, operator<<
 
-    namespace kc = kickstart::collection_util;
+    namespace kc = kickstart::collection_utility;
     using kc::begin_ptr_of, kc::end_ptr_of;
     using kickstart::language::Size;
 
@@ -139,6 +139,6 @@ namespace kickstart::collection_util::_definitions {
         d::array_span_of,
         d::byte_span_of;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_util::_definitions
+}  // namespace kickstart::core::collection_utility::_definitions
 
-namespace kickstart::collection_util    { using namespace _definitions::exported_names; }
+namespace kickstart::collections    { using namespace _definitions::exported_names; }
