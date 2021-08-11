@@ -22,13 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/misc/Tag_.hpp>
-#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.language/misc/Tag_.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/Abstract_c_file.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/filesystem/Path.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>     // starts_with
-#include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
-#include <kickstart/root/core/text-encoding/utf8/bom.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/text-encoding/namespace.utf8/bom.hpp>
 
 namespace kickstart::tag {
     using kickstart::language::Tag_;

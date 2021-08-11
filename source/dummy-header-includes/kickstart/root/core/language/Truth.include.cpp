@@ -1,1 +1,1 @@
-#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>

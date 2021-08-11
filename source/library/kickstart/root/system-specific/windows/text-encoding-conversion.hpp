@@ -26,10 +26,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection_utility.hpp>                       // int_size
+#include <kickstart/root/core/namespace.collection_utility.hpp>                       // int_size
 #include <kickstart/root/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert
 #include <kickstart/c/limits.hpp>       // INT_MAX

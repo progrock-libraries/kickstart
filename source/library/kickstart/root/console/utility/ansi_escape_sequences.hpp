@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/text-conversion/to-text.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-text.hpp>
 
 #include <unordered_map>
 

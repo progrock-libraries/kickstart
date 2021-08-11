@@ -28,7 +28,7 @@
 
 #include <kickstart/root/system-specific/Console.hpp>
 
-#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert
 #include <kickstart/c/limits.hpp>       // INT_MAX

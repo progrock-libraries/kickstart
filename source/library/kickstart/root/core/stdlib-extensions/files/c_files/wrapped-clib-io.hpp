@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection_utility/collection-pointers.hpp>
+#include <kickstart/root/core/namespace.collection_utility/collection-pointers.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>
-#include <kickstart/root/core/language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>
 
 #include <optional>
 #include <string>

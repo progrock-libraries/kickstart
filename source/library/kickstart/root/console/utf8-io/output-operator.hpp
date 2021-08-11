@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/console/utf8-io/io.hpp>
-#include <kickstart/root/core/text-conversion/to-text.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-text.hpp>
 
 namespace kickstart::utf8_output_operator::_definitions {
     using namespace kickstart::utf8_io;

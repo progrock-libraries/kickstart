@@ -28,8 +28,8 @@
 
 #include <kickstart/root/system-specific/Console.interface.hpp>
 
-#include <kickstart/root/core/language/types/Truth.hpp>
-#include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/namespace.language/types/Truth.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
 #include <kickstart/root/system-specific/windows/api/consoles.hpp>
 #include <kickstart/root/system-specific/windows/api/error-handling.hpp>
 #include <kickstart/root/system-specific/windows/api/files.hpp>          // CreateFile

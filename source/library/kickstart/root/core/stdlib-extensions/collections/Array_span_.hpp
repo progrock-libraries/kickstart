@@ -22,10 +22,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/collection_utility/collection-pointers.hpp>
-#include <kickstart/root/core/collection_utility/collection-sizes.hpp>
+#include <kickstart/root/core/namespace.collection_utility/collection-pointers.hpp>
+#include <kickstart/root/core/namespace.collection_utility/collection-sizes.hpp>
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/text-conversion/to-text/string-output-operator.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-text/string-output-operator.hpp>
 
 #include <memory>       // std::addressof
 

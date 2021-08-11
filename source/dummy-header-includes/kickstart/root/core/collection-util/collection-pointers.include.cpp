@@ -1,1 +1,1 @@
-#include <kickstart/root/core/collection_utility/collection-pointers.hpp>
+#include <kickstart/root/core/namespace.collection_utility/collection-pointers.hpp>

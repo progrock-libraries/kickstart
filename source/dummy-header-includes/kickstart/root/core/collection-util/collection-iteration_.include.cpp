@@ -1,2 +1,2 @@
 
-#include <kickstart/root/core/collection_utility/collection-iteration.hpp>
+#include <kickstart/root/core/namespace.collection_utility/collection-iteration.hpp>

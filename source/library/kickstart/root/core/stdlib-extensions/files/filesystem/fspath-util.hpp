@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/failure-handling.hpp>
-//#include <kickstart/root/core/language/types/type-aliases.hpp>
+//#include <kickstart/root/core/namespace.language/types/type-aliases.hpp>
 #include <kickstart/root/core/stdlib-extensions/strings.hpp>             // C_str_ref
 #include <kickstart/root/system-specific/get_path_of_executable.hpp>
 #include <kickstart/root/system-specific/open-c-file.hpp>

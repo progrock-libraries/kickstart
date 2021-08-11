@@ -1,1 +1,1 @@
-#include <kickstart/root/core/text-conversion/to-number.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-number.hpp>

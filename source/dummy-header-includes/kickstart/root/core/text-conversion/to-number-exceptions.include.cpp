@@ -1,1 +1,1 @@
-#include <kickstart/root/core/text-conversion/to-number-exceptions.hpp>
+#include <kickstart/root/core/namespace.text_conversion/to-number-exceptions.hpp>

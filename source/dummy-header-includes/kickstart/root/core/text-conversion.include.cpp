@@ -1,1 +1,1 @@
-#include <kickstart/root/core/text-conversion.hpp>
+#include <kickstart/root/core/namespace.text_conversion.hpp>

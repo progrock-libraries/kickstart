@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/console/utf8-io/io.hpp>
-#include <kickstart/root/core/language/syntax/Default.hpp>
+#include <kickstart/root/core/namespace.language/syntax/Default.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/c_files/C_file_operations.hpp>
 #include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Abstract_text_parts_reader.hpp>
 

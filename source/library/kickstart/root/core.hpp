@@ -23,25 +23,25 @@
 // SOFTWARE.
 
 #include <kickstart/root/console/utf8-io.hpp>
-#include <kickstart/root/core/collection_utility.hpp>    // ssize_
-#include <kickstart/root/core/failure-handling.hpp>      // hopefully, fail, …
-#include <kickstart/root/core/generate.hpp>              // generate::Relational_operators_from_compare_, …
-#include <kickstart/root/core/language.hpp>              // Size etc.
-#include <kickstart/root/core/large-integers.hpp>        // Uint_128
-#include <kickstart/root/core/matrices.hpp>              // Matrix_ etc.
-#include <kickstart/root/core/process.hpp>               // process::Commandline
-#include <kickstart/root/core/stdlib-extensions.hpp>     // bits_per, …
-#include <kickstart/root/core/text-conversion.hpp>
+#include <kickstart/root/core/namespace.collection_utility.hpp>     // ssize_
+#include <kickstart/root/core/failure-handling.hpp>                 // hopefully, fail, …
+#include <kickstart/root/core/namespace.generate.hpp>               // generate::Relational_operators_from_compare_, …
+#include <kickstart/root/core/namespace.language.hpp>               // Size etc.
+#include <kickstart/root/core/namespace.large_integers.hpp>                   // Uint_128
+#include <kickstart/root/core//namespace.matrices.hpp>                         // Matrix_ etc.
+#include <kickstart/root/core/namespace.process.hpp>                          // process::Commandline
+#include <kickstart/root/core/stdlib-extensions.hpp>                // bits_per, …
+#include <kickstart/root/core/namespace.text_conversion.hpp>
 #include <kickstart/root/core/text-encoding.hpp>
 
 namespace kickstart::core {
     using namespace kickstart::             collection_utility;            // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     namespace generate = kickstart::        generate;
-    using namespace kickstart::             language;                   // <core/language.hpp>
-    using namespace kickstart::             large_integers;             // <core/large-integers.hpp>
-    using namespace kickstart::             matrices;                   // <core/matrices.hpp>
-    namespace process = kickstart::         process;                    // <core/process.hpp>
+    using namespace kickstart::             language;                   // <core/namespace.namespace.language.hpp>
+    using namespace kickstart::             large_integers;             // <core/namespace.large_integers.hpp>
+    using namespace kickstart::             matrices;                   // <core//namespace.matrices.hpp>
+    namespace process = kickstart::         process;                    // <core/namespace.process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
         namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
@@ -52,10 +52,10 @@ namespace kickstart::core {
         using namespace kickstart::             type_traits;            //   <… type-traits.hpp>
         using namespace kickstart::             x_utility;              //   <… utility.hpp>
     }
-    using namespace kickstart::             text_conversion;            // <core/text-conversion.hpp>
+    using namespace kickstart::             text_conversion;            // <core/namespace.text_conversion.hpp>
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
-        namespace ascii = kickstart::           ascii;                  //   <… ascii.hpp>
-        namespace utf8 = kickstart::            utf8;                   //   <… utf8.hpp>
+        namespace ascii = kickstart::           ascii;                  //   <… /namespace.ascii.hpp>
+        namespace utf8 = kickstart::            utf8;                   //   <… namespace.utf8.hpp>
     }
     namespace utf8_io = kickstart::         utf8_io;                    // <console/utf8-io.hpp>
 }  // namespace kickstart::core

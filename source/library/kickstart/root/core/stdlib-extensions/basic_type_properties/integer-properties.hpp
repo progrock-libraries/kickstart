@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/language/operations/bits_per_.hpp>     // bits_per_
+#include <kickstart/root/core/namespace.language/operations/bits_per_.hpp>     // bits_per_
 
 namespace kickstart::basic_type_properties::_definitions {
     namespace lx = kickstart::language::lx;
