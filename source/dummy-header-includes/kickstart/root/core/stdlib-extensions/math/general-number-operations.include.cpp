@@ -1,1 +1,1 @@
-#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>
+﻿#include <kickstart/root/core/stdlib-extensions/namespace▸calc/templated-numerical-operations.hpp>

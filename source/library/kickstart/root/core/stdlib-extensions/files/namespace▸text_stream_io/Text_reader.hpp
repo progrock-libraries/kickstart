@@ -22,57 +22,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/wrapped-clib-io.hpp>
-#include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸c_files/Abstract_c_file.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸fsx/Path.hpp>
+#include <kickstart/root/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
 
 namespace kickstart::c_files::_definitions {
-    using namespace language;       // Truth
-    namespace ks = kickstart::system_specific;
+    using namespace kickstart::text_conversion;     // ""s, string operator<<
 
-    class C_file_operations
+    class Text_reader:
+        public Abstract_c_file
     {
-        using Self = C_file_operations;
-        C_file_operations( const Self& ) = delete;
-        auto operator=( const Self& ) -> Self& = delete;
-
-        C_file  m_c_file;
-
     public:
-        C_file_operations( const C_file f ) noexcept:
-            m_c_file( f )
-        {
-            assert( m_c_file != nullptr );
-        }
+        explicit Text_reader( const fsx::Path& path ):
+            Abstract_c_file( open_c_file_or_x( path, "r" ) )
+        {}
 
-        auto c_file() const noexcept
-            -> C_file
-        { return m_c_file; }
-
-        void close() noexcept
+        auto input()
+            -> string
         {
-            if( m_c_file ) {
-                ::fclose( m_c_file );
-                m_c_file = nullptr;
+            if( optional<string> s = input_or_none() ) {
+                return move( s.value() );
             }
+            KS_FAIL_( End_of_file_exception, "End of file" );       // TODO: check for other fail.
+            unreachable();
         }
 
-        auto has_passed_eof() const
-            -> Truth
-        { return !!::feof( m_c_file ); }
-
-        auto in_failstate() const noexcept
-            -> Truth
-        { return !!::ferror( c_file() ); }
-
-        auto input_or_none()
-            -> optional<string>
-        { return clib_input_or_none_from( c_file() ); }
+        using Abstract_c_file::input_or_none;
+        using Abstract_c_file::has_passed_eof;
     };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::C_file_operations;
+        d::Text_reader;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 

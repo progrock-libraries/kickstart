@@ -25,7 +25,7 @@
 #include <kickstart/root/core/namespace▸language/operations/bits_per_.hpp>                            // lx::bits_per_
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>                                     // Truth
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>                              // Type_
-#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>    // abs
+#include <kickstart/root/core/stdlib-extensions/namespace▸calc/templated-numerical-operations.hpp>    // abs
 
 #include <kickstart/c/assert.hpp>       // assert
 
@@ -34,7 +34,7 @@
 
 
 // Important to not introduce possible future name conflicts with <math.h>.
-namespace kickstart::math::_definitions {
+namespace kickstart::calc::_definitions {
     namespace kl = kickstart::language;
 
     using   kl::lx::bits_per_, kl::Truth, kl::Type_;
@@ -76,6 +76,6 @@ namespace kickstart::math::_definitions {
         d::div_up_positive, d::div_up,
         d::msb_is_set_in, d::lsb_is_set_in;
     }  // namespace exported names
-}  // namespace kickstart::math::_definitions
+}  // namespace kickstart::calc::_definitions
 
-namespace kickstart::math   { using namespace _definitions::exported_names; }
+namespace kickstart::calc   { using namespace _definitions::exported_names; }

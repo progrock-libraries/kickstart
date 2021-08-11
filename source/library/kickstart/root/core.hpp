@@ -44,12 +44,12 @@ namespace kickstart::core {
     namespace process = kickstart::         process;                    // <core/namespace▸process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
-        namespace fsx = kickstart::             fsx;                    //   <… filesystem.hpp>
-        using namespace kickstart::             basic_type_properties;  //   <… basic_type_properties.hpp>
-        namespace math = kickstart::            math;                   //   <… math.hpp>
-        namespace std_exception = kickstart::std_exception;             //   <… standard-exceptions.hpp>
-        using namespace kickstart::             strings;                //   <… strings.hpp>
-        using namespace kickstart::             type_traits;            //   <… type-traits.hpp>
+        namespace fsx = kickstart::             fsx;                    //   <… namespace▸fsx.hpp>
+        using namespace kickstart::             basic_type_properties;  //   <… namespace▸basic_type_properties.hpp>
+        namespace calc = kickstart::            calc;                   //   <… namespace▸calc.hpp>
+        namespace std_exception = kickstart::std_exception;             //   <… namespace▸std_exceptions.hpp>
+        using namespace kickstart::             strings;                //   <… /namespace▸strings.hpp>
+        using namespace kickstart::             type_traits;            //   <… namespace▸type_traits.hpp>
         using namespace kickstart::             x_utility;              //   <… utility.hpp>
     }
     using namespace kickstart::             text_conversion;            // <core/namespace▸text_conversion.hpp>

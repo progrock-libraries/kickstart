@@ -22,7 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/files/c_files/Abstract_c_file.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C_file_operations.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/wrapped-clib-io.hpp>
+#include <kickstart/root/core/stdlib-extensions/namespace▸basic_type_properties/floating-point-properties.hpp>
+#include <kickstart/root/core/stdlib-extensions/namespace▸basic_type_properties/integer-properties.hpp>

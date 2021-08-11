@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/namespace▸collection_utility.hpp>            // int_size
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>     // spaces
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>     // spaces
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>
 #include <kickstart/root/core/text-encoding/namespace▸ascii/character-util.hpp>
 

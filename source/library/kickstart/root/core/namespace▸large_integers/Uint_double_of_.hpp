@@ -25,8 +25,8 @@
 #include <kickstart/root/core/namespace▸language/operations/bits_per_.hpp>                            // lx::bits_per_
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>                                     // Truth
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>                              // Type_, Uint_
-#include <kickstart/root/core/stdlib-extensions/calc/integer-operations.hpp>                // lsb_is_set_in, msb_is_set_in
-#include <kickstart/root/core/stdlib-extensions/calc/templated-numerical-operations.hpp>    // compare
+#include <kickstart/root/core/stdlib-extensions/namespace▸calc/integer-operations.hpp>                // lsb_is_set_in, msb_is_set_in
+#include <kickstart/root/core/stdlib-extensions/namespace▸calc/templated-numerical-operations.hpp>    // compare
 
 #include <kickstart/c/assert.hpp>       // assert
 
@@ -35,7 +35,7 @@
 
 namespace kickstart::large_integers::_definitions {
     namespace kl = kickstart::language;
-    namespace km = kickstart::math;
+    namespace km = kickstart::calc;
 
     using   kl::lx::bits_per_,
             kl::Truth,

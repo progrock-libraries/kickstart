@@ -25,7 +25,7 @@
 #include <kickstart/root/core/namespace▸collection_utility.hpp>        // int_size, begin_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/strings.hpp> // for_each_part_of
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp> // for_each_part_of
 #include <kickstart/root/core/text-encoding/namespace▸utf8/bom.hpp>    // bom
 
 #include <optional>

@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
+#include <kickstart/root/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>    // Array_span_
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>                  // Type_, C_str
 
 #include <string>

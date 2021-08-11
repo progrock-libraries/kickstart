@@ -22,7 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Abstract_text_parts_reader.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Text_parts_reader.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Text_reader.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Text_writer.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸fsx/fspath-util.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸fsx/Path.hpp>

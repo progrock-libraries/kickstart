@@ -24,8 +24,8 @@
 
 #include <kickstart/root/core/namespace▸collection_utility/collection-pointers.hpp>           // begin_ptr_of
 #include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>     // C_file
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>                        // for_each_part_of
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸c_files/C-file-types.hpp>     // C_file
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>                        // for_each_part_of
 #include <kickstart/root/core/text-encoding/namespace▸utf8/bom.hpp>                           // bom
 
 #include <kickstart/c/stdio.hpp>

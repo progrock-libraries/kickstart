@@ -22,54 +22,58 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace▸collection_utility/collection-pointers.hpp>
-#include <kickstart/root/core/failure-handling.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>
-
-#include <optional>
-#include <string>
-#include <string_view>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸c_files/wrapped-clib-io.hpp>
+#include <kickstart/root/system-specific/console-adapted-io-functions.hpp>
 
 namespace kickstart::c_files::_definitions {
-    using namespace collection_utility;
-    using namespace failure_handling;
-    using namespace language;           // Truth etc.
+    using namespace language;       // Truth
+    namespace ks = kickstart::system_specific;
 
-    using   std::optional,
-            std::string,
-            std::string_view;
-
-    inline auto clib_input_or_none_from( const C_file f )
-        -> optional<string>
+    class C_file_operations
     {
-        string  line;
-        int     code;
+        using Self = C_file_operations;
+        C_file_operations( const Self& ) = delete;
+        auto operator=( const Self& ) -> Self& = delete;
 
-        hopefully( not ferror( f ) )
-            or KS_FAIL( "`ferror(f)` reports true for the file" );
-        while( (code = fgetc( f )) != EOF and code != '\n' ) {
-            line += char( code );
+        C_file  m_c_file;
+
+    public:
+        C_file_operations( const C_file f ) noexcept:
+            m_c_file( f )
+        {
+            assert( m_c_file != nullptr );
         }
-        // NO check of error here in order to allow a partial read to succeed.
-        const Truth eof = (line.empty() and code == EOF);
-        if( eof ) { return {}; }
-        return line;
-    }
 
-    inline void clib_output_to( const C_file f, const string_view& s )
-    {
-        const size_t n_bytes_written = ::fwrite( begin_ptr_of( s ), 1, s.size(), f );
-        hopefully( n_bytes_written == s.size() )
-            or KS_FAIL( "::fwrite failed" );
-    }
+        auto c_file() const noexcept
+            -> C_file
+        { return m_c_file; }
+
+        void close() noexcept
+        {
+            if( m_c_file ) {
+                ::fclose( m_c_file );
+                m_c_file = nullptr;
+            }
+        }
+
+        auto has_passed_eof() const
+            -> Truth
+        { return !!::feof( m_c_file ); }
+
+        auto in_failstate() const noexcept
+            -> Truth
+        { return !!::ferror( c_file() ); }
+
+        auto input_or_none()
+            -> optional<string>
+        { return clib_input_or_none_from( c_file() ); }
+    };
 
     namespace d = _definitions;
     namespace exports{ using
-        d::C_file,
-        d::clib_input_or_none_from,
-        d::clib_output_to;
+        d::C_file_operations;
     }  // exports
 }  // namespace kickstart::c_files::_definitions
 
-namespace kickstart::c_files        { using namespace _definitions::exports; }
+namespace kickstart::c_files    { using namespace _definitions::exports; }

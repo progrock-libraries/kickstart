@@ -1,1 +1,1 @@
-//#include <kickstart/root/core/namespace?language/stdlib-extensions/standard-exceptions.hpp>
+//#include <kickstart/root/core/namespace?language/stdlib-extensions/namespace?std_exceptions.hpp>

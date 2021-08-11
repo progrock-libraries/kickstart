@@ -26,9 +26,9 @@
 #include <kickstart/root/core/failure-handling.hpp>
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>        // C_str
 #include <kickstart/root/core/namespace▸language/operations/bits_per_.hpp>      // bits_per_
-#include <kickstart/root/core/stdlib-extensions/collections/Array_span_.hpp>    // Array_span_
-#include <kickstart/root/core/stdlib-extensions/basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>                    // split_on_whitespace
+#include <kickstart/root/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>    // Array_span_
+#include <kickstart/root/core/stdlib-extensions/namespace▸basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>                    // split_on_whitespace
 #include <kickstart/root/core/namespace▸text_conversion/to-text.hpp>
 #include <kickstart/root/core/namespace▸text_conversion/to-number-exceptions.hpp>
 #include <kickstart/root/core/text-encoding/namespace▸ascii.hpp>

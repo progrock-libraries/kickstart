@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C_file_operations.hpp>
-#include <kickstart/root/core/stdlib-extensions/files/text_stream_io/Abstract_text_parts_reader.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸c_files/C_file_operations.hpp>
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸text_stream_io/Abstract_text_parts_reader.hpp>
 
 namespace kickstart::text_stream_io::_definitions {
     namespace cf = kickstart::c_files;

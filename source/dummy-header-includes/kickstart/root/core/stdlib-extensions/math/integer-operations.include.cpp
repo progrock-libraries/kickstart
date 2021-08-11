@@ -1,1 +1,1 @@
-#include <kickstart/root/core/stdlib-extensions/calc/integer-operations.hpp>
+﻿#include <kickstart/root/core/stdlib-extensions/namespace▸calc/integer-operations.hpp>

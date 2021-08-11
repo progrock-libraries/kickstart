@@ -29,8 +29,8 @@
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>                                         // Truth
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>                                  // C_str
 #include <kickstart/root/core/namespace▸large_integers/Uint_double_of_.hpp>                               // Uint_double_of_
-#include <kickstart/root/core/stdlib-extensions/basic_type_properties/integer-properties.hpp>   // bits_per_
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>                                    // spaces
+#include <kickstart/root/core/stdlib-extensions/namespace▸basic_type_properties/integer-properties.hpp>   // bits_per_
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>                                    // spaces
 #include <kickstart/root/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert

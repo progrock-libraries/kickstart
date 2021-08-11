@@ -23,8 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/namespace▸language/types/type-aliases.hpp>                      // C_str
-#include <kickstart/root/core/stdlib-extensions/strings.hpp>                        // C_str_ref
-#include <kickstart/root/core/stdlib-extensions/files/c_files/C-file-types.hpp>     // C_file
+#include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>                        // C_str_ref
+#include <kickstart/root/core/stdlib-extensions/files/namespace▸c_files/C-file-types.hpp>     // C_file
 
 #include <filesystem> 
 #include <optional>

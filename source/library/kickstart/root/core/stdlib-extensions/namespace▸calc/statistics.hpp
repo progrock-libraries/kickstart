@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/root/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/root/core/stdlib-extensions/type-traits.hpp>
+#include <kickstart/root/core/stdlib-extensions/namespace▸type_traits.hpp>
 
 #include <kickstart/c/stddef.hpp>       // size_t
 
@@ -31,7 +31,7 @@
 
 
 // Important to not introduce possible future name conflicts with <math.h>.
-namespace kickstart::math::_definitions {
+namespace kickstart::calc::_definitions {
     using kickstart::type_traits::Item_type_of_;
 
     template< class Collection, class Number = Item_type_of_<Collection> >
@@ -47,6 +47,6 @@ namespace kickstart::math::_definitions {
     namespace exports{ using
         d::sum_of;
     }  // namespace exports
-}  // namespace kickstart::math::_definitions
+}  // namespace kickstart::calc::_definitions
 
-namespace kickstart::math   { using namespace _definitions::exports; }
+namespace kickstart::calc   { using namespace _definitions::exports; }
