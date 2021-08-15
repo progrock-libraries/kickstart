@@ -26,18 +26,16 @@
 // SOFTWARE.
 
 
+#include <kickstart/root/core/namespace▸language/misc/Enable_if_.hpp>
+
 #include <type_traits>      // std::is_same_v
 #include <utility>          // std::enable_if_t
 
 namespace kickstart::language::_definitions {
-    using   std::is_same_v,
-            std::enable_if_t;
+    using   std::is_same_v;
 
     template< class T >
     static constexpr bool is_bool_ = is_same_v<T, bool>;
-
-    template< bool v >
-    using Enable_if_ = enable_if_t<v>;
 
     template< class Truth_class >
     struct Truth_values_

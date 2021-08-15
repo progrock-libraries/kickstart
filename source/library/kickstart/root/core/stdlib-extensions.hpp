@@ -32,4 +32,3 @@
 #include <kickstart/root/core/stdlib-extensions/failure-handling.hpp>
 #include <kickstart/root/core/stdlib-extensions//namespace▸strings.hpp>
 #include <kickstart/root/core/stdlib-extensions/namespace▸type_traits.hpp>
-#include <kickstart/root/core/stdlib-extensions/utility.hpp>

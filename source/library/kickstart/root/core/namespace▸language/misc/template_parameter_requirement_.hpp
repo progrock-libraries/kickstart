@@ -1,5 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -21,6 +22,25 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace▸language/misc/Enable_if_.hpp>
-#include <kickstart/root/core/namespace▸language/misc/Tag_.hpp>
-#include <kickstart/root/core/namespace▸language/misc/template_parameter_requirement_.hpp>
+#include <utility>
+
+namespace kickstart::x_utility::_definitions {
+    enum Template_paramameter_requirement_result_type {};
+
+    // As a function one gets an up front error message with Visual C++.
+    template< const bool v >
+    constexpr inline auto template_parameter_requirement_()
+        -> Template_paramameter_requirement_result_type
+    {
+        static_assert( v, "A template parameter requirement was not fulfilled" );
+        return {};
+    }
+
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Template_paramameter_requirement_result_type,
+        d::template_parameter_requirement_;
+    }  // namespace exported names
+}  // namespace kickstart::x_utility::_definitions 
+
+namespace kickstart::x_utility    { using namespace _definitions::exported_names; }

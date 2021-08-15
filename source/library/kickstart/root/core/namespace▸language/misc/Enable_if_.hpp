@@ -24,32 +24,19 @@
 
 #include <utility>
 
-namespace kickstart::x_utility::_definitions {
+namespace kickstart::language::_definitions {
     using   std::enable_if_t;
 
-    struct Enabled {};
+    struct Enabled {};      // Supports type inspection in debuggers and advanced editors.
 
     template< bool v >
     using Enable_if_ = enable_if_t< v, Enabled >;
 
-    enum Template_param_requirement {};
-
-    // As a function one gets an up front error message with Visual C++.
-    template< const bool v >
-    constexpr inline auto tpr_()
-        -> Template_param_requirement
-    {
-        static_assert( v, "A template parameter requirement was not fulfilled" );
-        return {};
-    }
-
     namespace d = _definitions;
     namespace exported_names { using
         d::Enabled,
-        d::Enable_if_,
-        d::Template_param_requirement,
-        d::tpr_;
+        d::Enable_if_;
     }  // namespace exported names
-}  // namespace kickstart::x_utility::_definitions 
+}  // namespace kickstart::language::_definitions 
 
-namespace kickstart::x_utility    { using namespace _definitions::exported_names; }
+namespace kickstart::language    { using namespace _definitions::exported_names; }
