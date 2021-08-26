@@ -32,7 +32,7 @@ namespace kickstart::x_utility::_definitions {
     constexpr inline auto template_parameter_requirement_()
         -> Template_paramameter_requirement_result_type
     {
-        static_assert( v, "A template parameter requirement was not fulfilled" );
+        static_assert( v, "A template parameter requirement was not satisfied" );
         return {};
     }
 
