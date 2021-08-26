@@ -22,5 +22,6 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/namespace▸language/parameters/Enable_if_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters/Possible_result_.hpp>
 #include <kickstart/main_library/core/namespace▸language/parameters/Tag_.hpp>
 #include <kickstart/main_library/core/namespace▸language/parameters/template_parameter_requirement_.hpp>

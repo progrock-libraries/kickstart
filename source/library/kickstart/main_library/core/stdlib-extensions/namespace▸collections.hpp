@@ -23,3 +23,4 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/make_array_.hpp>

@@ -1,0 +1,123 @@
+#pragma once
+
+#include <assert.h>
+
+#include <exception>        // std::(exception_ptr, rethrow_exception)
+#include <optional>         // std::optional
+#include <utility>          // std::move, std::swap
+
+namespace kickstart::language::_definitions {
+    using   std::current_exception, std::exception_ptr, std::rethrow_exception, // <exception>
+        std::optional,                          // <optional>
+        std::exception,                         // <stdexcept>
+        std::exchange, std::move, std::swap;    // <utility>
+
+    template< class Tp_value >
+    class Possible_result_
+    {
+    public:
+        using Value = Tp_value;
+
+    private:
+        optional<Value>     m_value;
+        exception_ptr       m_exception;
+
+        auto class_invariant() const
+            -> bool
+        { return not( m_value and m_exception ); }
+
+        void if_no_value_attempt_specific_throw() const
+        {
+            if( m_exception ) { rethrow_exception( m_exception ); }
+        }
+
+    public:
+        Possible_result_()
+        {
+            assert( class_invariant() );
+        }
+
+        Possible_result_( Value v ):
+            m_value( move( v ) ), m_exception()
+        { assert( class_invariant() ); }
+
+        Possible_result_( exception_ptr e ):
+            m_value(), m_exception( move( e ) )
+        { assert( class_invariant() ); }
+
+        Possible_result_( const exception& x ):
+            Possible_result_()
+        {
+            try{ throw x; } catch( ... ) { m_exception = current_exception(); }
+            assert( class_invariant() );
+        }
+
+        Possible_result_(const Possible_result_& other):
+            m_value( other.m_value ), m_exception( other.m_exception )
+        {
+            assert( class_invariant() );
+        }
+
+        Possible_result_( Possible_result_&& other ):
+            m_value( move( other.m_value ) ), m_exception( move( other.m_exception ) )
+        {
+            assert( class_invariant() );
+            assert( other.class_invariant() );
+        }
+
+        friend void swap( Possible_result_& a, Possible_result_& b ) noexcept
+        {
+            swap( a.m_value, b.m_value );
+            swap( a.m_exception, b.m_exception );
+        }
+
+        auto operator=( const Possible_result_& other )
+            -> Possible_result_&
+        {
+            Possible_result_ temp = other;
+            swap( *this, temp );
+            return *this;
+        }
+
+        auto operator=( Possible_result_&& other )
+            -> Possible_result_&
+        {
+            swap( *this, other );
+            return *this;
+        }
+
+        auto has_value() const -> bool      { return m_value.has_value(); }
+        explicit operator bool() const      { return has_value(); }
+
+        auto value() const
+            -> Value
+        {
+            if_no_value_attempt_specific_throw();
+            return m_value.value();         // Throws if `m_value` is empty.
+        }
+
+        auto value_or( const Value& a_default ) const noexcept
+            -> Value
+        { return (has_value()? m_value.value() : a_default); }
+
+        auto moved_value()
+            -> Value
+        {
+            if_no_value_attempt_specific_throw();
+            optional<Value> result = {};
+            swap( result, m_value );
+            return move( result.value() );  // Throws if `result` is empty.
+        }
+
+        auto moved_value_or( Value a_default )
+            -> Value
+        { return move( has_value()? moved_value() : a_default ); }
+    };
+
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Possible_result_;
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language    { using namespace _definitions::exported_names; }
