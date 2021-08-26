@@ -23,7 +23,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/preprocessing/KS_EXPANDED.hpp>
+#include <kickstart/preprocessing/KS_EXPANDED.hpp>
 
 // Usage: with double parenthesis, e.g.
 // 
