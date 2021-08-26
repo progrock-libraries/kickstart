@@ -111,7 +111,6 @@ namespace kickstart::language::_definitions {
         }
 
         auto has_value() const -> bool      { return m_value.has_value(); }
-        explicit operator bool() const      { return has_value(); }
 
         auto value() const
             -> Value
@@ -136,6 +135,10 @@ namespace kickstart::language::_definitions {
         auto moved_value_or( Value a_default )
             -> Value
         { return move( has_value()? moved_value() : a_default ); }
+
+        operator Value() const &    { return value(); }
+        operator Value() const &&   { return value(); }
+        operator Value() &&         { return moved_value(); }
     };
 
     template< class Value >
