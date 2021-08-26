@@ -21,6 +21,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/misc/Enable_if_.hpp>
-#include <kickstart/main_library/core/namespace▸language/misc/Tag_.hpp>
-#include <kickstart/main_library/core/namespace▸language/misc/template_parameter_requirement_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters/Enable_if_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters/Tag_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters/template_parameter_requirement_.hpp>
