@@ -23,7 +23,10 @@
 // SOFTWARE.
 
 
+#include <optional>
+
 namespace kickstart::language::_definitions {
+    using   std::optional;
 
     template< class Value_wrapper >
     struct Has_value_
@@ -32,11 +35,14 @@ namespace kickstart::language::_definitions {
         explicit operator bool() const { return v.has_value();  }
     };
 
+    template< class Value >
+    using Optional_has_value_ = Has_value_<optional<Value>>;
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Has_value_;
+        d::Has_value_,
+        d::Optional_has_value_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
