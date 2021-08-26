@@ -1,5 +1,9 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
+
+/// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
+/// than `bool`.
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -21,7 +25,22 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/Default.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/Has_value_.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_WITH.hpp>
+
+namespace kickstart::language::_definitions {
+
+    template< class Value_wrapper >
+    struct Has_value_
+    {
+        Value_wrapper v;
+        explicit operator bool() const { return v.has_value();  }
+    };
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::Has_value_;
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language       { using namespace _definitions::exported_names; }
