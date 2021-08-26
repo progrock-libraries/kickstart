@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/all-except-output-operator.hpp>
-#include <kickstart/root/console/utf8-io/output-operator.hpp>
+#include <kickstart/main_library/console/utf8-io/output-operator.hpp>
 
 namespace kickstart::all {
     using namespace all_except_output_operator; // For exposition, it's already done.

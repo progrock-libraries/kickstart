@@ -51,13 +51,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/root/core/namespace▸language/types/Truth.hpp>
+#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
 
 #include <stdlib.h>     // ::system
 
-#include <kickstart/root/system-specific/os-detection.hpp>
+#include <kickstart/main_library/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
-#   include <kickstart/root/system-specific/windows/api/consoles.hpp>   // GetConsoleProcessList
+#   include <kickstart/main_library/system-specific/windows/api/consoles.hpp>   // GetConsoleProcessList
 #endif
 
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {

@@ -1,1 +1,1 @@
-﻿#include <kickstart/root/core/namespace▸language/operations/intpow.hpp>
+﻿#include <kickstart/main_library/core/namespace▸language/operations/intpow.hpp>

@@ -1,1 +1,1 @@
-#include <kickstart/root/core/text-encoding.hpp>
+#include <kickstart/main_library/core/text-encoding.hpp>

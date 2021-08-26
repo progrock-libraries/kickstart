@@ -23,8 +23,8 @@
 // SOFTWARE.
 
 #include <kickstart/cpp-except-iostreams.hpp>       // Safe-with-`using` stuff from std library.
-#include <kickstart/root/console.hpp>
-#include <kickstart/root/core.hpp>
+#include <kickstart/main_library/console.hpp>
+#include <kickstart/main_library/core.hpp>
 
 namespace kickstart::all_except_output_operator {
     using namespace core;               // From "core.hpp"

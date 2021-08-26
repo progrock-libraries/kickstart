@@ -8,7 +8,7 @@ There’s a separate “Hello, world!”-document with [detailed installation in
 
 ### ***Thanks:***
 – Jon Macey [noted](https://www.facebook.com/groups/cppInPracticeQuestions/permalink/3863055490382079/?comment_id=3863694366984858&reply_comment_id=3863759706978324) that clang requires “`= 0`” for the [`bits_per_mantissa_` declaration](source/library/kickstart/core/stdlib-extensions/limits.hpp#L36), plus some more.<br>
-– Yahya Mohammed [noted](https://www.facebook.com/groups/cppInPracticeQuestions/permalink/3894807053873589/?comment_id=3896282353726059) a [missing `#include`](source/library/kickstart/root/system-specific/linux/get_commandline_data.impl.hpp#L35) directive.<br>
+– Yahya Mohammed [noted](https://www.facebook.com/groups/cppInPracticeQuestions/permalink/3894807053873589/?comment_id=3896282353726059) a [missing `#include`](source/library/kickstart/main_library/system-specific/linux/get_commandline_data.impl.hpp#L35) directive.<br>
 – Max Yttril [noted](https://www.facebook.com/groups/cppInPracticeQuestions/permalink/3949130701774557/?comment_id=3965718920115735&__cft__[0]=AZVzQCehbjFgUJyVy5GuzCrOfEnAZOJyH4zmDV8M-ZIQqOGrLahR976YaZnht5bxncmid-XIF0XrtMFJTQ9H-lXzzAP3dy-LqT152l7WDQnEnj2FuGcb_FFcb-Di3ZmuwkDtnkUri6GvCW5dIHxXmjdw&__tn__=R]-R) some problems with compiling Kickstart on the Mac.
 ## ***Example usage:***
 
@@ -67,7 +67,7 @@ In [the above code](source/examples/motivational/name-and-age.kickstart.cpp):
 
 * The `to_<int>` function ignores ASCII whitespace on the ends of the string, but other extraneous characters cause failure.
 
-* The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp#L9-L13) e.g. for [**colors**](source/library/kickstart/root/console/ansi_escape_seq.hpp#L102-L149).
+* The `out` stream also supports [ANSI escape sequences](source/examples/console/colored-text.cpp#L9-L13) e.g. for [**colors**](source/library/kickstart/main_library/console/ansi_escape_seq.hpp#L102-L149).
  
 * The `kickstart::all` namespace also provides [a few select standard library identifiers](source/library/kickstart/core/namespace▸language/stdlib-includes/basics.hpp#L37-L55). In particular you can use `string`, `array` and `vector` directly instead of writing `std::string`, `std::array` and `std::vector`.
 
