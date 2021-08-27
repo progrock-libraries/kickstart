@@ -24,36 +24,29 @@
 
 
 #include <kickstart/main_library/console/utf8-io/wrapped-c-tty-streams.hpp>
-#include <kickstart/main_library/core/failure-handling.hpp>          // hopefully, fail
-#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>     // Size etc.
+#include <kickstart/main_library/core/failure-handling.hpp>                                 // hopefully, fail
+#include <kickstart/main_library/core/namespace▸language/parameters/Possible_result_.hpp>   // Possible_result_
+#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>                   // Truth
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>            // Size etc.
 
 #include <kickstart/c/stdio.hpp>    // stdin, stdout, stdcerr, ...
 
+#include <exception>
 #include <optional>
 #include <stdexcept>
-#include <optional>
 #include <string>
 #include <string_view>
 
 namespace kickstart::utf8_io::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, fail
-    using namespace kickstart::language;            // Truth, Size etc.
+    using namespace kickstart::language;            // Truth, Size, Possible_result_, etc.
     using namespace kickstart::utf8_io;
 
-    using   std::optional,
-            std::runtime_error,
-            std::optional,
-            std::string,
-            std::string_view;
-
-    inline auto input_or_none()
-        -> optional<string>
-    { return the_c_tty_streams().std_in.input_or_none(); }
-
-    inline auto input()
-        -> string
-    { return the_c_tty_streams().std_in.input(); }
+    using   std::current_exception,     // <exception>
+            std::optional,              // <optional>
+            std::runtime_error,         // <stdexcept>
+            std::string,                // <string>
+            std::string_view;           // <string_view>
 
     inline void output( const string_view& s )
     {
@@ -68,6 +61,23 @@ namespace kickstart::utf8_io::_definitions {
         }
     }
 
+    inline auto input()
+       -> Possible_result_<string>
+    {
+        try {
+            return the_c_tty_streams().std_in.input();
+        } catch( ... ) {
+            return current_exception();
+        }
+    }
+
+    inline auto input( const string_view& prompt )
+        -> Possible_result_<string>
+    {
+        output( prompt );
+        return input();
+    }
+
     inline void output_error_message( const string_view& s )
     {
         auto& err_stream = the_c_tty_streams().std_err;
@@ -75,20 +85,12 @@ namespace kickstart::utf8_io::_definitions {
         err_stream.flush();
     }
 
-    inline auto input( const string_view& prompt )
-        -> string
-    {
-        output( prompt );
-        return input();
-    }
-
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
         d::End_of_file_exception,       // Re-exported here for convenience.
-        d::input_or_none,
-        d::input,
         d::output,
+        d::input,
         d::output_error_message;
     }  // namespace exported names
 }  // namespace kickstart::utf8_io::_definitions

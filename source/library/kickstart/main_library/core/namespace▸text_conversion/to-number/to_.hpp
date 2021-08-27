@@ -22,13 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸collection_utility.hpp>                 // begin_ptr_of, end_ptr_of
+#include <kickstart/main_library/core/namespace▸collection_utility.hpp>                             // begin_ptr_of, end_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>        // C_str
-#include <kickstart/main_library/core/namespace▸language/operations/bits_per_.hpp>      // bits_per_
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>    // Array_span_
+#include <kickstart/main_library/core/namespace▸language/parameters/Possible_result_.hpp>
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>                    // C_str
+#include <kickstart/main_library/core/namespace▸language/operations/bits_per_.hpp>                  // bits_per_
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>      // Array_span_
 #include <kickstart/main_library/core/stdlib-extensions/namespace▸basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                    // split_on_whitespace
+#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                     // split_on_whitespace
 #include <kickstart/main_library/core/namespace▸text_conversion/to-text.hpp>
 #include <kickstart/main_library/core/namespace▸text_conversion/to-number-exceptions.hpp>
 #include <kickstart/main_library/core/text-encoding/namespace▸ascii.hpp>
@@ -67,6 +68,13 @@ namespace kickstart::text_conversion::_definitions {
         const string_view&          s,
         const Type_<const char**>   pp_beyond_spec = nullptr
         ) -> Number;
+
+    template< class Number, class String >
+    auto to_(
+        const Possible_result_<String>&     s,
+        const Type_<const char**>           pp_beyond_spec = nullptr
+        ) -> Number
+    { return to_<Number>( static_cast<string_view>( +s ), pp_beyond_spec ); }
 
     template< class Number >
     auto to_vector_( const Array_span_<const string_view>& strings )

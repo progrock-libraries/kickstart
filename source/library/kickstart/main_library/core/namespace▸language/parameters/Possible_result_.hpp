@@ -43,12 +43,12 @@ namespace kickstart::language::_definitions {
         using Value = Tp_value;
 
     private:
-        optional<Value>     m_value;
+        optional<Value>     m_opt_value;
         exception_ptr       m_exception;
 
         auto class_invariant() const
             -> bool
-        { return not( m_value and m_exception ); }
+        { return not( m_opt_value and m_exception ); }
 
         void if_no_value_attempt_specific_throw() const
         {
@@ -62,11 +62,11 @@ namespace kickstart::language::_definitions {
         }
 
         Possible_result_( Value v ):
-            m_value( move( v ) ), m_exception()
+            m_opt_value( move( v ) ), m_exception()
         { assert( class_invariant() ); }
 
         Possible_result_( exception_ptr e ):
-            m_value(), m_exception( move( e ) )
+            m_opt_value(), m_exception( move( e ) )
         { assert( class_invariant() ); }
 
         Possible_result_( const exception& x ):
@@ -77,13 +77,13 @@ namespace kickstart::language::_definitions {
         }
 
         Possible_result_(const Possible_result_& other):
-            m_value( other.m_value ), m_exception( other.m_exception )
+            m_opt_value( other.m_opt_value ), m_exception( other.m_exception )
         {
             assert( class_invariant() );
         }
 
         Possible_result_( Possible_result_&& other ):
-            m_value( move( other.m_value ) ), m_exception( move( other.m_exception ) )
+            m_opt_value( move( other.m_opt_value ) ), m_exception( move( other.m_exception ) )
         {
             assert( class_invariant() );
             assert( other.class_invariant() );
@@ -91,7 +91,7 @@ namespace kickstart::language::_definitions {
 
         friend void swap( Possible_result_& a, Possible_result_& b ) noexcept
         {
-            swap( a.m_value, b.m_value );
+            swap( a.m_opt_value, b.m_opt_value );
             swap( a.m_exception, b.m_exception );
         }
 
@@ -110,25 +110,27 @@ namespace kickstart::language::_definitions {
             return *this;
         }
 
-        auto has_value() const -> bool      { return m_value.has_value(); }
+        auto has_value() const
+            -> bool
+        { return m_opt_value.has_value(); }
 
         auto value() const
             -> Value
         {
             if_no_value_attempt_specific_throw();
-            return m_value.value();         // Throws if `m_value` is empty.
+            return m_opt_value.value();         // Throws if `m_opt_value` is empty.
         }
 
         auto value_or( const Value& a_default ) const noexcept
             -> Value
-        { return (has_value()? m_value.value() : a_default); }
+        { return (has_value()? m_opt_value.value() : a_default); }
 
         auto moved_value()
             -> Value
         {
             if_no_value_attempt_specific_throw();
             optional<Value> result = {};
-            swap( result, m_value );
+            swap( result, m_opt_value );
             return move( result.value() );  // Throws if `result` is empty.
         }
 
@@ -139,6 +141,10 @@ namespace kickstart::language::_definitions {
         operator Value() const &    { return value(); }
         operator Value() const &&   { return value(); }
         operator Value() &&         { return moved_value(); }
+
+        auto operator+() const &    -> Value    { return value(); }
+        auto operator+() const &&   -> Value    { return value(); }
+        auto operator+() &&         -> Value    { return moved_value(); }
     };
 
     template< class Value >
