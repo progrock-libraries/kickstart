@@ -1,4 +1,4 @@
-#include <kickstart/all.hpp>
+#include <kickstart.hpp>
 using namespace kickstart::all;
 
 auto main() -> int

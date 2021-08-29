@@ -77,13 +77,12 @@ namespace kickstart::fsx::_definitions {
         auto fspath() -> fs::path& { return m_value; }
         auto fspath() const -> const fs::path& { return m_value; }
 
-
         auto operator-() const -> const fs::path& { return fspath(); }      // Workaround for g++.
         operator const fs::path& () const { return fspath(); }              // Should work for std.
 
         auto to_string() const 
             -> string
-        { return u8_from( m_value ); }
+        { return u8_from( m_value.lexically_normal() ); }
 
 
         //--------------------------- Modifiers:
