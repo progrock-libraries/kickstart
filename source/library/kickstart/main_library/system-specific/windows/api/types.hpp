@@ -39,7 +39,7 @@ namespace kickstart::winapi::_definitions {
     // to define KS_USE_WINDOWS_H or BOOST_USE_WINDOWS_H or both in the build.
 
     #ifdef MessageBox       // <windows.h> has been included
-        using   ::BOOL, ::DWORD, ::HANDLE, ::HMODULE, ::UINT;
+        using   ::BOOL, ::DWORD, ::HANDLE, ::HMODULE, ::HWND, ::UINT;
 
         const int       max_path                = MAX_PATH;
         const HANDLE    invalid_handle_value    = INVALID_HANDLE_VALUE;
@@ -49,6 +49,7 @@ namespace kickstart::winapi::_definitions {
         using BOOL      = int32_t;      // Or just `int`, which is 32-bit in Windows.
         using DWORD     = uint32_t;
         using HANDLE    = void*;
+        using HWND      = struct Window_handle_t*;
         using HMODULE   = struct Module_handle_t*;
         using UINT      = uint32_t;
 

@@ -175,8 +175,8 @@ namespace kickstart::system_specific::_definitions {
         ~Windows_console()
         {
             if( m_original_mode != winapi::DWORD( -1 ) ) {
-                const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
-                winapi::SetConsoleMode( console_handle, m_original_mode );
+                //const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
+                //winapi::SetConsoleMode( console_handle, m_original_mode );
             }
         }
 
@@ -188,10 +188,10 @@ namespace kickstart::system_specific::_definitions {
             const winapi::HANDLE console_handle = winapi::GetStdHandle( winapi::std_output_handle );
             const Truth is_console = !!winapi::GetConsoleMode( console_handle, &m_original_mode );
             if( is_console ) {
-                winapi::SetConsoleMode(
-                    console_handle,
-                    (m_original_mode | winapi::enable_virtual_terminal_processing) & ~winapi::enable_extended_flags
-                    );
+                //winapi::SetConsoleMode(
+                //    console_handle,
+                //    (m_original_mode | winapi::enable_virtual_terminal_processing) & ~winapi::enable_extended_flags
+                //    );
             }
         }
 

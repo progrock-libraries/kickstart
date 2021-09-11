@@ -60,7 +60,7 @@ Here’s the classic “Hello, world!” program expressed with Kickstart consol
 
 *File ([io/hello-world.cpp](examples/io/hello-world.cpp)):*
 ~~~cpp
-#include <kickstart/all.hpp>
+#include <kickstart.hpp>
 using namespace kickstart::all;
 
 auto main() -> int
@@ -87,15 +87,24 @@ The **`cl`** command invokes the Visual C++ 2019 compiler, and option `/Fe"hello
 
 ### **2.2. Prevent console window closing in Windows, in a good way.**
 
-Beginners that are learning in Windows, typically insert a “stop here” statement at the end of each program. This keeps the Windows console window open when the program has finished so that the program’s output can be viewed. The stopping statement can be a portable input statement, or it can be e.g. a Windows-specific `system("pause")`, but anyway it’s problematic:
+Beginners that are learning in Windows typically insert a “stop here” statement at the end of each program.
 
-* It’s *unreliable*: in a typical beginner's program the input buffer may not be empty at the end, so that the execution doesn’t stop at an input statement at the end.
-* It’s *unclean*: the `main` code becomes less clean, and with a `system` command also needlessly non-portable.
-* It’s *premature*: at the point where the program stops (if it stops), static cleanup has not yet been performed, so any effects from that can’t be observed.
-* It’s *annoying*: when the program is run from a command interpreter the user needlessly has to interact with it to terminate it at the end.
-* It’s *obstructive*: when the program is used in a script/batch file, including for testing such as measuring the run time, one must work around the stopping behavior.
+This keeps the Windows console window open when the program has finished so that the program’s output can be viewed.
 
-With Kickstart you can largely avoid the above five problems by instead **force-including** the **`<kickstart/~keep-console.hpp>`** header. “Force-including” means that you use a compiler option to include it, instead of an `#include` directive in the code. With Visual C++ it’s option `/FI`, and with g++ it’s `-include`.
+The stopping statement can be a portable input statement, or it can be e.g. a Windows-specific `system("pause")`, but anyway it’s problematic, because it’s unreliable, unclean, premature, annoying and obstructive:
+
+* It’s *unreliable*:  
+  in a typical beginner's program the input buffer may not be empty at the end, so that the execution doesn’t stop at an input statement at the end.
+* It’s *unclean*:  
+  the `main` code becomes less clean, and with a `system` command also needlessly non-portable.
+* It’s *premature*:  
+  at the point where the program stops (if it stops), static cleanup has not yet been performed, so any effects from that can’t be observed.
+* It’s *annoying*:  
+  when the program is run from a command interpreter the user needlessly has to interact with it to terminate it at the end.
+* It’s *obstructive*:  
+  when the program is used in a script/batch file, including for testing such as measuring the run time, one must work around the stopping behavior.
+
+With Kickstart you can largely avoid the above five problems by instead **force-including** the **`<kickstart/~keep-console.hpp>`** header. “Force-including” means that you use a compiler option to include it instead of an `#include` directive in the code. With Visual C++ it’s option `/FI`, and with g++ it’s `-include`.
 
 > [C:\my\dev\libraries\kickstart-1\documentation\tutorial\examples\io\]  
 > \> ***cl hello-world.cpp /FI"kickstart/~keep-console.hpp" /Fe"hello"***  

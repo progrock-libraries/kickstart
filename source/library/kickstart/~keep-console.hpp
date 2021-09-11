@@ -57,39 +57,63 @@
 
 #include <kickstart/main_library/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
-#   include <kickstart/main_library/system-specific/windows/api/consoles.hpp>   // GetConsoleProcessList
+#   include <kickstart/main_library/system-specific/windows/api/consoles.hpp>       // GetConsoleProcessList
+#   include <kickstart/main_library/system-specific/windows/api/message-box.hpp>    // MessageBoxW
 #endif
 
 namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a {
     using kickstart::language::Truth;
 
     #if defined( KS_OS_IS_WIN64 )
-        inline const auto& pause_command = "pause";
+        namespace winapi = kickstart::winapi;
 
-        inline auto is_console_owner()
+        void wait_for_user_close_action()
+        {
+            // A free message box allows copying text from the console window.
+            winapi::MessageBoxW(
+                0,
+                L"Press the OK button to close the window",
+                L"Program execution finished",
+                winapi::mb_iconinformation | winapi::mb_setforeground | winapi::mb_topmost
+                );
+        }
+
+        inline auto is_sole_console_owner()
             -> Truth
         {
-            namespace winapi = kickstart::winapi;
             winapi::DWORD dummy;
             return (winapi::GetConsoleProcessList( &dummy, 1 ) == 1);
         }
     #elif defined( KS_OS_IS_UNIX )
-        inline const auto& pause_command =
-            "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy";
+#error b
+        void wait_for_user_close_action()
+        {
+            system( "read -p '\033[90m▷ Press Enter to continue:\033[0m ' dummy" );
+        }
 
-        inline auto is_console_owner()
+        inline auto is_sole_console_owner()
             -> Truth
         { return true; }        // TODO: Maybe actually check this, if that's possible.
     #else
     #   error "This header is for Windows and Unix platforms only."
-    #   include <because.this_header_is_for_windows_and_unix_platforms_only>
+    #   include <stop-compilation>
     #endif
 
     struct Stop_at_end
     {
-        ~Stop_at_end() { if( is_console_owner() ) { ::system( pause_command ); } }
+        ~Stop_at_end() { if( is_sole_console_owner() ) { wait_for_user_close_action(); } }
         Stop_at_end() {}
     };
     
-    inline const Stop_at_end dummy{};
+    struct Stop_invoker
+    {
+        Stop_invoker()
+        {
+            system( "cmd /c echo blah" );
+            static const Stop_at_end dummy{};
+            (void)dummy;
+        }
+    };
+
+    static const Stop_invoker dummy;
 } // namespace uuid_59f0e797_cfa5_4452_9c30_3473b888089a
