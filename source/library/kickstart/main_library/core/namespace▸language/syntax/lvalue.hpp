@@ -1,7 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
-
-// A static assert with reasonable diagnostic also with the Visual C++ compiler.
+#include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
@@ -23,18 +22,21 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/preprocessing/KS_EXPANDED.hpp>
 
-// Usage: with double parenthesis, e.g.
-// 
-//      KS_BASIC_STATIC_ASSERT(( sizeof( My_map_<int, double>::Value ) >= 4 ));
-//
-#define KS_BASIC_STATIC_ASSERT( expr ) \
-    static_assert( KS_EXPANDED expr, "static_assert" #expr )
+namespace kickstart::language::_definitions {
 
-// Usage: e.g.
-// 
-//      KS_STATIC_ASSERT( sizeof( My_map_<int, double>::Value ) >= 4 );
-//
-#define KS_STATIC_ASSERT( ... ) \
-    KS_BASIC_STATIC_ASSERT(( __VA_ARGS__ ))
+    template< class T >
+    auto lvalue( T& ref ) -> T& { return ref; }
+
+    template< class T >
+    auto lvalue( T&& ) -> T& = delete;  // Not an lvalue.
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::lvalue;
+    }  // namespace exported names
+}  // namespace kickstart::language::_definitions
+
+namespace kickstart::language       { using namespace _definitions::exported_names; }

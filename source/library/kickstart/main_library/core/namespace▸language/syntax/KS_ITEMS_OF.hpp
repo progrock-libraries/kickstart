@@ -1,8 +1,6 @@
 ﻿// Source encoding: utf-8  --  π is (or should be) a lowercase greek pi.
 #pragma once
 
-// A static assert with reasonable diagnostic also with the Visual C++ compiler.
-
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,18 +21,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/preprocessing/KS_EXPANDED.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax/lvalue.hpp>
+#include <iterator>
 
-// Usage: with double parenthesis, e.g.
-// 
-//      KS_BASIC_STATIC_ASSERT(( sizeof( My_map_<int, double>::Value ) >= 4 ));
-//
-#define KS_BASIC_STATIC_ASSERT( expr ) \
-    static_assert( KS_EXPANDED expr, "static_assert" #expr )
+#define KS_LVALUE( c ) kickstart::language::lvalue( c )
 
-// Usage: e.g.
-// 
-//      KS_STATIC_ASSERT( sizeof( My_map_<int, double>::Value ) >= 4 );
-//
-#define KS_STATIC_ASSERT( ... ) \
-    KS_BASIC_STATIC_ASSERT(( __VA_ARGS__ ))
+#define KS_ITEMS_OF( c ) \
+    std::begin( KS_LVALUE( c ) ), std::end( KS_LVALUE( c ) )
