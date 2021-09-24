@@ -2,9 +2,6 @@
 #pragma once
 #include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
-/// `Truth` is a drop-in replacement for `bool` without implicit conversion from/to types other
-/// than `bool`.
-
 // Copyright (c) 2020 Alf P. Steinbach. MIT license, with license text:
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy

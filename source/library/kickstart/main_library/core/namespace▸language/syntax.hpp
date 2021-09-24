@@ -22,6 +22,5 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/namespace▸language/syntax/Default.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/Has_value_.hpp>
 #include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>
 #include <kickstart/main_library/core/namespace▸language/syntax/KS_WITH.hpp>

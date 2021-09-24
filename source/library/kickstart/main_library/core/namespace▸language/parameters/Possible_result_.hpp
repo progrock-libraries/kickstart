@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/Has_value_.hpp>
+#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
 
 #include <assert.h>
 
@@ -48,9 +48,16 @@ namespace kickstart::language::_definitions {
 
         auto class_invariant() const
             -> bool
-        { return not( m_opt_value and m_exception ); }
+        {
+            const Truth both_defined = (m_opt_value and m_exception);
+            return not both_defined;
+        }
 
-        void if_no_value_attempt_specific_throw() const
+        auto no_value() const
+            -> Truth
+        { return !!m_exception; }
+
+        void attempt_specific_throw() const
         {
             if( m_exception ) { rethrow_exception( m_exception ); }
         }
@@ -117,7 +124,9 @@ namespace kickstart::language::_definitions {
         auto value() const
             -> Value
         {
-            if_no_value_attempt_specific_throw();
+            if( no_value() ) {
+                attempt_specific_throw();
+            }
             return m_opt_value.value();         // Throws if `m_opt_value` is empty.
         }
 
@@ -128,7 +137,9 @@ namespace kickstart::language::_definitions {
         auto moved_value()
             -> Value
         {
-            if_no_value_attempt_specific_throw();
+            if( no_value() ) {
+                attempt_specific_throw();
+            }
             optional<Value> result = {};
             swap( result, m_opt_value );
             return move( result.value() );  // Throws if `result` is empty.
@@ -139,21 +150,18 @@ namespace kickstart::language::_definitions {
         { return move( has_value()? moved_value() : a_default ); }
 
         operator Value() const &    { return value(); }
-        operator Value() const &&   { return value(); }
         operator Value() &&         { return moved_value(); }
 
+        operator optional<Value>() const &  { return m_opt_value; }
+        operator optional<Value>() &&       { return move( m_opt_value ); }
+
         auto operator+() const &    -> Value    { return value(); }
-        auto operator+() const &&   -> Value    { return value(); }
         auto operator+() &&         -> Value    { return moved_value(); }
     };
 
-    template< class Value >
-    using Result_has_value_ = Has_value_<Possible_result_<Value>>;
-
     namespace d = _definitions;
     namespace exported_names { using
-        d::Possible_result_,
-        d::Result_has_value_;
+        d::Possible_result_;
     }  // namespace exported names
 }  // namespace kickstart::language::_definitions
 
