@@ -23,11 +23,13 @@
 // SOFTWARE.
 
 #include <kickstart/cpp/basics.hpp>         // size
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>    // Size
 
-#include <iterator>
+#include <iterator>     // std::(distance, next)
 
 namespace kickstart::collection_utility::_definitions {
-    using   std::next;
+    using   kickstart::language::Size;
+    using   std::distance, std::next;
 
     template< class C >
     inline auto begin_of( C& c )
@@ -59,6 +61,7 @@ namespace kickstart::collection_utility::_definitions {
 
         auto begin() const -> Iterator { return m_it_begin; }
         auto end() const -> Iterator { return m_it_end; }
+        auto size() const -> Size { return distance( m_it_begin, m_it_end ); }
     };
 
     template< class Iterator >
@@ -95,6 +98,7 @@ namespace kickstart::collection_utility::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::Size,
         d::begin_of, d::end_of,
         d::Iteration_,
         d::all_of, d::head_of, d::tail_of;

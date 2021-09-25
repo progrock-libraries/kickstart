@@ -122,7 +122,7 @@ namespace kickstart::language::_definitions {
         { return m_opt_value.has_value(); }
 
         auto value() const
-            -> Value
+            -> const Value&
         {
             if( no_value() ) {
                 attempt_specific_throw();
@@ -130,8 +130,9 @@ namespace kickstart::language::_definitions {
             return m_opt_value.value();         // Throws if `m_opt_value` is empty.
         }
 
+        // Only valid till the end of the full-expression evaluation.
         auto value_or( const Value& a_default ) const noexcept
-            -> Value
+            -> const Value&
         { return (has_value()? m_opt_value.value() : a_default); }
 
         auto moved_value()
@@ -149,14 +150,14 @@ namespace kickstart::language::_definitions {
             -> Value
         { return move( has_value()? moved_value() : a_default ); }
 
-        operator Value() const &    { return value(); }
-        operator Value() &&         { return moved_value(); }
+        operator const Value& () const &            { return value(); }
+        operator Value() &&                         { return moved_value(); }
 
-        operator optional<Value>() const &  { return m_opt_value; }
-        operator optional<Value>() &&       { return move( m_opt_value ); }
+        operator const optional<Value>& () const &  { return m_opt_value; }
+        operator optional<Value>() &&               { return move( m_opt_value ); }
 
-        auto operator+() const &    -> Value    { return value(); }
-        auto operator+() &&         -> Value    { return moved_value(); }
+        auto operator+() const &    -> const Value& { return value(); }
+        auto operator+() &&         -> Value        { return moved_value(); }
     };
 
     namespace d = _definitions;
