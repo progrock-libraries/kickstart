@@ -139,6 +139,6 @@ namespace kickstart::arrays::_definitions {
         d::array_span_of,
         d::byte_span_of;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_utility::_definitions
+}  // namespace kickstart::arrays::_definitions
 
 namespace kickstart::arrays    { using namespace _definitions::exported_names; }
