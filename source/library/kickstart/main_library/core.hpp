@@ -35,7 +35,7 @@
 #include <kickstart/main_library/core/text-encoding.hpp>
 
 namespace kickstart::core {
-    using namespace kickstart::             collection_utility;            // <core/collection-util.hpp>
+    using namespace kickstart::             collection_utility;         // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     namespace generate = kickstart::        generate;
     using namespace kickstart::             language;                   // <core/namespace▸namespace▸language.hpp>
@@ -43,6 +43,7 @@ namespace kickstart::core {
     using namespace kickstart::             matrices;                   // <core//namespace▸matrices.hpp>
     namespace process = kickstart::         process;                    // <core/namespace▸process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
+        namespace collections = kickstart::     arrays;                 //   <… namespace▸arrays.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
         namespace fsx = kickstart::             fsx;                    //   <… namespace▸fsx.hpp>
         using namespace kickstart::             basic_type_properties;  //   <… namespace▸basic_type_properties.hpp>

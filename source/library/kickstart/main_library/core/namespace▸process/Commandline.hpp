@@ -22,9 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>    // Array_span_
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays/Array_span_.hpp>   // Array_span_
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>                  // C_str
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>            // C_str
 #include <kickstart/main_library/core/text-encoding/namespace▸ascii/character-util.hpp>
 #include <kickstart/main_library/system-specific/get_commandline_data.hpp>              // get_command_line_data
 
@@ -49,7 +49,7 @@ namespace kickstart::process::_definitions {
 
     namespace ascii = kickstart::ascii;
 
-    using   kickstart::collections::Array_span_,
+    using   kickstart::arrays::Array_span_,
             kickstart::system_specific::Commandline_data,
             kickstart::system_specific::get_commandline_data;
     using   std::unique_ptr,

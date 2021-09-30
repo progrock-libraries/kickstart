@@ -22,5 +22,5 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/make_array_.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays/Array_span_.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays/make_array_.hpp>

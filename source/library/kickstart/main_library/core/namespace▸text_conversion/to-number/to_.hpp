@@ -22,14 +22,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸collection_utility.hpp>                             // begin_ptr_of, end_ptr_of
+#include <kickstart/main_library/core/namespace▸collection_utility.hpp>                     // begin_ptr_of, end_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/namespace▸language/parameters/Possible_result_.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>                    // C_str
-#include <kickstart/main_library/core/namespace▸language/operations/bits_per_.hpp>                  // bits_per_
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸collections/Array_span_.hpp>      // Array_span_
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>            // C_str
+#include <kickstart/main_library/core/namespace▸language/operations/bits_per_.hpp>          // bits_per_
+#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays/Array_span_.hpp>   // Array_span_
 #include <kickstart/main_library/core/stdlib-extensions/namespace▸basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                     // split_on_whitespace
+#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>             // split_on_whitespace
 #include <kickstart/main_library/core/namespace▸text_conversion/to-text.hpp>
 #include <kickstart/main_library/core/namespace▸text_conversion/to-number-exceptions.hpp>
 #include <kickstart/main_library/core/text-encoding/namespace▸ascii.hpp>
@@ -53,7 +53,7 @@ namespace kickstart::text_conversion::_definitions {
 
     namespace ascii = kickstart::ascii;
 
-    using   kickstart::collections::Array_span_;
+    using   kickstart::arrays::Array_span_;
     using   kickstart::strings::split_on_whitespace;
     using   kickstart::language::lx::bits_per_;
     using   std::min, std::max,                         // <algorithm>

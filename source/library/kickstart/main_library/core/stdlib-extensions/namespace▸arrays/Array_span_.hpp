@@ -29,7 +29,7 @@
 
 #include <memory>       // std::addressof
 
-namespace kickstart::collections::_definitions {
+namespace kickstart::arrays::_definitions {
     using namespace kickstart::failure_handling;    // hopefully, KS_FAIL_
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Unsigned_index
     using namespace kickstart::text_conversion;     // ""s, operator<<
@@ -141,4 +141,4 @@ namespace kickstart::collections::_definitions {
     }  // namespace exported names
 }  // namespace kickstart::core::collection_utility::_definitions
 
-namespace kickstart::collections    { using namespace _definitions::exported_names; }
+namespace kickstart::arrays    { using namespace _definitions::exported_names; }
