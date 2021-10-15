@@ -61,9 +61,14 @@ namespace kickstart::fsx::_definitions {
     inline auto u8_from( const Explicit_fspath p )
         -> string
     {
-        const auto s = p.ref.u8string();        // In C++20 typed to sabotage Windows
+        const fs::path& fs_path = p.ref;
+        const auto s = fs_path.u8string();      // In C++20 typed to sabotage Windows
         return string( s.begin(), s.end() );    // ... incurring this inefficiency.
     }
+
+    inline auto u8_from( const fs::directory_entry& entry )
+        -> string
+    { return u8_from( entry.path() ); }
 
     inline auto exe_file_fspath()
         -> const fs::path&
