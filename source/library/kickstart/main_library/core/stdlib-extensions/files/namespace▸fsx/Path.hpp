@@ -84,6 +84,10 @@ namespace kickstart::fsx::_definitions {
             -> string
         { return u8_from( m_value.lexically_normal() ); }
 
+        auto fast_to_string() const         // E.g. may contain some forward slashes in Windows.
+            -> string
+        { return u8_from( m_value ); }
+
 
         //--------------------------- Modifiers:
 
@@ -128,9 +132,9 @@ namespace kickstart::fsx::_definitions {
         auto root_path() const              -> Path     { return Path( m_value.root_path() ); }
         auto relative_path() const          -> Path     { return Path( m_value.relative_path() ); }
         auto parent_path() const            -> Path     { return Path( m_value.parent_path() ); }
-        auto filename() const               -> Path     { return Path( m_value.filename() ); }
-        auto filename_mainpart() const      -> Path     { return Path( m_value.stem() ); }              // ¤
-        auto filename_extension() const     -> Path     { return Path( m_value.extension() ); }         // ¤
+        auto name() const                   -> Path     { return Path( m_value.filename() ); }
+        auto name_mainpart() const          -> Path     { return Path( m_value.stem() ); }              // ¤
+        auto name_extension() const         -> Path     { return Path( m_value.extension() ); }         // ¤
 
         auto is_absolute() const            -> Truth    { return m_value.is_absolute(); }
         auto is_relative() const            -> Truth    { return m_value.is_relative(); }

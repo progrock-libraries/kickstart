@@ -34,6 +34,9 @@
 #include <kickstart/main_library/core/namespace▸text_conversion.hpp>
 #include <kickstart/main_library/core/text-encoding.hpp>
 
+//TODO: find out about this
+#include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+
 namespace kickstart::core {
     using namespace kickstart::             collection_utility;         // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
@@ -55,6 +58,7 @@ namespace kickstart::core {
     }
     using namespace kickstart::             text_conversion;            // <core/namespace▸text_conversion.hpp>
     using namespace kickstart::             string_output_operator;     // <core/namespace▸text_conversion.hpp>
+    namespace string_output_operator = kickstart::string_output_operator;
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
         namespace ascii = kickstart::           ascii;                  //   <… /namespace▸ascii.hpp>
         namespace utf8 = kickstart::            utf8;                   //   <… namespace▸utf8.hpp>
