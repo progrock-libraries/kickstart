@@ -56,6 +56,8 @@ namespace kickstart::fsx::_definitions {
         -> fs::path
     { return fs::u8path( s ); }
 
+    // `Explicit_fspath` prevents implicit conversion of UTF-8 string to `fs::path`,
+    // b/c in Windows that would generally result in garbage due to ANSI assumption.
     inline auto u8_from( const Explicit_fspath p )
         -> string
     {

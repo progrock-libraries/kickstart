@@ -163,3 +163,8 @@ namespace kickstart::text_conversion::_definitions {
 }  // namespace kickstart::text_conversion::_definitions
 
 namespace kickstart::text_conversion    { using namespace _definitions::exported_names; }
+
+namespace kickstart::string_output_operator {
+    using namespace std::string_literals;
+    using text_conversion::operator<<;
+}

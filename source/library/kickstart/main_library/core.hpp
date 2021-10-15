@@ -54,6 +54,7 @@ namespace kickstart::core {
         using namespace kickstart::             x_utility;              //   <… utility.hpp>
     }
     using namespace kickstart::             text_conversion;            // <core/namespace▸text_conversion.hpp>
+    using namespace kickstart::             string_output_operator;     // <core/namespace▸text_conversion.hpp>
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
         namespace ascii = kickstart::           ascii;                  //   <… /namespace▸ascii.hpp>
         namespace utf8 = kickstart::            utf8;                   //   <… namespace▸utf8.hpp>
