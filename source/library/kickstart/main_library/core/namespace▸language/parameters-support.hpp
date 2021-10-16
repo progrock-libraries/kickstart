@@ -21,4 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/preprocessing/KS_EXPANDED.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters-support/Enable_if_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters-support/Possible_result_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters-support/Tag_.hpp>
+#include <kickstart/main_library/core/namespace▸language/parameters-support/template_parameter_requirement_.hpp>
