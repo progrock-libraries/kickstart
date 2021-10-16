@@ -33,7 +33,7 @@
 #include <type_traits>      // is_unsigned_v
 #include <utility>          // swap
 
-namespace kickstart::large_integers::_definitions {
+namespace kickstart::language::_definitions {
     namespace kl = kickstart::language;
     namespace km = kickstart::calc;
 
@@ -194,6 +194,6 @@ namespace kickstart::large_integers::_definitions {
         d::Uint_double_of_,
         d::compare;
     }  // namespace exported names
-}  // namespace kickstart::large_integers::_definitions
+}  // namespace kickstart::language::_definitions
 
-namespace kickstart::large_integers   { using namespace _definitions::exported_names; }
+namespace kickstart::language   { using namespace _definitions::exported_names; }

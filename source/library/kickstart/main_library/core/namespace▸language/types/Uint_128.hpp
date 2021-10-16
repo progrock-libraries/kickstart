@@ -25,12 +25,12 @@
 #include <kickstart/main_library/core/namespace▸collection_utility/collection-sizes.hpp>                          // int_size
 #include <kickstart/main_library/core/namespace▸generate/Relational_operators_from_compare_.hpp>  // Relational_operators_from_compare_
 #include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>                             // KS_STATIC_ASSERT
-#include <kickstart/main_library/core/namespace▸language/parameters/Tag_.hpp>                                           // Tag_
+#include <kickstart/main_library/core/namespace▸language/parameters/Tag_.hpp>                                     // Tag_
 #include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>                                         // Truth
 #include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>                                  // C_str
-#include <kickstart/main_library/core/namespace▸large_integers/Uint_double_of_.hpp>                               // Uint_double_of_
+#include <kickstart/main_library/core/namespace▸language/types/Uint_double_of_.hpp>                               // Uint_double_of_
 #include <kickstart/main_library/core/stdlib-extensions/namespace▸basic_type_properties/integer-properties.hpp>   // bits_per_
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                                    // spaces
+#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                                   // spaces
 #include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
 
 #include <kickstart/c/assert.hpp>       // assert
@@ -51,7 +51,7 @@ namespace kickstart::tag {
     using Uninitialized     = Tag_<struct Struct_uninitialized>;
 }  // namespace kickstart::tag
 
-namespace kickstart::large_integers::_definitions {
+namespace kickstart::language::_definitions {
     using namespace kickstart::strings;
     using namespace kickstart::text_conversion;     // string <<
     
@@ -397,4 +397,4 @@ namespace kickstart::large_integers::_definitions {
         d::to_uint_128,
         d::operator""_u128;
     }  // namespace exported_names
-}  // namespace kickstart::large_integers::_definitions
+}  // namespace kickstart::language::_definitions

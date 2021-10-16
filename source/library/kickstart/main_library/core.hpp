@@ -27,7 +27,6 @@
 #include <kickstart/main_library/core/failure-handling.hpp>                 // hopefully, fail, …
 #include <kickstart/main_library/core/namespace▸generate.hpp>               // generate::Relational_operators_from_compare_, …
 #include <kickstart/main_library/core/namespace▸language.hpp>               // Size etc.
-#include <kickstart/main_library/core/namespace▸large_integers.hpp>                   // Uint_128
 #include <kickstart/main_library/core//namespace▸matrices.hpp>                         // Matrix_ etc.
 #include <kickstart/main_library/core/namespace▸process.hpp>                          // process::Commandline
 #include <kickstart/main_library/core/stdlib-extensions.hpp>                // bits_per, …
@@ -42,7 +41,6 @@ namespace kickstart::core {
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     namespace generate = kickstart::        generate;
     using namespace kickstart::             language;                   // <core/namespace▸namespace▸language.hpp>
-    using namespace kickstart::             large_integers;             // <core/namespace▸large_integers.hpp>
     using namespace kickstart::             matrices;                   // <core//namespace▸matrices.hpp>
     namespace process = kickstart::         process;                    // <core/namespace▸process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>

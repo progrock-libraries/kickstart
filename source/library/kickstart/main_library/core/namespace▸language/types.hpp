@@ -24,3 +24,4 @@
 #include <kickstart/main_library/core/namespace▸language/types/startup-function-types.hpp>
 #include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
 #include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>
+#include <kickstart/main_library/core/namespace▸language/types/Uint_128.hpp>
