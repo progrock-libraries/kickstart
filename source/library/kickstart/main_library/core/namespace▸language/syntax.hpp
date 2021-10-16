@@ -23,6 +23,6 @@
 
 #include <kickstart/main_library/core/namespace▸language/syntax/Default.hpp>
 #include <kickstart/main_library/core/namespace▸language/syntax/lvalue.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_ITEMS_OF.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax/KS_IT_RANGE_OF.hpp>
 #include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>
 #include <kickstart/main_library/core/namespace▸language/syntax/KS_WITH.hpp>

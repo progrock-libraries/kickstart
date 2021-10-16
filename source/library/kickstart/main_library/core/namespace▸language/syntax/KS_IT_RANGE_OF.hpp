@@ -26,5 +26,5 @@
 
 #define KS_LVALUE( c ) kickstart::language::lvalue( c )
 
-#define KS_ITEMS_OF( c ) \
+#define KS_IT_RANGE_OF( c ) \
     std::begin( KS_LVALUE( c ) ), std::end( KS_LVALUE( c ) )
