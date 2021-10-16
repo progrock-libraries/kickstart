@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/lvalue.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/lvalue.hpp>
 #include <iterator>         // std::(begin, end)
 
 #define KS_LVALUE( c ) kickstart::language::lvalue( c )

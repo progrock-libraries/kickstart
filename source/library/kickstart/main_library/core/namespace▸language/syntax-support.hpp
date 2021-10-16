@@ -21,8 +21,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/Default.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/lvalue.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_IT_RANGE_OF.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_WITH.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/Default.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/lvalue.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/KS_IT_RANGE_OF.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/KS_STATIC_ASSERT.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support/KS_WITH.hpp>

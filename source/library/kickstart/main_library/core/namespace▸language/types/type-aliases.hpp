@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/namespace▸language/operations/bits_per_.hpp>        // lx::bits_per_
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
+#include <kickstart/main_library/core/namespace▸language/syntax-support/KS_STATIC_ASSERT.hpp>     // KS_STATIC_ASSERT
 
 #include <kickstart/c/stddef.hpp>       // size_t, ptrdiff_t
 #include <kickstart/c/stdint.hpp>       // int32_t, int64_t

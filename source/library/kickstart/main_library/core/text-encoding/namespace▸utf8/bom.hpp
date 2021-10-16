@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/Default.hpp>          // Default
-#include <kickstart/main_library/system-specific/os-detection.hpp>          // os_is_windows
+#include <kickstart/main_library/core/namespace▸language/syntax-support/Default.hpp>    // Default
+#include <kickstart/main_library/system-specific/os-detection.hpp>                      // os_is_windows
 
 #include <string_view>
 

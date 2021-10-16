@@ -24,7 +24,7 @@
 
 #include <kickstart/main_library/core/namespace▸language/operations.hpp>                       // lx\*
 #include <kickstart/main_library/core/namespace▸language/parameters-support.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax.hpp>
+#include <kickstart/main_library/core/namespace▸language/syntax-support.hpp>
 #include <kickstart/main_library/core/namespace▸language/types.hpp>
 
 #include <kickstart/preprocessing/KS_EXPANDED.hpp>

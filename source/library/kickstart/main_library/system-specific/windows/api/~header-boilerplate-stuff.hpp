@@ -21,7 +21,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸language/syntax/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
+#include <kickstart/main_library/core/namespace▸language/syntax-support/KS_STATIC_ASSERT.hpp>         // KS_STATIC_ASSERT
 #include <kickstart/main_library/system-specific/os-detection.hpp>
 #ifndef KS_OS_IS_WIN64
 #   error "This header is for 64-bit Windows systems only."
