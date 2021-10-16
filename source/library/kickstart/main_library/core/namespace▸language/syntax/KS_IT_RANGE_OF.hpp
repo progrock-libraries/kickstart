@@ -22,7 +22,7 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/namespace▸language/syntax/lvalue.hpp>
-#include <iterator>
+#include <iterator>         // std::(begin, end)
 
 #define KS_LVALUE( c ) kickstart::language::lvalue( c )
 
