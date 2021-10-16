@@ -24,13 +24,13 @@
 
 #include <kickstart/main_library/system-specific/os-detection.hpp>
 
-#include <kickstart/main_library/console/utf8-io/io.hpp>                        // output_error_message
-#include <kickstart/main_library/core/failure-handling.hpp>                  // Clean_app_exception
+#include <kickstart/main_library/console/utf8-io/io.hpp>                                    // output_error_message
+#include <kickstart/main_library/core/failure-handling.hpp>                                 // Clean_app_exception
 #include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>             // Type_, C_str
-#include <kickstart/main_library/core/namespace▸language/types/startup-function-types.hpp>   // Simple_startup, Startup_with_args
-#include <kickstart/main_library/core/text-encoding/namespace▸ascii/string-util.hpp>   // is_all_ascii
-#include <kickstart/main_library/core/namespace▸process/Commandline.hpp>               // Commandline
+#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>            // Type_, C_str
+#include <kickstart/main_library/core/namespace▸language/types/startup-function-types.hpp>  // Simple_startup, Startup_with_args
+#include <kickstart/main_library/core/text-encoding/namespace▸ascii/string-util.hpp>        // is_all_ascii
+#include <kickstart/main_library/core/namespace▸process/Commandline.hpp>                    // Commandline
 #include <kickstart/main_library/system-specific/os-detection.hpp>
 
 #include <assert.h>         // assert
@@ -75,7 +75,7 @@ namespace kickstart::console_startup::_definitions {
         const int                               n_cmd_parts,
         const Type_<const C_str*>               cmd_parts,
         const Truth                             override_os_cmdline = false
-    )
+        )
     {
         const auto simple_do_things = [&do_things]() -> void
         {
