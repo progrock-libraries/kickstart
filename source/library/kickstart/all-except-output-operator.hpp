@@ -35,6 +35,7 @@ namespace kickstart::all_except_output_operator {
     namespace ansi_escape_seq       = kickstart::ansi_escape_sequences;
     namespace portable_dingbats     = kickstart::portable_dingbats;
     namespace process               = kickstart::process;
+    namespace stdlib                = kickstart::stdlib;
 }  // namespace kickstart::all_except_output_operator
 
 namespace kickstart::all {
