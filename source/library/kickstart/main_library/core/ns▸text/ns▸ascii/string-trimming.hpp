@@ -23,7 +23,7 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/ns▸collection_utility.hpp>            // int_size
-#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>     // spaces
+#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>    // spaces
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #include <kickstart/main_library/core/text-encoding/ns▸ascii/character-util.hpp>
 
@@ -31,7 +31,7 @@
 #include <string_view>
 
 namespace kickstart::ascii::_definitions {
-    using namespace kickstart::collection_utility;     // begin_ptr_of, end_ptr_of, int_size
+    using namespace kickstart::collection_utility;  // begin_ptr_of, end_ptr_of, int_size
     using namespace kickstart::language;            // Truth
     using namespace kickstart::strings;             // spaces
     using namespace std::string_view_literals;      // ""sv
@@ -71,10 +71,6 @@ namespace kickstart::ascii::_definitions {
         -> string_view
     { return impl::trimmed_<impl::remove_suffix>( s ); }
 
-    inline auto trimmed_view( const string_view& s )
-        -> string_view
-    { return impl::trimmed_<impl::remove_prefix | impl::remove_suffix>( s ); }
-
     inline auto prefixtrimmed_string( const string_view& s )
         -> string
     { return string( prefixtrimmed_view( s ) ); }
@@ -82,6 +78,10 @@ namespace kickstart::ascii::_definitions {
     inline auto suffixtrimmed_string( const string_view& s )
         -> string
     { return string( suffixtrimmed_view( s ) ); }
+
+    inline auto trimmed_view( const string_view& s )
+        -> string_view
+    { return impl::trimmed_<impl::remove_prefix | impl::remove_suffix>( s ); }
 
     inline auto trimmed_string( const string_view& s )
         -> string
@@ -95,45 +95,14 @@ namespace kickstart::ascii::_definitions {
         -> string
     { return trimmed_string( s ); }
 
-    inline auto at_left_in( const int field_width, const string_view& s )
-        -> string
-    { return string( s ) + spaces( field_width - int_size( s ) ); }
-
-    inline auto at_right_in( const int field_width, const string_view& s )
-        -> string
-    { return spaces( field_width - int_size( s ) ) + string( s ); }
-
-    inline auto to_lower( const string_view& s )
-        -> string
-    {
-        string result;
-        result.reserve( s.length() );
-        for( const char ch: s ) {
-            result += ascii::to_lower( ch );
-        }
-        return result;
-    }
-
-    inline auto to_upper( const string_view& s )
-        -> string
-    {
-        string result;
-        result.reserve( s.length() );
-        for( const char ch: s ) {
-            result += ascii::to_upper( ch );
-        }
-        return result;
-    }
-
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::prefixtrimmed_view, d::suffixtrimmed_view, d::trimmed_view,
-        d::prefixtrimmed_string, d::suffixtrimmed_string, d::trimmed_string,
-        d::trimmed,
-        d::at_left_in, d::at_right_in,
-        d::to_lower, d::to_upper;
+        d::prefixtrimmed_view, d::suffixtrimmed_view,
+        d::prefixtrimmed_string, d::suffixtrimmed_string,
+        d::trimmed_view, d::trimmed_string,
+        d::trimmed;
     }  // namespace exported names
 }  // namespace kickstart::ascii::_definitions
 

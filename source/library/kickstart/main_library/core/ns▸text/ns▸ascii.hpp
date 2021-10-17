@@ -25,3 +25,5 @@
 #include <kickstart/main_library/core/ns▸text/ns▸ascii/classifiers.hpp>
 #include <kickstart/main_library/core/ns▸text/ns▸ascii/mappings.hpp>
 #include <kickstart/main_library/core/ns▸text/ns▸ascii/names.hpp>
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/string-padding.hpp>
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/string-trimming.hpp>
