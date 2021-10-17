@@ -33,27 +33,27 @@ namespace kickstart::text::ascii {
 
     using Uchar = unsigned char;
 
-    inline auto is_in( const string_view& chars, const char ch )
+    constexpr auto is_in( const string_view& chars, const char ch )
         -> Truth
     { return chars.find( ch ) != string_view::npos; }
 
-    inline auto is_valid( char ch ) -> Truth        { return (Uchar( ch ) < n_codes); }
-    inline auto is_control( char ch ) -> Truth      { return (Uchar( ch ) < n_low_control_codes or ch == del); }
-    inline auto is_character( char ch ) -> Truth    { return is_valid( ch ); }
-    inline auto is_lowercase( char ch ) -> Truth    { return ('a' <= ch and ch <= 'z'); }
-    inline auto is_uppercase( char ch ) -> Truth    { return ('A' <= ch and ch <= 'Z'); }
-    inline auto is_letter( char ch ) -> Truth       { return (is_lowercase( ch ) or is_uppercase( ch )); }
-    inline auto is_digit( char ch ) -> Truth        { return ('0' <= ch and ch <= '9'); }
+    constexpr auto is_valid( char ch ) -> Truth         { return (Uchar( ch ) < n_codes); }
+    constexpr auto is_control( char ch ) -> Truth       { return (Uchar( ch ) < n_low_control_codes or ch == del); }
+    constexpr auto is_character( char ch ) -> Truth     { return is_valid( ch ); }
+    constexpr auto is_lowercase( char ch ) -> Truth     { return ('a' <= ch and ch <= 'z'); }
+    constexpr auto is_uppercase( char ch ) -> Truth     { return ('A' <= ch and ch <= 'Z'); }
+    constexpr auto is_letter( char ch ) -> Truth        { return (is_lowercase( ch ) or is_uppercase( ch )); }
+    constexpr auto is_digit( char ch ) -> Truth         { return ('0' <= ch and ch <= '9'); }
 
-    inline auto is_uppercase_hex_digit_letter( char ch ) -> Truth { return ('A' <= ch and ch <= 'F'); }
-    inline auto is_lowercase_hex_digit_letter( char ch ) -> Truth { return ('a' <= ch and ch <= 'f'); }
+    constexpr auto is_uppercase_hex_digit_letter( char ch ) -> Truth { return ('A' <= ch and ch <= 'F'); }
+    constexpr auto is_lowercase_hex_digit_letter( char ch ) -> Truth { return ('a' <= ch and ch <= 'f'); }
 
-    inline auto is_hex_digit_letter( char ch )
+    constexpr auto is_hex_digit_letter( char ch )
         -> Truth
     { return (is_uppercase_hex_digit_letter( ch ) or is_lowercase_hex_digit_letter( ch )); }
 
-    inline auto is_hex_digit( char ch ) -> Truth    { return (is_digit( ch ) or is_hex_digit_letter( ch )); }
-    inline auto is_whitespace( char ch ) -> Truth   { return is_in( " \f\n\r\t\v", ch ); }
+    constexpr auto is_hex_digit( char ch ) -> Truth     { return (is_digit( ch ) or is_hex_digit_letter( ch )); }
+    constexpr auto is_whitespace( char ch ) -> Truth    { return is_in( " \f\n\r\t\v", ch ); }
 
 
     //----------------------------------------------------------------------------------------------------
