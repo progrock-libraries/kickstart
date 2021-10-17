@@ -31,39 +31,39 @@ namespace kickstart::text::ascii {
     using language::Truth;
     using std::string_view;
 
-    inline auto lowercased( const char ch )
+    constexpr auto lowercased( const char ch )
         -> char
     { return (is_uppercase( ch )? char( ch - 'A' + 'a' ) : ch); }
 
-    inline auto uppercased( const char ch )
+    constexpr auto uppercased( const char ch )
         -> char
     { return (is_lowercase( ch )? char( ch - 'a' + 'A' ) : ch); }
 
-    inline auto fast_digit_char_from( const int digit )
+    constexpr auto fast_digit_char_from( const int digit )
         -> char
     { return "0123456789"[digit]; }
 
-    inline auto fast_hex_digit_char_from( const int digit )
+    constexpr auto fast_hex_digit_char_from( const int digit )
         -> char
     { return "0123456789ABCDEF"[digit]; }
 
-    inline auto fast_to_digit( const char ch )
+    constexpr auto fast_to_digit( const char ch )
         -> int
     { return ch - '0'; }
 
-    inline auto digit_char_from( const int digit )
+    constexpr auto digit_char_from( const int digit )
         -> char
     { return (unsigned( digit ) < 10? fast_digit_char_from( digit ) : '\0'); }
 
-    inline auto hex_digit_char_from( const int digit )
+    constexpr auto hex_digit_char_from( const int digit )
         -> char
     { return (unsigned( digit ) < 16? fast_hex_digit_char_from( digit ) : '\0'); }
 
-    inline auto to_digit( const char ch )
+    constexpr auto to_digit( const char ch )
         -> int
     { return (is_digit( ch )? fast_to_digit( ch ) : '\0'); }
 
-    inline auto to_hex_digit( const char ch )
+    constexpr auto to_hex_digit( const char ch )
         -> int
     {
         return (0?0
