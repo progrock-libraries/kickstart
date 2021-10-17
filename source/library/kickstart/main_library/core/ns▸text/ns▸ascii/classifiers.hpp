@@ -39,6 +39,15 @@ namespace kickstart::text::ascii {
     inline auto is_uppercase( char ch ) -> Truth    { return ('A' <= ch and ch <= 'Z'); }
     inline auto is_letter( char ch ) -> Truth       { return (is_lowercase( ch ) or is_uppercase( ch )); }
     inline auto is_digit( char ch ) -> Truth        { return ('0' <= ch and ch <= '9'); }
+
+    inline auto is_uppercase_hex_digit_letter( char ch ) -> Truth { return ('A' <= ch and ch <= 'F'); }
+    inline auto is_lowercase_hex_digit_letter( char ch ) -> Truth { return ('a' <= ch and ch <= 'f'); }
+
+    inline auto is_hex_digit_letter( char ch )
+        -> Truth
+    { return (is_uppercase_hex_digit_letter( ch ) or is_lowercase_hex_digit_letter( ch )); }
+
+    inline auto is_hex_digit( char ch ) -> Truth    { return (is_digit( ch ) or is_hex_digit_letter( ch )); }
     inline auto is_whitespace( char ch ) -> Truth   { return is_in( " \f\n\r\t\v", ch ); }
 
 

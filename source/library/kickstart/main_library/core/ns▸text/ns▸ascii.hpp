@@ -23,3 +23,4 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/ns▸text/ns▸ascii/classifiers.hpp>
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/mappings.hpp>
