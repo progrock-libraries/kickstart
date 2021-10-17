@@ -23,9 +23,9 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/console/utf8-io/io.hpp>
-#include <kickstart/main_library/core/namespace▸language/syntax-support/Default.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸c_files/C_file_operations.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸text_stream_io/Abstract_text_parts_reader.hpp>
+#include <kickstart/main_library/core/ns▸language/syntax-support/Default.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸c_files/C_file_operations.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸text_stream_io/Abstract_text_parts_reader.hpp>
 
 #include <functional>
 #include <optional>

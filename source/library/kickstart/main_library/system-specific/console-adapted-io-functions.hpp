@@ -27,7 +27,7 @@
 #   include <kickstart/main_library/system-specific/windows/console-adapted-io-functions.impl.hpp>
 #elif defined( KS_OS_IS_UNIX )
 #   include <kickstart/main_library/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
-#   include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
+#   include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #
 #   include <unistd.h>                  // isatty
 #   include <kickstart/c/stdio.hpp>     // fileno
@@ -55,7 +55,7 @@
     }  // namespace kickstart::system_specific::_definitions
 #else
 #   include <kickstart/main_library/core/stdlib-extensions/c-files/wrapped-clib-io.hpp>
-#   include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
+#   include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #   include <optional>
 #   include <string>
 #   include <string_view>

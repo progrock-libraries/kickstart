@@ -25,10 +25,10 @@
 // Iostreams intentionally not included by default, it's large.
 // It can be included via `<kickstart/with_iostreams.hpp>`.
 
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays.hpp>
 #include <kickstart/main_library/core/stdlib-extensions/files.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸basic_type_properties.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸calc.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/ns▸basic_type_properties.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/ns▸calc.hpp>
 #include <kickstart/main_library/core/stdlib-extensions/failure-handling.hpp>
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/namespace▸type_traits.hpp>
+#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/ns▸type_traits.hpp>

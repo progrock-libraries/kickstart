@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/stdlib-extensions/namespace▸calc.hpp>
+﻿#include <kickstart/main_library/core/stdlib-extensions/ns▸calc.hpp>

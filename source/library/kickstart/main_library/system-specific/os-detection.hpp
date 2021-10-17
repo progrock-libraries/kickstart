@@ -2,7 +2,7 @@
 #pragma once
 #include <kickstart/assertion-headers/~assert-reasonable-compiler.hpp>
 
-#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
+#include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 
 #undef      KS_OS_IS_WINDOWS
 #undef          KS_OS_IS_WIN64

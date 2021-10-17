@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/namespace▸matrices./vector-pool.hpp>
+﻿#include <kickstart/main_library/core/ns▸matrices./vector-pool.hpp>

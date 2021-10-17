@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/namespace▸matrices./Matrix_.hpp>
+﻿#include <kickstart/main_library/core/ns▸matrices./Matrix_.hpp>

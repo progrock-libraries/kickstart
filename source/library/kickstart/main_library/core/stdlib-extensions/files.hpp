@@ -22,6 +22,6 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸c_files.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸fsx.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸text_stream_io.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸c_files.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸fsx.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸text_stream_io.hpp>

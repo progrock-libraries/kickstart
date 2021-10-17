@@ -28,9 +28,9 @@
 
 #include <kickstart/main_library/system-specific/get_commandline_data.interface.hpp>
 
-#include <kickstart/main_library/core/namespace▸collection_utility.hpp>                               // end_ptr_of
+#include <kickstart/main_library/core/ns▸collection_utility.hpp>                               // end_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>                      // Type_
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>                      // Type_
 #include <kickstart/main_library/system-specific/windows/api/process-info.hpp>
 #include <kickstart/main_library/system-specific/windows/text-encoding-conversion.hpp>
 

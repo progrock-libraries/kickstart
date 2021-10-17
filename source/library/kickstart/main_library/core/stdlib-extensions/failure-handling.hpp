@@ -22,4 +22,4 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/failure-handling/namespace▸std_exception.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/failure-handling/ns▸std_exception.hpp>

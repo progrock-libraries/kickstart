@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/stdlib-extensions/namespace▸arrays/Array_span_.hpp>
+﻿#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays/Array_span_.hpp>

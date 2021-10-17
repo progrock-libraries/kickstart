@@ -27,7 +27,7 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 
 #include <unistd.h>     // pathconf, readlink
 #include <kickstart/c/assert.hpp>

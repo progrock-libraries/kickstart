@@ -28,9 +28,9 @@
 
 #include <kickstart/main_library/system-specific/get_path_of_executable.interface.hpp>
 
-#include <kickstart/main_library/core/namespace▸collection_utility/collection-sizes.hpp>              // int_size
+#include <kickstart/main_library/core/ns▸collection_utility/collection-sizes.hpp>              // int_size
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 #include <kickstart/main_library/system-specific/windows/api/error-handling.hpp>            // GetLastError, SetLasError
 #include <kickstart/main_library/system-specific/windows/api/process-info.hpp>              // GetModuleFileName
 #include <kickstart/main_library/system-specific/windows/text-encoding-conversion.hpp>      // to_utf8

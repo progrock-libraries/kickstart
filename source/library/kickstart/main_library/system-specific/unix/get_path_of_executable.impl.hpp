@@ -27,8 +27,8 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>
-#include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>
+#include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 
 #include <unistd.h>         // getpid
 

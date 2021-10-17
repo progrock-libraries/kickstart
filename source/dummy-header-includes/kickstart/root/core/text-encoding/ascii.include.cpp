@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/text-encoding//namespace▸ascii.hpp>
+﻿#include <kickstart/main_library/core/text-encoding//ns▸ascii.hpp>

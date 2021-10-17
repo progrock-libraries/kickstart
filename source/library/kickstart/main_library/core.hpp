@@ -23,43 +23,43 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/console/utf8-io.hpp>
-#include <kickstart/main_library/core/namespace▸collection_utility.hpp>     // ssize_
+#include <kickstart/main_library/core/ns▸collection_utility.hpp>     // ssize_
 #include <kickstart/main_library/core/failure-handling.hpp>                 // hopefully, fail, …
-#include <kickstart/main_library/core/namespace▸generate.hpp>               // generate::Relational_operators_from_compare_, …
-#include <kickstart/main_library/core/namespace▸language.hpp>               // Size etc.
-#include <kickstart/main_library/core//namespace▸matrices.hpp>                         // Matrix_ etc.
-#include <kickstart/main_library/core/namespace▸process.hpp>                          // process::Commandline
+#include <kickstart/main_library/core/ns▸generate.hpp>               // generate::Relational_operators_from_compare_, …
+#include <kickstart/main_library/core/ns▸language.hpp>               // Size etc.
+#include <kickstart/main_library/core//ns▸matrices.hpp>                         // Matrix_ etc.
+#include <kickstart/main_library/core/ns▸process.hpp>                          // process::Commandline
 #include <kickstart/main_library/core/stdlib-extensions.hpp>                // bits_per, …
-#include <kickstart/main_library/core/namespace▸text_conversion.hpp>
+#include <kickstart/main_library/core/ns▸text_conversion.hpp>
 #include <kickstart/main_library/core/text-encoding.hpp>
 
 //TODO: find out about this
-#include <kickstart/main_library/core/namespace▸text_conversion/to-text/string-output-operator.hpp>
+#include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 
 namespace kickstart::core {
     using namespace kickstart::             collection_utility;         // <core/collection-util.hpp>
     using namespace kickstart::             failure_handling;           // <core/failure-handling.hpp>
     namespace generate = kickstart::        generate;
-    using namespace kickstart::             language;                   // <core/namespace▸namespace▸language.hpp>
-    using namespace kickstart::             matrices;                   // <core//namespace▸matrices.hpp>
-    namespace process = kickstart::         process;                    // <core/namespace▸process.hpp>
+    using namespace kickstart::             language;                   // <core/ns▸ns▸language.hpp>
+    using namespace kickstart::             matrices;                   // <core//ns▸matrices.hpp>
+    namespace process = kickstart::         process;                    // <core/ns▸process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
-        using namespace kickstart::             arrays;                 //   <… namespace▸arrays.hpp>
+        using namespace kickstart::             arrays;                 //   <… ns▸arrays.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
-        namespace fsx = kickstart::             fsx;                    //   <… namespace▸fsx.hpp>
-        using namespace kickstart::             basic_type_properties;  //   <… namespace▸basic_type_properties.hpp>
-        namespace calc = kickstart::            calc;                   //   <… namespace▸calc.hpp>
-        namespace std_exception = kickstart::std_exception;             //   <… namespace▸std_exceptions.hpp>
-        using namespace kickstart::             strings;                //   <… /namespace▸strings.hpp>
-        using namespace kickstart::             type_traits;            //   <… namespace▸type_traits.hpp>
+        namespace fsx = kickstart::             fsx;                    //   <… ns▸fsx.hpp>
+        using namespace kickstart::             basic_type_properties;  //   <… ns▸basic_type_properties.hpp>
+        namespace calc = kickstart::            calc;                   //   <… ns▸calc.hpp>
+        namespace std_exception = kickstart::std_exception;             //   <… ns▸std_exceptions.hpp>
+        using namespace kickstart::             strings;                //   <… /ns▸strings.hpp>
+        using namespace kickstart::             type_traits;            //   <… ns▸type_traits.hpp>
         using namespace kickstart::             x_utility;              //   <… utility.hpp>
     }
-    using namespace kickstart::             text_conversion;            // <core/namespace▸text_conversion.hpp>
-    using namespace kickstart::             string_output_operator;     // <core/namespace▸text_conversion.hpp>
+    using namespace kickstart::             text_conversion;            // <core/ns▸text_conversion.hpp>
+    using namespace kickstart::             string_output_operator;     // <core/ns▸text_conversion.hpp>
     namespace string_output_operator = kickstart::string_output_operator;
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
-        namespace ascii = kickstart::           ascii;                  //   <… /namespace▸ascii.hpp>
-        namespace utf8 = kickstart::            utf8;                   //   <… namespace▸utf8.hpp>
+        namespace ascii = kickstart::           ascii;                  //   <… /ns▸ascii.hpp>
+        namespace utf8 = kickstart::            utf8;                   //   <… ns▸utf8.hpp>
     }
     namespace utf8_io = kickstart::         utf8_io;                    // <console/utf8-io.hpp>
 }  // namespace kickstart::core

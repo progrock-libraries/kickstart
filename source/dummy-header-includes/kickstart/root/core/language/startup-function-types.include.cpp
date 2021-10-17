@@ -1,1 +1,1 @@
-﻿#include <kickstart/main_library/core/namespace▸language/types/startup-function-types.hpp>
+﻿#include <kickstart/main_library/core/ns▸language/types/startup-function-types.hpp>

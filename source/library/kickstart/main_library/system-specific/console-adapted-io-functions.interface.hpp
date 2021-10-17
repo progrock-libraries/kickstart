@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸collection_utility/collection-pointers.hpp>           // begin_ptr_of
+#include <kickstart/main_library/core/ns▸collection_utility/collection-pointers.hpp>           // begin_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸c_files/C-file-types.hpp>     // C_file
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp>                        // for_each_part_of
-#include <kickstart/main_library/core/text-encoding/namespace▸utf8/bom.hpp>                           // bom
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸c_files/C-file-types.hpp>     // C_file
+#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>                        // for_each_part_of
+#include <kickstart/main_library/core/text-encoding/ns▸utf8/bom.hpp>                           // bom
 
 #include <kickstart/c/stdio.hpp>
 

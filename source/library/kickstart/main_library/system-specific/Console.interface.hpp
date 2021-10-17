@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/namespace▸collection_utility.hpp>        // int_size, begin_ptr_of
+#include <kickstart/main_library/core/ns▸collection_utility.hpp>        // int_size, begin_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/Truth.hpp>
-#include <kickstart/main_library/core/stdlib-extensions//namespace▸strings.hpp> // for_each_part_of
-#include <kickstart/main_library/core/text-encoding/namespace▸utf8/bom.hpp>    // bom
+#include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
+#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp> // for_each_part_of
+#include <kickstart/main_library/core/text-encoding/ns▸utf8/bom.hpp>    // bom
 
 #include <optional>
 #include <string>

@@ -25,7 +25,7 @@
 #include <kickstart/all-except-output-operator.hpp>
 #include <kickstart/cpp/iostreams.hpp>
 
-// An example convenience namespace▸ Will probably never be used, but hey.
+// An example convenience ns▸ Will probably never be used, but hey.
 namespace kickstart::with_iostreams {
     using namespace all_except_output_operator;
     using namespace stdlib::iostreams;

@@ -29,7 +29,7 @@
 #include <kickstart/main_library/system-specific/open-c-file.interface.hpp>
 
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/namespace▸language/types/type-aliases.hpp>
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>
 #include <kickstart/main_library/system-specific/windows/text-encoding-conversion.hpp>
 
 #include <kickstart/c/string.hpp>

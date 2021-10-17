@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/files/namespace▸c_files/Abstract_c_file.hpp>
+#include <kickstart/main_library/core/stdlib-extensions/files/ns▸c_files/Abstract_c_file.hpp>
 
 #include <optional>
 #include <string>
