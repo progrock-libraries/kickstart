@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/main_library/core/ns▸language/syntax-support/KS_STATIC_ASSERT.hpp>
+
 namespace kickstart::text::ascii {
     // Standard but unfortunately uppercase abbreviations as per ASCII '67:
     constexpr char      NUL         = '\0';         
@@ -35,8 +37,10 @@ namespace kickstart::text::ascii {
     constexpr char      DC1         = '\x11';       // “Device control 1”
     constexpr char      DC3         = '\x13';       // “Device control 3”
     constexpr char      SUB         = '\x1A';       // “Substitute”, but see below!
-    constexpr char      ESC         = '\x1B';       
+    constexpr char      ESC         = '\x1B';       // “Escape”, e.g. start of ANSI sequences.
+
     constexpr char      SPC         = ' ';          
+
     constexpr char      DEL         = '\x7F';       // “Delete”
 
     // More readable & self-describing names:
@@ -53,11 +57,14 @@ namespace kickstart::text::ascii {
     constexpr char      end_of_text = SUB;          //      0x1A, ^Z, non-std MS meaning.
     constexpr char      escape      = ESC;          //      0x1B
     constexpr char      space       = SPC;          //      0x20
+
     constexpr char      del         = DEL;          //      0x7F
 
-    constexpr char      first_char  = char( 0 );    static_assert( first_char == null );
-    constexpr char      last_char   = char( 127 );  static_assert( last_char == del );
-    constexpr int       n_values    = last_char + 1;
+    constexpr char      first_code  = char( 0 );    KS_STATIC_ASSERT( first_code == null );
+    constexpr char      last_code   = char( 127 );  KS_STATIC_ASSERT( last_code == del );
+
+    constexpr int       n_low_control_codes = 32;   KS_STATIC_ASSERT( n_low_control_codes == space );
+    constexpr int       n_codes     = last_code + 1;
 
     // ASCII DEL, code 0x7F = 127, “delete”, can be used as a replacement for encoding
     // errors or unrepresentable code point.
@@ -79,6 +86,7 @@ namespace kickstart::text::ascii {
     //
     // For these reasons I recommend using ASCII DEL as replacement and error
     // indication character:
-
+    //
     constexpr char      bad_char    = del;
+
 }  // namespace kickstart::text::ascii

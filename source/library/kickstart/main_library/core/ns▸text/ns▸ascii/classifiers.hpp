@@ -22,18 +22,23 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/names.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
+
 #include <string_view>
 
 namespace kickstart::text::ascii {
     using language::Truth;
     using std::string_view;
 
+    using Uchar = unsigned char;
+
     inline auto is_in( const string_view& chars, const char ch )
         -> Truth
     { return chars.find( ch ) != string_view::npos; }
 
-    inline auto is_valid( char ch ) -> Truth        { return (static_cast<unsigned char>( ch ) < 128); }
+    inline auto is_valid( char ch ) -> Truth        { return (Uchar( ch ) < n_codes); }
+    inline auto is_control( char ch ) -> Truth      { return (Uchar( ch ) < n_low_control_codes or ch == del); }
     inline auto is_character( char ch ) -> Truth    { return is_valid( ch ); }
     inline auto is_lowercase( char ch ) -> Truth    { return ('a' <= ch and ch <= 'z'); }
     inline auto is_uppercase( char ch ) -> Truth    { return ('A' <= ch and ch <= 'Z'); }
@@ -62,15 +67,32 @@ namespace kickstart::text::ascii {
         { return f( ch ); }
     };
 
+    using Valid                         = Group_<is_valid>;
+    using Control                       = Group_<is_control>;
+    using Lowercase                     = Group_<is_lowercase>;
+    using Uppercase                     = Group_<is_uppercase>;
+    using Letter                        = Group_<is_letter>;
+    using Digit                         = Group_<is_digit>;
+    using Uppercase_hex_digit_letter    = Group_<is_uppercase_hex_digit_letter>;
+    using Lowercase_hex_digit_letter    = Group_<is_lowercase_hex_digit_letter>;
+    using Hex_digit_letter              = Group_<is_hex_digit_letter>;
+    using Hex_digit                     = Group_<is_hex_digit>;
+    using Whitespace                    = Group_<is_whitespace>;
+
     template< class Group >
     constexpr auto is_( const char ch )
         -> Truth
     { return Group::contains( ch ); }
 
-    using Valid         = Group_<is_valid>;
-    using Lowercase     = Group_<is_lowercase>;
-    using Uppercase     = Group_<is_uppercase>;
-    using Letter        = Group_<is_letter>;
-    using Digit         = Group_<is_digit>;
-    using Whitespace    = Group_<is_whitespace>;
+    template< class Group >
+    constexpr auto is_all_( const string_view& s )
+        -> Truth
+    {
+        for( const char ch : s ) {
+            if( not is_<Group>( ch ) ) {
+                return false;
+            }
+        }
+        return true;
+    }
 }  // namespace kickstart::text::ascii
