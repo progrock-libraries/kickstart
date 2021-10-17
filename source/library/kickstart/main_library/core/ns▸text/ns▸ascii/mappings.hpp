@@ -53,11 +53,11 @@ namespace kickstart::text::ascii {
 
     constexpr auto digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 10? fast_digit_char_from( digit ) : '\0'); }
+    { return (unsigned( digit ) < 10? fast_digit_char_from( digit ) : bad_char); }
 
     constexpr auto hex_digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 16? fast_hex_digit_char_from( digit ) : '\0'); }
+    { return (unsigned( digit ) < 16? fast_hex_digit_char_from( digit ) : bad_char); }
 
     constexpr auto to_digit( const char ch )
         -> int
