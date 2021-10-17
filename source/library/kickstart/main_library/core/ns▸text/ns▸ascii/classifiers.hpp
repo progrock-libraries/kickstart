@@ -57,20 +57,20 @@ namespace kickstart::text::ascii {
     template< auto (*f)( char ch ) -> Truth >
     struct Group_
     {
-        static constexpr auto includes( const char ch )
+        static constexpr auto contains( const char ch )
             -> Truth
         { return f( ch ); }
     };
 
     template< class Group >
-    constexpr auto is( Group, const char ch )
+    constexpr auto is_( const char ch )
         -> Truth
-    { return Group::includes( ch ); }
+    { return Group::contains( ch ); }
 
-    constexpr auto valid        = Group_<is_valid>();
-    constexpr auto lowercase    = Group_<is_lowercase>();
-    constexpr auto uppercase    = Group_<is_uppercase>();
-    constexpr auto letter       = Group_<is_letter>();
-    constexpr auto digit        = Group_<is_digit>();
-    constexpr auto whitespace   = Group_<is_whitespace>();
+    using Valid         = Group_<is_valid>;
+    using Lowercase     = Group_<is_lowercase>;
+    using Uppercase     = Group_<is_uppercase>;
+    using Letter        = Group_<is_letter>;
+    using Digit         = Group_<is_digit>;
+    using Whitespace    = Group_<is_whitespace>;
 }  // namespace kickstart::text::ascii
