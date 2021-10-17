@@ -39,29 +39,29 @@ namespace kickstart::text::ascii {
         -> char
     { return (is_lowercase( ch )? char( ch - 'a' + 'A' ) : ch); }
 
-    inline auto basic_digit_char_from( const int digit )
+    inline auto fast_digit_char_from( const int digit )
         -> char
     { return "0123456789"[digit]; }
 
-    inline auto basic_hex_digit_char_from( const int digit )
+    inline auto fast_hex_digit_char_from( const int digit )
         -> char
     { return "0123456789ABCDEF"[digit]; }
 
-    inline auto basic_to_digit( const char ch )
+    inline auto fast_to_digit( const char ch )
         -> int
     { return ch - '0'; }
 
     inline auto digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 10? basic_digit_char_from( digit ) : '\0'); }
+    { return (unsigned( digit ) < 10? fast_digit_char_from( digit ) : '\0'); }
 
     inline auto hex_digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 16? basic_hex_digit_char_from( digit ) : '\0'); }
+    { return (unsigned( digit ) < 16? fast_hex_digit_char_from( digit ) : '\0'); }
 
     inline auto to_digit( const char ch )
         -> int
-    { return (is_digit( ch )? basic_to_digit( ch ) : '\0'); }
+    { return (is_digit( ch )? fast_to_digit( ch ) : '\0'); }
 
     inline auto to_hex_digit( const char ch )
         -> int
