@@ -23,13 +23,15 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/ns▸text/ns▸ascii/classifiers.hpp>
-
+#include <kickstart/main_library/core/ns▸collection_support/collection-sizes.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
+
+#include <string>
 #include <string_view>
 
 namespace kickstart::text::ascii {
-    using language::Truth;
-    using std::string_view;
+    namespace k = kickstart;
+    using k::language::Truth, k::collection_support::int_size;
 
     constexpr auto lowercased( const char ch )
         -> char
@@ -39,29 +41,31 @@ namespace kickstart::text::ascii {
         -> char
     { return (is_lowercase( ch )? char( ch - 'a' + 'A' ) : ch); }
 
-    constexpr auto fast_digit_char_from( const int digit )
-        -> char
-    { return "0123456789"[digit]; }
+    namespace fast {
+        constexpr auto digit_char_from( const int digit )
+            -> char
+        { return "0123456789"[digit]; }
 
-    constexpr auto fast_hex_digit_char_from( const int digit )
-        -> char
-    { return "0123456789ABCDEF"[digit]; }
+        constexpr auto hex_digit_char_from( const int digit )
+            -> char
+        { return "0123456789ABCDEF"[digit]; }
 
-    constexpr auto fast_to_digit( const char ch )
-        -> int
-    { return ch - '0'; }
+        constexpr auto to_digit( const char ch )
+            -> int
+        { return ch - '0'; }
+    }  // namespace fast
 
     constexpr auto digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 10? fast_digit_char_from( digit ) : bad_char); }
+    { return (unsigned( digit ) < 10? fast::digit_char_from( digit ) : bad_char); }
 
     constexpr auto hex_digit_char_from( const int digit )
         -> char
-    { return (unsigned( digit ) < 16? fast_hex_digit_char_from( digit ) : bad_char); }
+    { return (unsigned( digit ) < 16? fast::hex_digit_char_from( digit ) : bad_char); }
 
     constexpr auto to_digit( const char ch )
         -> int
-    { return (is_digit( ch )? fast_to_digit( ch ) : '\0'); }
+    { return (is_digit( ch )? fast::to_digit( ch ) : '\0'); }
 
     constexpr auto to_hex_digit( const char ch )
         -> int
@@ -73,5 +77,4 @@ namespace kickstart::text::ascii {
             :                                       -1
             );
     }
-
 }  // namespace kickstart::ascii

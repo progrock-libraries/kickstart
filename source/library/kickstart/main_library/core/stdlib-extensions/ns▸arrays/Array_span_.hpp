@@ -22,8 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility/collection-pointers.hpp>
-#include <kickstart/main_library/core/ns▸collection_utility/collection-sizes.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/collection-pointers.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/collection-sizes.hpp>
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 
@@ -34,14 +34,14 @@ namespace kickstart::arrays::_definitions {
     using namespace kickstart::language;            // Size, Index, Unsigned_size, Uindex
     using namespace kickstart::text_conversion;     // ""s, operator<<
 
-    namespace kc = kickstart::collection_utility;
+    namespace kc = kickstart::collection_support;
     using kc::begin_ptr_of, kc::end_ptr_of;
     using kickstart::language::Size;
 
     using   std::out_of_range,
             std::addressof;
 
-    // Wrt. `const` correctness class `Array_span_` is designed to act like an array.
+    // Wrt. `const` correctness class `Array_span_` is designed to act like a pointer.
     template< class Tp_item >
     class Array_span_
     {
@@ -77,19 +77,17 @@ namespace kickstart::arrays::_definitions {
             m_p_beyond( end_ptr_of( a ) )
         {}
 
-        auto data() const   -> Item*    { return m_p_first; }
-        auto size() const   -> Size     { return m_p_beyond - m_p_first; }
+        auto data() const   -> Item*                    { return m_p_first; }
+        auto size() const   -> Size                     { return m_p_beyond - m_p_first; }
 
-        auto begin() const  -> Item*    { return m_p_first; }
-        auto end() const    -> Item*    { return m_p_beyond; }
+        auto begin() const  -> Item*                    { return m_p_first; }
+        auto end() const    -> Item*                    { return m_p_beyond; }
 
-        auto cbegin() const -> const Item*  { return begin(); }
-        auto cend() const   -> const Item*  { return end(); }
+        auto cbegin() const -> const Item*              { return begin(); }
+        auto cend() const   -> const Item*              { return end(); }
 
-        auto item( const Index i ) const -> Item& { return m_p_first[i]; }
-
-        auto at( const Index i ) const -> Item& { return at( i, *this ); }
-
+        auto item( const Index i ) const -> Item&       { return m_p_first[i]; }
+        auto at( const Index i ) const -> Item&         { return at( i, *this ); }
         auto operator[]( const Index i ) const -> Item& { return item( i ); }
     };
 

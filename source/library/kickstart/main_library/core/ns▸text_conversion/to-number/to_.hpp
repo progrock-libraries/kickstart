@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility.hpp>                     // begin_ptr_of, end_ptr_of
+#include <kickstart/main_library/core/ns▸collection_support.hpp>                     // begin_ptr_of, end_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/ns▸language/parameters-support/Possible_result_.hpp>
 #include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // C_str
@@ -45,7 +45,7 @@
 #include <vector>
 
 namespace kickstart::text_conversion::_definitions {
-    using namespace kickstart::collection_utility;          // begin_ptr_of, end_ptr_of
+    using namespace kickstart::collection_support;          // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;
     using namespace kickstart::language;                    // C_str
     using namespace kickstart::basic_type_properties;       // largest_exact_integer_of_

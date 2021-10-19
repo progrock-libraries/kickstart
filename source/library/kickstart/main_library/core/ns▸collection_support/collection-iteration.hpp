@@ -27,7 +27,7 @@
 
 #include <iterator>     // std::(distance, next)
 
-namespace kickstart::collection_utility::_definitions {
+namespace kickstart::collection_support::_definitions {
     using   kickstart::language::Size;
     using   std::distance, std::next;
 
@@ -103,6 +103,6 @@ namespace kickstart::collection_utility::_definitions {
         d::Iteration_,
         d::all_of, d::head_of, d::tail_of;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_utility::_definitions
+}  // namespace kickstart::core::collection_support::_definitions
 
-namespace kickstart::collection_utility    { using namespace _definitions::exported_names; }
+namespace kickstart::collection_support    { using namespace _definitions::exported_names; }

@@ -22,37 +22,34 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_support.hpp>            // int_size
-#include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>    // spaces
-#include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
-#include <kickstart/main_library/core/text-encoding/ns▸ascii/character-util.hpp>
+#include <kickstart/cpp/basics.hpp>                                 // size, ssize
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // Size
 
-#include <string>
-#include <string_view>
+namespace kickstart::collection_support::_definitions {
+    namespace kl = kickstart::language;
+    namespace ks = kickstart::stdlib;
+    using   kl::Size, kl::Index;
+    using   ks::size, ks::ssize;
 
-namespace kickstart::ascii::_definitions {
-    using namespace kickstart::collection_support;  // begin_ptr_of, end_ptr_of, int_size
-    using namespace kickstart::language;            // Truth
-    using namespace kickstart::strings;             // spaces
-    using namespace std::string_view_literals;      // ""sv
-    using   std::string,
-            std::string_view;
+    template< class Result, class Collection >
+    inline constexpr auto size_( const Collection& c )
+        -> Result
+    { return static_cast<Result>( size( c ) ); }
 
-    inline auto left_in( const int minimum_new_size, const string_view& s )
-        -> string
-    { return string( s ) + spaces( minimum_new_size - int_size( s ) ); }
-
-    inline auto right_in( const int minimum_new_size, const string_view& s )
-        -> string
-    { return spaces( minimum_new_size - int_size( s ) ) + string( s ); }
+    template< class Collection >
+    inline constexpr auto int_size( const Collection& c )
+        -> int
+    { return size_<int>( c ); }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::left_in,
-        d::right_in;
+        d::Size, d::Index,
+        d::size, d::ssize,          // The standard library’s functions.
+        d::size_,
+        d::int_size;
     }  // namespace exported names
-}  // namespace kickstart::ascii::_definitions
+}  // namespace kickstart::core::collection_support::_definitions
 
-namespace kickstart::ascii  { using namespace _definitions::exported_names; }
+namespace kickstart::collection_support    { using namespace _definitions::exported_names; }

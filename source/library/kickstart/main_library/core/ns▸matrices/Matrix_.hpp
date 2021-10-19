@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility.hpp>
+#include <kickstart/main_library/core/ns▸collection_support.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #include <kickstart/main_library/core/ns▸matrices./Abstract_matrix_.hpp>
 #include <kickstart/main_library/core/ns▸matrices./vector-pool.hpp>

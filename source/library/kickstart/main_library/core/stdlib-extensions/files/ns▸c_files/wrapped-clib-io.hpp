@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility/collection-pointers.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/collection-pointers.hpp>
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/stdlib-extensions/files/ns▸c_files/C-file-types.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
@@ -32,7 +32,7 @@
 #include <string_view>
 
 namespace kickstart::c_files::_definitions {
-    using namespace collection_utility;
+    using namespace collection_support;
     using namespace failure_handling;
     using namespace language;           // Truth etc.
 

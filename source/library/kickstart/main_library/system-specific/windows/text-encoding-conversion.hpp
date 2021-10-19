@@ -26,7 +26,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility.hpp>                       // int_size
+#include <kickstart/main_library/core/ns▸collection_support.hpp>                       // int_size
 #include <kickstart/main_library/system-specific/windows/api/text-encoding.hpp>
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
@@ -39,7 +39,7 @@
 
 namespace kickstart::system_specific::_definitions {
     namespace winapi = kickstart::winapi;
-    using namespace kickstart::collection_utility;         // int_size
+    using namespace kickstart::collection_support;         // int_size
     using namespace kickstart::failure_handling;        // hopefully, fail
     using namespace kickstart::language;                // Truth
     using   std::string, std::wstring,

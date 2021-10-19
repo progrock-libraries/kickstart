@@ -22,6 +22,38 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility/collection-pointers.hpp>
-#include <kickstart/main_library/core/ns▸collection_utility/collection-sizes.hpp>
-#include <kickstart/main_library/core/ns▸collection_utility/collection-iteration.hpp>
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>     // Size
+
+namespace kickstart::collection_support::_definitions {
+    using kickstart::language::Size;
+
+    template< class Array >        // TODO: enable_if random access
+    inline auto begin_ptr_of( Array& a )
+        -> auto
+    { return a.data(); }
+
+    template< class Item, Size n >
+    inline auto begin_ptr_of( Item (&a)[n] )
+        -> auto
+    { return &a[0]; }
+
+    template< class Array >        // TODO: enable_if random access
+    inline auto end_ptr_of( Array& a )
+        -> auto
+    { return a.data() + a.size(); }
+
+    template< class Item, Size n >
+    inline auto end_ptr_of( Item (&a)[n] )
+        -> auto
+    { return &a[0] + n; }
+
+
+    //----------------------------------------------------------- @exported:
+    namespace d = _definitions;
+    namespace exported_names { using
+        d::begin_ptr_of,
+        d::end_ptr_of;
+    }  // namespace exported names
+}  // namespace kickstart::collection_support::_definitions
+
+namespace kickstart::collection_support    { using namespace _definitions::exported_names; }

@@ -42,7 +42,7 @@
 #include <vector>
 
 namespace kickstart::process::_definitions {
-    using namespace kickstart::collection_utility;  // begin_ptr_of, end_ptr_of
+    using namespace kickstart::collection_support;  // begin_ptr_of, end_ptr_of
     using namespace kickstart::failure_handling;    // hopefully, fail
     using namespace kickstart::language;            // Type_, C_str
     using namespace std::string_view_literals;

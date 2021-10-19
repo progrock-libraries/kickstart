@@ -22,34 +22,44 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/cpp/basics.hpp>                                 // size, ssize
-#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // Size
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/mappings.hpp>
 
-namespace kickstart::collection_utility::_definitions {
-    namespace kl = kickstart::language;
-    namespace ks = kickstart::stdlib;
-    using   kl::Size, kl::Index;
-    using   ks::size, ks::ssize;
+#include <string>
+#include <string_view>
 
-    template< class Result, class Collection >
-    inline constexpr auto size_( const Collection& c )
-        -> Result
-    { return static_cast<Result>( size( c ) ); }
+namespace kickstart::text::ascii::_definitions {
+    using   std::string,
+            std::string_view;
 
-    template< class Collection >
-    inline constexpr auto int_size( const Collection& c )
-        -> int
-    { return size_<int>( c ); }
+    inline auto lowercased( const string_view& s )
+        -> string
+    {
+        const int n = int_size( s );
+        auto result = string( n, '\0' );
+        for( int i = 0; i < n; ++i ) {
+            result[i] = ascii::lowercased( s[i] );
+        }
+        return result;
+    }
+
+    inline auto uppercased( const string_view& s )
+        -> string
+    {
+        const int n = int_size( s );
+        auto result = string( n, '\0' );
+        for( int i = 0; i < n; ++i ) {
+            result[i] = ascii::uppercased( s[i] );
+        }
+        return result;
+    }
 
 
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::Size, d::Index,
-        d::size, d::ssize,          // The standard library’s functions.
-        d::size_,
-        d::int_size;
+        d::lowercased,
+        d::uppercased;
     }  // namespace exported names
-}  // namespace kickstart::core::collection_utility::_definitions
+}  // namespace kickstart::text::ascii::_definitions
 
-namespace kickstart::collection_utility    { using namespace _definitions::exported_names; }
+namespace kickstart::text::ascii    { using namespace _definitions::exported_names; }

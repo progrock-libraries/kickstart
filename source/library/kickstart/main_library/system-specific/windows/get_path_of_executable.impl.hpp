@@ -28,7 +28,7 @@
 
 #include <kickstart/main_library/system-specific/get_path_of_executable.interface.hpp>
 
-#include <kickstart/main_library/core/ns▸collection_utility/collection-sizes.hpp>              // int_size
+#include <kickstart/main_library/core/ns▸collection_support/collection-sizes.hpp>              // int_size
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
 #include <kickstart/main_library/system-specific/windows/api/error-handling.hpp>            // GetLastError, SetLasError
@@ -40,7 +40,7 @@
 namespace kickstart::system_specific::_definitions {
     using namespace kickstart::failure_handling;
     using namespace kickstart::text_conversion;     // operator<<
-    using namespace kickstart::collection_utility;
+    using namespace kickstart::collection_support;
     namespace winapi = kickstart::winapi;
 
     using   std::string, std::wstring;

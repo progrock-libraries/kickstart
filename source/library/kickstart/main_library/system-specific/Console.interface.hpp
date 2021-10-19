@@ -22,7 +22,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility.hpp>        // int_size, begin_ptr_of
+#include <kickstart/main_library/core/ns▸collection_support.hpp>        // int_size, begin_ptr_of
 #include <kickstart/main_library/core/failure-handling.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp> // for_each_part_of
@@ -33,7 +33,7 @@
 #include <string_view>
 
 namespace kickstart::system_specific::_definitions {
-    using namespace kickstart::collection_utility;     // int_size, begin_ptr_of
+    using namespace kickstart::collection_support;     // int_size, begin_ptr_of
     using namespace kickstart::failure_handling;    // hopefully etc.
     using namespace kickstart::language;            // Truth
     using namespace kickstart::strings;             // for_each_part_of

@@ -22,7 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_utility.hpp>                   // ssize, tail_of
+#include <kickstart/main_library/core/ns▸collection_support.hpp>                   // ssize, tail_of
+#include <kickstart/main_library/core/ns▸language/syntax-support/KS_IT_RANGE_OF.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>                 // Truth
 #include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>          // C_str
 #include <kickstart/main_library/core/text-encoding/ns▸ascii/character-util.hpp>   // ascii::whitespace
@@ -36,7 +37,7 @@
 
 namespace kickstart::strings::_definitions {
     using namespace std::string_view_literals;      // ""sv
-    using namespace kickstart::collection_utility;     // tail_of, ssize
+    using namespace kickstart::collection_support;     // tail_of, ssize
     using namespace kickstart::language;            // Truth, C_str
     using   std::initializer_list,
             std::begin, std::end,
@@ -172,11 +173,17 @@ namespace kickstart::strings::_definitions {
         return result;
     }
 
-    inline auto joined_on(
-        const string_view&              delimiter,
-        initializer_list<string_view>&  parts
-        ) -> string
-    { return joined_on( delimiter, begin( parts ), end( parts ) ); }
+    template< class Collection >
+    inline auto joined_on( const string_view& delimiter, const Collection& strings )
+        -> string
+    { return joined_on( delimiter, KS_IT_RANGE_OF( strings ) ); }
+
+
+    //inline auto joined_on(
+    //    const string_view&              delimiter,
+    //    initializer_list<string_view>&  parts
+    //    ) -> string
+    //{ return joined_on( delimiter, begin( parts ), end( parts ) ); }
 
     template< class Iterator >
     inline auto joined(
@@ -194,9 +201,15 @@ namespace kickstart::strings::_definitions {
         return result;
     }
 
-    inline auto joined( initializer_list<string_view>&  parts )
+    template< class Collection >
+    inline auto joined( const Collection& strings )
         -> string
-    { return joined( begin( parts ), end( parts ) ); }
+    { return joined( KS_IT_RANGE_OF( strings ) ); }
+
+
+    //inline auto joined( initializer_list<string_view>&  parts )
+    //    -> string
+    //{ return joined( begin( parts ), end( parts ) ); }
 
 
     //----------------------------------------------------------- @exported:
