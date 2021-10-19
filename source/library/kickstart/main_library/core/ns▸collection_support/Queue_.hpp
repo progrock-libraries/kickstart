@@ -36,7 +36,7 @@ namespace kickstart::collection_support::_definitions {
         public queue<Value>
     {
         using Base = queue<Value>;
-        using Container = typename Base::Container;
+        using Container = typename Base::container_type;
 
     public:
         using queue<Value>::queue;      // Constructors.

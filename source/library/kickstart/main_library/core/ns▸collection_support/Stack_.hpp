@@ -36,7 +36,7 @@ namespace kickstart::collection_support::_definitions {
         public stack<Value>
     {
         using Base = stack<Value>;
-        using Container = typename Base::Container;
+        using Container = typename Base::container_type;
 
     public:
         using stack<Value>::stack;      // Constructors.
