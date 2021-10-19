@@ -27,7 +27,7 @@
 #include <kickstart/main_library/core/ns▸language/parameters-support/Possible_result_.hpp>
 #include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // C_str
 #include <kickstart/main_library/core/ns▸language/operations/bits_per_.hpp>          // bits_per_
-#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays/Array_span_.hpp>   // Array_span_
+#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>   // Array_span_
 #include <kickstart/main_library/core/stdlib-extensions/ns▸basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
 #include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>             // split_on_whitespace
 #include <kickstart/main_library/core/ns▸text_conversion/to-text.hpp>
@@ -53,7 +53,7 @@ namespace kickstart::text_conversion::_definitions {
 
     namespace ascii = kickstart::ascii;
 
-    using   kickstart::arrays::Array_span_;
+    using   kickstart::collection_support::Array_span_;
     using   kickstart::strings::split_on_whitespace;
     using   kickstart::language::lx::bits_per_;
     using   std::min, std::max,                         // <algorithm>

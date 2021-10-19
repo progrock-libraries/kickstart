@@ -22,5 +22,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays/Array_span_.hpp>
-#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays/make_array_.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/collection-iteration.hpp>
+
+#include <queue>
+#include <utility>
+
+namespace kickstart::collection_support::_definitions {
+    using   std::queue,
+            std::move;
+
+    template< class Value >
+    class Queue_ :
+        public queue<Value>
+    {
+        using Base = queue<Value>;
+        using Container = typename Base::Container;
+
+    public:
+        using queue<Value>::queue;      // Constructors.
+
+        template< class InputIt >
+        Queue_( const InputIt first, const InputIt last )
+        {
+            for( const Value& v : all_of( first, last ) ) {
+                Base::push( v );
+            }
+        }
+
+        auto popped_front()
+            -> Value
+        {
+            Value result = move( Base::front() );
+            Base::pop();
+            return result;
+        }
+
+        auto items() const
+            -> const Container&
+        { return Base::c; }
+    };
+
+    namespace d = _definitions;
+    namespace exported_names {
+        using   d::Queue_;
+    }  // namespace exported_names
+}  // namespace kickstart::collection_support::_definitions
+
+namespace kickstart::collection_support { using namespace _definitions::exported_names; }

@@ -22,6 +22,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>
 #include <kickstart/main_library/core/ns▸collection_support/collection-pointers.hpp>
 #include <kickstart/main_library/core/ns▸collection_support/collection-sizes.hpp>
 #include <kickstart/main_library/core/ns▸collection_support/collection-iteration.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/make_array_.hpp>
+#include <kickstart/main_library/core/ns▸collection_support/Queue_.hpp>

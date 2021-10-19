@@ -44,7 +44,6 @@ namespace kickstart::core {
     using namespace kickstart::             matrices;                   // <core//ns▸matrices.hpp>
     namespace process = kickstart::         process;                    // <core/ns▸process.hpp>
     inline namespace                        stdlib_extensions {         // <core/stdlib-extensions.hpp>
-        using namespace kickstart::             arrays;                 //   <… ns▸arrays.hpp>
         using namespace kickstart::             c_files;                //   <… c-files.hpp>
         namespace fsx = kickstart::             fsx;                    //   <… ns▸fsx.hpp>
         using namespace kickstart::             basic_type_properties;  //   <… ns▸basic_type_properties.hpp>

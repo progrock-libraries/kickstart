@@ -22,13 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/stdlib-extensions/ns▸arrays/Array_span_.hpp>   // Array_span_
+#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>   // Array_span_
 #include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // Type_, C_str
 
 #include <string>
 
 namespace kickstart::language::_definitions {
-    using   kickstart::arrays::Array_span_;
+    using   kickstart::collection_support::Array_span_;
     using   std::string;
 
     using Cmdline_args          = Array_span_<const string>;
