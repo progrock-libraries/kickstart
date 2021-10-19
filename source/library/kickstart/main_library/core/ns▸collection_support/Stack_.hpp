@@ -22,10 +22,50 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>
-#include <kickstart/main_library/core/ns▸collection_support/collection-pointers.hpp>
-#include <kickstart/main_library/core/ns▸collection_support/collection-sizes.hpp>
 #include <kickstart/main_library/core/ns▸collection_support/collection-iteration.hpp>
-#include <kickstart/main_library/core/ns▸collection_support/make_array_.hpp>
-#include <kickstart/main_library/core/ns▸collection_support/Queue_.hpp>
-#include <kickstart/main_library/core/ns▸collection_support/Stack_.hpp>
+
+#include <stack>
+#include <utility>
+
+namespace kickstart::collection_support::_definitions {
+    using   std::stack,
+            std::move;
+
+    template< class Value >
+    class Stack_ :
+        public stack<Value>
+    {
+        using Base = stack<Value>;
+        using Container = typename Base::Container;
+
+    public:
+        using stack<Value>::stack;      // Constructors.
+
+        template< class InputIt >
+        Stack_( const InputIt first, const InputIt last )
+        {
+            for( const Value& v : all_of( first, last ) ) {
+                Base::push( v );
+            }
+        }
+
+        auto popped_top()
+            -> Value
+        {
+            Value result = move( Base::top() );
+            Base::pop();
+            return result;
+        }
+
+        auto items() const
+            -> const Container&
+        { return Base::c; }
+    };
+
+    namespace d = _definitions;
+    namespace exported_names {
+        using   d::Stack_;
+    }  // namespace exported_names
+}  // namespace kickstart::collection_support::_definitions
+
+namespace kickstart::collection_support { using namespace _definitions::exported_names; }
