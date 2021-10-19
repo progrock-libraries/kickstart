@@ -36,9 +36,9 @@ namespace kickstart::collection_support::_definitions {
         public stack<Value>
     {
         using Base = stack<Value>;
-        using Container = typename Base::container_type;
 
     public:
+        using Container = typename Base::container_type;
         using stack<Value>::stack;      // Constructors.
 
         template< class InputIt >
