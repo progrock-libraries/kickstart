@@ -23,9 +23,15 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/ns▸collection_support/collection-iteration.hpp>
+#include <kickstart/main_library/core/ns▸language/syntax-support/KS_IT_RANGE_OF.hpp>
 
 #include <queue>
 #include <utility>
+
+namespace kickstart::tag {
+    using With_items = struct With_items_struct*;
+    constexpr auto with_items = With_items();
+}  // namespace kickstart::tag
 
 namespace kickstart::collection_support::_definitions {
     using   std::queue,
@@ -48,6 +54,11 @@ namespace kickstart::collection_support::_definitions {
                 Base::push( v );
             }
         }
+
+        template< class Items_container >
+        Queue_( tag::With_items, const Items_container& items )
+            : Queue_( KS_IT_RANGE_OF( items ) )
+        {}
 
         auto popped_front()
             -> Value
