@@ -26,7 +26,7 @@
 #include <kickstart/main_library/core/ns▸language/syntax-support/KS_IT_RANGE_OF.hpp>
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>                 // Truth
 #include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>          // C_str
-#include <kickstart/main_library/core/text-encoding/ns▸ascii/character-util.hpp>   // ascii::whitespace
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/classifiers.hpp>            // ascii::whitespace
 
 #include <initializer_list>
 #include <iterator>
@@ -36,9 +36,10 @@
 #include <vector>
 
 namespace kickstart::strings::_definitions {
-    using namespace std::string_view_literals;      // ""sv
-    using namespace kickstart::collection_support;     // tail_of, ssize
-    using namespace kickstart::language;            // Truth, C_str
+    namespace ascii = text::ascii;
+    using namespace std::string_view_literals;          // ""sv
+    using namespace kickstart::collection_support;      // tail_of, ssize
+    using namespace kickstart::language;                // Truth, C_str
     using   std::initializer_list,
             std::begin, std::end,
             std::string,

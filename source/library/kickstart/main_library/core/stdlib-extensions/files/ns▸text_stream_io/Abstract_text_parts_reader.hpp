@@ -24,8 +24,8 @@
 
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 #include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/string-trimming.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion/to-text/string-output-operator.hpp>
-#include <kickstart/main_library/core/text-encoding/ns▸ascii/string-util.hpp>
 
 #include <functional>
 #include <optional>
@@ -34,6 +34,7 @@
 #include <vector>
 
 namespace kickstart::text_stream_io::_definitions {
+    namespace ascii = kickstart::text::ascii;
     using namespace kickstart::text_conversion;     // ""s, string operator<<
     using   kickstart::language::Truth,
             kickstart::strings::split_on_whitespace;

@@ -30,6 +30,7 @@
 #include <kickstart/main_library/core//ns▸matrices.hpp>                         // Matrix_ etc.
 #include <kickstart/main_library/core/ns▸process.hpp>                          // process::Commandline
 #include <kickstart/main_library/core/stdlib-extensions.hpp>                // bits_per, …
+#include <kickstart/main_library/core/ns▸text.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion.hpp>
 #include <kickstart/main_library/core/text-encoding.hpp>
 
@@ -57,7 +58,7 @@ namespace kickstart::core {
     using namespace kickstart::             string_output_operator;     // <core/ns▸text_conversion.hpp>
     namespace string_output_operator = kickstart::string_output_operator;
     inline namespace                        text_encoding {             // <core/text-encoding.hpp>
-        namespace ascii = kickstart::           ascii;                  //   <… /ns▸ascii.hpp>
+        //namespace ascii = kickstart::           ascii;                  //   <… /ns▸ascii.hpp>
         namespace utf8 = kickstart::            utf8;                   //   <… ns▸utf8.hpp>
     }
     namespace utf8_io = kickstart::         utf8_io;                    // <console/utf8-io.hpp>

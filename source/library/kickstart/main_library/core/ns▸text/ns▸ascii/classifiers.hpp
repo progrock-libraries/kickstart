@@ -79,17 +79,30 @@ namespace kickstart::text::ascii {
     using Hex_digit                     = Group_<is_hex_digit>;
     using Whitespace                    = Group_<is_whitespace>;
 
+    constexpr auto valid                        = Valid();
+    constexpr auto control                      = Control();
+    constexpr auto lowercase                    = Lowercase();
+    constexpr auto uppercase                    = Uppercase();
+    constexpr auto letter                       = Letter();
+    constexpr auto digit                        = Digit();
+    constexpr auto uppercase_hex_digit_letter   = Uppercase_hex_digit_letter();
+    constexpr auto lowercase_hex_digit_letter   = Lowercase_hex_digit_letter();
+    constexpr auto hex_digit_letter             = Hex_digit_letter();
+    constexpr auto hex_digit                    = Hex_digit();
+    constexpr auto whitespace                   = Whitespace();
+
+    // Group as function parameter to engage argument dependent lookup (ADL, Koenig lookup).
     template< class Group >
-    constexpr auto is_( const char ch )
+    constexpr auto is( Group, const char ch )
         -> Truth
     { return Group::contains( ch ); }
 
     template< class Group >
-    constexpr auto is_all_( const string_view& s )
+    constexpr auto is_all( Group, const string_view& s )
         -> Truth
     {
         for( const char ch : s ) {
-            if( not is_<Group>( ch ) ) {
+            if( not is( Group(), ch ) ) {
                 return false;
             }
         }

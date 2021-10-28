@@ -77,4 +77,4 @@ namespace kickstart::text::ascii {
             :                                       -1
             );
     }
-}  // namespace kickstart::ascii
+}  // namespace kickstart::text::ascii

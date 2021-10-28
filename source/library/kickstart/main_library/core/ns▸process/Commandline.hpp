@@ -22,11 +22,11 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>   // Array_span_
+#include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>        // Array_span_
 #include <kickstart/main_library/core/failure-handling.hpp>
-#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>            // C_str
-#include <kickstart/main_library/core/text-encoding/ns▸ascii/character-util.hpp>
-#include <kickstart/main_library/system-specific/get_commandline_data.hpp>              // get_command_line_data
+#include <kickstart/main_library/core/ns▸language/types/type-aliases.hpp>           // C_str
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/classifiers.hpp>
+#include <kickstart/main_library/system-specific/get_commandline_data.hpp>          // get_command_line_data
 
 #include <kickstart/main_library/system-specific/os-detection.hpp>
 #ifdef KS_OS_IS_WIN64
@@ -47,7 +47,7 @@ namespace kickstart::process::_definitions {
     using namespace kickstart::language;            // Type_, C_str
     using namespace std::string_view_literals;
 
-    namespace ascii = kickstart::ascii;
+    namespace ascii = kickstart::text::ascii;
 
     using   kickstart::collection_support::Array_span_,
             kickstart::system_specific::Commandline_data,

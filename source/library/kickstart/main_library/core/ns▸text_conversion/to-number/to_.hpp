@@ -30,9 +30,9 @@
 #include <kickstart/main_library/core/ns▸collection_support/Array_span_.hpp>   // Array_span_
 #include <kickstart/main_library/core/stdlib-extensions/ns▸basic_type_properties/floating-point-properties.hpp>    // largest_exact_integer_of_
 #include <kickstart/main_library/core/stdlib-extensions//ns▸strings.hpp>             // split_on_whitespace
+#include <kickstart/main_library/core/ns▸text/ns▸ascii/string-trimming.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion/to-text.hpp>
 #include <kickstart/main_library/core/ns▸text_conversion/to-number-exceptions.hpp>
-#include <kickstart/main_library/core/text-encoding/ns▸ascii.hpp>
 
 #include <kickstart/c/string.hpp>   // strerror
 #include <kickstart/c/limits.hpp>   // INT_MIN, INT_MAX
@@ -51,7 +51,7 @@ namespace kickstart::text_conversion::_definitions {
     using namespace kickstart::basic_type_properties;       // largest_exact_integer_of_
     using namespace kickstart::text_conversion::exception;  // Invalid_argument, Out_of_range, ...
 
-    namespace ascii = kickstart::ascii;
+    namespace ascii = kickstart::text::ascii;
 
     using   kickstart::collection_support::Array_span_;
     using   kickstart::strings::split_on_whitespace;
