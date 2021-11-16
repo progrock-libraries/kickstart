@@ -36,7 +36,6 @@ namespace kickstart::collection_support::_definitions {
 
     namespace kc = kickstart::collection_support;
     using kc::begin_ptr_of, kc::end_ptr_of;
-    using kickstart::language::Size;
 
     using   std::out_of_range,
             std::addressof;
@@ -56,7 +55,7 @@ namespace kickstart::collection_support::_definitions {
         static auto at( const Index i, Self& self )
             -> auto&
         {
-            hopefully( Uindex( i ) < Unsigned_size( self.size() ) )
+            hopefully( Uindex( i ) < Usize( self.size() ) )
                 or KS_FAIL_( out_of_range, ""s << "Index value " << i << " is out of range." );
             return self[i];
         }

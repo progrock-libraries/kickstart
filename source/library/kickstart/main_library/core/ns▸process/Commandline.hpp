@@ -199,7 +199,7 @@ namespace kickstart::process::_definitions {
 
     class Commandline
     {
-        using Self = Commandline_impl;
+        using Self = Commandline;
 
         Commandline() {}
         Commandline( const Self& ) = delete;
