@@ -157,7 +157,7 @@ namespace kickstart::strings::_definitions {
     }
 
     template< class Iterator >
-    inline auto joined_on(
+    inline auto joined_with_separator(
         const string_view&      delimiter,
         const Iterator          it_begin,
         const Iterator          it_end
@@ -175,16 +175,16 @@ namespace kickstart::strings::_definitions {
     }
 
     template< class Collection >
-    inline auto joined_on( const string_view& delimiter, const Collection& strings )
+    inline auto joined_with_separator( const string_view& delimiter, const Collection& strings )
         -> string
-    { return joined_on( delimiter, KS_IT_RANGE_OF( strings ) ); }
+    { return joined_with_separator( delimiter, KS_IT_RANGE_OF( strings ) ); }
 
 
-    //inline auto joined_on(
+    //inline auto joined_with_separator(
     //    const string_view&              delimiter,
     //    initializer_list<string_view>&  parts
     //    ) -> string
-    //{ return joined_on( delimiter, begin( parts ), end( parts ) ); }
+    //{ return joined_with_separator( delimiter, begin( parts ), end( parts ) ); }
 
     template< class Iterator >
     inline auto joined(
@@ -223,7 +223,7 @@ namespace kickstart::strings::_definitions {
         d::for_each_part_of,
         d::split_on,
         d::split_on_whitespace,
-        d::joined_on, d::joined;
+        d::joined_with_separator, d::joined;
     }  // namespace exported names
 }  // namespace kickstart::strings::_definitions
 
