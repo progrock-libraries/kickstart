@@ -49,6 +49,7 @@ namespace kickstart::core {
         namespace fsx = kickstart::             fsx;                    //   <… ns▸fsx.hpp>
         using namespace kickstart::             basic_type_properties;  //   <… ns▸basic_type_properties.hpp>
         namespace calc = kickstart::            calc;                   //   <… ns▸calc.hpp>
+        using calc::intpow;
         namespace std_exception = kickstart::std_exception;             //   <… ns▸std_exceptions.hpp>
         using namespace kickstart::             strings;                //   <… /ns▸strings.hpp>
         using namespace kickstart::             type_traits;            //   <… ns▸type_traits.hpp>

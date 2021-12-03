@@ -22,16 +22,17 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
-#include <kickstart/main_library/core/ns▸language/types/Truth.hpp>                    // Truth
+#include <kickstart/main_library/core/ns▸language/operations/intpow.hpp>       // intpow
 
 #include <type_traits>
 
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::calc::_definitions {
-
     using   std::is_arithmetic_v,
             std::enable_if_t;
+
+    using kickstart::language::lx::intpow;
 
     template< class Number,
         class = enable_if_t<is_arithmetic_v<Number>>
@@ -72,6 +73,7 @@ namespace kickstart::calc::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
+        d::intpow,
         d::compare,
         d::sign_of,
         d::abs,

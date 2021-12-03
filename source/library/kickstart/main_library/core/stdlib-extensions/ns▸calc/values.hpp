@@ -23,24 +23,19 @@
 // SOFTWARE.
 
 #include <kickstart/main_library/core/ns▸language/operations/intpow.hpp>       // intpow
-#include <kickstart/main_library/core/ns▸language/types/Truth.hpp>             // Truth
-#include <kickstart/main_library/core/stdlib-extensions/ns▸calc/templated-numerical-operations.hpp>
-
-#include <kickstart/c/math.hpp> // The header that this one mainly extends.
 
 // Important to not introduce possible future name conflicts with <math.h>.
 namespace kickstart::calc::_definitions {
-    namespace kl = kickstart::language;
-    using   kl::lx::intpow,
-            kl::Truth;
-
     constexpr double e                  = 2.71828182845904523536;
     constexpr double log2e              = 1.44269504088896340736;
     constexpr double log10e             = 0.434294481903251827651;
     constexpr double ln2                = 0.693147180559945309417;
     constexpr double ln10               = 2.30258509299404568402;
     constexpr double pi                 = 3.14159265358979323846;
+
+    // TODO: sqrt_pi ?
     constexpr double inv_sqrt_pi        = 1.12837916709551257390;
+
     constexpr double sqrt2              = 1.41421356237309504880;
     constexpr double inv_sqrt2          = 0.707106781186547524401;
 
@@ -48,8 +43,8 @@ namespace kickstart::calc::_definitions {
     //----------------------------------------------------------- @exported:
     namespace d = _definitions;
     namespace exported_names { using
-        d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi, d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2,
-        d::intpow;
+        d::e, d::log2e, d::log10e, d::ln2, d::ln10, d::pi,
+        d::inv_sqrt_pi, d::sqrt2, d::inv_sqrt2;
     }  // namespace exported names
 }  // namespace kickstart::calc::_definitions
 
