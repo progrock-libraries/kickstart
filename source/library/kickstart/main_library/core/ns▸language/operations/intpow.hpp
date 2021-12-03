@@ -22,6 +22,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 // SOFTWARE.
 
+#include <assert.h>
+
 #include <kickstart/main_library/core/ns▸language/types/Truth.hpp>
 
 #include <type_traits>      // is_floating_point_v
@@ -57,7 +59,7 @@ namespace kickstart::language::lx::_definitions {
     {
         // TODO: proper failure handling
         if( exponent < 0 and not is_floating_point_v<Number_type> ) {
-            throw __func__;
+            assert( "For negative powers the base must be floating point" and false );
         }
         return (0?0
             : exponent > 0?     impl::intpow_<Number_type>( base, exponent )
